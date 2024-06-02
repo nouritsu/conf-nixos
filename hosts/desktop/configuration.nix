@@ -1,11 +1,10 @@
 { config, pkgs, ... }: {
   imports = [
-    ./hardware-configuration.nix
     ../../modules/applications.nix
+    ../../modules/de.nix
     ../../modules/development.nix
     ../../modules/fonts.nix
     ../../modules/gaming.nix
-    ../../modules/gnome.nix
     ../../modules/locale.nix
     ../../modules/neovim.nix
     ../../modules/nvidia.nix
@@ -13,6 +12,7 @@
     ../../modules/shell.nix
     ../../modules/terminal.nix
     ../../modules/utils.nix
+    ./hardware-configuration.nix
   ];
 
   # Bootloader.
