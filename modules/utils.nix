@@ -12,7 +12,10 @@
     jq
     lsd
     nerdfetch
+    nh
     nixfmt-classic
+    ntfs3g
+    parted
     pomodoro
     ripgrep
     ripgrep-all
