@@ -1,29 +1,13 @@
 { config, pkgs, ... }: {
   imports = [
-    ../../modules/applications.nix
-    ../../modules/de.nix
-    ../../modules/development.nix
-    ../../modules/fonts.nix
-    ../../modules/gaming.nix
-    ../../modules/locale.nix
-    ../../modules/neovim.nix
-    ../../modules/nvidia.nix
-    ../../modules/pipewire.nix
-    ../../modules/shell.nix
-    ../../modules/terminal.nix
-    ../../modules/utils.nix
     ./hardware-configuration.nix
+    ../../modules/common.nix
+    ../../modules/gaming.nix
+    ../../modules/nvidia.nix
   ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # Networking
   networking.hostName = "nouritsu";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Experimental Features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -37,10 +21,6 @@
 
   # Packages
   nixpkgs.config.allowUnfree = true;
-
-  # Services
-  services.openssh.enable = true;
-  services.printing.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
