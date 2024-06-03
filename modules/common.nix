@@ -4,7 +4,7 @@
     ./bootloader.nix
     ./de.nix
     ./development.nix
-    ./dm.nix
+    # ./dm.nix
     ./fonts.nix
     ./locale.nix
     ./neovim.nix
