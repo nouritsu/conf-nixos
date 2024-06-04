@@ -40,7 +40,6 @@
     gnomeExtensions.compact-top-bar
     gnomeExtensions.custom-accent-colors
     gnomeExtensions.dash-to-panel
-    gnomeExtensions.gtile
     gnomeExtensions.just-perfection
     gnomeExtensions.rounded-window-corners
     gnomeExtensions.vitals

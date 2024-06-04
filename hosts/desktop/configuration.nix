@@ -1,13 +1,9 @@
-{ config, pkgs, ... }: {
+{ inputs, config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/common.nix
-    ../../modules/gaming.nix
-    ../../modules/nvidia.nix
+    ../../modules/default.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
-
-  # Experimental Features
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # User Account
   users.users.nouritsu = {
@@ -17,6 +13,15 @@
   };
   networking.hostName = "nouritsu";
   nixpkgs.config.allowUnfree = true;
+
+  # Experimental Features
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Home Manager
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = { nouritsu = import ./home.nix; };
+  };
 
   # ================================================================ #
   # =                         DO NOT TOUCH                         = #
