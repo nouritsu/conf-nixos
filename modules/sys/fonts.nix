@@ -3,6 +3,7 @@
     # Regular
     monaspace
     maple-mono
+    dejavu_fonts
 
     # Nerd
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })

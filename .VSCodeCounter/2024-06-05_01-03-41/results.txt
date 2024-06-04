@@ -1,0 +1,58 @@
+Date : 2024-06-05 01:03:41
+Directory : /home/nouritsu/nix
+Total : 25 files,  380 codes, 42 comments, 80 blanks, all 502 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| nix      |         24 |        377 |         42 |         78 |        497 |
+| Markdown |          1 |          3 |          0 |          2 |          5 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                           |         25 |        380 |         42 |         80 |        502 |
+| . (Files)                                                   |          2 |         32 |          0 |          8 |         40 |
+| hosts                                                       |          3 |         55 |          9 |         16 |         80 |
+| hosts/desktop                                               |          3 |         55 |          9 |         16 |         80 |
+| modules                                                     |         20 |        293 |         33 |         56 |        382 |
+| modules (Files)                                             |          1 |          3 |          0 |          1 |          4 |
+| modules/apps                                                |          5 |        117 |         27 |         32 |        176 |
+| modules/de                                                  |          6 |         96 |          4 |         11 |        111 |
+| modules/sys                                                 |          8 |         77 |          2 |         12 |         91 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                    | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/nouritsu/nix/README.md                                | Markdown |          3 |          0 |          2 |          5 |
+| /home/nouritsu/nix/flake.nix                                | nix      |         29 |          0 |          6 |         35 |
+| /home/nouritsu/nix/hosts/desktop/configuration.nix          | nix      |         20 |          6 |          5 |         31 |
+| /home/nouritsu/nix/hosts/desktop/hardware-configuration.nix | nix      |         23 |          0 |          7 |         30 |
+| /home/nouritsu/nix/hosts/desktop/home.nix                   | nix      |         12 |          3 |          4 |         19 |
+| /home/nouritsu/nix/modules/apps/default.nix                 | nix      |         55 |         21 |         16 |         92 |
+| /home/nouritsu/nix/modules/apps/kitty.nix                   | nix      |          1 |          0 |          1 |          2 |
+| /home/nouritsu/nix/modules/apps/neovim.nix                  | nix      |         13 |          0 |          3 |         16 |
+| /home/nouritsu/nix/modules/apps/steam.nix                   | nix      |         13 |          0 |          3 |         16 |
+| /home/nouritsu/nix/modules/apps/zsh.nix                     | nix      |         35 |          6 |          9 |         50 |
+| /home/nouritsu/nix/modules/de/colors.nix                    | nix      |         22 |          0 |          2 |         24 |
+| /home/nouritsu/nix/modules/de/cursor.nix                    | nix      |          4 |          0 |          1 |          5 |
+| /home/nouritsu/nix/modules/de/de.nix                        | nix      |         44 |          4 |          4 |         52 |
+| /home/nouritsu/nix/modules/de/default.nix                   | nix      |          3 |          0 |          1 |          4 |
+| /home/nouritsu/nix/modules/de/dm.nix                        | nix      |          1 |          0 |          1 |          2 |
+| /home/nouritsu/nix/modules/de/fonts.nix                     | nix      |         22 |          0 |          2 |         24 |
+| /home/nouritsu/nix/modules/default.nix                      | nix      |          3 |          0 |          1 |          4 |
+| /home/nouritsu/nix/modules/sys/bootloader.nix               | nix      |          9 |          0 |          1 |         10 |
+| /home/nouritsu/nix/modules/sys/default.nix                  | nix      |         11 |          0 |          1 |         12 |
+| /home/nouritsu/nix/modules/sys/fonts.nix                    | nix      |          8 |          2 |          2 |         12 |
+| /home/nouritsu/nix/modules/sys/locale.nix                   | nix      |         15 |          0 |          2 |         17 |
+| /home/nouritsu/nix/modules/sys/networking.nix               | nix      |          1 |          0 |          1 |          2 |
+| /home/nouritsu/nix/modules/sys/nvidia.nix                   | nix      |         17 |          0 |          3 |         20 |
+| /home/nouritsu/nix/modules/sys/pipewire.nix                 | nix      |         12 |          0 |          1 |         13 |
+| /home/nouritsu/nix/modules/sys/services.nix                 | nix      |          4 |          0 |          1 |          5 |
+| Total                                                       |          |        380 |         42 |         80 |        502 |
++-------------------------------------------------------------+----------+------------+------------+------------+------------+

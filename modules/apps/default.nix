@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ./kitty.nix ./neovim.nix ./steam.nix ./zsh.nix ./git.nix ];
+  imports = [ ./kitty.nix ./neovim.nix ./steam.nix ./zsh.nix ];
 
   environment.systemPackages = with pkgs; [
     # ================================================================ #

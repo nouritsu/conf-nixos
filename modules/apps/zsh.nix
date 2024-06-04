@@ -22,7 +22,8 @@
       du = "dust";
       grep = "rg";
       h = "history";
-      top = "btop --utf-force";
+      top = "btop";
+      btop = "btop --utf-force";
 
       # Miscellaneous Aliases
       neofetch = "nerdfetch";

@@ -19,4 +19,5 @@
   };
 
   stylix.image = ../../assets/gruvbox-dark-blue.png;
+  stylix.polarity = "dark";
 }
