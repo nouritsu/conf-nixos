@@ -21,7 +21,6 @@
     gnome-maps
     gnome-music
     gnome-system-monitor
-    gnome-terminal # (exclude this once an alternative has been configured)
     pkgs.gnome-connections
     pkgs.gnome-photos
     pkgs.gnome-tour
@@ -37,6 +36,7 @@
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
     gnomeExtensions.burn-my-windows
+    gnomeExtensions.compiz-windows-effect
     gnomeExtensions.compact-top-bar
     gnomeExtensions.custom-accent-colors
     gnomeExtensions.dash-to-panel

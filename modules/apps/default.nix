@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  imports = [ ./kitty.nix ./neovim.nix ./steam.nix ./zsh.nix ];
+  imports = [ ./neovim.nix ./steam.nix ./zsh.nix ];
 
   environment.systemPackages = with pkgs; [
     # ================================================================ #
@@ -10,9 +10,10 @@
     google-chrome
     mailspring
 
-    # Social
+    # Communication
     vesktop
     skypeforlinux
+    teams-for-linux
 
     # Media
     obs-studio
@@ -21,7 +22,6 @@
 
     # Graphics
     blender
-    # davinci-resolve install this after all the tinkering because it takes fucking forever
     inkscape
 
     # Productivity
@@ -34,6 +34,7 @@
 
     # Common
     gh
+    lazygit
     postman
     vscode
 
@@ -64,6 +65,7 @@
     android-tools
     bat
     btop
+    coreutils
     cowsay
     detox
     dust
@@ -76,7 +78,9 @@
     nh
     nixfmt-classic
     ntfs3g
+    nurl
     parted
+    polychromatic
     pomodoro
     ripgrep
     ripgrep-all

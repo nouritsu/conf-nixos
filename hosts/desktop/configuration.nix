@@ -9,7 +9,7 @@
   users.users.nouritsu = {
     isNormalUser = true;
     description = "Aneesh Bhave";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "openrazer" ];
   };
   networking.hostName = "nouritsu";
   nixpkgs.config.allowUnfree = true;

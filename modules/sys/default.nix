@@ -7,5 +7,6 @@
     ./nvidia.nix
     ./pipewire.nix
     ./services.nix
+    ./razer.nix
   ];
 }
