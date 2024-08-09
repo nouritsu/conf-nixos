@@ -39,11 +39,9 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = [ "adb" "aliases" "ripgrep" "starship" ];
+      theme = "cloud";
+      plugins = [ "adb" "aliases" "ripgrep"];
     };
 
   };
-
-  # Prompt
-  environment.systemPackages = with pkgs; [ starship ];
 }
