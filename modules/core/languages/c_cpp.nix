@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    zellij
+    clang # Compiler
+    clang-tools
   ];
 }

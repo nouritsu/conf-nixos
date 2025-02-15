@@ -1,6 +1,6 @@
 {
   pkgs,
-  lib,
+  user,
   ...
 }: {
   programs.fish = {
@@ -44,27 +44,52 @@
       alias nhca='nh clean all'
       alias nhs='nh search'
     '';
+
+    plugins = [
+      {
+        name = "z";
+        src = pkgs.fishPlugins.z.src;
+      }
+
+      {
+        name = "fzf-fish";
+        src = pkgs.fishPlugins.fzf-fish.src;
+      }
+
+      {
+        name = "done";
+        src = pkgs.fishPlugins.done.src;
+      }
+
+      {
+        name = "forgit";
+        src = pkgs.fishPlugins.forgit.src;
+      }
+
+      {
+        name = "autopair";
+        src = pkgs.fishPlugins.autopair.src;
+      }
+
+      {
+        name = "sponge";
+        src = pkgs.fishPlugins.sponge.src;
+      }
+
+      {
+        name = "humantime-fish";
+        src = pkgs.fishPlugins.humantime-fish.src;
+      }
+
+      {
+        name = "colored-man-pages";
+        src = pkgs.fishPlugins.colored-man-pages.src;
+      }
+
+      {
+        name = "fish-you-should-use";
+        src = pkgs.fishPlugins.fish-you-should-use.src;
+      }
+    ];
   };
-  users.defaultUserShell = pkgs.fish;
-
-  environment.systemPackages = let
-    packages = with pkgs; [
-      bash
-
-      fzf
-      git
-    ];
-    fish_plugins = with pkgs.fishPlugins; [
-      z
-      fzf-fish
-      done
-      forgit
-      autopair
-      sponge
-      humantime-fish
-      colored-man-pages
-      fish-you-should-use
-    ];
-  in
-    packages ++ fish_plugins;
 }

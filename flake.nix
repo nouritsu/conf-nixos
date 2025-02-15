@@ -8,32 +8,40 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
     self,
     nixpkgs,
     nixos-wsl,
+    home-manager,
     ...
-  } @ inputs: {
+  }: {
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      nixos = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
 
         modules = [
           nixos-wsl.nixosModules.default
           ./hosts/wsl.nix
-          ./modules/default.nix
-          inputs.nixvim.nixosModules.nixvim
+          ./modules/core
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              users.${specialArgs.user.alias}.imports = [./home.nix];
+              extraSpecialArgs = specialArgs;
+            };
+          }
         ];
 
         specialArgs = {
-          inherit inputs;
+          user = {
+            name = "Aneesh Bhave";
+            email = "aneesh1701@gmail.com";
+            alias = "aneesh";
+          };
+
+          gui = false;
 
           supported_languages = [
             # Programming Languages
@@ -47,14 +55,6 @@
             # Other Languages
             "json"
           ];
-
-          user = {
-            name = "Aneesh Bhave";
-            email = "aneesh1701@gmail.com";
-            alias = "aneesh";
-          };
-
-          gui = false;
         };
       };
     };

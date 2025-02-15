@@ -1,7 +1,8 @@
 {...}: {
   imports = [
-    ./shell.nix
+    ./editor.nix
+    ./git.nix
     ./prompt.nix
-    ./zellij.nix
+    ./shell.nix
   ];
 }
