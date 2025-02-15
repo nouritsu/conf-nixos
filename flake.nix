@@ -42,19 +42,6 @@
           };
 
           gui = false;
-
-          supported_languages = [
-            # Programming Languages
-            "c_cpp"
-            "go"
-            "javascript"
-            "nix"
-            "python"
-            "rust"
-
-            # Other Languages
-            "json"
-          ];
         };
       };
     };
