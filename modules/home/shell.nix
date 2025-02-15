@@ -6,44 +6,94 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-      set SYS_FLAKE "$HOME/.config/nixos"
-
-      set fish_greeting
+      # Starship
       starship init fish | source
 
-      # Aliases
-      alias calc='eva'
-      alias calculator='eva'
-      alias cheat='navi'
-      alias cheatsheet='navi'
-
-      alias unset='set -e'
-      alias cat='bat'
-      alias top='btop'
-      alias du='dust'
-      alias ls='eza --sort=extension --icons=auto --group-directories-first --mounts'
-      alias ll='ls -hla --git --git-repos --total-size'
-      alias tree='eza --tree'
-      alias gtree='eza --tree --git --git-repos --git-ignore'
-      alias grep='rg'
-      alias grepa='rga'
-      alias rm='rip'
-      alias awk='frawk'
-      alias cp='xcp'
-      alias diff='delta'
-      alias find='fd'
-      alias xxd='hexyl'
-      alias hexdump='hexyl'
-      alias wtime='hyperfine --runs 1 --warmup 3'
-      alias bench='hyperfine --runs 5 --warmup 3'
-      alias jq='jql'
-      alias fm='yazi'
-
-      alias nhrb='nh os boot $SYS_FLAKE'
-      alias nhrs='nh os switch $SYS_FLAKE'
-      alias nhca='nh clean all'
-      alias nhs='nh search'
+      # Environment Variables
+      set fish_greeting
+      set SYS_FLAKE "$HOME/.config/nixos"
+      set EDITOR "hx"
     '';
+
+    shellAliases = {
+      # NixOS
+      nhrb = "nh os boot $SYS_FLAKE";
+      nhrs = "nh os switch $SYS_FLAKE";
+      nhca = "nh clean all";
+      nhs = "nh search";
+
+      # Fish
+      unset = "set -e";
+      whereami = "echo $hostname";
+
+      # Core
+      cat = "bat";
+      top = "btop";
+      du = "dust";
+      rm = "rip";
+      awk = "frawk";
+      cp = "xcp";
+      diff = "delta";
+      find = "fd";
+
+      # CD
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+
+      # ls/tree
+      ls = "eza --sort=extension --icons=auto --group-directories-first --mounts";
+      ll = "ls -hla --git --git-repos --total-size";
+      tree = "ll --tree --ignore-glob=(.git/*)";
+      git-tree = "tree --git --git-repos --git-ignore";
+
+      # Helix
+      helix = "hx";
+      vi = "hx";
+      vim = "hx";
+      nvim = "hx";
+
+      # Calculator
+      calc = "eva";
+      calculator = "eva";
+
+      # Cheatsheet
+      cheat = "navi";
+      cheatsheet = "navi";
+
+      # Hexdump
+      xxd = "hexyl";
+      hexdump = "hexyl";
+
+      # Grep
+      grep = "rg";
+      grepa = "rga";
+
+      # Timing
+      wtime = "hyperfine --runs 1 --warmup 3";
+      bench = "hyperfine --runs 5 --warmup 3";
+
+      # Fetch
+      neofetch = "fastfetch";
+      nerdfetch = "fastfetch";
+
+      # Other
+      jq = "jql";
+      fm = "yazi";
+
+      # Youtube Downloader
+      youtube-dl = "yt-dlp";
+      yt-dl = "yt-dlp";
+
+      # Spotify Downloader
+      spotify-dl = "spotdl";
+      sp-dl = "spotdl";
+
+      # Internet
+      speedtest = "speedtest-rs";
+      vpn = "mullvad";
+      vpn-closest = "mullvad-closest";
+    };
 
     plugins = [
       {
