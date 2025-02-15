@@ -44,7 +44,7 @@
       # ls/tree
       ls = "eza --sort=extension --icons=auto --group-directories-first --mounts";
       ll = "ls -hla --git --git-repos --total-size";
-      tree = "ll --tree --ignore-glob=(.git/*)";
+      tree = "ll --tree";
       git-tree = "tree --git --git-repos --git-ignore";
 
       # Helix
@@ -92,7 +92,7 @@
       # Internet
       speedtest = "speedtest-rs";
       vpn = "mullvad";
-      vpn-closest = "mullvad-closest";
+      vpn-closest = "mullvad-closest --max-distance 500 --server-type wireguard";
     };
 
     plugins = [
