@@ -3,7 +3,6 @@
     # Core
     uutils-coreutils-noprefix
     yazi
-    detox
     fzf
     wget
     parted
@@ -29,6 +28,40 @@
     gh
     git
 
+    # Language Tooling
+    # Rust
+    cargo
+    rustc
+    rustfmt
+    bacon
+
+    # C/C++
+    clang
+    clang-tools
+
+    # Python
+    python3
+    black
+
+    # Nix
+    alejandra
+
+    # Go
+    go
+
+    # JavaScript
+    nodejs_22
+    bun
+
+    # TypeScript
+    typescript
+
+    # JSON
+    jql
+
+    # Miscellanious
+    nodePackages_latest.prettier
+
     # Shells
     bash
     fish
@@ -41,6 +74,8 @@
     # Internet
     spotdl
     yt-dlp
+    mullvad-vpn
+    mullvad-closest
 
     # Fun
     cowsay
