@@ -6,9 +6,6 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-      # Starship
-      # ${pkgs.starship} init fish | source
-
       # Environment Variables
       set fish_greeting
       set SYS_FLAKE "$HOME/.config/nixos"
