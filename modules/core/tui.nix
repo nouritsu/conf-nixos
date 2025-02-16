@@ -53,7 +53,6 @@
 
     # JavaScript
     nodejs_22
-    bun
 
     # TypeScript
     typescript
