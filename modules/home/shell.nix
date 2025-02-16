@@ -7,7 +7,7 @@
     enable = true;
     interactiveShellInit = ''
       # Starship
-      starship init fish | source
+      # ${pkgs.starship} init fish | source
 
       # Environment Variables
       set fish_greeting
@@ -43,9 +43,11 @@
 
       # ls/tree
       ls = "eza --sort=extension --icons=auto --group-directories-first --mounts";
-      ll = "ls -hla --git --git-repos --total-size";
+      l = "ls -hla --total-size";
+      ll = "l --git --git-repos";
       tree = "ll --tree";
-      git-tree = "tree --git --git-repos --git-ignore";
+      lg = "ll --git-ignore";
+      treeg = "tree --git --git-repos --git-ignore";
 
       # Helix
       helix = "hx";
