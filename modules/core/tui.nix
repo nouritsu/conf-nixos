@@ -38,6 +38,8 @@
     # C/C++
     clang
     clang-tools
+    gnumake
+    cmake
 
     # Python
     python3
