@@ -6,6 +6,7 @@
     fzf
     wget
     parted
+    zoxide # cd
     eza # ls
     bat # cat
     btop # top
