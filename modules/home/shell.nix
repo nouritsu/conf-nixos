@@ -10,6 +10,9 @@
       set fish_greeting
       set SYS_FLAKE "$HOME/.config/nixos"
       set EDITOR "hx"
+
+      # Any Nix Shell
+      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
     '';
 
     shellAliases = {

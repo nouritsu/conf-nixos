@@ -47,6 +47,7 @@
 
     # Nix
     alejandra
+    any-nix-shell
 
     # Go
     go
