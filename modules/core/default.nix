@@ -3,5 +3,5 @@
   gui,
   ...
 }: {
-  imports = [./tui.nix ./stylix.nix ./defaults.nix] ++ lib.optionals gui [./gui.nix];
+  imports = [./tui.nix ./stylix.nix ./defaults.nix ./development.nix] ++ lib.optionals gui [./gui.nix];
 }

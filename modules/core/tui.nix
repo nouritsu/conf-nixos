@@ -27,47 +27,9 @@
     helix
     starship
     eva # Calculator
-    lazygit
-    gh
-    git
     tokei
     grex
-
-    # Language Tooling
-    # Rust
-    cargo
-    rustc
-    rustfmt
-    bacon
-
-    # C/C++
-    clang
-    clang-tools
-    gnumake
-    cmake
-
-    # Python
-    python3
-    black
-
-    # Nix
-    alejandra
     any-nix-shell
-
-    # Go
-    go
-
-    # JavaScript
-    nodejs_22
-
-    # TypeScript
-    typescript
-
-    # JSON
-    jql
-
-    # Miscellanious
-    nodePackages_latest.prettier
 
     # Shells
     bash
@@ -90,7 +52,7 @@
     cpufetch
     sl
 
-    # Nix
+    # NixOS
     nh
 
     # Foreign Compatability
