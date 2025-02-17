@@ -11,6 +11,7 @@
 
     # CMake
     cmake
+    cmake-format
     cmake-language-server
 
     # Dart
@@ -29,6 +30,7 @@
 
     # Fish
     fish
+    fish-lsp
 
     # GD Script
     godot_4
@@ -43,6 +45,7 @@
     ghc
     cabal-install
     cabal2nix
+    haskell-language-server
 
     # Java
     jdk
