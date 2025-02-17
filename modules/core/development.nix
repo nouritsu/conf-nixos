@@ -78,6 +78,10 @@
     nixd
     alejandra
 
+    # GLSL
+    glsl_analyzer
+    glslviewer
+
     # Perl
     perl
     perlnavigator
@@ -106,6 +110,9 @@
     # TypeScript
     typescript
     typescript-language-server
+
+    # WGSL
+    wgsl-analyzer
 
     # YAML
     yaml-language-server
