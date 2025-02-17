@@ -49,9 +49,12 @@
     jdt-language-server
     google-java-format
 
-    # Javascript
+    # JavaScript
     nodejs_22
     deno
+
+    # JSON
+    jql
 
     # Kotlin
     kotlin
