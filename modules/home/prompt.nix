@@ -1,9 +1,4 @@
-{
-  lib,
-  user,
-  pkgs,
-  ...
-}: {
+{lib, ...}: {
   programs.starship = {
     enable = true;
 
@@ -70,7 +65,7 @@
         };
         os = "bold blue";
         character = {
-          success = "bold black";
+          success = "bold white";
           error = "bold red";
         };
         username = {
@@ -82,7 +77,7 @@
           default = "bold green";
           read_only = "bold red";
         };
-        separator = "bold black";
+        separator = "bold white";
 
         time = "bold yellow";
 
@@ -145,7 +140,7 @@
       to_display = percentage: {
         threshold = percentage;
         style = colors.battery.${builtins.toString percentage};
-        symbol = symbols.battery.${builtins.toString percentage};
+        discharging_symbol = symbols.battery.${builtins.toString percentage};
       };
 
       replicate = n: str: lib.concatStrings (lib.replicate n str);
@@ -198,7 +193,7 @@
       battery = {
         disabled = false;
 
-        format = "${styled.separator} [$symbol$percentage%]($style) ";
+        format = "${styled.separator} [$symbol$percentage]($style) ";
 
         full_symbol = symbols.battery.full;
         charging_symbol = symbols.battery.charging;
