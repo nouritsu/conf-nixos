@@ -1,9 +1,4 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   programs.helix = {
     enable = true;
     defaultEditor = true;
@@ -17,6 +12,7 @@
       keys.normal = {
         esc = ["collapse_selection" "keep_primary_selection"];
         C-g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
+        C-f = ["normal_mode" ":sh "];
       };
     };
 
