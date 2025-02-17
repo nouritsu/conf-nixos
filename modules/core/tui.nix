@@ -18,7 +18,9 @@
     delta # diff
     fd # find
     hexyl # xxd
+    procs # ps
     xh # curl
+    sd # sed
     hyperfine # time
     speedtest-rs
     helix
@@ -27,6 +29,8 @@
     lazygit
     gh
     git
+    tokei
+    grex
 
     # Language Tooling
     # Rust

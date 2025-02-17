@@ -34,7 +34,11 @@
       awk = "frawk";
       cp = "xcp";
       diff = "delta";
-      find = "fd";
+      find = "fd -HI";
+      findg = "fd -H";
+      ps = "procs";
+      sed = "sd";
+      tr = "sd";
 
       # CD
       ".." = "cd ..";
@@ -82,6 +86,7 @@
       # Other
       jq = "jql";
       fm = "yazi";
+      code-count = "tokei ./";
 
       # Youtube Downloader
       youtube-dl = "yt-dlp";
