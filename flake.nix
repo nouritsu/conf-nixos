@@ -8,6 +8,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = {
@@ -15,6 +17,7 @@
     nixpkgs,
     nixos-wsl,
     home-manager,
+    stylix,
     ...
   }: {
     nixosConfigurations = {
@@ -32,6 +35,7 @@
               extraSpecialArgs = specialArgs;
             };
           }
+          stylix.nixosModules.stylix
         ];
 
         specialArgs = {
