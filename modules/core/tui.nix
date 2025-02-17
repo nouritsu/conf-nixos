@@ -33,6 +33,9 @@
     glow
     browsh
     nap
+    ffmpeg-full
+    pdftk
+    clipcat
 
     # Documentation / Information
     navi # Cheat Sheets
