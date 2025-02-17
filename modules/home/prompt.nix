@@ -330,6 +330,7 @@
 
       git_metrics = {
         disabled = false;
+        only_nonzero_diffs = false;
         format = "${styled.separator} ${surround_bracket "[+$added]($added_style) [-$deleted]($deleted_style)" colors.separator 1} ";
         added_style = colors.git_metrics.added;
         deleted_style = colors.git_metrics.deleted;
