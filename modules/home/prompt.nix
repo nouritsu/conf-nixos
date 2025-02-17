@@ -265,10 +265,11 @@
       directory = {
         disabled = false;
 
-        format = "${styled.separator} [$path]($style)[$read_only]($read_only_style) ";
+        format = "${styled.separator} [$path]($style) [$read_only]($read_only_style) ";
         style = colors.directory.default;
 
         truncation_length = 3;
+        truncate_to_repo = false;
         truncation_symbol = symbols.directory.truncation;
 
         read_only = symbols.directory.read_only;
