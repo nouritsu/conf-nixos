@@ -41,6 +41,8 @@
             alias = "aneesh";
           };
 
+          hostname = "wsl";
+
           gui = false;
         };
       };
