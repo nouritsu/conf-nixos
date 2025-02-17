@@ -3,7 +3,10 @@
   user,
   ...
 }: {
-  programs.fish = {
+  programs.fish = let
+    get-pkg-bin = name: bin: "${pkgs.${name}}/bin/${bin}";
+    get-pkg = name: get-pkg-bin name name;
+  in {
     enable = true;
     interactiveShellInit = ''
       # Environment Variables
@@ -12,34 +15,34 @@
       set EDITOR "hx"
 
       # Any Nix Shell
-      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+      ${get-pkg "any-nix-shell"} fish --info-right | source
     '';
 
     shellAliases = {
       # NixOS
-      nhrb = "nh os boot $SYS_FLAKE";
-      nhrs = "nh os switch $SYS_FLAKE";
-      nhca = "nh clean all";
-      nhs = "nh search";
+      nhrb = "${get-pkg "nh"} os boot $SYS_FLAKE";
+      nhrs = "${get-pkg "nh"} os switch $SYS_FLAKE";
+      nhca = "${get-pkg "nh"} clean all";
+      nhs = "${get-pkg "nh"} search";
 
       # Fish
       unset = "set -e";
       whereami = "echo $hostname";
 
       # Core
-      cd = "z";
-      cat = "bat";
-      top = "btop";
-      du = "dust";
-      rm = "rip";
-      awk = "frawk";
-      cp = "xcp";
-      diff = "delta";
-      find = "fd -HI";
-      findg = "fd -H";
-      ps = "procs";
-      sed = "sd";
-      tr = "sd";
+      cd = "z"; # zoxide, but not directly a package
+      cat = "${get-pkg "bat"}";
+      top = "${get-pkg "btop"}";
+      du = "${get-pkg "dust"}";
+      rm = "${get-pkg-bin "rip2" "rip"}";
+      awk = "${get-pkg "frawk"}";
+      cp = "${get-pkg "xcp"}";
+      diff = "${get-pkg "delta"}";
+      find = "${get-pkg "fd"} -HI";
+      findg = "${get-pkg "fd"} -H";
+      ps = "${get-pkg "procs"}";
+      sed = "${get-pkg "sd"}";
+      tr = "${get-pkg "sd"}";
 
       # CD
       ".." = "cd ..";
@@ -47,7 +50,7 @@
       "...." = "cd ../../..";
 
       # ls/tree
-      ls = "eza --sort=extension --icons=auto --group-directories-first --mounts";
+      ls = "${get-pkg "eza"} --sort=extension --icons=auto --group-directories-first --mounts";
       l = "ls -hla --total-size";
       ll = "l --git --git-repos";
       tree = "ll --tree";
@@ -55,52 +58,69 @@
       treeg = "tree --git --git-repos --git-ignore";
 
       # Helix
-      helix = "hx";
-      vi = "hx";
-      vim = "hx";
-      nvim = "hx";
+      helix = "${get-pkg "helix"}";
+      vi = "helix";
+      vim = "helix";
+      nvim = "helix";
 
       # Calculator
-      calc = "eva";
-      calculator = "eva";
+      calc = "${get-pkg "eva"}";
+      calculator = "calc";
 
       # Cheatsheet
-      cheat = "navi";
-      cheatsheet = "navi";
+      cheat = "${get-pkg "navi"}";
+      cheatsheet = "cheat";
 
       # Hexdump
-      xxd = "hexyl";
-      hexdump = "hexyl";
+      xxd = "${get-pkg "hexyl"}";
+      hexdump = "xxd";
 
       # Grep
-      grep = "rg";
-      grepa = "rga";
+      grep = "${get-pkg-bin "ripgrep" "rg"}";
+      grepa = "${get-pkg-bin "ripgrep-all" "rga"}";
 
       # Timing
-      wtime = "hyperfine --runs 1 --warmup 3";
-      bench = "hyperfine --runs 5 --warmup 3";
+      wtime = "${get-pkg "hyperfine"} --runs 1 --warmup 3";
+      bench = "${get-pkg "hyperfine"} --runs 5 --warmup 3";
 
       # Fetch
-      neofetch = "fastfetch";
-      nerdfetch = "fastfetch";
+      neofetch = "${get-pkg "fastfetch"}";
+      nerdfetch = "${get-pkg "fastfetch"}";
 
-      # Other
-      jq = "jql";
-      fm = "yazi";
-      code-count = "tokei ./";
+      # JQL
+      jq = "${get-pkg "jql"}";
+
+      # Yazi
+      fm = "${get-pkg "yazi"}";
+
+      # Tokei
+      code-count = "${get-pkg "tokei"}";
+      count-lines = "code-count";
+      lines-count = "code-count";
+
+      # Glow
+      view-md = "${get-pkg "glow"}";
+      md-view = "view-md";
 
       # Youtube Downloader
-      youtube-dl = "yt-dlp";
-      yt-dl = "yt-dlp";
+      youtube-dl = "${get-pkg "yt-dlp"}";
+      yt-dl = "youtube-dl";
 
       # Spotify Downloader
-      spotify-dl = "spotdl";
-      sp-dl = "spotdl";
+      spotify-dl = "${get-pkg "spotdl"}";
+      sp-dl = "spotify-dl";
 
       # Internet
-      speedtest = "speedtest-rs";
-      vpn = "mullvad";
-      vpn-closest = "mullvad-closest --max-distance 500 --server-type wireguard";
+      speedtest = "${get-pkg "speedtest-rs"}";
+      vpn = "${get-pkg-bin "mullvad-vpn" "mullvad"}";
+      vpn-closest = "${get-pkg "mullvad-closest"} --max-distance 500 --server-type wireguard";
+      browser = "${get-pkg "browsh"}";
+      browse = "browser";
+
+      # Snippets
+      snippets = "${get-pkg "nap"}";
+      snips = "snippets";
+      snip = "snippets";
     };
 
     plugins = [
