@@ -2,7 +2,7 @@
   environment.systemPackages = with pkgs; [
     # Core
     uutils-coreutils-noprefix
-    yazi
+    yazi # File Manager
     fzf
     wget
     parted
@@ -30,10 +30,9 @@
     tokei
     grex
     any-nix-shell
-
-    # Shells
-    bash
-    fish
+    glow
+    browsh
+    nap
 
     # Documentation / Information
     navi # Cheat Sheets
