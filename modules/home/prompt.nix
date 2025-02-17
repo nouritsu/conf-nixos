@@ -148,7 +148,7 @@
       surround_paren = this: color: padding: surround "(" ")" color padding this;
       surround_bracket = this: color: padding: surround "[" "]" color padding this;
     in {
-      add_newline = true;
+      add_newline = false;
       command_timeout = 2000;
 
       format = lib.concatStrings [
