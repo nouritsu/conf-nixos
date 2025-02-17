@@ -1,11 +1,48 @@
 {
   pkgs,
   user,
+  lib,
   ...
 }: {
   programs.fish = let
     get-pkg-bin = name: bin: "${pkgs.${name}}/bin/${bin}";
     get-pkg = name: get-pkg-bin name name;
+    supported-languages.regex =
+      "("
+      + lib.concatStrings (builtins.map
+        (lang: "^" + lang + "(\\s)+" + "|")
+        [
+          "bash"
+          "c"
+          "cpp"
+          "cmake"
+          "dart"
+          "dockerfile"
+          "dot"
+          "fish"
+          "gdscript"
+          "go"
+          "haskell"
+          "javascript"
+          "java"
+          "json"
+          "kotlin"
+          "latex"
+          "lua"
+          "markdown"
+          "nix"
+          "glsl"
+          "perl"
+          "prolog"
+          "python"
+          "rust"
+          "sql"
+          "typescript"
+          "wgsl"
+          "yaml"
+        ]
+        ++ ["zig"]) # in my defence, it looked cool
+      + ")";
   in {
     enable = true;
     interactiveShellInit = ''
@@ -58,10 +95,11 @@
       treeg = "tree --git --git-repos --git-ignore";
 
       # Helix
-      helix = "${get-pkg "helix"}";
+      helix = "${get-pkg-bin "helix" "hx"}";
       vi = "helix";
       vim = "helix";
       nvim = "helix";
+      hx-health = "helix --health | ${pkgs.ripgrep}/bin/rg \"${supported-languages.regex}\"";
 
       # Calculator
       calc = "${get-pkg "eva"}";
