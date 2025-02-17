@@ -49,7 +49,6 @@
       # Environment Variables
       set fish_greeting
       set SYS_FLAKE "$HOME/.config/nixos"
-      set EDITOR "hx"
 
       # Any Nix Shell
       ${get-pkg "any-nix-shell"} fish --info-right | source

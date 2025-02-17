@@ -6,9 +6,7 @@
 }: {
   programs.helix = {
     enable = true;
-
-    # color scheme set by stylix
-
+    defaultEditor = true;
     settings = {
       editor = {
         line-number = "relative";
