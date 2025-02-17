@@ -6,70 +6,299 @@
 }: {
   programs.helix = {
     enable = true;
+
+    # color scheme set by stylix
+
     settings = {
-      editor.cursor-shape = {
-        normal = "block";
-        insert = "bar";
-        select = "block";
+      editor = {
+        line-number = "relative";
+        mouse = false; # change once comfortable
+        cursor-shape.insert = "bar";
+        bufferline = "multiple";
+      };
+      keys.normal = {
+        esc = ["collapse_selection" "keep_primary_selection"];
+        C-g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
       };
     };
 
-    languages.language = let
-      prettier = "${pkgs.nodePackages_latest.prettier}/bin/prettier";
-    in [
-      {
-        name = "rust";
-        auto-format = true;
-        formatter.command = "${pkgs.rustfmt}/bin/rustfmt";
-      }
-
-      {
-        name = "c";
-        auto-format = true;
-        formatter.command = "${pkgs.clang-tools}/bin/clang-format";
-      }
-
-      {
-        name = "cpp";
-        auto-format = true;
-        formatter.command = "${pkgs.clang-tools}/bin/clang-format";
-      }
-
-      {
-        name = "python";
-        auto-format = true;
-        formatter.command = "${pkgs.black}/bin/black";
-      }
-
-      {
-        name = "nix";
-        auto-format = true;
-        formatter.command = "${pkgs.alejandra}/bin/alejandra";
-      }
-
-      {
-        name = "go";
-        auto-format = true;
-        formatter.command = "${pkgs.go}/bin/go fmt";
-      }
-
-      {
-        name = "javascript";
-        auto-format = true;
-        formatter.command = prettier;
-      }
-
-      {
-        name = "typescript";
-        auto-format = true;
-        formatter.command = prettier;
-      }
-
-      {
-        name = "json";
-        auto-format = true;
-        formatter.command = prettier;
-      }
-    ];
+    languages = {
+      language = [
+        {
+          name = "bash";
+          auto-format = true;
+          formatter.command = "${pkgs.beautysh}/bin/beautysh";
+          shebangs = ["sh" "bash" "zsh"];
+          language-servers = [
+            {
+              name = "bash-language-server";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "c";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "clangd";
+            }
+          ];
+        }
+        {
+          name = "cpp";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "clangd";
+            }
+          ];
+        }
+        {
+          name = "cmake";
+          auto-format = true;
+          formatter.command = "${pkgs.cmake-format}/bin/cmake-format";
+          language-servers = [
+            {
+              name = "cmake-language-server";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "dart";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "dart";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "dockerfile";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "dockerfile-language-server";
+            }
+          ];
+        }
+        {
+          name = "dot";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "dot-language-server";
+            }
+          ];
+        }
+        {
+          name = "fish";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "fish-lsp";
+            }
+          ];
+        }
+        {
+          name = "gdscript";
+          auto-format = true;
+        }
+        {
+          name = "go";
+          auto-format = true;
+          formatter.command = "${pkgs.go}/bin/gofmt";
+          language-servers = [
+            {
+              name = "gopls";
+            }
+          ];
+        }
+        {
+          name = "haskell";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "haskell-language-server";
+            }
+          ];
+        }
+        {
+          name = "java";
+          auto-format = true;
+          formatter.command = "${pkgs.google-java-format}/bin/google-java-format";
+          language-servers = [
+            {
+              name = "jdtls";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "javascript";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "typescript-language-server";
+            }
+          ];
+        }
+        {
+          name = "json";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "vscode-json-languageserver";
+            }
+          ];
+        }
+        {
+          name = "kotlin";
+          auto-format = true;
+          formatter.command = "${pkgs.ktfmt}/bin/ktfmt";
+          language-servers = [
+            {
+              name = "kotlin-language-server";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "latex";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "texlab";
+            }
+          ];
+        }
+        {
+          name = "lua";
+          auto-format = true;
+          formatter.command = "${pkgs.stylua}/bin/stylua";
+          language-servers = [
+            {
+              name = "lua-language-server";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "markdown";
+          auto-format = true;
+          formatter.command = "${pkgs.markdownlint-cli}/bin/markdownlint";
+          language-servers = [
+            {
+              name = "marksman";
+            }
+          ];
+        }
+        {
+          name = "nix";
+          auto-format = true;
+          formatter.command = "${pkgs.alejandra}/bin/alejandra";
+          language-servers = [
+            {
+              name = "nixd";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "glsl";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "glsl_analyzer";
+            }
+          ];
+        }
+        {
+          name = "perl";
+          auto-format = true;
+          formatter.command = "${pkgs.perl540Packages.PerlTidy}/bin/perltidy";
+          language-servers = [
+            {
+              name = "perlnavigator";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "prolog";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "swipl";
+            }
+          ];
+        }
+        {
+          name = "python";
+          auto-format = true;
+          formatter.command = "${pkgs.black}/bin/black";
+          language-servers = [
+            {
+              name = "ruff";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "rust";
+          auto-format = true;
+          formatter.command = "${pkgs.rustfmt}/bin/rustfmt";
+          language-servers = [
+            {
+              name = "rust-analyzer";
+              except-features = ["format"];
+            }
+          ];
+        }
+        {
+          name = "sql";
+          auto-format = true;
+          formatter.command = "${pkgs.sqlfluff}/bin/sqlfluff format";
+        }
+        {
+          name = "typescript";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "typescript-language-server";
+            }
+          ];
+        }
+        {
+          name = "wgsl";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "wgsl-analyzer";
+            }
+          ];
+        }
+        {
+          name = "yaml";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "yaml-language-server";
+            }
+          ];
+        }
+        {
+          name = "zig";
+          auto-format = true;
+          language-servers = [
+            {
+              name = "zls";
+            }
+          ];
+        }
+      ];
+    };
   };
 }
