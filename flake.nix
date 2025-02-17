@@ -50,6 +50,36 @@
           gui = false;
         };
       };
+
+      lenovo = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+
+        modules = [
+          nixos-wsl.nixosModules.default
+          ./hosts/laptop/configuration.nix
+          ./modules/core
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              users.${specialArgs.user.alias}.imports = [./home.nix];
+              extraSpecialArgs = specialArgs;
+            };
+          }
+          stylix.nixosModules.stylix
+        ];
+
+        specialArgs = {
+          user = {
+            name = "Aneesh Bhave";
+            email = "aneesh1701@gmail.com";
+            alias = "aneesh";
+          };
+
+          hostname = "lenovo";
+
+          gui = true;
+        };
+      };
     };
   };
 }
