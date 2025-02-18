@@ -1,7 +1,7 @@
 {
   pkgs,
-  user,
   lib,
+  vm,
   ...
 }: {
   programs.fish = let
@@ -45,14 +45,22 @@
       + ")";
   in {
     enable = true;
-    interactiveShellInit = ''
+    interactiveShellInit = lib.concatStrings [
       # Environment Variables
-      set fish_greeting
-      set SYS_FLAKE "$HOME/.config/nixos"
+      "set fish_greeting"
+      "set SYS_FLAKE \"$HOME/.config/nixos\""
+      (
+        if vm
+        then "set WIN_BIN = \"/mnt/c/NixOs/bin\""
+        else ""
+      )
+
+      ## $PATH
+      "fish_add_path $WIN_BIN"
 
       # Any Nix Shell
-      ${get-pkg "any-nix-shell"} fish --info-right | source
-    '';
+      "${get-pkg "any-nix-shell"} fish --info-right | source"
+    ];
 
     shellAliases = {
       # NixOS

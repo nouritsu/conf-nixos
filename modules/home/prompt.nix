@@ -4,12 +4,13 @@
 
     settings = let
       symbols = {
+        sudo = "#";
         status = {
-          success = " ";
-          failure = " ";
-          not_executable = " ";
-          not_found = " ";
-          sig_int = " ";
+          success = " ";
+          failure = " ";
+          not_executable = " ";
+          not_found = " ";
+          sig_int = "INT";
           signal = "󱐋";
         };
         separator = "//";
@@ -58,6 +59,7 @@
       };
 
       colors = {
+        sudo = "bold yellow";
         status = {
           default = "bold red";
           success = "bold blue";
@@ -119,6 +121,8 @@
           deleted = "bold red";
         };
 
+        git_status = "bold green";
+
         jobs = "bold bright-purple";
 
         memory_usage = {
@@ -153,12 +157,11 @@
 
       format = lib.concatStrings [
         "[╭](${colors.separator})"
-        "$status"
-        "$username"
-        "$hostname"
+        "${surround_bracket "$username@$hostname" colors.separator 0} "
         "$directory"
-        "$git_branch"
         "$git_metrics"
+        "$git_branch"
+        "$git_status"
         "$fill$time$cmd_duration"
         "$battery"
         "$line_break"
@@ -166,6 +169,8 @@
         "$memory_usage"
         "$nix_shell"
         "$jobs"
+        "$status"
+        "$sudo"
         "$character"
       ];
 
@@ -217,7 +222,7 @@
 
       status = {
         disabled = false;
-        format = "[$symbol$signal_name$maybe_int]($style) ";
+        format = "${styled.separator_bottom}${surround_paren "[$symbol$maybe_int]($style)" colors.separator 0}";
 
         style = colors.status.default;
         success_style = colors.status.success;
@@ -246,7 +251,7 @@
         show_always = true;
         style_user = colors.username.user;
         style_root = colors.username.root;
-        format = "${styled.separator} [$user]($style) ";
+        format = "[$user]($style)";
       };
 
       hostname = {
@@ -254,7 +259,7 @@
         ssh_only = false;
         style = colors.hostname;
 
-        format = "${styled.separator} [$hostname](bold blue) ";
+        format = "[$hostname](bold blue)";
       };
 
       directory = {
@@ -317,7 +322,7 @@
 
       git_branch = {
         disabled = false;
-        format = "${styled.separator} [$symbol$branch(:$remote_branch)]($style) ";
+        format = "on [$symbol$branch(:$remote_branch)]($style) ";
         symbol = symbols.git_branch;
         style = colors.git_branch;
         ignore_branches = ["master" "main"];
@@ -326,9 +331,24 @@
       git_metrics = {
         disabled = false;
         only_nonzero_diffs = false;
-        format = "${styled.separator} ${surround_bracket "[+$added]($added_style) [-$deleted]($deleted_style)" colors.separator 1} ";
+        format = "${styled.separator} ${surround_bracket "[+$added]($added_style) [-$deleted]($deleted_style)" colors.separator 0} ";
         added_style = colors.git_metrics.added;
         deleted_style = colors.git_metrics.deleted;
+      };
+
+      git_status = {
+        disabled = false;
+        format = "${surround_paren "[$all_status$ahead_behind]($style)" colors.separator 0} ";
+        windows_starship = "$WIN_BIN/starship.exe";
+        style = colors.git_status;
+      };
+
+      sudo = {
+        disabled = false;
+        format = "${styled.separator_bottom}${surround_paren "[$symbol]($style)" colors.separator 0}";
+        symbol = symbols.sudo;
+        style = colors.sudo;
+        allow_windows = true;
       };
 
       jobs = rec {
