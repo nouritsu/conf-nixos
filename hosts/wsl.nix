@@ -20,6 +20,7 @@
 
   networking.hostName = hostname;
 
+  nix.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # ================================================================ #
