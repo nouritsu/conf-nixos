@@ -192,7 +192,7 @@
       };
 
       battery = {
-        format = "${styled.separator} [$symbol$percentage]($style) ";
+        format = "${styled.separator} [$symbol $percentage]($style) ";
 
         full_symbol = symbols.battery.full;
         charging_symbol = symbols.battery.charging;
@@ -345,7 +345,7 @@
       };
 
       nix_shell = {
-        format = "${styled.separator_bottom}${surround_bracket "[$symbol$state]($style)[$state](${colors.nix_shell.state})" colors.separator 0}";
+        format = "${styled.separator_bottom}${surround_bracket "[$symbol]($style)[$state](${colors.nix_shell.state})" colors.separator 0}";
         symbol = symbols.nix_shell;
         style = colors.nix_shell.default;
       };

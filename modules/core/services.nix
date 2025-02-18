@@ -9,7 +9,12 @@
 
   services.printing.enable = true;
 
-  services.pulseaudio.enable = true;
+<<<<<<< HEAD
+=======
+  security.rtkit.enable = true;
+
+>>>>>>> c2eab88 (get system to a working state)
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa = {
@@ -19,5 +24,5 @@
     pulse.enable = true;
   };
 
-  services.automatic-timezoned = true;
+  services.automatic-timezoned.enable = true;
 }

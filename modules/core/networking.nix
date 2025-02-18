@@ -1,7 +1,6 @@
 {hostname, ...}: {
   networking = {
-    networkManager.enable = true;
-    wireless.enable = true;
+    networkmanager.enable = true;
     hostName = hostname;
   };
 }
