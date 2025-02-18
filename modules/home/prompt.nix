@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  vm,
+  ...
+}: {
   programs.starship = {
     enable = true;
 
@@ -180,24 +184,14 @@
         "$package"
       ];
 
-      fill = {
-        disabled = false;
-        symbol = " ";
-      };
+      fill.symbol = " ";
 
       character = {
-        disabled = false;
         success_symbol = "[${symbols.character.success}](${colors.character.success})";
         error_symbol = "[${symbols.character.error}](${colors.character.error})";
       };
 
-      line_break = {
-        disabled = false;
-      };
-
       battery = {
-        disabled = false;
-
         format = "${styled.separator} [$symbol$percentage]($style) ";
 
         full_symbol = symbols.battery.full;
@@ -236,7 +230,6 @@
         signal_symbol = symbols.status.signal;
 
         map_symbol = true;
-        recognize_signal_code = true;
       };
 
       time = {
@@ -247,7 +240,6 @@
       };
 
       username = {
-        disabled = false;
         show_always = true;
         style_user = colors.username.user;
         style_root = colors.username.root;
@@ -255,20 +247,15 @@
       };
 
       hostname = {
-        disabled = false;
         ssh_only = false;
         style = colors.hostname;
-
-        format = "[$hostname](bold blue)";
+        format = "[$hostname]($style)";
       };
 
       directory = {
-        disabled = false;
-
         format = "${styled.separator} [$path]($style)[$read_only]($read_only_style) ";
         style = colors.directory.default;
 
-        truncation_length = 3;
         truncate_to_repo = false;
         truncation_symbol = symbols.directory.truncation;
 
@@ -277,43 +264,36 @@
       };
 
       c = {
-        disabled = false;
         format = "${symbols.languages.c}\\($name-$version\\)]($style) ";
         style = colors.languages.c;
       };
 
       python = {
-        disabled = false;
         format = "${symbols.languages.python}\\($version\\)]($style) ";
         style = colors.languages.python;
       };
 
       golang = {
-        disabled = false;
         format = "${symbols.languages.go}\\($version\\)]($style) ";
         style = colors.languages.go;
       };
 
       rust = {
-        disabled = false;
         format = "${symbols.languages.rust}\\($version\\)]($style) ";
         style = colors.languages.rust;
       };
 
       nodejs = {
-        disabled = false;
         format = "${symbols.languages.node}\\($version\\)]($style) ";
         style = colors.languages.node;
       };
 
       package = {
-        disabled = false;
         format = "${styled.separator} [${symbols.package}\\($version\\)]($style) ";
         style = colors.package;
       };
 
       cmd_duration = {
-        disabled = false;
         min_time = 1000;
         format = "${styled.separator} took [$duration]($style) ";
         show_milliseconds = true;
@@ -321,7 +301,6 @@
       };
 
       git_branch = {
-        disabled = false;
         format = "on [$symbol$branch(:$remote_branch)]($style) ";
         symbol = symbols.git_branch;
         style = colors.git_branch;
@@ -329,7 +308,6 @@
       };
 
       git_metrics = {
-        disabled = false;
         only_nonzero_diffs = false;
         format = "${styled.separator} ${surround_bracket "[+$added]($added_style) [-$deleted]($deleted_style)" colors.separator 0} ";
         added_style = colors.git_metrics.added;
@@ -337,13 +315,12 @@
       };
 
       git_status = {
-        disabled = false;
         format = "[$all_status$ahead_behind]($style)";
-        windows_starship = "$WIN_BIN/starship.exe";
         style = colors.git_status;
+        windows_starship = "$WIN_BIN/starship.exe";
       };
 
-      sudo = {
+      sudo = lib.mkIf (!vm) {
         disabled = false;
         format = "${styled.separator_bottom}${surround_paren "[$symbol]($style)" colors.separator 0}";
         symbol = symbols.sudo;
@@ -352,7 +329,6 @@
       };
 
       jobs = rec {
-        disabled = false;
         format = "${styled.separator_bottom}${surround_paren "[+$number]($style)" colors.separator 0}";
         symbol = "";
         style = colors.jobs;
@@ -369,7 +345,6 @@
       };
 
       nix_shell = {
-        disabled = false;
         format = "${styled.separator_bottom}${surround_bracket "[$symbol$state]($style)[$state](${colors.nix_shell.state})" colors.separator 0}";
         symbol = symbols.nix_shell;
         style = colors.nix_shell.default;
