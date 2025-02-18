@@ -44,10 +44,9 @@
             email = "aneesh1701@gmail.com";
             alias = "aneesh";
           };
-
           hostname = "wsl";
-
           gui = false;
+          vm = true;
         };
       };
 
@@ -74,10 +73,9 @@
             email = "aneesh1701@gmail.com";
             alias = "aneesh";
           };
-
           hostname = "lenovo";
-
           gui = true;
+          vm = false;
         };
       };
     };
