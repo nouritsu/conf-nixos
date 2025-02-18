@@ -338,7 +338,7 @@
 
       git_status = {
         disabled = false;
-        format = "${surround_paren "[$all_status$ahead_behind]($style)" colors.separator 0} ";
+        format = "[$all_status$ahead_behind]($style)";
         windows_starship = "$WIN_BIN/starship.exe";
         style = colors.git_status;
       };
