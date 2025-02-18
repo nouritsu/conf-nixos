@@ -20,7 +20,7 @@
           error = success;
         };
         directory = {
-          read_only = " ";
+          read_only = " 󰉐 ";
           truncation = "(..)/";
         };
         battery = {
@@ -265,7 +265,7 @@
       directory = {
         disabled = false;
 
-        format = "${styled.separator} [$path]($style) [$read_only]($read_only_style) ";
+        format = "${styled.separator} [$path]($style)[$read_only]($read_only_style) ";
         style = colors.directory.default;
 
         truncation_length = 3;
