@@ -5,6 +5,6 @@
     ./prompt.nix
     ./shell.nix
     ./zoxide.nix
-    ./zellij.nix
+    ./tealdeer.nix
   ];
 }
