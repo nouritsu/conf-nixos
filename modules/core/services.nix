@@ -9,7 +9,9 @@
 
   services.printing.enable = true;
 
-  services.pulseaudio.enable = true;
+  security.rtkit.enable = true;
+
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa = {
@@ -19,5 +21,5 @@
     pulse.enable = true;
   };
 
-  services.automatic-timezoned = true;
+  services.automatic-timezoned.enable = true;
 }

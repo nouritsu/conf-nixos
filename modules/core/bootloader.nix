@@ -1,10 +1,6 @@
-{pkgs, ...}: {
+{...}: {
   boot.loader = {
-    grub = {
-      enable = true;
-      useOSProber = true;
-      theme = pkgs.catppuccin-grub;
-    };
+    systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
 }

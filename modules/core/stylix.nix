@@ -6,10 +6,11 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
 
     cursor = {
-      name = "Catppuccin-Mocha-Dark-Cursors";
       package = pkgs.catppuccin-cursors.mochaDark;
       size = 12;
     };
+
+    polarity = "dark";
 
     fonts = {
       monospace = {
