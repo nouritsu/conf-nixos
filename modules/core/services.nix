@@ -9,8 +9,16 @@
 
   services.printing.enable = true;
 
+<<<<<<< HEAD
   security.rtkit.enable = true;
 
+=======
+<<<<<<< HEAD
+=======
+  security.rtkit.enable = true;
+
+>>>>>>> c2eab88 (get system to a working state)
+>>>>>>> working
   services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
