@@ -2,10 +2,8 @@
   services = {
     xserver = {
       displayManager.gdm.enable = true;
-      dekstopManager.gnome.enable = true;
+      desktopManager.gnome.enable = true;
     };
     gnome.gnome-browser-connector.enable = true;
   };
-
-  programs.dconf.enable = true;
 }
