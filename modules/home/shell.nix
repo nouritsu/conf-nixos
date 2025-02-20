@@ -47,7 +47,7 @@
     interactiveShellInit = ''
       # Environment Variables
       set fish_greeting
-      set SYS_FLAKE "$HOME/.config/nixos"
+      set FLAKE "$HOME/.config/nixos"
       set WIN_BIN = "/mnt/c/NixOs/bin"
 
       ## $PATH
@@ -59,10 +59,11 @@
 
     shellAliases = {
       # NixOS
-      nhrb = "${get-pkg "nh"} os boot $SYS_FLAKE";
-      nhrs = "${get-pkg "nh"} os switch $SYS_FLAKE";
+      nhrb = "${get-pkg "nh"} os boot $FLAKE";
+      nhrs = "${get-pkg "nh"} os switch $FLAKE";
       nhca = "${get-pkg "nh"} clean all";
       nhs = "${get-pkg "nh"} search";
+      conf-edit = "$EDITOR $FLAKE"
 
       # Fish
       unset = "set -e";
