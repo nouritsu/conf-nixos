@@ -2,12 +2,13 @@
   stylix = {
     enable = true;
 
-    image = ../../wallpapers/nix-black-4k.png;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    image = ../../wallpapers/gruvbox-minimal.png;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-hard.yaml";
 
     cursor = {
-      package = pkgs.catppuccin-cursors.mochaDark;
-      size = 12;
+      name = "Capitaine Cursors (Gruvbox)";
+      package = pkgs.capitaine-cursors-themed;
+      size = 13;
     };
 
     polarity = "dark";
@@ -17,8 +18,28 @@
         package = pkgs.nerd-fonts.jetbrains-mono;
         name = "JetBrainsMono Nerd Font Propo";
       };
-    };
 
-    targets.grub.enable = false;
+      serif = {
+        package = pkgs.overpass;
+        name = "Overpass";
+      };
+
+      sansSerif = {
+        package = pkgs.overpass;
+        name = "Overpass";
+      };
+
+      emoji = {
+        package = pkgs.noto-fonts-color-emoji;
+        name = "NotoColorEmoji";
+      };
+
+      sizes = {
+        applications = 14;
+        desktop = 12;
+        popups = 10;
+        terminal = 14;
+      };
+    };
   };
 }

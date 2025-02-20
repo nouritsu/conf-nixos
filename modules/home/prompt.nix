@@ -192,7 +192,7 @@
       };
 
       battery = {
-        format = "${styled.separator} [$symbol $percentage]($style) ";
+        format = "${styled.separator} [$symbol]($style) $percentage ";
 
         full_symbol = symbols.battery.full;
         charging_symbol = symbols.battery.charging;
