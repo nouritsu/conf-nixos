@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   services = {
     xserver = {
       displayManager.gdm.enable = true;
@@ -6,4 +6,6 @@
     };
     gnome.gnome-browser-connector.enable = true;
   };
+
+  programs.dconf.enable = true;
 }
