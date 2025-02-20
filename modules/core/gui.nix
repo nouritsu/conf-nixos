@@ -7,6 +7,6 @@
     obsidian
     spotifyd
     vesktop
-    alacritty
+    kitty
   ];
 }

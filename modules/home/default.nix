@@ -12,5 +12,5 @@
       ./zoxide.nix
       ./tealdeer.nix
     ]
-    ++ lib.optionals (!vm) [./dconf.nix];
+    ++ lib.optionals (!vm) [./dconf.nix ./kitty.nix];
 }
