@@ -5,7 +5,7 @@
 }: {
   imports =
     [
-      ./editor.nix
+      ./helix.nix
       ./git.nix
       ./prompt.nix
       ./shell.nix
