@@ -7,12 +7,79 @@
         line-number = "relative";
         mouse = false; # change once comfortable
         cursor-shape.insert = "bar";
-        bufferline = "multiple";
+        bufferline = "always";
+        color-modes = true;
+
+        cursorline = true;
+
+        inline-diagnostics = {
+          cursor-line = "warning";
+        };
+
+        end-of-line-diagnostics = "hint";
+
+        indent-guides = {
+          render = true;
+          character = "┆";
+          skip-levels = 1;
+        };
+
+        statusline = {
+          left = ["mode" "selections" "primary-selection-length" "separator" "position" "position-percentage"];
+
+          center = [
+            "file-encoding"
+            "file-type"
+            "file-line-ending"
+
+            "separator"
+            "file-name"
+            "read-only-indicator"
+            "separator"
+
+            "spacer"
+            "version-control"
+            "file-modification-indicator"
+          ];
+
+          right = ["spinner" "diagnostics" "separator" "workspace-diagnostics"];
+
+          mode = {
+            normal = "NORMAL";
+            insert = "INSERT";
+            select = "SELECT";
+          };
+        };
       };
-      keys.normal = {
-        esc = ["collapse_selection" "keep_primary_selection"];
-        C-g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
-        C-f = ["normal_mode" ":sh "];
+
+      keys = {
+        normal = {
+          # New
+          esc = ["collapse_selection" "keep_primary_selection"];
+          ret = "goto_word";
+          D = ["ensure_selections_forward" "extend_to_line_end"];
+          C-q = ":buffer-close";
+
+          # Redefinitions
+          x = "extend_line";
+          a = ["append_mode" "collapse_selection"];
+
+          # External Integrations
+          C-g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
+
+          # Arrow Keys
+          left = "goto_previous_buffer";
+          right = "goto_next_buffer";
+          down = "goto_prev_diag";
+          up = "goto_next_diag";
+
+          # Add Yank minor mode for diags, code, sels
+          # Change goto minor mode for next funcs files etc.
+        };
+
+        select = {
+          x = "extend_line";
+        };
       };
     };
 
