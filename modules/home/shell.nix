@@ -63,7 +63,8 @@
       nhrs = "${get-pkg "nh"} os switch $FLAKE";
       nhca = "${get-pkg "nh"} clean all";
       nhs = "${get-pkg "nh"} search";
-      conf-edit = "$EDITOR $FLAKE"
+      conf-edit = "$EDITOR $FLAKE";
+      config = "conf-edit";
 
       # Fish
       unset = "set -e";
