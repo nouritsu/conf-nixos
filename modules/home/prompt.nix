@@ -125,7 +125,7 @@
           deleted = "bold red";
         };
 
-        git_status = "bold green";
+        git_status = "bold purple";
 
         jobs = "bold bright-purple";
 
@@ -279,7 +279,7 @@
       };
 
       rust = {
-        format = "${symbols.languages.rust}\\($version\\)]($style) ";
+        format = "[${symbols.languages.rust}\\($version\\)]($style) ";
         style = colors.languages.rust;
       };
 
@@ -308,6 +308,7 @@
       };
 
       git_metrics = {
+        disabled = false;
         only_nonzero_diffs = false;
         format = "${styled.separator} ${surround_bracket "[+$added]($added_style) [-$deleted]($deleted_style)" colors.separator 0} ";
         added_style = colors.git_metrics.added;
@@ -317,7 +318,6 @@
       git_status = {
         format = "[$all_status$ahead_behind]($style)";
         style = colors.git_status;
-        windows_starship = "$WIN_BIN/starship.exe";
       };
 
       sudo = lib.mkIf (!vm) {
