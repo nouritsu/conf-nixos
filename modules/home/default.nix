@@ -6,5 +6,6 @@
     ./shell.nix
     ./zoxide.nix
     ./tealdeer.nix
+    ./dconf.nix
   ];
 }

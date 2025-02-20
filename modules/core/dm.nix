@@ -1,34 +1,9 @@
 {pkgs, ...}: {
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  programs.dconf = {
-    enable = true;
-    # settings = {
-    #   "org/gnome/desktop/datetime" = {automatic-timezone = true;};
-    #   "org/gnome/system/location" = {enabled = true;};
-    # };
-  };
-
-  environment = {
-    # environment.gnome.excludePackages = with pkgs; [
-    #   atomix
-    #   cheese
-    #   epiphany
-    #   evince
-    #   geary
-    #   gedit
-    #   gnome-music
-    #   gnome-photos
-    #   gnome-terminal
-    #   gnome-tour
-    #   hitori
-    #   iango
-    #   tali
-    #   totem
-    # ];
-    systemPackages = with pkgs; [
-      gnome-tweaks
-    ];
+  services = {
+    xserver = {
+      displayManager.gdm.enable = true;
+      dekstopManager.gnome.enable = true;
+    };
+    gnome.gnome-browser-connector.enable = true;
   };
 }
