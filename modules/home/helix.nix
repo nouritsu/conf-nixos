@@ -14,6 +14,7 @@
         line-number = "relative";
         mouse = false; # change once comfortable
         cursor-shape.insert = "bar";
+        shell = ["${pkgs.fish}/bin/fish" "-c"];
         bufferline = "always";
         color-modes = true;
         completion-timeout = 5; # Instant
