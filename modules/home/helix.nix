@@ -16,7 +16,10 @@
         cursor-shape.insert = "bar";
         bufferline = "always";
         color-modes = true;
-
+        completion-timeout = 5; # Instant
+        completion-replace = true;
+        undercurl = true;
+        jump-label-alphabet = "asdqwezxcrfvtgbyhnujmikolp"; # prefer keys under left hand
         cursorline = true;
 
         inline-diagnostics = {
