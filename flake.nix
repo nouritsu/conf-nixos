@@ -19,7 +19,15 @@
     home-manager,
     stylix,
     ...
-  }: {
+  }: let
+    user = {
+      name = "Aneesh Bhave";
+      email = "aneesh1701@gmail.com";
+      alias = "aneesh";
+    };
+    gui = true;
+    wsl = false;
+  in {
     nixosConfigurations = {
       wsl = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -39,11 +47,7 @@
         ];
 
         specialArgs = {
-          user = {
-            name = "Aneesh Bhave";
-            email = "aneesh1701@gmail.com";
-            alias = "aneesh";
-          };
+          inherit user;
           hostname = "wsl";
           gui = false;
           wsl = true;
@@ -68,14 +72,8 @@
         ];
 
         specialArgs = {
-          user = {
-            name = "Aneesh Bhave";
-            email = "aneesh1701@gmail.com";
-            alias = "aneesh";
-          };
+          inherit user gui wsl;
           hostname = "lenovo";
-          gui = true;
-          wsl = false;
         };
       };
     };

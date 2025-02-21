@@ -79,8 +79,8 @@
           # Arrow Keys
           left = "goto_previous_buffer";
           right = "goto_next_buffer";
-          down = "goto_prev_diag";
-          up = "goto_next_diag";
+          down = "goto_next_diag";
+          up = "goto_prev_diag";
 
           # +/-
           "+" = "increment";
@@ -167,14 +167,8 @@
         };
 
         select = {
+          inherit (normal) C-q C-g x y g p space;
           ret = "extend_to_word";
-          C-q = normal.C-q;
-          C-g = normal.C-g;
-          x = normal.x;
-          y = normal.y;
-          g = normal.g;
-          p = normal.p;
-          space = normal.space;
         };
       };
     };
