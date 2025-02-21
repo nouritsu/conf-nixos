@@ -114,6 +114,9 @@
     typescript
     typescript-language-server
 
+    # VHDL
+    vhdl-ls
+
     # WGSL
     wgsl-analyzer
 

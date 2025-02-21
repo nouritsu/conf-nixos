@@ -37,6 +37,7 @@
           "rust"
           "sql"
           "typescript"
+          "vhdl"
           "wgsl"
           "yaml"
         ]
