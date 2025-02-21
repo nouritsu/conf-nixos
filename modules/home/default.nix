@@ -1,6 +1,6 @@
 {
   lib,
-  vm,
+  gui,
   ...
 }: {
   imports =
@@ -12,5 +12,5 @@
       ./zoxide.nix
       ./tealdeer.nix
     ]
-    ++ lib.optionals (!vm) [./dconf.nix ./kitty.nix];
+    ++ lib.optionals (!gui) [./kitty.nix];
 }

@@ -46,7 +46,7 @@
           };
           hostname = "wsl";
           gui = false;
-          vm = true;
+          wsl = true;
         };
       };
 
@@ -75,7 +75,7 @@
           };
           hostname = "lenovo";
           gui = true;
-          vm = false;
+          wsl = false;
         };
       };
     };
