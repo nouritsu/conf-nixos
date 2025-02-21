@@ -187,11 +187,13 @@
       fill.symbol = " ";
 
       character = {
+        disabled = false;
         success_symbol = "[${symbols.character.success}](${colors.character.success})";
         error_symbol = "[${symbols.character.error}](${colors.character.error})";
       };
 
       battery = {
+        disabled = false;
         format = "${styled.separator} [$symbol]($style) $percentage ";
 
         full_symbol = symbols.battery.full;
@@ -240,6 +242,7 @@
       };
 
       username = {
+        disabled = false;
         show_always = true;
         style_user = colors.username.user;
         style_root = colors.username.root;
@@ -247,12 +250,14 @@
       };
 
       hostname = {
+        disabled = false;
         ssh_only = false;
         style = colors.hostname;
         format = "[$hostname]($style)";
       };
 
       directory = {
+        disabled = false;
         format = "${styled.separator} [$path]($style)[$read_only]($read_only_style) ";
         style = colors.directory.default;
 
@@ -264,36 +269,43 @@
       };
 
       c = {
+        disabled = false;
         format = "${symbols.languages.c}\\($name-$version\\)]($style) ";
         style = colors.languages.c;
       };
 
       python = {
+        disabled = false;
         format = "${symbols.languages.python}\\($version\\)]($style) ";
         style = colors.languages.python;
       };
 
       golang = {
+        disabled = false;
         format = "${symbols.languages.go}\\($version\\)]($style) ";
         style = colors.languages.go;
       };
 
       rust = {
+        disabled = false;
         format = "[${symbols.languages.rust}\\($version\\)]($style) ";
         style = colors.languages.rust;
       };
 
       nodejs = {
+        disabled = false;
         format = "${symbols.languages.node}\\($version\\)]($style) ";
         style = colors.languages.node;
       };
 
       package = {
+        disabled = false;
         format = "${styled.separator} [${symbols.package}\\($version\\)]($style) ";
         style = colors.package;
       };
 
       cmd_duration = {
+        disabled = false;
         min_time = 1000;
         format = "${styled.separator} took [$duration]($style) ";
         show_milliseconds = true;
@@ -301,6 +313,7 @@
       };
 
       git_branch = {
+        disabled = false;
         format = "on [$symbol$branch(:$remote_branch)]($style) ";
         symbol = symbols.git_branch;
         style = colors.git_branch;
@@ -316,6 +329,7 @@
       };
 
       git_status = {
+        disabled = false;
         format = "[$all_status$ahead_behind]($style)";
         style = colors.git_status;
       };
@@ -329,6 +343,7 @@
       };
 
       jobs = rec {
+        disabled = false;
         format = "${styled.separator_bottom}${surround_paren "[+$number]($style)" colors.separator 0}";
         symbol = "";
         style = colors.jobs;
@@ -345,6 +360,7 @@
       };
 
       nix_shell = {
+        disabled = false;
         format = "${styled.separator_bottom}${surround_bracket "[$symbol]($style)[$state](${colors.nix_shell.state})" colors.separator 0}";
         symbol = symbols.nix_shell;
         style = colors.nix_shell.default;
