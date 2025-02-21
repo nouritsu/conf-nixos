@@ -60,7 +60,7 @@
 
     shellAliases = {
       # NixOS
-      nix = "${get-pkg-bin "nixos-output-monitor" "nom"}";
+      nix = "${get-pkg-bin "nix-output-monitor" "nom"}";
       nhrb = "${get-pkg "nh"} os boot $FLAKE";
       nhrs = "${get-pkg "nh"} os switch $FLAKE";
       nhrt = "${get-pkg "nh"} os test $FLAKE";

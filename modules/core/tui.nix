@@ -56,7 +56,7 @@
 
     # NixOS
     nh
-    nix-output-manager
+    nix-output-monitor
 
     # Foreign Compatability
     android-tools # Android Tooling
