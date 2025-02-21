@@ -49,7 +49,7 @@
       # Environment Variables
       set fish_greeting
       set FLAKE "$HOME/.config/nixos"
-      set WIN_BIN = "/mnt/c/NixOs/bin"
+      set WIN_BIN = "/mnt/c/NixOS/bin"
 
       ## $PATH
       fish_add_path $WIN_BIN
@@ -60,6 +60,7 @@
 
     shellAliases = {
       # NixOS
+      nix = "${get-pkg-bin "nixos-output-monitor" "nom"}";
       nhrb = "${get-pkg "nh"} os boot $FLAKE";
       nhrs = "${get-pkg "nh"} os switch $FLAKE";
       nhrt = "${get-pkg "nh"} os test $FLAKE";
