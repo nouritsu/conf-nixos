@@ -62,6 +62,7 @@
       # NixOS
       nhrb = "${get-pkg "nh"} os boot $FLAKE";
       nhrs = "${get-pkg "nh"} os switch $FLAKE";
+      nhrt = "${get-pkg "nh"} os test $FLAKE";
       nhca = "${get-pkg "nh"} clean all";
       nhs = "${get-pkg "nh"} search";
       conf-edit = "$EDITOR $FLAKE";
