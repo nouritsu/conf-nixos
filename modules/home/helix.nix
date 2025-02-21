@@ -75,7 +75,7 @@
           a = ["append_mode" "collapse_selection"];
 
           # External Integrations
-          C-g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
+          C-g = [":write-all" ":new" ":insert-output lazygit" ":buffer-close!" ":redraw" ":reload-all"];
 
           # Arrow Keys
           left = "goto_previous_buffer";
