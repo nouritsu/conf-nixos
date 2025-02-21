@@ -1,9 +1,16 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  gui,
+  lib,
+  ...
+}: {
   programs.helix = {
     enable = true;
     defaultEditor = true;
     settings = {
+      theme = lib.mkIf (!gui) "catppuccin_mocha";
       editor = {
+        true-color = true;
         line-number = "relative";
         mouse = false; # change once comfortable
         cursor-shape.insert = "bar";
