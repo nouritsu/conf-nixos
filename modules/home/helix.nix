@@ -59,9 +59,8 @@
         };
       };
 
-      keys = {
+      keys = rec {
         normal = {
-          # New
           esc = ["collapse_selection" "keep_primary_selection"];
           ret = "goto_word";
           D = ["ensure_selections_forward" "extend_to_line_end"];
@@ -80,12 +79,99 @@
           down = "goto_prev_diag";
           up = "goto_next_diag";
 
+          # +/-
+          "+" = "increment";
+          "-" = "decrement";
+
           # Add Yank minor mode for diags, code, sels
-          # Change goto minor mode for next funcs files etc.
+          y = {
+            y = "yank";
+            Y = "yank_to_clipboard";
+
+            j = "yank_joined";
+            J = "yank_joined_to_clipboard";
+          };
+
+          g = {
+            # File
+            g = "goto_file_start";
+            G = "goto_file_end";
+
+            # Movement
+            h = "goto_first_nonwhitespace";
+            H = "goto_line_start";
+            j = "half_page_down";
+            J = "page_down";
+            k = "half_page_up";
+            K = "page_up";
+            l = "goto_line_end";
+            L = "goto_line_end_newline";
+
+            p = "goto_file";
+
+            # LSP
+            d = "goto_definition";
+            D = "goto_declaration";
+
+            i = "goto_implementation";
+            I = "goto_type_definition";
+
+            f = "goto_next_function";
+            F = "goto_prev_function";
+
+            t = "goto_next_class";
+            T = "goto_prev_class";
+
+            e = "goto_next_entry";
+            E = "goto_prev_entry";
+
+            # Git
+            c = "goto_next_change";
+            C = "goto_prev_change";
+          };
+
+          p = {
+            p = "paste_after";
+            P = "paste_clipboard_after";
+            b = "paste_before";
+            B = "paste_clipboard_before";
+            r = "replace_with_yanked";
+            R = "replace_selections_with_clipboard";
+          };
+
+          space = {
+            f = "file_picker_in_current_directory";
+            F = "file_picker_in_current_buffer_directory";
+
+            # This has not been released yet
+            # e = "file_explorer_in_current_directory";
+            # E = "file_explorer_in_current_buffer_directory";
+
+            b = "buffer_picker";
+            g = "changed_file_picker";
+            j = "jumplist_picker";
+
+            r = "symbol_picker";
+            R = "workspace_symbol_picker";
+
+            d = "diagnostics_picker";
+            D = "workspace_diagnostics_picker";
+
+            a = "code_action";
+            "?" = "command_palette";
+            space = "last_picker";
+          };
         };
 
         select = {
-          x = "extend_line";
+          ret = "extend_to_word";
+          C-q = normal.C-q;
+          C-g = normal.C-g;
+          x = normal.x;
+          y = normal.y;
+          g = normal.g;
+          p = normal.p;
+          space = normal.space;
         };
       };
     };
