@@ -12,14 +12,7 @@
     stylix.url = "github:danth/stylix";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixos-wsl,
-    home-manager,
-    stylix,
-    ...
-  }: let
+  outputs = {...} @ inputs: let
     user = {
       name = "Aneesh Bhave";
       email = "aneesh1701@gmail.com";
@@ -29,21 +22,21 @@
     wsl = false;
   in {
     nixosConfigurations = {
-      wsl = nixpkgs.lib.nixosSystem rec {
+      wsl = inputs.nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
 
         modules = [
-          nixos-wsl.nixosModules.default
+          inputs.nixos-wsl.nixosModules.default
           ./hosts/wsl.nix
           ./modules/core
-          home-manager.nixosModules.home-manager
+          inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
               users.${specialArgs.user.alias}.imports = [./home.nix];
               extraSpecialArgs = specialArgs;
             };
           }
-          stylix.nixosModules.stylix
+          inputs.stylix.nixosModules.stylix
         ];
 
         specialArgs = {
@@ -54,21 +47,21 @@
         };
       };
 
-      lenovo = nixpkgs.lib.nixosSystem rec {
+      lenovo = inputs.nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
 
         modules = [
-          nixos-wsl.nixosModules.default
+          inputs.nixos-wsl.nixosModules.default
           ./hosts/laptop/configuration.nix
           ./modules/core
-          home-manager.nixosModules.home-manager
+          inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
               users.${specialArgs.user.alias}.imports = [./home.nix];
               extraSpecialArgs = specialArgs;
             };
           }
-          stylix.nixosModules.stylix
+          inputs.stylix.nixosModules.stylix
         ];
 
         specialArgs = {
