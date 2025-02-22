@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     # Core
     uutils-coreutils-noprefix
@@ -24,7 +28,7 @@
     sd # sed
     hyperfine # time
     speedtest-rs
-    helix
+    inputs.helix.packages."${pkgs.system}".helix
     starship
     eva # Calculator
     tokei

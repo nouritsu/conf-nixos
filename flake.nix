@@ -10,6 +10,8 @@
     };
 
     stylix.url = "github:danth/stylix";
+
+    helix.url = "github:helix-editor/helix/master";
   };
 
   outputs = {...} @ inputs: let
@@ -40,7 +42,7 @@
         ];
 
         specialArgs = {
-          inherit user;
+          inherit user inputs;
           hostname = "wsl";
           gui = false;
           wsl = true;
