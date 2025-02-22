@@ -100,11 +100,10 @@
     ruff
 
     # Rust
-    cargo
-    rustc
-    rustfmt
+    rustup
     rust-analyzer
     bacon
+    trunk
 
     # SQL
     sqls
