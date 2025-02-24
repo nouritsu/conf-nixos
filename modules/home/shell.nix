@@ -61,10 +61,10 @@
     shellAliases = {
       # NixOS
       nix = "${get-pkg-bin "nix-output-monitor" "nom"}";
-      nhrb = "${get-pkg "nh"} os boot $FLAKE";
-      nhrs = "${get-pkg "nh"} os switch $FLAKE";
-      nhrt = "${get-pkg "nh"} os test $FLAKE";
-      nhca = "${get-pkg "nh"} clean all";
+      nhrb = "${get-pkg "gum"} confirm \"Rebuild system and reload on boot?\" && ${get-pkg "nh"} os boot $FLAKE";
+      nhrs = "${get-pkg "gum"} confirm \"Rebuild system and switch configuration?\" && ${get-pkg "nh"} os switch $FLAKE";
+      nhrt = "${get-pkg "gum"} confirm \"Rebuild system and test?\" && ${get-pkg "nh"} os test $FLAKE";
+      nhca = "${get-pkg "gum"} confirm \"Delete all generations but the last three?\" && ${get-pkg "nh"} clean all --keep 3";
       nhs = "${get-pkg "nh"} search";
       conf-edit = "$EDITOR $FLAKE";
       config = "conf-edit";

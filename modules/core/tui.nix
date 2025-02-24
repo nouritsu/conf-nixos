@@ -40,6 +40,7 @@
     ffmpeg-full
     pdftk
     clipcat
+    gum
 
     # Documentation / Information
     navi # Cheat Sheets
