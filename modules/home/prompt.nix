@@ -270,37 +270,37 @@
 
       c = {
         disabled = false;
-        format = "${symbols.languages.c}\\($name-$version\\)]($style) ";
+        format = "${symbols.languages.c}${surround_paren "[$name-$version]($style)" colors.separator 0} ";
         style = colors.languages.c;
       };
 
       python = {
         disabled = false;
-        format = "${symbols.languages.python}\\($version\\)]($style) ";
+        format = "${symbols.languages.python}${surround_paren "[$version]($style)" colors.separator 0} ";
         style = colors.languages.python;
       };
 
       golang = {
         disabled = false;
-        format = "${symbols.languages.go}\\($version\\)]($style) ";
+        format = "${symbols.languages.go}${surround_paren "[$version]($style)" colors.separator 0} ";
         style = colors.languages.go;
       };
 
       rust = {
         disabled = false;
-        format = "[${symbols.languages.rust}\\($version\\)]($style) ";
+        format = "${symbols.languages.rust}${surround_paren "[$version]($style)" colors.separator 0} ";
         style = colors.languages.rust;
       };
 
       nodejs = {
         disabled = false;
-        format = "${symbols.languages.node}\\($version\\)]($style) ";
+        format = "${symbols.languages.node}${surround_paren "[$version]($style)" colors.separator 0} ";
         style = colors.languages.node;
       };
 
       package = {
         disabled = false;
-        format = "${styled.separator} [${symbols.package}\\($version\\)]($style) ";
+        format = "${styled.separator} ${symbols.package}${surround_paren "[$version]($style)" colors.separator 0} ";
         style = colors.package;
       };
 
