@@ -9,6 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland.url = "github:hyprwm/hyprland";
+
     stylix.url = "github:danth/stylix";
 
     helix.url = "github:helix-editor/helix/master";
@@ -22,10 +24,11 @@
     };
     gui = true;
     wsl = false;
+    system = "x86_64-linux";
   in {
     nixosConfigurations = {
       wsl = inputs.nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
+        inherit system;
 
         modules = [
           inputs.nixos-wsl.nixosModules.default
@@ -50,7 +53,7 @@
       };
 
       lenovo = inputs.nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
+        inherit system;
 
         modules = [
           inputs.nixos-wsl.nixosModules.default
