@@ -1,9 +1,8 @@
 {...}: {
   services = {
-    xserver = {
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
     };
-    gnome.gnome-browser-connector.enable = true;
   };
 }
