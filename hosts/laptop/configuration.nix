@@ -1,4 +1,8 @@
-{user, ...}: {
+{
+  user,
+  inputs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -8,7 +12,7 @@
     description = user.name;
     extraGroups = ["networkmanager" "wheel"];
   };
-  nixpkgs.config.allowUnfree = true;
+  inputs.nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
