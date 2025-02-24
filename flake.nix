@@ -42,7 +42,7 @@
         ];
 
         specialArgs = {
-          inherit user inputs;
+          inherit inputs user;
           hostname = "wsl";
           gui = false;
           wsl = true;
@@ -67,7 +67,7 @@
         ];
 
         specialArgs = {
-          inherit user gui wsl;
+          inherit inputs user gui wsl;
           hostname = "lenovo";
         };
       };
