@@ -7,10 +7,6 @@
   min-height: 0;
 }
 
-window#waybar {
-  background: rgba(21, 18, 27, 0);
-}
-
 #workspaces button {
   padding: 5px;
   margin-right: 5px;
@@ -18,12 +14,10 @@ window#waybar {
 
 
 #workspaces button.focused {
-  background: #eba0ac;
   border-radius: 10px;
 }
 
 #workspaces button.urgent {
-  background: #a6e3a1;
   border-radius: 10px;
 }
 
