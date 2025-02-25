@@ -65,7 +65,7 @@ in {
 
       dwindle = {
         pseudotile = true;
-        preseve_split = true;
+        preserve_split = true;
       };
 
       bind =
