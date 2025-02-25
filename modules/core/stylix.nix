@@ -15,8 +15,8 @@
 
     fonts = {
       monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font Mono";
+        package = pkgs.nerd-fonts.zed-mono;
+        name = "ZedMono Nerd Font Mono";
       };
 
       serif = {
@@ -31,7 +31,7 @@
 
       emoji = {
         package = pkgs.noto-fonts-color-emoji;
-        name = "NotoColorEmoji";
+        name = "Noto Color Emoji";
       };
 
       sizes = {
