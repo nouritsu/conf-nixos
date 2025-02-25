@@ -4,7 +4,7 @@
     package = pkgs.foot;
     server.enable = true;
     settings = {
-      pad = "8x8";
+      main.pad = "8x8";
       mouse.hide-when-typing = "yes";
     };
   };
