@@ -4,8 +4,9 @@
   ...
 }: let
   terminal = "${pkgs.foot}/bin/footclient";
-  browser = "${pkgs.google-chrome}/bin/google-chrome-stable";
+  browser = "${pkgs.google-chrome}/bin/google-chrome-stable --ozone-platform=wayland";
   explorer = "${pkgs.nemo-with-extensions}/bin/nemo";
+  menu = "${pkgs.tofi}/bin/tofi-drun --drun-launch=true";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -17,10 +18,9 @@ in {
         [
           "SUPER, T, exec, ${terminal}"
           "SUPER, RETURN, exec, ${terminal}"
-
           "SUPER, W, exec, ${browser}"
-
           "SUPER, E, exec, ${explorer}"
+          "SUPER, SUPER_L, exec, ${menu}"
         ]
         ++ [
           "SUPER, H, movefocus, l"
