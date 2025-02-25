@@ -4,5 +4,6 @@
     ./foot.nix
     ./kitty.nix
     ./tofi.nix
+    ./waybar.nix
   ];
 }
