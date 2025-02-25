@@ -12,5 +12,5 @@
       ./zoxide.nix
       ./tealdeer.nix
     ]
-    ++ lib.optionals gui [./kitty.nix ./foot.nix ./hyprland.nix];
+    ++ lib.optionals gui [./kitty.nix ./foot.nix ./hyprland.nix ./tofi.nix];
 }
