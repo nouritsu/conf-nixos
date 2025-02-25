@@ -1,18 +1,5 @@
 {pkgs, ...}: {
   stylix = {
-    enable = true;
-
-    image = ../../wallpapers/gruvbox-minimal.png;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-hard.yaml";
-
-    cursor = {
-      name = "Capitaine Cursors (Gruvbox)";
-      package = pkgs.capitaine-cursors-themed;
-      size = 13;
-    };
-
-    polarity = "dark";
-
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.zed-mono;
