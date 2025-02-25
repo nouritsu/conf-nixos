@@ -33,7 +33,7 @@
         ];
 
         "hyprland/window" = {
-          format = " {}";
+          format = "  {}";
         };
 
         "hyprland/workspaces" = {
