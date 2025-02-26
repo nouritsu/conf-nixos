@@ -42,7 +42,29 @@
           on-click = "activate";
         };
 
-        tray.icon-size = 13;
+        tray = {
+          icon-size = 13;
+          spacing = 10;
+        };
+
+        clock = {
+          format = "{:%A    %B-%d-%Y    %I:%M:%S %p}";
+          interval = 1;
+          rotate = 0;
+          tooltip-format = "<tt>{calendar}</tt>";
+          calendar = {
+            mode = "month";
+            mode-mon-col = 3;
+            on-scroll = 1;
+            on-click-right = "mode";
+          };
+        };
+
+        backlight = {
+          device = "intel_backlight";
+          format = "{icon} {percent}%";
+          format-icons = ["󰃞 " "󰃟 " "󰃠 "];
+        };
       }
     ];
   };
