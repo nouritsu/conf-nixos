@@ -14,6 +14,8 @@
     stylix.url = "github:danth/stylix";
 
     helix.url = "github:helix-editor/helix/master";
+
+    nvf.url = "github:notashelf/nvf";
   };
 
   outputs = {...} @ inputs: let
