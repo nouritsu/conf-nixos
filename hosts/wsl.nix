@@ -9,7 +9,7 @@
     defaultUser = user.alias;
     wslConf.interop = {
       enabled = false;
-      appendWindowsPath = false;
+      # appendWindowsPath = false;
     };
   };
 
