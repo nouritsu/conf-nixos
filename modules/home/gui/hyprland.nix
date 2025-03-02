@@ -113,8 +113,8 @@ in {
 
           "SUPER, Q, killactive,"
         ]
-        ++ builtins.map (ws: "SUPER, ${ws}, workspace, ${ws}") lib.range 1 workspaces
-        ++ builtins.map (ws: "SUPERSHIFT, ${ws}, movetoworkspace, ${ws}") lib.range 1 workspaces;
+        ++ builtins.map (ws: "SUPER, ${ws}, workspace, ${ws}") (lib.range 1 workspaces)
+        ++ builtins.map (ws: "SUPERSHIFT, ${ws}, movetoworkspace, ${ws}") (lib.range 1 workspaces);
 
       exec-once = [
         "weterm-mux-server --daemonize"
