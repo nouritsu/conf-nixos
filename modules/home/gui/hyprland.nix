@@ -6,8 +6,8 @@
   getpkg = import ../../../lib/getpkg.nix {inherit pkgs;};
 
   terminal = getpkg.named {
-    name = "foot";
-    bin = "footclient";
+    name = "wezterm";
+    bin = "wezterm-gui";
   };
   browser = getpkg.named {
     name = "google-chrome";
@@ -114,6 +114,10 @@ in {
         ]
         ++ builtins.map (ws: "SUPER, ${ws}, workspace, ${ws}") builtins.range 1 workspaces
         ++ builtins.map (ws: "SUPERSHIFT, ${ws}, movetoworkspace, ${ws}") builtins.range 1 workspaces;
+
+      exec-once = [
+        "weterm-mux-server --daemonize"
+      ];
 
       misc = {
         force_default_wallpaper = 0;
