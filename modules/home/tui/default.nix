@@ -6,5 +6,7 @@
     ./zoxide.nix
     ./tealdeer.nix
     ./helix.nix
+    ./alias.nix
+    ./env.nix
   ];
 }
