@@ -3,10 +3,26 @@
   pkgs,
   ...
 }: let
-  terminal = "${pkgs.foot}/bin/footclient";
-  browser = "${pkgs.google-chrome}/bin/google-chrome-stable --ozone-platform=wayland";
-  explorer = "${pkgs.nemo-with-extensions}/bin/nemo";
-  menu = "${pkgs.tofi}/bin/tofi-drun --drun-launch=true";
+  getpkg = import ../../../lib/getpkg.nix {inherit pkgs;};
+
+  terminal = getpkg.named {
+    name = "foot";
+    bin = "footclient";
+  };
+  browser = getpkg.named {
+    name = "google-chrome";
+    bin = "google-chrome-stable --ozone-platform=wayland";
+  };
+  explorer = getpkg.named {
+    name = "nemo-with-extensions";
+    bin = "nemo";
+  };
+  menu = getpkg.named {
+    name = "tofi";
+    bin = "tofi-drun --drun-launch=true";
+  };
+
+  workspaces = 5;
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -95,7 +111,9 @@ in {
           "SUPER, right, movefocus, r"
 
           "SUPER, Q, killactive,"
-        ];
+        ]
+        ++ builtins.map (ws: "SUPER, ${ws}, workspace, ${ws}") builtins.range 1 workspaces
+        ++ builtins.map (ws: "SUPERSHIFT, ${ws}, movetoworkspace, ${ws}") builtins.range 1 workspaces;
 
       misc = {
         force_default_wallpaper = 0;
