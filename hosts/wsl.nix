@@ -7,10 +7,6 @@
   wsl = {
     enable = true;
     defaultUser = user.alias;
-    wslConf.interop = {
-      enabled = false;
-      # appendWindowsPath = false;
-    };
   };
 
   programs.nix-ld = {

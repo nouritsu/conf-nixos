@@ -3,13 +3,14 @@
   pkgs,
   ...
 }: {
-  programs.git = {
-    enable = true;
-    userName = user.name;
-    userEmail = user.email;
-    delta = {
+  programs = {
+    git = {
       enable = true;
-      package = pkgs.delta;
+      userName = user.name;
+      userEmail = user.email;
+      delta.enable = true;
     };
+
+    gh.enable = true;
   };
 }
