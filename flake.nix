@@ -57,7 +57,6 @@
         inherit system;
 
         modules = [
-          inputs.nixos-wsl.nixosModules.default
           ./hosts/laptop/configuration.nix
           ./modules/core
           inputs.home-manager.nixosModules.home-manager
