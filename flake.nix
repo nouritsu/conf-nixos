@@ -43,7 +43,6 @@
               extraSpecialArgs = specialArgs;
             };
           }
-          inputs.stylix.nixosModules.stylix
         ];
 
         specialArgs = {
