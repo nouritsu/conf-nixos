@@ -49,9 +49,9 @@ in {
       name = "nix-output-monitor";
       bin = "nom";
     }}";
-    nhrb = "${getpkg.default "gum"} confirm \"Rebuild system and reload on boot?\" && ${getpkg.default "nh"} os boot $FLAKE";
-    nhrs = "${getpkg.default "gum"} confirm \"Rebuild system and switch configuration?\" && ${getpkg.default "nh"} os switch $FLAKE";
-    nhrt = "${getpkg.default "gum"} confirm \"Rebuild system and test?\" && ${getpkg.default "nh"} os test $FLAKE";
+    nhrb = "${getpkg.default "gum"} confirm \"Rebuild system and reload on boot?\" && ${getpkg.default "nh"} os boot";
+    nhrs = "${getpkg.default "gum"} confirm \"Rebuild system and switch configuration?\" && ${getpkg.default "nh"} os switch";
+    nhrt = "${getpkg.default "gum"} confirm \"Rebuild system and test?\" && ${getpkg.default "nh"} os test";
     nhca = "${getpkg.default "gum"} confirm \"Delete all generations but the last three?\" && ${getpkg.default "nh"} clean all --keep 3";
     nhs = "${getpkg.default "nh"} search";
     conf-edit = "$EDITOR $FLAKE";
