@@ -9,6 +9,7 @@
     yazi # File Manager
     fzf
     wget
+    wl-clipboard-rs
     parted
     zoxide # cd
     eza # ls
