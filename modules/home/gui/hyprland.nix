@@ -114,7 +114,16 @@ in {
           "SUPER, Q, killactive,"
         ]
         ++ builtins.map (ws: "SUPER, ${builtins.toString ws}, workspace, ${builtins.toString ws}") (lib.range 1 workspaces)
-        ++ builtins.map (ws: "SUPERSHIFT, ${builtins.toString ws}, movetoworkspace, ${builtins.toString ws}") (lib.range 1 workspaces);
+        ++ builtins.map (ws: "SUPERSHIFT, ${builtins.toString ws}, movetoworkspace, ${builtins.toString ws}") (lib.range 1 workspaces)
+        ++ [
+          ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+          ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+          ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ]
+        ++ [
+          ",XF86MonBrightnessUp, exec, brightnessctl s 5%+"
+          ",XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+        ];
 
       exec-once = [
         "weterm-mux-server --daemonize"

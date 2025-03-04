@@ -41,6 +41,7 @@
     pdftk
     clipcat
     gum
+    brightnessctl
 
     # Documentation / Information
     navi # Cheat Sheets
