@@ -8,5 +8,7 @@
     spotifyd
     vesktop
     kitty
+    libsForQt5.okular
+    telegram-desktop
   ];
 }
