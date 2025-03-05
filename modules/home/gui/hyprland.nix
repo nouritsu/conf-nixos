@@ -111,6 +111,18 @@ in {
           "SUPER, up, movefocus, u"
           "SUPER, right, movefocus, r"
 
+          "SUPERSHIFT, H, movewindow, l"
+          "SUPERSHIFT, J, movewindow, d"
+          "SUPERSHIFT, K, movewindow, u"
+          "SUPERSHIFT, L, movewindow, r"
+          "SUPERSHIFT, left, movewindow, l"
+          "SUPERSHIFT, down, movewindow, d"
+          "SUPERSHIFT, up, movewindow, u"
+          "SUPERSHIFT, right, movewindow, r"
+
+          "SUPER, F, fullscreen"
+          "SUPERSHIFT, F, togglefloating"
+
           "SUPER, Q, killactive,"
         ]
         ++ builtins.map (ws: "SUPER, ${builtins.toString ws}, workspace, ${builtins.toString ws}") (lib.range 1 workspaces)
