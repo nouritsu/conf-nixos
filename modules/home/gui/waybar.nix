@@ -86,7 +86,7 @@
         };
 
         "custom/logo" = {
-          format = " ";
+          format = "  ";
           toolip = false;
         };
 
