@@ -10,61 +10,84 @@
         exclusive = true;
         passthrough = false;
         gtk-layer-shell = true;
-        height = 0;
+        height = 16;
+        spacing = 0;
+        fixed-center = true;
 
         modules-left = [
-          "clock"
+          "custom/logo"
           "hyprland/workspaces"
         ];
 
-        modules-center = [
-          "hyprland/window"
-        ];
-
         modules-right = [
-          "tray"
-          "memory"
-          "cpu"
-          "network"
-          "battery"
-          "backlight"
           "pulseaudio"
-          "pulseaudio#microphone"
+          "battery"
+          "clock"
+          "tray"
         ];
 
-        "hyprland/window" = {
-          format = "  {}";
-        };
-
-        "hyprland/workspaces" = {
-          disable-scroll = true;
-          all-outputs = true;
-          on-click = "activate";
-        };
-
-        tray = {
-          icon-size = 13;
-          spacing = 10;
+        battery = {
+          bat = "BAT1";
+          adapter = "ADP0";
+          interval = 1;
+          states = {
+            warning = 30;
+            critical = 15;
+          };
+          max-length = 20;
+          format = "{icon}{capacity}%";
+          format-warning = "{icon}{capacity}%";
+          format-critical = "{icon}{capacity}%";
+          format-charging = "<span foreground='#26ff55'> {capacity} %</span>";
+          format-plugged = "<span foreground='#26ff55'>  {capacity}%</span>";
+          format-alt = "{icon} {time}";
+          format-full = "<span foreground='#26ff55'> {capacity} %</span>";
+          format-icons = ["󰂎" "󰁻" "󰁾" "󰂀" "󰁹"];
         };
 
         clock = {
-          format = "{:%A    %B-%d-%Y    %I:%M:%S %p}";
+          format = "<span color='#6bfffd'> </span>{:%I:%M %p}";
+          format-alt = "<span color='#ff9854'> </span>{:%a %b %d}";
+          tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
+        };
+
+        cpu = {
+          format = "  {usage}%";
+          tooltip = true;
           interval = 1;
-          rotate = 0;
-          tooltip-format = "<tt>{calendar}</tt>";
-          calendar = {
-            mode = "month";
-            mode-mon-col = 3;
-            on-scroll = 1;
-            on-click-right = "mode";
+        };
+
+        memory = {
+          format = "  {used:0.2f}G";
+        };
+
+        pulseaudio = {
+          format = "{icon} {volume}%";
+          format-muted = "  muted";
+          format-icons = {
+            headphone = "󰋋 ";
+            hands-free = "󰂰 ";
+            headset = "󰋋 ";
+            phone = " ";
+            portable = " ";
+            car = " ";
+            default = [" " " " " "];
           };
         };
 
-        backlight = {
-          device = "intel_backlight";
-          format = "{icon} {percent}%";
-          format-icons = ["󰃞 " "󰃟 " "󰃠 "];
+        "custom/logo" = {
+          format = " ";
+          toolip = false;
         };
+
+        "custom/sep" = {
+          format = "|";
+          tooltip = false;
+        };
+
+        # "custom/power" = {
+        #   format = " ";
+        # };
       }
     ];
   };
