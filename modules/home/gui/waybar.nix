@@ -19,6 +19,11 @@
           "hyprland/workspaces"
         ];
 
+        modules-center = [
+          "cpu"
+          "memory"
+        ];
+
         modules-right = [
           "pulseaudio"
           "battery"
@@ -51,8 +56,8 @@
         };
 
         clock = {
-          format = "<span color='#6bfffd'> </span>{:%I:%M %p}";
-          format-alt = "<span color='#ff9854'> </span>{:%a %b %d}";
+          format = "{:%I:%M %p}";
+          format-alt = "  {:%a %b %d}";
           tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
         };
 
