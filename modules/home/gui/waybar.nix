@@ -26,6 +26,11 @@
           "tray"
         ];
 
+        tray = {
+          show-passive-items = true;
+          spacing = 10;
+        };
+
         battery = {
           bat = "BAT1";
           adapter = "ADP0";
@@ -38,11 +43,11 @@
           format = "{icon}{capacity}%";
           format-warning = "{icon}{capacity}%";
           format-critical = "{icon}{capacity}%";
-          format-charging = "<span foreground='#26ff55'> {capacity} %</span>";
-          format-plugged = "<span foreground='#26ff55'>  {capacity}%</span>";
+          format-charging = " {capacity} %";
+          format-plugged = "  {capacity}%";
           format-alt = "{icon} {time}";
-          format-full = "<span foreground='#26ff55'> {capacity} %</span>";
-          format-icons = ["󰂎" "󰁻" "󰁾" "󰂀" "󰁹"];
+          format-full = " {capacity} %";
+          format-icons = ["󰂎 " "󰁻 " "󰁾 " "󰂀 " "󰁹 "];
         };
 
         clock = {
