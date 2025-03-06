@@ -1,5 +1,10 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
+    # Arduino
+    arduino-core
+    arduino-cli
+    arduino-language-server
+
     # Bash
     bash
     bash-language-server

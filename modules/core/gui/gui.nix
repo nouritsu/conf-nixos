@@ -10,5 +10,6 @@
     kitty
     libsForQt5.okular
     telegram-desktop
+    arduino-ide
   ];
 }
