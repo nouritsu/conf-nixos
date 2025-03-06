@@ -7,6 +7,7 @@
   wsl = {
     enable = true;
     defaultUser = user.alias;
+    interop.includePath = false;
   };
 
   programs.nix-ld = {
