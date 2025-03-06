@@ -43,7 +43,7 @@
       ++ ["zig"]) # in my defence, it looked cool
     + ")";
 in {
-  home.shellAliases = {
+  home.shellAliases = rec {
     # NixOS
     nix = "${getpkg.named {
       name = "nix-output-monitor";
@@ -55,7 +55,7 @@ in {
     nhca = "${getpkg.default "gum"} confirm \"Delete all generations but the last three?\" && ${getpkg.default "nh"} clean all --keep 3";
     nhs = "${getpkg.default "nh"} search";
     conf-edit = "$EDITOR $FLAKE";
-    config = "conf-edit";
+    config = conf-edit;
 
     # Fish
     unset = "set -e";
@@ -65,6 +65,8 @@ in {
     cd = "z"; # zoxide, but not directly a package
     cat = "${getpkg.default "bat"}";
     top = "${getpkg.default "btop"}";
+    bottom = top;
+    htop = top;
     du = "${getpkg.default "dust"}";
     rm = "${getpkg.named {
       name = "rip2";
@@ -77,7 +79,9 @@ in {
     findg = "${getpkg.default "fd"} -H";
     ps = "${getpkg.default "procs"}";
     sed = "${getpkg.default "sd"}";
-    tr = "${getpkg.default "sd"}";
+    tr = sed;
+    vidir = "${getpkg.default "edir"}";
+    oil = vidir;
 
     # CD
     ".." = "cd ..";
@@ -97,22 +101,22 @@ in {
       name = "helix";
       bin = "hx";
     }}";
-    vi = "helix";
-    vim = "helix";
-    nvim = "helix";
+    vi = helix;
+    vim = helix;
+    nvim = helix;
     hx-health = "helix --health | ${pkgs.ripgrep}/bin/rg \"${supported-languages.regex}\"";
 
     # Calculator
     calc = "${getpkg.default "eva"}";
-    calculator = "calc";
+    calculator = calc;
 
     # Cheatsheet
     cheat = "${getpkg.default "navi"}";
-    cheatsheet = "cheat";
+    cheatsheet = cheat;
 
     # Hexdump
     xxd = "${getpkg.default "hexyl"}";
-    hexdump = "xxd";
+    hexdump = xxd;
 
     # Grep
     grep = "${getpkg.named {
@@ -130,7 +134,7 @@ in {
 
     # Fetch
     neofetch = "${getpkg.default "fastfetch"}";
-    nerdfetch = "${getpkg.default "fastfetch"}";
+    nerdfetch = neofetch;
 
     # JQL
     jq = "${getpkg.default "jql"}";
@@ -140,20 +144,20 @@ in {
 
     # Tokei
     code-count = "${getpkg.default "tokei"}";
-    count-lines = "code-count";
-    lines-count = "code-count";
+    count-lines = code-count;
+    lines-count = code-count;
 
     # Glow
     view-md = "${getpkg.default "glow"}";
-    md-view = "view-md";
+    md-view = view-md;
 
     # Youtube Downloader
     youtube-dl = "${getpkg.default "yt-dlp"}";
-    yt-dl = "youtube-dl";
+    yt-dl = youtube-dl;
 
     # Spotify Downloader
     spotify-dl = "${getpkg.default "spotdl"}";
-    sp-dl = "spotify-dl";
+    sp-dl = spotify-dl;
 
     # Internet
     speedtest = "${getpkg.default "speedtest-rs"}";
@@ -163,11 +167,11 @@ in {
     }}";
     vpn-closest = "${getpkg.default "mullvad-closest"} --max-distance 500 --server-type wireguard";
     browser = "${getpkg.default "browsh"}";
-    browse = "browser";
+    browse = browser;
 
     # Snippets
     snippets = "${getpkg.default "nap"}";
-    snips = "snippets";
-    snip = "snippets";
+    snips = snippets;
+    snip = snippets;
   };
 }
