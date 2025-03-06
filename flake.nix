@@ -14,6 +14,8 @@
     stylix.url = "github:danth/stylix";
 
     helix.url = "github:helix-editor/helix/master";
+
+    walker.url = "github:abenz1267/walker";
   };
 
   outputs = {...} @ inputs: let

@@ -18,10 +18,7 @@
     name = "nemo-with-extensions";
     bin = "nemo";
   };
-  menu = getpkg.named {
-    name = "tofi";
-    bin = "tofi-drun --drun-launch=true";
-  };
+  menu = getpkg.default "walker";
 
   workspaces = 5;
 in {
