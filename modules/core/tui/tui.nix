@@ -43,6 +43,7 @@
     clipcat
     gum
     brightnessctl
+    edir
 
     # Documentation / Information
     navi # Cheat Sheets
