@@ -140,6 +140,13 @@
             f = "file_picker_in_current_directory";
             F = "file_picker_in_current_buffer_directory";
 
+            e = [
+              ":sh rm -f /tmp/yazi-path"
+              ":insert-output yazi %{buffer_name} --chooser-file=/tmp/yazi-path"
+              ":open %sh{command cat /tmp/yazi-path}"
+              ":redraw"
+            ];
+
             b = "buffer_picker";
             g = "changed_file_picker";
             j = "jumplist_picker";
