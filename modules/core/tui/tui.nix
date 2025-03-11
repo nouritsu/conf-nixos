@@ -7,6 +7,7 @@
     # Core
     uutils-coreutils-noprefix
     yazi # File Manager
+    inputs.yazi.packages."${pkgs.system}".yazi
     fzf
     wget
     wl-clipboard-rs

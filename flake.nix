@@ -15,6 +15,8 @@
 
     helix.url = "github:helix-editor/helix/master";
 
+    yazi.url = "github:sxyazi/yazi";
+
     walker.url = "github:abenz1267/walker";
   };
 
