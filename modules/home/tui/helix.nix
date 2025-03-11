@@ -7,6 +7,55 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+    extraConfig = let
+      mm_g = mode: ''
+        [keys.${mode}.g]
+        g = "goto_file_start"
+        G = "goto_file_end"
+        h = "goto_first_nonwhitespace"
+        H = "goto_line_start"
+        j = "half_page_down"
+        J = "page_down"
+        k = "half_page_up"
+        K = "page_up"
+        l = "goto_line_end"
+        L = "goto_line_end_newline"
+        p = "goto_file"
+        d = "goto_definition"
+        D = "goto_declaration"
+        i = "goto_implementation"
+        I = "goto_type_definition"
+        f = "goto_next_function"
+        F = "goto_prev_function"
+        t = "goto_next_class"
+        T = "goto_prev_class"
+        e = "goto_next_entry"
+        E = "goto_prev_entry"
+        c = "goto_next_change"
+        C = "goto_prev_change"
+        s = "no_op"
+        w = "no_op"
+        n = "no_op"
+        y = "no_op"
+        b = "no_op"
+        a = "no_op"
+        m = "no_op"
+      '';
+      mm_p = mode: ''
+        [keys.${mode}.p]
+        p = "paste_after"
+        P = "paste_clipboard_after"
+        b = "paste_before"
+        B = "paste_clipboard_before"
+        r = "replace_with_yanked"
+        R = "replace_selections_with_clipboard"
+      '';
+    in ''
+      ${mm_g "normal"}
+      ${mm_g "select"}
+      ${mm_p "normal"}
+      ${mm_p "select"}
+    '';
     settings = {
       theme = lib.mkIf (!gui) "catppuccin_mocha";
       editor = {
@@ -87,69 +136,9 @@
           "+" = "increment";
           "-" = "decrement";
 
-          # Add Yank minor mode for diags, code, sels
-          y = {
-            y = "yank";
-            Y = "yank_to_clipboard";
-
-            j = "yank_joined";
-            J = "yank_joined_to_clipboard";
-          };
-
-          g = {
-            # File
-            g = "goto_file_start";
-            G = "goto_file_end";
-
-            # Movement
-            h = "goto_first_nonwhitespace";
-            H = "goto_line_start";
-            j = "half_page_down";
-            J = "page_down";
-            k = "half_page_up";
-            K = "page_up";
-            l = "goto_line_end";
-            L = "goto_line_end_newline";
-
-            p = "goto_file";
-
-            # LSP
-            d = "goto_definition";
-            D = "goto_declaration";
-
-            i = "goto_implementation";
-            I = "goto_type_definition";
-
-            f = "goto_next_function";
-            F = "goto_prev_function";
-
-            t = "goto_next_class";
-            T = "goto_prev_class";
-
-            e = "goto_next_entry";
-            E = "goto_prev_entry";
-
-            # Git
-            c = "goto_next_change";
-            C = "goto_prev_change";
-          };
-
-          p = {
-            p = "paste_after";
-            P = "paste_clipboard_after";
-            b = "paste_before";
-            B = "paste_clipboard_before";
-            r = "replace_with_yanked";
-            R = "replace_selections_with_clipboard";
-          };
-
           space = {
             f = "file_picker_in_current_directory";
             F = "file_picker_in_current_buffer_directory";
-
-            # This has not been released yet
-            # e = "file_explorer_in_current_directory";
-            # E = "file_explorer_in_current_buffer_directory";
 
             b = "buffer_picker";
             g = "changed_file_picker";
@@ -168,7 +157,7 @@
         };
 
         select = {
-          inherit (normal) C-q C-g x y g p space;
+          inherit (normal) C-q C-g x space;
           ret = "extend_to_word";
         };
       };
