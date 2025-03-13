@@ -6,6 +6,8 @@
   environment.systemPackages = with pkgs; [
     # Core
     uutils-coreutils-noprefix
+    jj
+    jjui
     yazi # File Manager
     inputs.yazi.packages."${pkgs.system}".yazi
     fzf
