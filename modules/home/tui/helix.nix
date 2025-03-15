@@ -143,7 +143,7 @@
             e = [
               ":sh rm -f /tmp/yazi-path"
               ":insert-output yazi %{buffer_name} --chooser-file=/tmp/yazi-path"
-              ":open %sh{command cat /tmp/yazi-path}"
+              ":open %sh{${pkgs.uutils-coreutils-noprefix}/bin/cat /tmp/yazi-path}"
               ":redraw"
             ];
 
