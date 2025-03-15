@@ -2,6 +2,7 @@
   pkgs,
   gui,
   lib,
+  wsl,
   ...
 }: {
   programs.helix = {
@@ -71,6 +72,10 @@
         undercurl = true;
         jump-label-alphabet = "asdqwezxcrfvtgbyhnujmikolp"; # prefer keys under left hand
         cursorline = true;
+        clipboard-provider =
+          if wsl
+          then "win32-yank"
+          else "wayland";
 
         inline-diagnostics = {
           cursor-line = "warning";
