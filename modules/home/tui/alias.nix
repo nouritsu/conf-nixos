@@ -178,5 +178,8 @@ in {
     snippets = "${getpkg.default "nap"}";
     snips = snippets;
     snip = snippets;
+
+    # Scooter
+    fnr = "${getpkg.default "scooter"}";
   };
 }

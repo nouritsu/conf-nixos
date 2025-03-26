@@ -28,6 +28,7 @@
     hexyl # xxd
     procs # ps
     xh # curl
+    scooter
     sd # sed
     hyperfine # time
     speedtest-rs
