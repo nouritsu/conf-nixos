@@ -18,6 +18,8 @@
     yazi.url = "github:sxyazi/yazi";
 
     walker.url = "github:abenz1267/walker";
+
+    cachix.url = "github:cachix/cachix";
   };
 
   outputs = {...} @ inputs: let
@@ -45,6 +47,7 @@
               extraSpecialArgs = specialArgs;
             };
           }
+          ./cachix.nix
         ];
 
         specialArgs = {
@@ -69,6 +72,7 @@
             };
           }
           inputs.stylix.nixosModules.stylix
+          ./cachix.nix
         ];
 
         specialArgs = {
