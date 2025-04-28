@@ -19,6 +19,7 @@
     btop # top
     dust # du
     ripgrep # grep
+    poppler_utils
     ripgrep-all
     rip2 # rm
     frawk # awk
