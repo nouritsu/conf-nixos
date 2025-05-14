@@ -1,11 +1,7 @@
-{
-  lib,
-  gui,
-  wsl,
-  ...
-}: {
-  imports =
-    [./tui]
-    ++ lib.optionals gui [./gui ./stylix]
-    ++ lib.optionals (!wsl) [./device];
+{...}: {
+  imports = [
+    ./tui.nix
+    ./shell.nix
+    ./development.nix
+  ];
 }

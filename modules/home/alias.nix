@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  getpkg = import ../../../lib/getpkg.nix {inherit pkgs;};
+  getpkg = import ../../lib/getpkg.nix {inherit pkgs;};
 
   supported-languages.regex =
     "("

@@ -1,8 +1,4 @@
-{
-  lib,
-  wsl,
-  ...
-}: {
+{lib, ...}: {
   programs.starship = {
     enable = true;
 
@@ -332,14 +328,6 @@
         disabled = false;
         format = "[$all_status$ahead_behind]($style)";
         style = colors.git_status;
-      };
-
-      sudo = lib.mkIf (!wsl) {
-        disabled = false;
-        format = "${styled.separator_bottom}${surround_paren "[$symbol]($style)" colors.separator 0}";
-        symbol = symbols.sudo;
-        style = colors.sudo;
-        allow_windows = true;
       };
 
       jobs = rec {

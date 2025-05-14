@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  getpkg = import ../../../lib/getpkg.nix {inherit pkgs;};
+  getpkg = import ../../lib/getpkg.nix {inherit pkgs;};
 in {
   programs.fish = {
     enable = true;

@@ -9,37 +9,25 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/hyprland";
-
-    stylix.url = "github:danth/stylix";
-
-    helix.url = "github:helix-editor/helix/master";
+    helix.url = "github:helix-editor/helix";
 
     yazi.url = "github:sxyazi/yazi";
-
-    walker.url = "github:abenz1267/walker";
 
     cachix.url = "github:cachix/cachix";
   };
 
   outputs = {...} @ inputs: let
-    user = {
-      name = "Aneesh Bhave";
-      email = "aneesh1701@gmail.com";
-      alias = "aneesh";
-    };
-    gui = true;
-    wsl = false;
-    system = "x86_64-linux";
   in {
     nixosConfigurations = {
       wsl = inputs.nixpkgs.lib.nixosSystem rec {
-        inherit system;
+        system = "x86_64-linux";
 
         modules = [
           inputs.nixos-wsl.nixosModules.default
-          ./hosts/wsl.nix
+          ./wsl.nix
+
           ./modules/core
+
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -47,37 +35,19 @@
               extraSpecialArgs = specialArgs;
             };
           }
+
           ./cachix.nix
         ];
 
         specialArgs = {
-          inherit inputs user;
+          inherit inputs;
+
+          user = {
+            name = "Aneesh Bhave";
+            email = "aneesh1701@gmail.com";
+            alias = "aneesh";
+          };
           hostname = "wsl";
-          gui = false;
-          wsl = true;
-        };
-      };
-
-      lenovo = inputs.nixpkgs.lib.nixosSystem rec {
-        inherit system;
-
-        modules = [
-          ./hosts/laptop/configuration.nix
-          ./modules/core
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              users.${specialArgs.user.alias}.imports = [./home.nix];
-              extraSpecialArgs = specialArgs;
-            };
-          }
-          inputs.stylix.nixosModules.stylix
-          ./cachix.nix
-        ];
-
-        specialArgs = {
-          inherit inputs user gui wsl;
-          hostname = "lenovo";
         };
       };
     };
