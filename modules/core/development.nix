@@ -33,6 +33,10 @@
     graphviz
     dot-language-server
 
+    # Ruby
+    ruby
+    jekyll
+
     # Fish
     fish
     fish-lsp
@@ -130,6 +134,10 @@
     # Zig
     zig
     zls
+
+    # Loco
+    loco-cli
+    sea-orm-cli
 
     # Common Development Tools
     git

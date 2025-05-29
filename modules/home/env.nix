@@ -1,5 +1,5 @@
 {...}: {
   home.sessionVariables = {
-    FLAKE = "$HOME/.config/nixos";
+    NH_FLAKE = "$HOME/.config/nixos";
   };
 }
