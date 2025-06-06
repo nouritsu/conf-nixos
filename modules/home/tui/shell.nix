@@ -6,9 +6,6 @@ in {
     interactiveShellInit = ''
       # Disable Greeting
       set fish_greeting
-
-      # Any Nix Shell
-      ${getpkg.default "any-nix-shell"} fish --info-right | source
     '';
 
     plugins = [

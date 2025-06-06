@@ -55,10 +55,10 @@ in {
     nhca = "${getpkg.default "gum"} confirm \"Delete all generations but the last three?\" && ${getpkg.default "nh"} clean all --keep 3";
     nhs = "${getpkg.default "nh"} search";
     update =
-      "nix flake update --flake $FLAKE"
-      + "&& ${cd} $FLAKE && git add flake.lock && git commit -m \"update\" && git push && ${cd} -"
+      "nix flake update --flake $NH_FLAKE"
+      + "&& ${cd} $NH_FLAKE && git add flake.lock && git commit -m \"update\" && git push && ${cd} -"
       + "&& ${getpkg.default "nh"} os switch";
-    conf-edit = "$EDITOR $FLAKE && ${nhrt}";
+    conf-edit = "$EDITOR $NH_FLAKE && ${nhrt}";
     config = conf-edit;
     conf = config;
 

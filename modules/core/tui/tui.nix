@@ -38,7 +38,6 @@
     eva # Calculator
     tokei
     grex
-    any-nix-shell
     glow
     browsh
     nap
