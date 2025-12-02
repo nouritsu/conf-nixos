@@ -3,7 +3,7 @@
   user,
   ...
 }: let
-  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
   hyprland-sessions = "${pkgs.hyprland}/share/wayland-sessions";
 in {
   services.greetd = {

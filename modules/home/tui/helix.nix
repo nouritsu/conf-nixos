@@ -9,7 +9,7 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
-    package = inputs.helix.packages.${pkgs.system}.default;
+    package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
     extraConfig = let
       mm_g = mode: ''
         [keys.${mode}.g]

@@ -7,7 +7,7 @@
     spotifyd
     vesktop
     kitty
-    libsForQt5.okular
+    kdePackages.okular
     telegram-desktop
     arduino-ide
   ];

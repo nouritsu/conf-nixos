@@ -1,16 +1,13 @@
-{
-  user,
-  pkgs,
-  ...
-}: {
+{user, ...}: {
   programs = {
     git = {
       enable = true;
-      userName = user.name;
-      userEmail = user.email;
-      delta.enable = true;
+      settings.user = {
+        user = user.name;
+        email = user.email;
+      };
     };
-
+    delta.enable = true;
     gh.enable = true;
   };
 }

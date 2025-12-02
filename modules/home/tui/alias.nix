@@ -78,7 +78,6 @@ in {
       name = "rip2";
       bin = "rip";
     }}";
-    awk = "${getpkg.default "frawk"}";
     cp = "${getpkg.default "xcp"}";
     diff = "${getpkg.default "delta"}";
     find = "${getpkg.default "fd"} -HI";

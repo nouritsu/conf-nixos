@@ -8,7 +8,7 @@
     uutils-coreutils-noprefix
     jj
     jjui
-    inputs.yazi.packages."${pkgs.system}".yazi
+    inputs.yazi.packages."${pkgs.stdenv.hostPlatform.system}".yazi
     fzf
     wget
     wl-clipboard-rs
@@ -19,10 +19,9 @@
     btop # top
     dust # du
     ripgrep # grep
-    poppler_utils
+    poppler-utils
     ripgrep-all
     rip2 # rm
-    frawk # awk
     xcp # cp
     delta # diff
     fd # find
@@ -33,7 +32,7 @@
     sd # sed
     hyperfine # time
     speedtest-rs
-    inputs.helix.packages."${pkgs.system}".helix
+    inputs.helix.packages."${pkgs.stdenv.hostPlatform.system}".helix
     starship
     eva # Calculator
     tokei
