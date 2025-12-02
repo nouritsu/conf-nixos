@@ -62,7 +62,7 @@
         inherit system;
 
         modules = [
-          ./hosts/laptop/configuration.nix
+          ./hosts/lenovo/configuration.nix
           ./modules/core
           inputs.home-manager.nixosModules.home-manager
           {
