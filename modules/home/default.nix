@@ -4,6 +4,6 @@
   ...
 }: {
   imports =
-    [./tui]
+    [./tui ./stylix.nix]
     ++ lib.optionals gui [./gui];
 }

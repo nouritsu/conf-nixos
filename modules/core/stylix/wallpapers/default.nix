@@ -1,3 +1,3 @@
 {...}: {
-  stylix.image = ./gruvbox-minimal.png;
+  stylix.image = ./evening-sky.png;
 }
