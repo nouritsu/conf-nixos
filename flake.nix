@@ -11,7 +11,10 @@
 
     hyprland.url = "github:hyprwm/hyprland";
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     helix.url = "github:helix-editor/helix/master";
 
@@ -69,6 +72,7 @@
             home-manager = {
               users.${specialArgs.user.alias}.imports = [./home.nix];
               extraSpecialArgs = specialArgs;
+              backupFileExtension = "backup";
             };
           }
           inputs.stylix.nixosModules.stylix
