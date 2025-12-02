@@ -10,10 +10,7 @@
     name = "wezterm";
     bin = "wezterm-gui";
   };
-  browser = getpkg.named {
-    name = "google-chrome";
-    bin = "google-chrome-stable --ozone-platform=wayland";
-  };
+  browser = getpkg.default "firefox";
   explorer = getpkg.named {
     name = "nemo-with-extensions";
     bin = "nemo";

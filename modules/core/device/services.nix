@@ -1,25 +1,37 @@
 {...}: {
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";
+  services = {
+    openssh = {
+      enable = true;
+      ports = [18187];
+      allowSFTP = true;
+      settings = {
+        PasswordAuthentication = false;
+        PubkeyAuthentication = true;
+        PermitRootLogin = "no";
+      };
+    };
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
+
+    printing.enable = true;
+
+    automatic-timezoned.enable = true;
+    pulseaudio.enable = false;
+
+    pipewire = {
+      enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
     };
   };
-
-  services.printing.enable = true;
 
   security.rtkit.enable = true;
-
-  services.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
-    pulse.enable = true;
-  };
-
-  services.automatic-timezoned.enable = true;
 }

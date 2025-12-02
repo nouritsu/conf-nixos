@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  user,
+  ...
+}: let
   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
   hyprland-sessions = "${pkgs.hyprland}/share/wayland-sessions";
 in {
@@ -7,7 +11,7 @@ in {
     settings = {
       default_session = {
         command = "${tuigreet} --time --remember --remember-session --sessions ${hyprland-sessions}";
-        user = "greeter";
+        user = "${user.alias}";
       };
     };
   };

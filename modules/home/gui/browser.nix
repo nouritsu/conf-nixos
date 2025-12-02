@@ -1,10 +1,11 @@
 {pkgs, ...}: {
   programs.firefox = {
     enable = true;
-
     profiles.default = {
+      id = 0;
       name = "default";
       search = {
+        force = true;
         default = "ddg";
         engines = {
           wiki = {
