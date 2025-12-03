@@ -8,5 +8,6 @@
     ./walker.nix
     ./waybar.nix
     ./browser.nix
+    ./zed.nix
   ];
 }
