@@ -11,7 +11,11 @@
     defaultEditor = true;
     package = inputs.helix.packages.${pkgs.stdenv.hostPlatform.system}.default;
     extraConfig = let
-      mm_g = mode: ''
+      mm_g = mode:
+      /*
+      toml
+      */
+      ''
         [keys.${mode}.g]
         g = "goto_file_start"
         G = "goto_file_end"
@@ -44,7 +48,11 @@
         a = "no_op"
         m = "no_op"
       '';
-      mm_p = mode: ''
+      mm_p = mode:
+      /*
+      toml
+      */
+      ''
         [keys.${mode}.p]
         p = "paste_after"
         P = "paste_clipboard_after"
@@ -64,7 +72,7 @@
       editor = {
         true-color = true;
         line-number = "relative";
-        mouse = false; # change once comfortable
+        mouse = false;
         cursor-shape.insert = "bar";
         shell = ["${pkgs.fish}/bin/fish" "-c"];
         bufferline = "always";
@@ -112,9 +120,9 @@
           right = ["spinner" "diagnostics" "separator" "workspace-diagnostics"];
 
           mode = {
-            normal = "NORMAL";
-            insert = "INSERT";
-            select = "SELECT";
+            normal = "NOR";
+            insert = "INS";
+            select = "SEL";
           };
         };
       };
@@ -210,84 +218,11 @@
           ];
         }
         {
-          name = "cmake";
-          auto-format = true;
-          formatter.command = "${pkgs.cmake-format}/bin/cmake-format";
-          language-servers = [
-            {
-              name = "cmake-language-server";
-              except-features = ["format"];
-            }
-          ];
-        }
-        {
-          name = "dart";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "dart";
-              except-features = ["format"];
-            }
-          ];
-        }
-        {
-          name = "dockerfile";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "dockerfile-language-server";
-            }
-          ];
-        }
-        {
-          name = "dot";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "dot-language-server";
-            }
-          ];
-        }
-        {
           name = "fish";
           auto-format = true;
           language-servers = [
             {
               name = "fish-lsp";
-            }
-          ];
-        }
-        {
-          name = "gdscript";
-          auto-format = true;
-        }
-        {
-          name = "go";
-          auto-format = true;
-          formatter.command = "${pkgs.go}/bin/gofmt";
-          language-servers = [
-            {
-              name = "gopls";
-            }
-          ];
-        }
-        {
-          name = "haskell";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "haskell-language-server";
-            }
-          ];
-        }
-        {
-          name = "java";
-          auto-format = true;
-          formatter.command = "${pkgs.google-java-format}/bin/google-java-format";
-          language-servers = [
-            {
-              name = "jdtls";
-              except-features = ["format"];
             }
           ];
         }
@@ -310,26 +245,6 @@
           ];
         }
         {
-          name = "kotlin";
-          auto-format = true;
-          formatter.command = "${pkgs.ktfmt}/bin/ktfmt";
-          language-servers = [
-            {
-              name = "kotlin-language-server";
-              except-features = ["format"];
-            }
-          ];
-        }
-        {
-          name = "latex";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "texlab";
-            }
-          ];
-        }
-        {
           name = "lua";
           auto-format = true;
           formatter.command = "${pkgs.stylua}/bin/stylua";
@@ -341,16 +256,6 @@
           ];
         }
         {
-          name = "markdown";
-          auto-format = true;
-          formatter.command = "${pkgs.markdownlint-cli}/bin/markdownlint";
-          language-servers = [
-            {
-              name = "marksman";
-            }
-          ];
-        }
-        {
           name = "nix";
           auto-format = true;
           formatter.command = "${pkgs.alejandra}/bin/alejandra";
@@ -358,35 +263,6 @@
             {
               name = "nixd";
               except-features = ["format"];
-            }
-          ];
-        }
-        {
-          name = "glsl";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "glsl_analyzer";
-            }
-          ];
-        }
-        {
-          name = "perl";
-          auto-format = true;
-          formatter.command = "${pkgs.perl540Packages.PerlTidy}/bin/perltidy";
-          language-servers = [
-            {
-              name = "perlnavigator";
-              except-features = ["format"];
-            }
-          ];
-        }
-        {
-          name = "prolog";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "swipl";
             }
           ];
         }
@@ -427,29 +303,11 @@
           ];
         }
         {
-          name = "wgsl";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "wgsl-analyzer";
-            }
-          ];
-        }
-        {
           name = "yaml";
           auto-format = true;
           language-servers = [
             {
               name = "yaml-language-server";
-            }
-          ];
-        }
-        {
-          name = "zig";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "zls";
             }
           ];
         }
