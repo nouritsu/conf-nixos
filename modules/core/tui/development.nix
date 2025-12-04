@@ -7,10 +7,6 @@
     fish
     fish-lsp
 
-    # JavaScript
-    nodejs_22
-    deno
-
     # Nix
     nixd
     alejandra

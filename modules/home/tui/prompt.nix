@@ -1,8 +1,4 @@
-{
-  lib,
-  wsl,
-  ...
-}: {
+{lib, ...}: {
   programs.starship = {
     enable = true;
 
@@ -334,7 +330,7 @@
         style = colors.git_status;
       };
 
-      sudo = lib.mkIf (!wsl) {
+      sudo = {
         disabled = false;
         format = "${styled.separator_bottom}${surround_paren "[$symbol]($style)" colors.separator 0}";
         symbol = symbols.sudo;

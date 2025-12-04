@@ -1,8 +1,5 @@
 {
   pkgs,
-  gui,
-  lib,
-  wsl,
   inputs,
   ...
 }: {
@@ -68,7 +65,7 @@
       ${mm_p "select"}
     '';
     settings = {
-      theme = lib.mkIf (!gui) "catppuccin_mocha";
+      # theme = "base16-terminal";
       editor = {
         true-color = true;
         line-number = "relative";
@@ -82,10 +79,7 @@
         undercurl = true;
         jump-label-alphabet = "asdqwezxcrfvtgbyhnujmikolp"; # prefer keys under left hand
         cursorline = true;
-        clipboard-provider =
-          if wsl
-          then "win32-yank"
-          else "wayland";
+        clipboard-provider = "wayland";
 
         inline-diagnostics = {
           cursor-line = "warning";
