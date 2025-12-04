@@ -45,7 +45,7 @@
             critical = 15;
           };
           max-length = 20;
-          format = "{icon}{capacity}%";
+          format = "{icon{capacity}%";
           format-warning = "{icon}{capacity}%";
           format-critical = "{icon}{capacity}%";
           format-charging = " {capacity} %";
@@ -56,7 +56,7 @@
         };
 
         clock = {
-          format = "{:%I:%M %p}";
+          format = "{:%H:%M}";
           format-alt = "  {:%a %b %d}";
           tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
         };
