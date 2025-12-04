@@ -22,6 +22,8 @@
 
     walker.url = "github:abenz1267/walker";
 
+    wezterm.url = "github:wezterm/wezterm?dir=nix";
+
     cachix.url = "github:cachix/cachix";
   };
 
