@@ -45,10 +45,6 @@
 in {
   home.shellAliases = rec {
     # NixOS
-    nix = "${getpkg.named {
-      name = "nix-output-monitor";
-      bin = "nom";
-    }}";
     nhrb = "${getpkg.default "gum"} confirm \"Rebuild system and reload on boot?\" && ${getpkg.default "nh"} os boot";
     nhrs = "${getpkg.default "gum"} confirm \"Rebuild system and switch configuration?\" && ${getpkg.default "nh"} os switch";
     nhrt = "${getpkg.default "gum"} confirm \"Rebuild system and test?\" && ${getpkg.default "nh"} os test";
@@ -56,7 +52,7 @@ in {
     nhs = "${getpkg.default "nh"} search";
     update =
       "${cd} $NH_FLAKE && git stash"
-      + "&& command nix flake update --flake ."
+      + "&& nix flake update --flake ."
       + "&& git stash pop && git add flake.lock && git commit -m \"updated at \$(date -R)\" && git push"
       + "&& ${cd} - && ${getpkg.default "nh"} os switch";
     conf-edit = "$EDITOR $NH_FLAKE && ${nhrt}";
