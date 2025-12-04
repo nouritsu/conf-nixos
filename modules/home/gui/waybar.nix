@@ -45,7 +45,7 @@
             critical = 15;
           };
           max-length = 20;
-          format = "{icon{capacity}%";
+          format = "{icon}{capacity}%";
           format-warning = "{icon}{capacity}%";
           format-critical = "{icon}{capacity}%";
           format-charging = " {capacity} %";
