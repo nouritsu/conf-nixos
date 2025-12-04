@@ -1,0 +1,3 @@
+{...}: {
+  home.keyboard.layout = "eu";
+}
