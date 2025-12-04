@@ -8,5 +8,6 @@
     ./helix.nix
     ./alias.nix
     ./env.nix
+    ./btop.nix
   ];
 }
