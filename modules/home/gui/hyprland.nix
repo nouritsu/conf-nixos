@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   lib,
+  system,
   ...
 }: let
   getpkg = import ../../../lib/getpkg.nix {inherit pkgs;};
@@ -10,6 +11,9 @@
     name = "wezterm";
     bin = "wezterm-gui";
   };
+
+  terminal-cwd = "${terminal} start --cwd \$(${inputs.hyprcwd-rs.packages.${system}.default}/bin/hyprcwd 2>/dev/null || echo \$HOME)";
+
   browser = getpkg.default "firefox";
   explorer = getpkg.named {
     name = "nemo-with-extensions";
@@ -21,8 +25,8 @@
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    package = inputs.hyprland.packages.${system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
     systemd.enable = true;
 
@@ -92,7 +96,7 @@ in {
       bind =
         [
           "SUPER, T, exec, ${terminal}"
-          "SUPER, RETURN, exec, ${terminal}"
+          "SUPER, RETURN, exec, ${terminal-cwd}"
           "SUPER, W, exec, ${browser}"
           "SUPER, E, exec, ${explorer}"
           "SUPER, SUPER_L, exec, ${menu}"

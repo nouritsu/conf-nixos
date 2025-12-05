@@ -8,6 +8,7 @@
     };
 
     hyprland.url = "github:hyprwm/hyprland";
+    hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
 
     stylix = {
       url = "github:danth/stylix";
