@@ -116,6 +116,8 @@ in {
           "SUPERSHIFT, up, movewindow, u"
           "SUPERSHIFT, right, movewindow, r"
 
+          "SUPERSHIFT, T, togglesplit"
+
           "SUPER, F, fullscreen"
           "SUPERSHIFT, F, togglefloating"
 
