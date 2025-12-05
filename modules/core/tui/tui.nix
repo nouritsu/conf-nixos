@@ -72,4 +72,5 @@
     android-tools # Android Tooling
     ntfs3g # NTFS Support
   ];
+  programs.nix-ld.enable = true;
 }
