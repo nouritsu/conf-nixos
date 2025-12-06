@@ -18,6 +18,12 @@
           show_new_tab_button_in_tab_bar = false,
           show_close_tab_button_in_tabs = false,
           switch_to_last_active_tab_when_closing_tab = true,
+          skip_close_confirmation_for_processes_named =  {
+            'bash',
+            'sh',
+            'fish',
+            'yazi',
+          },
         }
       '';
   };

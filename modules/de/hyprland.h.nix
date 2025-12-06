@@ -24,6 +24,23 @@ in {
     systemd.enable = true;
 
     settings = {
+      monitor = [
+        ",preferred,auto,1.25"
+      ];
+
+      input = {
+        follow_mouse = 1;
+        sensitivity = 1.0;
+        accel_profile = "flat";
+
+        touchpad = {
+          natural_scroll = true;
+          tap-to-click = true;
+          drag_lock = true;
+          disable_while_typing = true;
+        };
+      };
+
       general = {
         gaps_in = 5;
         gaps_out = 5;
@@ -86,6 +103,14 @@ in {
         preserve_split = true;
       };
 
+      windowrulev2 = [
+        "float,class:^(pavucontrol)$"
+        "float,class:^(blueman-manager)$"
+        "float,class:^(nm-connection-editor)$"
+        "float,title:^(Picture-in-Picture)$"
+        "pin,title:^(Picture-in-Picture)$"
+      ];
+
       bind =
         [
           "SUPER, T, exec, ${terminal}"
@@ -104,14 +129,14 @@ in {
           "SUPER, up, movefocus, u"
           "SUPER, right, movefocus, r"
 
-          "SUPERSHIFT, H, movewindow, l"
-          "SUPERSHIFT, J, movewindow, d"
-          "SUPERSHIFT, K, movewindow, u"
-          "SUPERSHIFT, L, movewindow, r"
-          "SUPERSHIFT, left, movewindow, l"
-          "SUPERSHIFT, down, movewindow, d"
-          "SUPERSHIFT, up, movewindow, u"
-          "SUPERSHIFT, right, movewindow, r"
+          "SUPERSHIFT, H, swapwindow, l"
+          "SUPERSHIFT, J, swapwindow, d"
+          "SUPERSHIFT, K, swapwindow, u"
+          "SUPERSHIFT, L, swapwindow, r"
+          "SUPERSHIFT, left, swapwindow, l"
+          "SUPERSHIFT, down, swapwindow, d"
+          "SUPERSHIFT, up, swapwindow, u"
+          "SUPERSHIFT, right, swapwindow, r"
 
           "SUPERSHIFT, T, togglesplit"
 
@@ -119,6 +144,14 @@ in {
           "SUPERSHIFT, F, togglefloating"
 
           "SUPER, Q, killactive,"
+
+          "SUPER, S, togglespecialworkspace, magic"
+          "SUPERSHIFT, S, movetoworkspace, special:magic"
+
+          "SUPER, G, togglegroup"
+          "SUPER, TAB, changegroupactive, f"
+          "SUPERSHIFT, TAB, changegroupactive, b"
+          "SUPERSHIFT, G, lockgroups, toggle"
         ]
         ++ builtins.map (ws: "SUPER, ${builtins.toString ws}, workspace, ${builtins.toString ws}") (lib.range 1 workspaces)
         ++ builtins.map (ws: "SUPERSHIFT, ${builtins.toString ws}, movetoworkspace, ${builtins.toString ws}") (lib.range 1 workspaces)
@@ -131,6 +164,11 @@ in {
           ",XF86MonBrightnessUp, exec, brightnessctl s 5%+"
           ",XF86MonBrightnessDown, exec, brightnessctl s 5%-"
         ];
+
+      bindm = [
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
+      ];
 
       exec-once = [
         "wezterm-mux-server --daemonize"
