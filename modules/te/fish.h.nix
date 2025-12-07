@@ -5,6 +5,8 @@
       # Disable Greeting
       set fish_greeting
 
+      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+
       function yazi_wrapper
         set tmp (mktemp -t "yazi-cwd.XXXXXX")
           yazi $argv --cwd-file="$tmp"

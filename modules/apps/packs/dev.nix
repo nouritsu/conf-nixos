@@ -10,6 +10,7 @@
     # Nix
     nixd
     alejandra
+    any-nix-shell
 
     # Python
     python3
