@@ -5,7 +5,7 @@
     ./networking.nix
     ./nixconfig.nix
     ./services.nix
-    ./systemd-boot.nix # bootloader
+    ./grub.nix # bootloader
     ./user.nix
   ];
 }
