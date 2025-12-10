@@ -15,7 +15,7 @@
     wl-clipboard-rs
     parted
     zoxide # cd
-    eza # ls
+    lsd # ls
     bat # cat
     btop # top
     dust # du

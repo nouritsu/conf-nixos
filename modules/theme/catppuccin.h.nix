@@ -8,7 +8,7 @@
     bat.enable = true;
     btop.enable = true;
     delta.enable = true;
-    eza.enable = true;
+    # eza.enable = true;
     firefox = {
       enable = true;
       force = true;
@@ -25,6 +25,7 @@
     };
     hyprland.enable = true;
     lazygit.enable = true;
+    lsd.enable = true;
     starship.enable = true;
     vesktop.enable = true;
     yazi.enable = true;

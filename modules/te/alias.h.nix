@@ -27,7 +27,7 @@
   sd = "${pkgs.sd}/bin/sd";
   edir = "${pkgs.edir}/bin/edir";
   hx = "${pkgs.helix}/bin/hx";
-  eza = "${pkgs.eza}/bin/eza";
+  lsd = "${pkgs.lsd}/bin/lsd";
   hexyl = "${pkgs.hexyl}/bin/hexyl";
   eva = "${pkgs.eva}/bin/eva";
   navi = "${pkgs.navi}/bin/navi";
@@ -82,12 +82,12 @@ in {
     "...." = "cd ../../..";
 
     # ls + tree
-    ls = "${eza} --sort=extension --icons=auto --group-directories-first --mounts";
-    l = "ls -hla --total-size";
-    ll = "l --git --git-repos";
-    tree = "ll --tree";
-    lg = "ll --git-ignore";
-    treeg = "tree --git --git-repos --git-ignore";
+    # ls, l, la, lr, lg, tree, treeg
+    ls = "${lsd} -F --total-size --group-directories-first --hyperlink auto --git --extensionsort --classify";
+    l = "${ls} -1";
+    ll = "${ls} -lA";
+    lr = "${ll} --recursive";
+    tree = "${ls} --tree";
 
     # Helix
     helix = "${hx}";
