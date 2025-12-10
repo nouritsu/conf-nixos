@@ -6,6 +6,9 @@
     # Environment
     ./de/home.h.nix
     ./te/home.h.nix
+
+    # Theme
+    ./theme/home.h.nix
   ];
 
   home = {

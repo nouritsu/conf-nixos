@@ -3,7 +3,7 @@
     ./apps
     ./common
     ./de
-    ./stylix
+    ./theme
     ./te
   ];
 }

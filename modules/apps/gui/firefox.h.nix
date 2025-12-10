@@ -4,6 +4,7 @@
     profiles.default = {
       id = 0;
       name = "default";
+      extensions.force = true;
       search = {
         force = true;
         default = "ddg";
@@ -45,10 +46,5 @@
         };
       };
     };
-  };
-
-  stylix.targets.firefox = {
-    enable = true;
-    profileNames = ["default"];
   };
 }

@@ -7,11 +7,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    cachix.url = "github:cachix/cachix";
+
+    # Themeing
+    catppuccin.url = "github:catppuccin/nix";
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    cachix.url = "github:cachix/cachix";
 
     # Applications
     helix.url = "github:helix-editor/helix/master";
@@ -42,9 +45,13 @@
           # Extra modules
           inputs.stylix.nixosModules.stylix
           inputs.home-manager.nixosModules.home-manager
+          inputs.catppuccin.nixosModules.catppuccin
           {
             home-manager = {
-              users.${usrconf.user.alias}.imports = [./modules/home.h.nix];
+              users.${usrconf.user.alias}.imports = [
+                ./modules/home.h.nix
+                inputs.catppuccin.homeModules.catppuccin
+              ];
               extraSpecialArgs = specialArgs;
               backupFileExtension = "backup"; # prevents some weird error somehow
             };
