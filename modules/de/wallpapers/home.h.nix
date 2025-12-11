@@ -40,7 +40,7 @@
     --transition-type grow \
     --transition-duration 2 \
     --transition-fps 60 \
-    --transition-pos center
+    --transition-pos 0.85,0.95
   '';
 in {
   home.packages = [change_wall];
