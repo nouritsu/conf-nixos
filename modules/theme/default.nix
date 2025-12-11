@@ -5,6 +5,5 @@
     ./cursor.nix
     ./fonts.nix
     ./stylix.nix
-    ./wallpapers
   ];
 }

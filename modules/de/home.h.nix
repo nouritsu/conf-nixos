@@ -3,5 +3,6 @@
     ./hyprland.h.nix
     ./walker.h.nix
     ./waybar.h.nix
+    ./wallpapers/home.h.nix
   ];
 }

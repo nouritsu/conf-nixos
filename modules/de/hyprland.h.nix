@@ -116,6 +116,7 @@ in {
           "SUPER, T, exec, ${terminal}"
           "SUPER, RETURN, exec, ${terminal-cwd}"
           "SUPER, W, exec, ${browser}"
+          "SUPERSHIFT, W, exec, swww-change-wallpaper"
           "SUPER, E, exec, ${explorer}"
           "SUPER, SUPER_L, exec, ${menu}"
         ]
