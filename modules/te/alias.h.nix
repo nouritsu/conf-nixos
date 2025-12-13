@@ -24,6 +24,7 @@
   delta = "${pkgs.delta}/bin/delta";
   fd = "${pkgs.fd}/bin/fd";
   procs = "${pkgs.procs}/bin/procs";
+  evcxr = "${pkgs.evcxr}/bin/evcxr";
   sd = "${pkgs.sd}/bin/sd";
   edir = "${pkgs.edir}/bin/edir";
   hx = "${pkgs.helix}/bin/hx";
@@ -125,6 +126,10 @@ in {
 
     # Yazi
     fm = "${yazi}";
+
+    # EvCxR
+    rs-repl = "${evcxr}";
+    repl-rs = rs-repl;
 
     # Tokei
     code-count = "${tokei}";
