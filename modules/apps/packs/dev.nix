@@ -1,16 +1,14 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    # Bash
+    # Shell
     bash
-
-    # Fish
     fish
     fish-lsp
+    any-nix-shell
 
     # Nix
     nixd
     alejandra
-    any-nix-shell
 
     # Python
     python3
@@ -21,20 +19,14 @@
     rustup
     rust-analyzer
     bacon
-    trunk
-
-    # TypeScript
-    typescript
-    typescript-language-server
 
     # Common Development Tools
     git
+    gcc
     claude-code
     gh
-    lazygit
     lldb
     gnumake
-    cmake
     nodePackages_latest.prettier # CSS, HTML
     vscode-langservers-extracted # CSS, HTML
   ];

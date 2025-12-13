@@ -24,7 +24,6 @@
       useItalics = true;
     };
     hyprland.enable = true;
-    lazygit.enable = true;
     lsd.enable = true;
     starship.enable = true;
     vesktop.enable = true;
