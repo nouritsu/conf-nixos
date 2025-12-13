@@ -61,7 +61,7 @@ in {
     # Core
     cd = "z"; # zoxide, but not directly a package
     rm = "${rip}";
-    cat = "${bat}";
+    cat = "${bat} --theme=ansi";
     du = "${dust}";
     cp = "${xcp}";
     diff = "${delta}";

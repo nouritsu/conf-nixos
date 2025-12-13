@@ -19,6 +19,7 @@
     rustup
     rust-analyzer
     bacon
+    evcxr
 
     # Common Development Tools
     git

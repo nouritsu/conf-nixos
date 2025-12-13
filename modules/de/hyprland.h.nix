@@ -38,6 +38,7 @@ in {
           tap-to-click = true;
           drag_lock = true;
           disable_while_typing = true;
+          scroll_factor = 0.25;
         };
       };
 

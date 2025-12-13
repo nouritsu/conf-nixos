@@ -70,7 +70,6 @@
       editor = {
         true-color = true;
         line-number = "relative";
-        mouse = false;
         cursor-shape.insert = "bar";
         shell = ["${pkgs.fish}/bin/fish" "-c"];
         bufferline = "always";
@@ -171,7 +170,7 @@
         };
 
         select = {
-          inherit (normal) C-q C-g x space;
+          inherit (normal) C-q x space;
           ret = "extend_to_word";
         };
       };
