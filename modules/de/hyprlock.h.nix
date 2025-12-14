@@ -103,7 +103,7 @@ in {
           halign = "center";
           valign = "center";
         }
-        # Date and time below input field
+        # date / time
         {
           monitor = "";
           text = "cmd[update:60000] echo \"<span foreground='##${colors.base09}'>$(date +'%d-%m-%Y')</span>  ·  <span foreground='##${colors.base09}'>$(date +'%H:%M')</span>\"";
@@ -115,7 +115,7 @@ in {
           halign = "center";
           valign = "center";
         }
-        # Keyboard layout and attempts above input field
+        # kb / attempts
         {
           monitor = "";
           text = ''cmd[update:1000] LOWER=$(echo "''$LAYOUT" | tr '[:upper:]' '[:lower:]'); if [ "''$ATTEMPTS" = "0" ]; then echo "<span foreground='##${colors.base07}'>''$LOWER</span>  ·  <span foreground='##${colors.base0B}'>ready</span>"; else echo "<span foreground='##${colors.base07}'>''$LOWER</span>  ·  <span foreground='##${colors.base08}'>(''$ATTEMPTS)</span>"; fi'';
