@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./env.nix
+    ./keyboard.nix
     ./locale.nix
     ./networking.nix
     ./nixconfig.nix

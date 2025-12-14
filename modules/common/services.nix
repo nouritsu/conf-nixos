@@ -11,10 +11,7 @@
       };
     };
 
-    xserver = {
-      enable = true;
-      xkb.layout = "eu";
-    };
+    xserver.enable = true;
 
     printing.enable = true;
 

@@ -29,6 +29,10 @@ in {
       ];
 
       input = {
+        kb_layout = "eu";
+        kb_variant = "";
+        kb_options = "";
+
         follow_mouse = 1;
         sensitivity = 1.0;
         accel_profile = "flat";
