@@ -120,6 +120,7 @@ in {
           "SUPERSHIFT, W, exec, swww-change-wallpaper"
           "SUPER, E, exec, ${explorer}"
           "SUPER, SUPER_L, exec, ${menu}"
+          "SUPER, ESCAPE, exec, hyprlock"
         ]
         ++ [
           "SUPER, H, movefocus, l"

@@ -20,6 +20,7 @@
     helix.url = "github:helix-editor/helix/master";
     hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
     hyprland.url = "github:hyprwm/hyprland";
+    hyprlock.url = "github:hyprwm/hyprlock";
     walker.url = "github:abenz1267/walker";
     wezterm.url = "github:wezterm/wezterm?dir=nix";
     yazi.url = "github:sxyazi/yazi";
