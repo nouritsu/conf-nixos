@@ -114,6 +114,19 @@ in {
         "float,class:^(nm-connection-editor)$"
         "float,title:^(Picture-in-Picture)$"
         "pin,title:^(Picture-in-Picture)$"
+
+        # Waybar module terminals
+        "float,class:^(waybar-power-menu)$"
+        "center,class:^(waybar-power-menu)$"
+        "size 400 300,class:^(waybar-power-menu)$"
+
+        "float,class:^(waybar-network)$"
+        "center,class:^(waybar-network)$"
+        "size 700 500,class:^(waybar-network)$"
+
+        "float,class:^(waybar-bluetooth)$"
+        "center,class:^(waybar-bluetooth)$"
+        "size 700 500,class:^(waybar-bluetooth)$"
       ];
 
       bind =

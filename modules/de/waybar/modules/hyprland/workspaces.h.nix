@@ -1,0 +1,15 @@
+{...}: {
+  programs.waybar.settings.default."hyprland/workspaces" = {
+    format = "{icon}";
+    format-icons = {
+      active = "";
+      default = "";
+    };
+    persistent-workspaces = {
+      "*" = 5;
+    };
+    on-scroll-up = "hyprctl dispatch workspace e+1";
+    on-scroll-down = "hyprctl dispatch workspace e-1";
+    cursor = true;
+  };
+}

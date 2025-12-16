@@ -1,0 +1,295 @@
+/*
+br - border
+bg - background
+fg - foreground
+*/
+
+/* main colors */
+
+@define-color accent @lavender;
+@define-color main-br @subtext0;
+@define-color main-bg @crust;
+@define-color main-fg @text;
+@define-color hover-bg @base;
+@define-color hover-fg alpha(@main-fg, 0.75);
+@define-color outline shade(@main-bg, 0.5);
+
+/* module colors */
+
+@define-color workspaces @mantle;
+@define-color temperature @mantle;
+@define-color memory @base;
+@define-color cpu @surface0;
+@define-color time @surface0;
+@define-color date @base;
+@define-color tray @mantle;
+@define-color volume @mantle;
+@define-color backlight @base;
+@define-color battery @surface0;
+
+/* state colors */
+
+@define-color warning @yellow;
+@define-color critical @red;
+@define-color charging @green;
+
+/* fonts */
+
+* {
+  font-family: "Commit Mono Nerd Font";
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#custom-user,
+#window label,
+#mpris,
+tooltip label {
+  font-weight: normal;
+}
+
+#workspaces button.active label,
+#workspaces button.focused label,
+#custom-distro {
+  font-size: 20px;
+}
+
+#custom-power_menu {
+  font-size: 18px;
+}
+
+#custom-left_div,
+#custom-left_inv,
+#custom-right_div,
+#custom-right_inv {
+  font-size: 22px;
+}
+
+/* global */
+
+* {
+	color: @main-fg;
+}
+
+.module {
+	margin-bottom: -1px;
+}
+
+#waybar {
+	background-color: @outline;
+}
+#waybar > box {
+	margin: 4px;
+	background-color: @main-bg;
+}
+
+button {
+	border-radius: 16px;
+	min-width: 16px;
+	padding: 0 10px;
+}
+button:hover {
+	background-color: @hover-bg;
+	color: @hover-fg;
+}
+
+tooltip {
+	border: 2px solid @main-br;
+	border-radius: 10px;
+	background-color: @main-bg;
+}
+tooltip > box {
+	padding: 0 6px;
+}
+
+/* modules-left */
+
+#custom-user {
+	padding-right: 12px;
+}
+
+#custom-left_div.\31,
+#custom-right_div.\31 {
+	color: @workspaces;
+}
+#workspaces {
+	padding: 0 1px;
+	background-color: @workspaces;
+}
+#workspaces button.active label,
+#workspaces button.focused label {
+	color: @accent;
+}
+
+#window {
+	margin-left: 12px;
+}
+
+/* modules-center */
+
+#windowcount {
+	margin-right: 12px;
+}
+#windowcount label {
+	color: @hover-fg;
+}
+
+#custom-left_div.\32 {
+	color: @temperature;
+}
+#custom-temperature {
+	background-color: @temperature;
+}
+
+#custom-left_div.\33 {
+	background-color: @temperature;
+	color: @memory;
+}
+#custom-memory {
+	background-color: @memory;
+}
+
+#custom-left_div.\34 {
+	background-color: @memory;
+	color: @cpu;
+}
+#cpu {
+	background-color: @cpu;
+}
+#custom-left_inv.\31 {
+	color: @cpu;
+}
+
+#custom-left_div.\35,
+#custom-right_div.\32 {
+	color: @accent;
+}
+#custom-distro {
+	padding: 0 10px 0 5px;
+	background-color: @accent;
+	color: @main-bg;
+}
+
+#custom-right_inv.\31 {
+	color: @time;
+}
+#idle_inhibitor {
+	background-color: @time;
+}
+
+#custom-time {
+	padding-right: 6px;
+	background-color: @time;
+}
+#custom-right_div.\33 {
+	background-color: @date;
+	color: @time;
+}
+
+#custom-date {
+	padding-left: 6px;
+	background-color: @date;
+}
+#custom-right_div.\34 {
+	background-color: @tray;
+	color: @date;
+}
+
+#network {
+	background-color: @tray;
+	padding: 0 6px 0 4px;
+}
+#bluetooth {
+	background-color: @tray;
+	padding: 0 5px;
+}
+#custom-system_update {
+	background-color: @tray;
+	padding: 0 8px 0 2px;
+}
+#custom-right_div.\35 {
+	color: @tray;
+}
+
+/* modules-right */
+
+#mpris {
+	padding: 0 12px;
+}
+
+#custom-left_div.\36 {
+	color: @volume;
+}
+#pulseaudio,
+#wireplumber {
+	background-color: @volume;
+}
+
+#custom-left_div.\37 {
+	background-color: @volume;
+	color: @backlight;
+}
+#backlight {
+	background-color: @backlight;
+}
+
+#custom-left_div.\38 {
+	background-color: @backlight;
+	color: @battery;
+}
+#battery {
+	background-color: @battery;
+}
+#custom-left_inv.\32 {
+	color: @battery;
+}
+
+#custom-power_menu {
+	border-radius: 16px;
+	padding: 0 19px 0 16px;
+	color: @accent;
+}
+#custom-power_menu:hover {
+	background-color: @hover-bg;
+}
+
+/* states */
+
+#custom-trigger:hover,
+#idle_inhibitor:hover,
+#custom-date:hover,
+#network:hover,
+#bluetooth:hover,
+#custom-system_update:hover,
+#mpris:hover,
+#pulseaudio:hover,
+#wireplumber:hover {
+	color: @hover-fg;
+}
+
+#idle_inhibitor.deactivated,
+#mpris.paused,
+#pulseaudio.output.muted,
+#pulseaudio.input.source-muted,
+#wireplumber.muted {
+	color: @hover-fg;
+}
+
+#memory.warning,
+#custom-memory.warning,
+#cpu.warning,
+#battery.warning {
+	color: @warning;
+}
+
+#custom-temperature.critical,
+#memory.critical,
+#custom-memory.critical,
+#cpu.critical,
+#battery.critical {
+	color: @critical;
+}
+
+#battery.charging {
+	color: @charging;
+}

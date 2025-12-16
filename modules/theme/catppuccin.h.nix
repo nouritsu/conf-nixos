@@ -8,7 +8,6 @@
     bat.enable = true;
     btop.enable = true;
     delta.enable = true;
-    # eza.enable = true;
     firefox = {
       enable = true;
       force = true;
@@ -28,6 +27,7 @@
     lsd.enable = true;
     starship.enable = true;
     vesktop.enable = true;
+    waybar.enable = false;
     yazi.enable = true;
     zed = {
       enable = true;

@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    nerd-fonts.commit-mono
   ];
 
   stylix = {
