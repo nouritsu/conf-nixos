@@ -7,6 +7,10 @@
 
     bat.enable = true;
     btop.enable = true;
+    cursors = {
+      enable = true;
+      accent = "dark";
+    };
     delta.enable = true;
     firefox = {
       enable = true;
@@ -28,6 +32,7 @@
     starship.enable = true;
     vesktop.enable = true;
     waybar.enable = false;
+    wezterm.enable = true;
     yazi.enable = true;
     zed = {
       enable = true;

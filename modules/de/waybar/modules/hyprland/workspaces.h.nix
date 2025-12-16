@@ -3,7 +3,8 @@
     format = "{icon}";
     format-icons = {
       active = "";
-      default = "";
+      default = "";
+      empty = "";
     };
     persistent-workspaces = {
       "*" = 5;

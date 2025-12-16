@@ -16,11 +16,11 @@
     temp_f=$(echo "scale=1; ($temp_c * 9 / 5) + 32" | ${bc})
 
     if [ $temp_c -ge 90 ]; then
-      echo "{\"text\":\"$temp_c°C\",\"tooltip\":\"Fahrenheit: $temp_f°F\",\"class\":\"critical\",\"percentage\":$temp_c}"
+      echo "{\"text\":\" $temp_c°C\",\"tooltip\":\"Fahrenheit: $temp_f°F\",\"class\":\"critical\",\"percentage\":$temp_c}"
     elif [ $temp_c -ge 75 ]; then
-      echo "{\"text\":\"$temp_c°C\",\"tooltip\":\"Fahrenheit: $temp_f°F\",\"class\":\"warning\",\"percentage\":$temp_c}"
+      echo "{\"text\":\" $temp_c°C\",\"tooltip\":\"Fahrenheit: $temp_f°F\",\"class\":\"warning\",\"percentage\":$temp_c}"
     else
-      echo "{\"text\":\"$temp_c°C\",\"tooltip\":\"Fahrenheit: $temp_f°F\",\"percentage\":$temp_c}"
+      echo "{\"text\":\" $temp_c°C\",\"tooltip\":\"Fahrenheit: $temp_f°F\",\"percentage\":$temp_c}"
     fi
   '';
 in {

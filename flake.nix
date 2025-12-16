@@ -35,9 +35,37 @@
       };
       hostname = ""; # set by specific configs
       system = "x86_64-linux";
+      nvidia = false;
     };
   in {
     nixosConfigurations = {
+      pc = inputs.nixpkgs.lib.nixosSystem rec {
+        modules = [
+          ./hosts/pc/configuration.nix # host
+          ./modules
+
+          # Extra modules
+          inputs.stylix.nixosModules.stylix
+          inputs.home-manager.nixosModules.home-manager
+          inputs.catppuccin.nixosModules.catppuccin
+          {
+            home-manager = {
+              users.${usrconf.user.alias}.imports = [
+                ./modules/home.h.nix
+                inputs.catppuccin.homeModules.catppuccin
+              ];
+              extraSpecialArgs = specialArgs;
+              backupFileExtension = "backup"; # prevents some weird error somehow
+            };
+          }
+        ];
+
+        specialArgs = {
+          inherit inputs;
+          usrconf = usrconf // {hostname = "pc"; nvidia = true;};
+        };
+      };
+
       lenovo = inputs.nixpkgs.lib.nixosSystem rec {
         modules = [
           ./hosts/lenovo/configuration.nix # host

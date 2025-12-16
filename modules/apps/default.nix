@@ -4,5 +4,7 @@
     ./packs/tui.nix
 
     ./packs/dev.nix
+
+    ./gui/steam.nix
   ];
 }

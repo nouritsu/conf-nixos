@@ -33,10 +33,10 @@ in {
       @define-color overlay0 #${colors.base03};
       @define-color surface2 #${colors.base03};
       @define-color surface1 #${colors.base03};
-      @define-color surface0 #${colors.base02};
-      @define-color base #${colors.base00};
+      @define-color surface0 #${colors.base03};
+      @define-color base #${colors.base02};
       @define-color mantle #${colors.base01};
-      @define-color crust #${colors.base01};
+      @define-color crust #${colors.base00};
     '' + builtins.readFile ./styles.css;
     settings.default = {
       layer = "top";

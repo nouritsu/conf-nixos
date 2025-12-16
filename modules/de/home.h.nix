@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./cursor.h.nix
     ./hyprland.h.nix
     ./hyprlock.h.nix
     ./walker.h.nix

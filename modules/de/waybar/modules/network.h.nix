@@ -63,6 +63,7 @@
         '--ghost=Search'
         "--header=$header"
         '--height=~100%'
+        '--width=95%'
         '--highlight-line'
         '--info=inline-right'
         '--pointer='

@@ -13,11 +13,11 @@
     total_gb=$(echo "scale=2; $total / 1024 / 1024" | ${bc})
 
     if [ $percentage -ge 90 ]; then
-      echo "{\"text\":\"  $percentage%\",\"tooltip\":\"Memory Used: $used_gb/$total_gb GB\",\"class\":\"critical\",\"percentage\":$percentage}"
+      echo "{\"text\":\" $percentage%\",\"tooltip\":\"Memory Used: $used_gb/$total_gb GB\",\"class\":\"critical\",\"percentage\":$percentage}"
     elif [ $percentage -ge 75 ]; then
-      echo "{\"text\":\"  $percentage%\",\"tooltip\":\"Memory Used: $used_gb/$total_gb GB\",\"class\":\"warning\",\"percentage\":$percentage}"
+      echo "{\"text\":\" $percentage%\",\"tooltip\":\"Memory Used: $used_gb/$total_gb GB\",\"class\":\"warning\",\"percentage\":$percentage}"
     else
-      echo "{\"text\":\"  $percentage%\",\"tooltip\":\"Memory Used: $used_gb/$total_gb GB\",\"percentage\":$percentage}"
+      echo "{\"text\":\" $percentage%\",\"tooltip\":\"Memory Used: $used_gb/$total_gb GB\",\"percentage\":$percentage}"
     fi
   '';
 in {

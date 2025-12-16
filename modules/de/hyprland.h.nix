@@ -53,6 +53,8 @@ in {
         resize_on_border = true;
         allow_tearing = false;
         layout = "dwindle";
+        "col.active_border" = "$mauve";
+        "col.inactive_border" = "$surface0";
       };
 
       decoration = rec {
@@ -122,11 +124,11 @@ in {
 
         "float,class:^(waybar-network)$"
         "center,class:^(waybar-network)$"
-        "size 700 500,class:^(waybar-network)$"
+        "size 600 400,class:^(waybar-network)$"
 
         "float,class:^(waybar-bluetooth)$"
         "center,class:^(waybar-bluetooth)$"
-        "size 700 500,class:^(waybar-bluetooth)$"
+        "size 600 400,class:^(waybar-bluetooth)$"
       ];
 
       bind =
