@@ -25,7 +25,7 @@ in {
 
     settings = {
       monitor = [
-        ",preferred,auto,1.25"
+        "MAIN,preferred,auto,1"
       ];
 
       input = {
@@ -71,15 +71,6 @@ in {
           ignore_opacity = true;
         };
       };
-
-      env = [
-        "ELECTRON_OZONE_PLATFORM_HINT,wayland"
-        "XDG_SESSION_TYPE,wayland"
-        "QT_QPA_PLATFORM,wayland"
-        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-        "NIXOS_OZONE_WL,1"
-      ];
 
       animations = {
         enabled = true;
