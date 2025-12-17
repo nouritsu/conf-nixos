@@ -8,5 +8,6 @@
     vesktop
     kdePackages.okular
     telegram-desktop
+    nautilus
   ];
 }

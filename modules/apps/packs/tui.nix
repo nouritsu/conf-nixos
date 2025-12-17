@@ -7,8 +7,7 @@
   environment.systemPackages = with pkgs; [
     # Core
     uutils-coreutils-noprefix
-    jj
-    jjui
+    killall
     inputs.yazi.packages."${usrconf.system}".yazi
     fzf
     wget
