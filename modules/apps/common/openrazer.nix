@@ -5,5 +5,4 @@
     syncEffectsEnabled = true;
     keyStatistics = true;
   };
-  users.users.${usrconf.user.alias}.extraGroups = ["plugdev"];
 }

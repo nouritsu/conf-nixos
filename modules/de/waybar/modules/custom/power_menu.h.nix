@@ -1,18 +1,28 @@
 {config, pkgs, ...}: let
   fzf = "${pkgs.fzf}/bin/fzf";
-  loginctl = "${pkgs.systemd}/bin/loginctl";
+  hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   systemctl = "${pkgs.systemd}/bin/systemctl";
   printf = "${pkgs.coreutils}/bin/printf";
 
   power-menu-script = pkgs.writeShellScriptBin "waybar-power-menu" ''
+    RED='\033[1;31m'
+    RST='\033[0m'
+
+    wait-for-key() {
+      ${printf} '\n%bPress [q] or [ESC] to close%b\n' "$RED" "$RST"
+      while true; do
+        read -rsn1 key
+        if [[ $key == 'q' || $key == 'Q' || $key == $'\e' ]]; then
+          break
+        fi
+      done
+    }
+
     main() {
       local list=(
         'Lock'
         'Shutdown'
         'Reboot'
-        'Logout'
-        'Hibernate'
-        'Suspend'
       )
       local opts=(
         '--border=sharp'
@@ -27,13 +37,10 @@
       local selected
       selected=$(${printf} '%s\n' "''${list[@]}" | ${fzf} "''${opts[@]}")
       case $selected in
-        'Lock') ${loginctl} lock-session ;;
+        'Lock') ${hyprctl} dispatch exec hyprlock ;;
         'Shutdown') ${systemctl} poweroff ;;
         'Reboot') ${systemctl} reboot ;;
-        'Logout') ${loginctl} terminate-session "$XDG_SESSION_ID" ;;
-        'Hibernate') ${systemctl} hibernate ;;
-        'Suspend') ${systemctl} suspend ;;
-        *) exit 1 ;;
+        *) exit 0 ;;
       esac
     }
 

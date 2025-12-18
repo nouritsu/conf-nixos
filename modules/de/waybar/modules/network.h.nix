@@ -5,12 +5,28 @@
   awk = "${pkgs.gawk}/bin/awk";
   head = "${pkgs.coreutils}/bin/head";
   tail = "${pkgs.coreutils}/bin/tail";
+  timeout = "${pkgs.coreutils}/bin/timeout";
   tput = "${pkgs.ncurses}/bin/tput";
 
   network-script = pkgs.writeShellScriptBin "waybar-network" ''
     RED='\033[1;31m'
     RST='\033[0m'
     TIMEOUT=5
+
+    cleanup() {
+      ${tput} cnorm
+    }
+    trap cleanup EXIT
+
+    wait-for-key() {
+      printf '\n%bPress [q] or [ESC] to close%b\n' "$RED" "$RST"
+      while true; do
+        read -rsn1 key
+        if [[ $key == 'q' || $key == 'Q' || $key == $'\e' ]]; then
+          break
+        fi
+      done
+    }
 
     ensure-enabled() {
       local radio
@@ -34,17 +50,19 @@
     }
 
     get-network-list() {
-      ${nmcli} device wifi rescan
+      ${nmcli} device wifi rescan 2>/dev/null || true
 
       local i
       for ((i = 1; i <= TIMEOUT; i++)); do
         printf '\rScanning for networks... (%d/%d)' $i $TIMEOUT
 
-        list=$(timeout 1 ${nmcli} device wifi list)
-        networks=$(${tail} -n +2 <<< "$list" | ${awk} '$2 != "--"')
-        if [[ -n $networks ]]; then
-          break
+        if list=$(${timeout} 3 ${nmcli} device wifi list 2>/dev/null); then
+          networks=$(${tail} -n +2 <<< "$list" | ${awk} '$2 != "--"' 2>/dev/null || true)
+          if [[ -n $networks ]]; then
+            break
+          fi
         fi
+        sleep 1
       done
       printf '\n%bScanning stopped.%b\n\n' "$RED" "$RST"
 
@@ -91,11 +109,10 @@
 
     main() {
       ${tput} civis
-      ensure-enabled || exit 1
-      get-network-list || exit 1
-      ${tput} cnorm
-      select-network || exit 1
-      connect-to-network || exit 1
+      ensure-enabled || { wait-for-key; exit 1; }
+      get-network-list || { wait-for-key; exit 1; }
+      select-network || exit 0
+      connect-to-network || { wait-for-key; exit 1; }
     }
 
     main
