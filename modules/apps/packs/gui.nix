@@ -8,6 +8,7 @@
     vesktop
     kdePackages.okular
     telegram-desktop
+    obs-studio
     nautilus
   ];
 }

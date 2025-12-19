@@ -7,6 +7,7 @@
     ./locale.nix
     ./networking.nix
     ./nixconfig.nix
+    ./nvidia.nix
     ./services.nix
     ./grub.nix # bootloader
     ./user.nix

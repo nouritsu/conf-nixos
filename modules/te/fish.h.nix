@@ -15,6 +15,8 @@
           end
           rm -f -- "$tmp"
       end
+
+      fish_add_path ~/.cargo/bin
     '';
 
     plugins = [
