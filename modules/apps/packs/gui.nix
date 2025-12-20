@@ -1,7 +1,10 @@
 {pkgs, ...}: {
+  /*
+  #h: package installed via home-manager
+  */
   environment.systemPackages = with pkgs; [
     libreoffice-fresh
-    firefox
+    # firefox #h
     pdfchain
     obsidian
     spotifyd
@@ -10,5 +13,6 @@
     telegram-desktop
     obs-studio
     nautilus
+    pavucontrol
   ];
 }

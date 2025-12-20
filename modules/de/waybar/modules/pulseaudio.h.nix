@@ -167,19 +167,20 @@ in {
       };
       min-length = 7;
       max-length = 7;
-      on-click = "${volume-script}/bin/waybar-volume output mute";
+      on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+      on-click-right = "${volume-script}/bin/waybar-volume output mute";
       on-scroll-up = "${volume-script}/bin/waybar-volume output raise";
       on-scroll-down = "${volume-script}/bin/waybar-volume output lower";
       tooltip-format = "<b>Output Device</b>: {desc}";
     };
 
     "pulseaudio#input" = {
-      format = "{icon} {volume}%";
-      format-source = "";
+      format-source = " {volume}%";
       format-source-muted = " ";
       min-length = 7;
       max-length = 7;
-      on-click = "${volume-script}/bin/waybar-volume input mute";
+      on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+      on-click-right = "${volume-script}/bin/waybar-volume input mute";
       on-scroll-up = "${volume-script}/bin/waybar-volume input raise";
       on-scroll-down = "${volume-script}/bin/waybar-volume input lower";
       tooltip-format = "<b>Input Device</b>: {desc}";

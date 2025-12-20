@@ -46,9 +46,9 @@ in {
     update =
       "nix flake update --flake $NH_FLAKE" # update
       + "&& ${gum} confirm \"Commit update to main?\"" # prompt
-      + "&& ${cd} $NH_FLAKE && git stash" # cd & stash
+      + "&& cd $NH_FLAKE && git stash" # cd & stash
       + "&& git add flake.nix && git commit -m \"updated at (date -R)\"" # commit
-      + "git stash pop && ${cd} -"; # unstash & cd back
+      + "git stash pop && cd -"; # unstash & cd back
 
     # Configuration
     conf-edit = "$EDITOR $NH_FLAKE";

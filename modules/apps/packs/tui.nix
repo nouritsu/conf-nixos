@@ -4,6 +4,9 @@
   usrconf,
   ...
 }: {
+  /*
+  #h: package installed via home-manager
+  */
   environment.systemPackages = with pkgs; [
     # Core
     uutils-coreutils-noprefix
@@ -16,7 +19,7 @@
     zoxide # cd
     lsd # ls
     bat # cat
-    btop # top
+    # btop # top #h
     dust # du
     ripgrep # grep
     poppler-utils
@@ -32,7 +35,7 @@
     sd # sed
     hyperfine # time
     speedtest-rs
-    inputs.helix.packages."${usrconf.system}".helix
+    # inputs.helix.packages."${usrconf.system}".helix #h
     starship
     eva # Calculator
     tokei

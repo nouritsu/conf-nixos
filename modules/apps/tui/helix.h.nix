@@ -46,27 +46,11 @@
         a = "no_op"
         m = "no_op"
       '';
-      mm_p = mode:
-      /*
-      toml
-      */
-      ''
-        [keys.${mode}.p]
-        p = "paste_after"
-        P = "paste_clipboard_after"
-        b = "paste_before"
-        B = "paste_clipboard_before"
-        r = "replace_with_yanked"
-        R = "replace_selections_with_clipboard"
-      '';
     in ''
       ${mm_g "normal"}
       ${mm_g "select"}
-      ${mm_p "normal"}
-      ${mm_p "select"}
     '';
     settings = {
-      # theme = "base16-terminal";
       editor = {
         true-color = true;
         line-number = "relative";
@@ -200,15 +184,6 @@
           ];
         }
         {
-          name = "cpp";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "clangd";
-            }
-          ];
-        }
-        {
           name = "fish";
           auto-format = true;
           language-servers = [
@@ -218,31 +193,11 @@
           ];
         }
         {
-          name = "javascript";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "typescript-language-server";
-            }
-          ];
-        }
-        {
           name = "json";
           auto-format = true;
           language-servers = [
             {
               name = "vscode-json-languageserver";
-            }
-          ];
-        }
-        {
-          name = "lua";
-          auto-format = true;
-          formatter.command = "${pkgs.stylua}/bin/stylua";
-          language-servers = [
-            {
-              name = "lua-language-server";
-              except-features = ["format"];
             }
           ];
         }
@@ -276,29 +231,6 @@
             {
               name = "rust-analyzer";
               except-features = ["format"];
-            }
-          ];
-        }
-        {
-          name = "sql";
-          auto-format = true;
-          formatter.command = "${pkgs.sqlfluff}/bin/sqlfluff format";
-        }
-        {
-          name = "typescript";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "typescript-language-server";
-            }
-          ];
-        }
-        {
-          name = "yaml";
-          auto-format = true;
-          language-servers = [
-            {
-              name = "yaml-language-server";
             }
           ];
         }

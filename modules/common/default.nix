@@ -2,7 +2,6 @@
   imports = [
     ./bluetooth.nix
     ./env.nix
-    ./graphics.nix
     ./keyboard.nix
     ./locale.nix
     ./networking.nix
