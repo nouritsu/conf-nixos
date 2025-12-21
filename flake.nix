@@ -36,6 +36,7 @@
       hostname = ""; # set by specific configs
       system = "x86_64-linux";
       nvidia = false;
+      touchpad = false;
     };
   in {
     nixosConfigurations = {
@@ -94,7 +95,12 @@
 
         specialArgs = {
           inherit inputs;
-          usrconf = usrconf // {hostname = "lenovo";};
+          usrconf =
+            usrconf
+            // {
+              hostname = "lenovo";
+              touchpad = true;
+            };
         };
       };
     };

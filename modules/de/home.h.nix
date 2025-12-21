@@ -1,7 +1,7 @@
 {...}: {
   imports = [
     ./cursor.h.nix
-    ./hyprland.h.nix
+    ./hyprland/home.h.nix
     ./hyprlock.h.nix
     ./hyprshot.h.nix
     ./swaync.h.nix
