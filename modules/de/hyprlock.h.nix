@@ -22,6 +22,8 @@ in {
           path = "screenshot";
           blur_passes = 3;
           blur_size = 7;
+          brightness = 0.35;
+          vibrancy = 0.25;
         }
       ];
 

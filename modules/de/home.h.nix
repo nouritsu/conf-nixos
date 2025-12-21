@@ -7,5 +7,7 @@
     ./walker.h.nix
     ./waybar/home.h.nix
     ./wallpapers/home.h.nix
+    ./wleave.h.nix
+    ./xdg.h.nix
   ];
 }
