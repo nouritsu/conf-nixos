@@ -25,6 +25,6 @@
     # Custom
     ./custom/dividers.h.nix
     ./custom/distro.h.nix
-    ./custom/power_menu.h.nix
+    # ./custom/power_menu.h.nix
   ];
 }

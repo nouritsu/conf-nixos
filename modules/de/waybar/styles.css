@@ -6,7 +6,7 @@ fg - foreground
 
 /* main colors */
 
-@define-color accent @lavender;
+@define-color accent @mauve;
 @define-color main-br @subtext0;
 @define-color main-bg @crust;
 @define-color main-fg @text;
