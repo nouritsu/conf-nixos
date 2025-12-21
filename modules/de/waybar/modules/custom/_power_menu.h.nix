@@ -1,4 +1,8 @@
-{config, pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   fzf = "${pkgs.fzf}/bin/fzf";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   systemctl = "${pkgs.systemd}/bin/systemctl";

@@ -1,46 +1,46 @@
 {
-    inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-        # Core
-        home-manager = {
-            url = "github:nix-community/home-manager";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-        cachix.url = "github:cachix/cachix";
+    # Core
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    cachix.url = "github:cachix/cachix";
 
-        # Themeing
-        catppuccin.url = "github:catppuccin/nix";
-        stylix = {
-            url = "github:danth/stylix";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-
-        # Applications
-        helix.url = "github:helix-editor/helix/master";
-        hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
-        hyprland.url = "github:hyprwm/hyprland";
-        hyprlock.url = "github:hyprwm/hyprlock";
-        walker.url = "github:abenz1267/walker";
-        wezterm.url = "github:wezterm/wezterm?dir=nix";
-        yazi.url = "github:sxyazi/yazi";
+    # Themeing
+    catppuccin.url = "github:catppuccin/nix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = {...} @ inputs: let
+    # Applications
+    helix.url = "github:helix-editor/helix/master";
+    hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
+    hyprland.url = "github:hyprwm/hyprland";
+    hyprlock.url = "github:hyprwm/hyprlock";
+    walker.url = "github:abenz1267/walker";
+    wezterm.url = "github:wezterm/wezterm?dir=nix";
+    yazi.url = "github:sxyazi/yazi";
+  };
+
+  outputs = {...} @ inputs: let
     usrconf = {
-        user = {
-            name = "Aneesh Bhave";
-            email = "aneesh1701@gmail.com";
-            alias = "aneesh";
-        };
-        hostname = ""; # set by specific configs
-        system = "x86_64-linux";
-        nvidia = false;
+      user = {
+        name = "Aneesh Bhave";
+        email = "aneesh1701@gmail.com";
+        alias = "aneesh";
+      };
+      hostname = ""; # set by specific configs
+      system = "x86_64-linux";
+      nvidia = false;
     };
-    in {
-        nixosConfigurations = {
-            pc = inputs.nixpkgs.lib.nixosSystem rec {
-                modules = [
+  in {
+    nixosConfigurations = {
+      pc = inputs.nixpkgs.lib.nixosSystem rec {
+        modules = [
           ./hosts/pc/configuration.nix # host
           ./modules
 
@@ -62,7 +62,12 @@
 
         specialArgs = {
           inherit inputs;
-          usrconf = usrconf // {hostname = "pc"; nvidia = true;};
+          usrconf =
+            usrconf
+            // {
+              hostname = "pc";
+              nvidia = true;
+            };
         };
       };
 

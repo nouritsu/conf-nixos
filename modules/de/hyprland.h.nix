@@ -6,6 +6,7 @@
   ...
 }: let
   hyprcwd = "${inputs.hyprcwd-rs.packages.${usrconf.system}.default}/bin/hyprcwd";
+  hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   menu = "${pkgs.walker}/bin/walker";
 
   terminal = "${pkgs.wezterm}/bin/wezterm-gui";
@@ -123,6 +124,9 @@ in {
           "SUPER, E, exec, ${explorer}"
           "SUPER, SUPER_L, exec, ${menu}"
           "SUPER, ESCAPE, exec, hyprlock"
+          ",PRINT, exec, ${hyprshot} -m active -m output"
+          "SUPER, PRINT, exec, ${hyprshot} -zm region"
+          "SUPERALT, PRINT, exec, ${hyprshot} -zm window"
         ]
         ++ [
           "SUPER, H, movefocus, l"

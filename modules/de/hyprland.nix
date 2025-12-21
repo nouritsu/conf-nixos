@@ -1,4 +1,8 @@
-{inputs, usrconf, ...}: {
+{
+  inputs,
+  usrconf,
+  ...
+}: {
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${usrconf.system}.hyprland;
