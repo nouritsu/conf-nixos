@@ -91,6 +91,7 @@ in {
         "custom/left_div#8"
         "battery"
         "custom/left_inv#2"
+        "tray"
       ];
 
       tray = {

@@ -21,6 +21,7 @@
     ./pulseaudio.h.nix
     ./idle_inhibitor.h.nix
     ./mpris.h.nix
+    ./tray.h.nix
 
     # Custom
     ./custom/dividers.h.nix
