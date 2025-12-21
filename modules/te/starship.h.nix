@@ -10,7 +10,7 @@
           failure = " ";
           not_executable = " ";
           not_found = " ";
-          sig_int = "INT";
+          sig_int = "C-c";
           signal = "󱐋";
         };
         separator = "//";

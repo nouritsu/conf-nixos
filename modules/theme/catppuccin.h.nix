@@ -30,6 +30,10 @@
     hyprlock.enable = false;
     lsd.enable = true;
     starship.enable = true;
+    swaync = {
+      enable = true;
+      font = "JetBrainsMono Nerd Font Propo";
+    };
     vesktop.enable = true;
     waybar.enable = false;
     wezterm.enable = true;

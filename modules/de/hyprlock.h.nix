@@ -86,7 +86,7 @@ in {
           text = "<span>   </span>";
           color = to_rgb "base01"; # mantle (dark text)
           font_size = 40;
-          font_family = "JetBrainsMono Nerd Font Mono";
+          font_family = "JetBrainsMono Nerd Font Propo";
 
           position = "284, 0";
           halign = "center";
@@ -109,7 +109,7 @@ in {
           text = "cmd[update:60000] echo \"<span foreground='##${colors.base09}'>$(date +'%d-%m-%Y')</span>  ·  <span foreground='##${colors.base09}'>$(date +'%H:%M')</span>\"";
           color = to_rgb "base09"; # peach
           font_size = 16;
-          font_family = "JetBrainsMono Nerd Font Mono";
+          font_family = "JetBrainsMono Nerd Font Propo";
 
           position = "0, -70";
           halign = "center";

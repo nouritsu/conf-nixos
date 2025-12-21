@@ -36,33 +36,33 @@ fg - foreground
 /* fonts */
 
 * {
-  font-family: "Commit Mono Nerd Font";
-  font-weight: bold;
-  font-size: 16px;
+	font-family: "JetBrainsMono Nerd Font Propo";
+	font-weight: bold;
+	font-size: 12pt;
 }
 
 #custom-user,
 #window label,
 #mpris,
 tooltip label {
-  font-weight: normal;
+	font-weight: normal;
 }
 
 #workspaces button.active label,
 #workspaces button.focused label,
 #custom-distro {
-  font-size: 20px;
+	font-size: 20px;
 }
 
 #custom-power_menu {
-  font-size: 18px;
+	font-size: 18px;
 }
 
 #custom-left_div,
 #custom-left_inv,
 #custom-right_div,
 #custom-right_inv {
-  font-size: 22px;
+	font-size: 22px;
 }
 
 /* global */
@@ -78,7 +78,8 @@ tooltip label {
 #waybar {
 	background-color: @outline;
 }
-#waybar > box {
+
+#waybar>box {
 	margin: 4px;
 	background-color: @main-bg;
 }
@@ -88,6 +89,7 @@ button {
 	min-width: 16px;
 	padding: 0 10px;
 }
+
 button:hover {
 	background-color: @hover-bg;
 	color: @hover-fg;
@@ -98,7 +100,8 @@ tooltip {
 	border-radius: 10px;
 	background-color: @main-bg;
 }
-tooltip > box {
+
+tooltip>box {
 	padding: 0 6px;
 }
 
@@ -112,10 +115,12 @@ tooltip > box {
 #custom-right_div.\31 {
 	color: @workspaces;
 }
+
 #workspaces {
 	padding: 0 1px;
 	background-color: @workspaces;
 }
+
 #workspaces button.active label,
 #workspaces button.focused label {
 	color: @accent;
@@ -130,6 +135,7 @@ tooltip > box {
 #windowcount {
 	margin-right: 12px;
 }
+
 #windowcount label {
 	color: @hover-fg;
 }
@@ -137,6 +143,7 @@ tooltip > box {
 #custom-left_div.\32 {
 	color: @temperature;
 }
+
 #custom-temperature {
 	background-color: @temperature;
 }
@@ -145,6 +152,7 @@ tooltip > box {
 	background-color: @temperature;
 	color: @memory;
 }
+
 #custom-memory {
 	background-color: @memory;
 }
@@ -153,9 +161,11 @@ tooltip > box {
 	background-color: @memory;
 	color: @cpu;
 }
+
 #cpu {
 	background-color: @cpu;
 }
+
 #custom-left_inv.\31 {
 	color: @cpu;
 }
@@ -164,6 +174,7 @@ tooltip > box {
 #custom-right_div.\32 {
 	color: @accent;
 }
+
 #custom-distro {
 	padding: 0 10px 0 5px;
 	background-color: @accent;
@@ -173,6 +184,7 @@ tooltip > box {
 #custom-right_inv.\31 {
 	color: @time;
 }
+
 #idle_inhibitor {
 	background-color: @time;
 }
@@ -181,6 +193,7 @@ tooltip > box {
 	padding-right: 6px;
 	background-color: @time;
 }
+
 #custom-right_div.\33 {
 	background-color: @date;
 	color: @time;
@@ -190,6 +203,7 @@ tooltip > box {
 	padding-left: 6px;
 	background-color: @date;
 }
+
 #custom-right_div.\34 {
 	background-color: @tray;
 	color: @date;
@@ -199,14 +213,17 @@ tooltip > box {
 	background-color: @tray;
 	padding: 0 6px 0 4px;
 }
+
 #bluetooth {
 	background-color: @tray;
 	padding: 0 5px;
 }
+
 #custom-system_update {
 	background-color: @tray;
 	padding: 0 8px 0 2px;
 }
+
 #custom-right_div.\35 {
 	color: @tray;
 }
@@ -220,6 +237,7 @@ tooltip > box {
 #custom-left_div.\36 {
 	color: @volume;
 }
+
 #pulseaudio,
 #wireplumber {
 	background-color: @volume;
@@ -229,6 +247,7 @@ tooltip > box {
 	background-color: @volume;
 	color: @backlight;
 }
+
 #backlight {
 	background-color: @backlight;
 }
@@ -237,9 +256,11 @@ tooltip > box {
 	background-color: @backlight;
 	color: @battery;
 }
+
 #battery {
 	background-color: @battery;
 }
+
 #custom-left_inv.\32 {
 	color: @battery;
 }
@@ -249,6 +270,7 @@ tooltip > box {
 	padding: 0 19px 0 16px;
 	color: @accent;
 }
+
 #custom-power_menu:hover {
 	background-color: @hover-bg;
 }

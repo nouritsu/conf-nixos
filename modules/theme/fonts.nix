@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     nerd-fonts.jetbrains-mono
-    nerd-fonts.commit-mono
   ];
 
   stylix = {
@@ -28,8 +27,8 @@
 
       sizes = {
         applications = 14;
-        desktop = 12;
-        popups = 10;
+        desktop = 14;
+        popups = 12;
         terminal = 14;
       };
     };
