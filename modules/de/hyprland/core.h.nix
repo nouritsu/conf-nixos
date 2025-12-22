@@ -44,6 +44,6 @@ in {
       vrr = 0;
     };
 
-    binds = volume_binds ++ brightness_binds ++ screenshot_binds ++ misc_binds;
+    bind = volume_binds ++ brightness_binds ++ screenshot_binds ++ misc_binds;
   };
 }
