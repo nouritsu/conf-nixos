@@ -5,6 +5,7 @@
     ./keyboard.nix
     ./locale.nix
     ./networking.nix
+    ./kernel.nix
     ./nixconfig.nix
     ./nvidia.nix
     ./services.nix

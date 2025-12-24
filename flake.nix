@@ -16,7 +16,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Applications
+    # Software / Firmware
+    cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
     helix.url = "github:helix-editor/helix/master";
     hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
     hyprland.url = "github:hyprwm/hyprland";
