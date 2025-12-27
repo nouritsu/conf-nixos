@@ -8,7 +8,7 @@
     pdfchain
     obsidian
     spotifyd
-    vesktop
+    # vesktop #h
     kdePackages.okular
     telegram-desktop
     obs-studio

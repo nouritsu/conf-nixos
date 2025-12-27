@@ -2,6 +2,7 @@
   imports = [
     # GUI
     ./gui/firefox.h.nix
+    ./gui/vesktop.h.nix
     ./gui/wezterm.h.nix
     ./gui/zed.h.nix
 
