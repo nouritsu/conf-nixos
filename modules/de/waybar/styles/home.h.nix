@@ -1,37 +1,72 @@
-{config, ...}: let
-  colors = config.lib.stylix.colors;
-in {
-  programs.waybar.style =
+{
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.my.waybar.styles;
+  common_css =
     /*
-    css
+    css: common
     */
     ''
-      @define-color rosewater #${colors.base06};
-      @define-color flamingo #${colors.base0F};
-      @define-color pink #f5c2e7;
-      @define-color mauve #${colors.base0E};
-      @define-color red #${colors.base08};
-      @define-color maroon #eba0ac;
-      @define-color peach #${colors.base09};
-      @define-color yellow #${colors.base0A};
-      @define-color green #${colors.base0B};
-      @define-color teal #${colors.base0C};
-      @define-color sky #89dceb;
-      @define-color sapphire #74c7ec;
-      @define-color blue #${colors.base0D};
-      @define-color lavender #${colors.base07};
-      @define-color text #${colors.base05};
-      @define-color subtext1 #${colors.base04};
-      @define-color subtext0 #${colors.base04};
-      @define-color overlay2 #${colors.base03};
-      @define-color overlay1 #${colors.base03};
-      @define-color overlay0 #${colors.base03};
-      @define-color surface2 #${colors.base03};
-      @define-color surface1 #${colors.base03};
-      @define-color surface0 #${colors.base03};
-      @define-color base #${colors.base02};
-      @define-color mantle #${colors.base01};
-      @define-color crust #${colors.base00};
-    ''
-    + builtins.readFile ./styles.css;
+      * {
+        color: @main-fg;
+      	font-family: "JetBrainsMono Nerd Font Propo";
+      	font-weight: bold;
+      	font-size: 12pt;
+      }
+
+      .module {
+        margin-bottom: -1px;
+      }
+
+      #waybar {
+        background-color: @outline;
+      }
+
+      #waybar>box {
+        margin: 4px;
+        background-color: @main-bg;
+      }
+
+      button {
+        border-radius: 16px;
+        min-width: 16px;
+        padding: 0 10px;
+      }
+
+      button:hover {
+        background-color: @hover-bg;
+        color: @hover-fg;
+      }
+
+      tooltip {
+        border: 2px solid @main-br;
+        border-radius: 10px;
+        background-color: @main-bg;
+      }
+
+      tooltip>box {
+        padding: 0 6px;
+      }
+
+      #custom-divr,
+      #custom-divri,
+      #custom-divre,
+      #custom-divl,
+      #custom-divli,
+      #custom-divle {
+        font-size: 22px;
+      }
+    '';
+in {
+  imports = [
+    ./colours.h.nix
+  ];
+
+  programs.waybar.style = lib.concatStringsSep "\n" (lib.filter (s: s != "") [
+    cfg.define_parts
+    common_css
+    cfg.parts
+  ]);
 }

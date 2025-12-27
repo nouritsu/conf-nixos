@@ -10,8 +10,12 @@ Config for: Nix, Nixpkgs, Cachix
     config.allowUnfree = true;
     overlays = [
       inputs.cachyos-kernel.overlays.pinned
+      (final: _: {
+        gpu-usage-waybar = final.callPackage ../../pkgs/gpu-usage-waybar/package.nix {};
+      })
     ];
   };
+
   environment.systemPackages = with pkgs; [
     cachix
   ];

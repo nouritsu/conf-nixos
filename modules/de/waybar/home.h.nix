@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./mod.h.nix
     ./styles/home.h.nix
     ./layout.h.nix
     ./modules/home.h.nix

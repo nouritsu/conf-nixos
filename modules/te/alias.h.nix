@@ -1,7 +1,6 @@
 {pkgs, ...}: let
   gum = "${pkgs.gum}/bin/gum";
   nh = "${pkgs.nh}/bin/nh";
-  jql = "${pkgs.jql}/bin/jql";
   yazi = "${pkgs.yazi}/bin/yazi";
   fastfetch = "${pkgs.fastfetch}/bin/fastfetch";
   tokei = "${pkgs.tokei}/bin/tokei";
@@ -120,9 +119,6 @@ in {
     # Fetch
     neofetch = "${fastfetch}";
     nerdfetch = neofetch;
-
-    # JQL
-    jq = "${jql}";
 
     # Yazi
     fm = "${yazi}";

@@ -22,5 +22,11 @@
     allowUnfreePredicate = _: true;
   };
 
+  nixpkgs.overlays = [
+    (final: _: {
+      gpu-usage-waybar = final.callPackage ../pkgs/gpu-usage-waybar/package.nix {};
+    })
+  ];
+
   programs.home-manager.enable = true;
 }

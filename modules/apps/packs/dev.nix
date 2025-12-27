@@ -26,6 +26,7 @@
     gcc
     claude-code
     gh
+    jq
     lldb
     gnumake
     nodePackages_latest.prettier # CSS, HTML
