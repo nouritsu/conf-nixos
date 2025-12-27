@@ -1,8 +1,7 @@
 {
   inputs,
-  usrconf,
+  osConfig,
   pkgs,
-  lib,
   ...
 }: let
   plugins = pkgs.fetchFromGitHub {
@@ -32,7 +31,7 @@ in {
 
   programs.yazi = {
     enable = true;
-    package = inputs.yazi.packages.${usrconf.system}.default;
+    package = inputs.yazi.packages.${osConfig.my.system.arch}.default;
     enableFishIntegration = true;
     enableBashIntegration = true;
     shellWrapperName = "yazi_wrapper";

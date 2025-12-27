@@ -1,6 +1,6 @@
 {
   lib,
-  usrconf,
+  osConfig,
   ...
 }: {
   wayland.windowManager.hyprland.settings = {
@@ -17,7 +17,7 @@
       sensitivity = 1.0;
       accel_profile = "flat";
 
-      touchpad = lib.mkIf usrconf.touchpad {
+      touchpad = lib.mkIf (osConfig.my.system.kind == "laptop") {
         natural_scroll = true;
         tap-to-click = true;
         drag_lock = true;

@@ -1,4 +1,4 @@
-{usrconf, ...}: {
+{osConfig, ...}: {
   imports = [
     # Applications
     ./apps/home.h.nix
@@ -12,8 +12,8 @@
   ];
 
   home = {
-    username = usrconf.user.alias;
-    homeDirectory = "/home/${usrconf.user.alias}";
+    username = osConfig.my.user.alias;
+    homeDirectory = "/home/${osConfig.my.user.alias}";
     stateVersion = "25.11";
   };
 

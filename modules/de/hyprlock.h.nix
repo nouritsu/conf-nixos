@@ -1,7 +1,7 @@
 {
   config,
+  osConfig,
   inputs,
-  usrconf,
   ...
 }: let
   colors = config.lib.stylix.colors;
@@ -9,7 +9,7 @@
 in {
   programs.hyprlock = {
     enable = true;
-    package = inputs.hyprlock.packages.${usrconf.system}.hyprlock;
+    package = inputs.hyprlock.packages.${osConfig.my.system.arch}.hyprlock;
     settings = {
       general = {
         hide_cursor = false;

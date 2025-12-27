@@ -1,11 +1,11 @@
 {
   pkgs,
-  usrconf,
+  osConfig,
   inputs,
   waybar_lib,
   ...
 }: let
-  hyprland = inputs.hyprland.packages.${usrconf.system}.hyprland;
+  hyprland = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
   hyprctl = "${hyprland}/bin/hyprctl";
   jq = "${pkgs.jq}/bin/jq";
 

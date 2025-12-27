@@ -1,11 +1,11 @@
 {
-  usrconf,
+  config,
   pkgs,
   ...
 }: {
   networking = {
     networkmanager.enable = true;
-    hostName = usrconf.hostname;
+    hostName = config.my.system.hostname;
   };
 
   environment.systemPackages = with pkgs; [

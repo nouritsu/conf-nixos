@@ -1,10 +1,10 @@
 {
   pkgs,
   inputs,
-  usrconf,
+  osConfig,
   ...
 }: let
-  hyprland = inputs.hyprland.packages.${usrconf.system}.hyprland;
+  hyprland = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
   hyprctl = "${hyprland}/bin/hyprctl";
   jq = "${pkgs.jq}/bin/jq";
   wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";

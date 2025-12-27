@@ -29,82 +29,35 @@
   };
 
   outputs = {...} @ inputs: let
-    usrconf = {
-      user = {
-        name = "Aneesh Bhave";
-        email = "aneesh1701@gmail.com";
-        alias = "aneesh";
+    common_modules = with inputs; [
+      ./modules
+
+      # from inputs
+      home-manager.nixosModules.home-manager
+      stylix.nixosModules.stylix
+      catppuccin.nixosModules.catppuccin
+
+      ({config, ...}: {
+        home-manager = {
+          extraSpecialArgs = {inherit inputs;};
+          backupFileExtension = "backup"; # prevents some weird error somehow
+          users.${config.my.user.alias}.imports = [
+            ./modules/home.h.nix
+            inputs.catppuccin.homeModules.catppuccin
+          ];
+        };
+      })
+    ];
+
+    mk_host = host_mod:
+      inputs.nixpkgs.lib.nixosSystem {
+        modules = [./options.nix host_mod] ++ common_modules;
+        specialArgs = {inherit inputs;};
       };
-      hostname = ""; # set by specific configs
-      system = "x86_64-linux";
-      nvidia = false;
-      touchpad = false;
-    };
   in {
     nixosConfigurations = {
-      pc = inputs.nixpkgs.lib.nixosSystem rec {
-        modules = [
-          ./hosts/pc/configuration.nix # host
-          ./modules
-
-          # Extra modules
-          inputs.stylix.nixosModules.stylix
-          inputs.home-manager.nixosModules.home-manager
-          inputs.catppuccin.nixosModules.catppuccin
-          {
-            home-manager = {
-              users.${usrconf.user.alias}.imports = [
-                ./modules/home.h.nix
-                inputs.catppuccin.homeModules.catppuccin
-              ];
-              extraSpecialArgs = specialArgs;
-              backupFileExtension = "backup"; # prevents some weird error somehow
-            };
-          }
-        ];
-
-        specialArgs = {
-          inherit inputs;
-          usrconf =
-            usrconf
-            // {
-              hostname = "pc";
-              nvidia = true;
-            };
-        };
-      };
-
-      lenovo = inputs.nixpkgs.lib.nixosSystem rec {
-        modules = [
-          ./hosts/lenovo/configuration.nix # host
-          ./modules
-
-          # Extra modules
-          inputs.stylix.nixosModules.stylix
-          inputs.home-manager.nixosModules.home-manager
-          inputs.catppuccin.nixosModules.catppuccin
-          {
-            home-manager = {
-              users.${usrconf.user.alias}.imports = [
-                ./modules/home.h.nix
-                inputs.catppuccin.homeModules.catppuccin
-              ];
-              extraSpecialArgs = specialArgs;
-              backupFileExtension = "backup"; # prevents some weird error somehow
-            };
-          }
-        ];
-
-        specialArgs = {
-          inherit inputs;
-          usrconf =
-            usrconf
-            // {
-              hostname = "lenovo";
-              touchpad = true;
-            };
-        };
-      };
+      pc = mk_host ./hosts/pc;
+      lenovo = mk_host ./hosts/lenovo;
     };
   };
 }

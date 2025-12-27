@@ -1,6 +1,6 @@
 {
   inputs,
-  usrconf,
+  osConfig,
   pkgs,
   ...
 }: {
@@ -16,8 +16,8 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${usrconf.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${usrconf.system}.xdg-desktop-portal-hyprland;
+    package = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
+    portalPackage = inputs.hyprland.packages.${osConfig.my.system.arch}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
     systemd.enable = true;
   };

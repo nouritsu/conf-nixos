@@ -1,6 +1,6 @@
 {
   inputs,
-  usrconf,
+  osConfig,
   pkgs,
   ...
 }: let
@@ -17,7 +17,7 @@
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
 
   # Helpers
-  hyprcwd = "${inputs.hyprcwd-rs.packages.${usrconf.system}.default}/bin/hyprcwd";
+  hyprcwd = "${inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default}/bin/hyprcwd";
 in {
   wayland.windowManager.hyprland.settings.bind = [
     "SUPER, T, exec, ${terminal.home}"

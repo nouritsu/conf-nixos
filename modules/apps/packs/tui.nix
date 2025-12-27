@@ -1,9 +1,4 @@
-{
-  pkgs,
-  inputs,
-  usrconf,
-  ...
-}: {
+{pkgs, ...}: {
   /*
   #h: package installed via home-manager
   */
@@ -11,7 +6,6 @@
     # Core
     uutils-coreutils-noprefix
     killall
-    inputs.yazi.packages."${usrconf.system}".yazi
     fzf
     wget
     wl-clipboard-rs
@@ -35,7 +29,6 @@
     sd # sed
     hyperfine # time
     speedtest-rs
-    # inputs.helix.packages."${usrconf.system}".helix #h
     starship
     eva # Calculator
     tokei

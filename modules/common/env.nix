@@ -1,6 +1,6 @@
-{usrconf, ...}: {
+{...}: {
   environment.sessionVariables = {
-    NH_FLAKE = "/home/${usrconf.user.alias}/.config/nixos";
+    NH_FLAKE = "~/.config/nixos";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     XDG_SESSION_TYPE = "wayland";
     QT_QPA_PLATFORM = "wayland";

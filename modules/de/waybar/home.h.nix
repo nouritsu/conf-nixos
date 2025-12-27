@@ -1,5 +1,5 @@
 {
-  usrconf,
+  osConfig,
   inputs,
   ...
 }: {
@@ -12,7 +12,7 @@
 
   programs.waybar = {
     enable = true;
-    package = inputs.waybar.packages.${usrconf.system}.default;
+    package = inputs.waybar.packages.${osConfig.my.system.arch}.default;
 
     systemd.enable = true;
     settings.default = {

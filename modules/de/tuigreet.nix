@@ -1,11 +1,11 @@
 {
   inputs,
   pkgs,
-  usrconf,
+  config,
   ...
 }: let
   tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-  hyprland-sessions = "${inputs.hyprland.packages.${usrconf.system}.hyprland}/share/wayland-sessions";
+  hyprland-sessions = "${inputs.hyprland.packages.${config.my.system.arch}.hyprland}/share/wayland-sessions";
 in {
   services.greetd = {
     enable = true;

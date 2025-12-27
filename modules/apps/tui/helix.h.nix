@@ -1,13 +1,13 @@
 {
   pkgs,
   inputs,
-  usrconf,
+  osConfig,
   ...
 }: {
   programs.helix = {
     enable = true;
     defaultEditor = true;
-    package = inputs.helix.packages.${usrconf.system}.default;
+    package = inputs.helix.packages.${osConfig.my.system.arch}.default;
     extraConfig = let
       mm_g = mode:
       /*

@@ -1,12 +1,12 @@
 {
   inputs,
-  usrconf,
+  osConfig,
   ...
 }: {
   programs.wezterm = {
     enable = true;
     enableBashIntegration = true;
-    package = inputs.wezterm.packages.${usrconf.system}.default;
+    package = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
     extraConfig =
       /*
       lua
