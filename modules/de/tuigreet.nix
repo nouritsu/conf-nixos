@@ -12,7 +12,7 @@ in {
     settings = {
       default_session = {
         command = "${tuigreet} --time --remember --remember-session --sessions ${hyprland-sessions}";
-        user = "${usrconf.user.alias}";
+        user = "greeter";
       };
     };
   };

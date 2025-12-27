@@ -1,4 +1,7 @@
 {pkgs, ...}: let
+  # Directories
+  screenshot_dir = "~/img/screenshots";
+
   # Binds
   volume_binds = [
     ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 2.0"
@@ -12,9 +15,9 @@
   ];
 
   screenshot_binds = [
-    ",PRINT, exec, ${hyprshot} -m active -m output"
-    "SUPER, PRINT, exec, ${hyprshot} -zm region"
-    "SUPERALT, PRINT, exec, ${hyprshot} -zm window"
+    ",PRINT, exec, ${hyprshot} -o ${screenshot_dir} -m active -m output"
+    "SUPER, PRINT, exec, ${hyprshot} -o ${screenshot_dir} -zm region"
+    "SUPERALT, PRINT, exec, ${hyprshot} -o ${screenshot_dir} -zm window"
   ];
 
   misc_binds = [

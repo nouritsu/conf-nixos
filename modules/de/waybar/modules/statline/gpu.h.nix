@@ -6,13 +6,13 @@
   terminal-launch = "${pkgs.wezterm}/bin/wezterm-gui start";
   nvtop = "${pkgs.nvtopPackages.nvidia}/bin/nvtop"; # change based on gpu
   jq = "${pkgs.jq}/bin/jq";
-  head = "${pkgs.coreutils}/bin/head";
+  head_ = "${pkgs.coreutils}/bin/head";
 
   waybar-gpu-usage = let
     gpu-usage-waybar = "${pkgs.gpu-usage-waybar}/bin/gpu-usage-waybar";
   in
     pkgs.writeShellScript "waybar-gpu-usage" ''
-      ( ${gpu-usage-waybar} & ) 2>/dev/null | ${head} -n 1 | ${jq} -c '
+      ( ${gpu-usage-waybar} & ) 2>/dev/null | ${head_} -n 1 | ${jq} -c '
         (.text | split("|")[0]) as $gpu |
         (.text | split("|")[1]) as $vram |
         (.tooltip | match("TEMP: ([0-9]+)") | .captures[0].string) as $temp |

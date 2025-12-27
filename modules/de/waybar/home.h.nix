@@ -1,4 +1,8 @@
-{...}: {
+{
+  usrconf,
+  inputs,
+  ...
+}: {
   imports = [
     ./mod.h.nix
     ./styles/home.h.nix
@@ -8,6 +12,8 @@
 
   programs.waybar = {
     enable = true;
+    package = inputs.waybar.packages.${usrconf.system}.default;
+
     systemd.enable = true;
     settings.default = {
       layer = "top";

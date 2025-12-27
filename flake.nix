@@ -23,6 +23,7 @@
     hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
     walker.url = "github:abenz1267/walker";
+    waybar.url = "github:xav-ie/Waybar/fix-cava-nix-sync";
     wezterm.url = "github:wezterm/wezterm?dir=nix";
     yazi.url = "github:sxyazi/yazi";
   };

@@ -5,7 +5,6 @@
 }: let
   terminal-launch = "${pkgs.wezterm}/bin/wezterm-gui start";
   btop = "${pkgs.btop}/bin/btop";
-  true_ = "${pkgs.coreutils}/bin/true";
 in {
   programs.waybar.settings.default = {
     cpu = {
@@ -14,8 +13,6 @@ in {
       format-warning = "   {usage}%";
       format-critical = "   {usage}%";
       on-click = "${terminal-launch} ${btop}";
-      on-scroll-up = true_;
-      on-scroll-down = true_;
       states = {
         warning = 75;
         critical = 90;

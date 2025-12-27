@@ -8,7 +8,7 @@
     mk_define = name: color: "@define-color ${name} ${color};";
     # Convert a list ["name1: color1", "name2: color2"] into GTK CSS define-color rules
     mk_batch_defines = list:
-      lib.concatStringsSep "\n" (builtins.map (
+      lib.concatStringsSep "\n" (map (
           str: let
             parts = lib.splitString ":" str;
           in

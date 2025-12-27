@@ -13,6 +13,8 @@
   menu = "${pkgs.walker}/bin/walker";
   browser = "${pkgs.firefox}/bin/firefox";
   explorer = "${terminal.cwd} -- yazi";
+  vesktop = "${pkgs.vesktop}/bin/vesktop";
+  hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
 
   # Helpers
   hyprcwd = "${inputs.hyprcwd-rs.packages.${usrconf.system}.default}/bin/hyprcwd";
@@ -23,5 +25,7 @@ in {
     "SUPER, W, exec, ${browser}"
     "SUPER, E, exec, ${explorer}"
     "SUPER, SUPER_L, exec, ${menu}"
+    "SUPER, D, exec, ${vesktop}"
+    "SUPER, C, exec, ${hyprpicker} --autocopy --lowercase-hex"
   ];
 }

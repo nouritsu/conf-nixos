@@ -8,6 +8,7 @@
     hyprlock.enable = false;
     starship.enable = false;
     swaync.enable = false;
+    vesktop.enable = false;
     waybar.enable = false;
     yazi.enable = false;
     zed.enable = false;

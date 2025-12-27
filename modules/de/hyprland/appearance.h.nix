@@ -1,5 +1,9 @@
 {...}: {
   wayland.windowManager.hyprland.settings = {
+    windowrule = [
+      "opacity 1.0 override 1.0 override, match:class firefox"
+    ];
+
     animations = {
       enabled = true;
       bezier = [
@@ -33,17 +37,18 @@
       ];
     };
 
-    decoration = rec {
-      rounding = 10;
-      active_opacity = 1.0;
-      inactive_opacity = active_opacity;
+    decoration = {
+      rounding = 12;
+      active_opacity = 0.95;
+      inactive_opacity = 0.7;
 
       blur = {
         enabled = true;
-        size = 3;
+        size = 10;
         passes = 3;
         new_optimizations = true;
-        vibrancy = 0.1696;
+        noise = 0;
+        brightness = 0.90;
         ignore_opacity = true;
       };
     };

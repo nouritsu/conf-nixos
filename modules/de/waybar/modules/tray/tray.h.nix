@@ -1,8 +1,17 @@
-{waybar_lib, ...}: {
+{
+  waybar_lib,
+  pkgs,
+  ...
+}: {
   programs.waybar.settings.default.tray = {
     spacing = 10;
     show-passive-items = true;
     reverse-direction = true;
+  };
+
+  services.xembed-sni-proxy = {
+    enable = true;
+    package = pkgs.kdePackages.plasma-workspace;
   };
 
   my.waybar.styles = {

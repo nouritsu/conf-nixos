@@ -29,7 +29,7 @@ rustPlatform.buildRustPackage rec {
     description = "Tool to display GPU usage in Waybar";
     homepage = "https://github.com/PolpOnline/gpu-usage-waybar";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ nouritsu ];
+    maintainers = with lib.maintainers; [nouritsu];
     mainProgram = "gpu-usage-waybar";
     platforms = lib.platforms.linux;
   };

@@ -10,5 +10,6 @@
     ./wallpapers/home.h.nix
     ./wleave.h.nix
     ./xdg.h.nix
+    ./swayosd/home.h.nix
   ];
 }
