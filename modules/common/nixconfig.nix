@@ -4,6 +4,7 @@ Config for: Nix, Nixpkgs, Cachix
 {
   pkgs,
   inputs,
+  config,
   ...
 }: {
   nixpkgs = {
@@ -46,16 +47,15 @@ Config for: Nix, Nixpkgs, Cachix
     ];
   };
 
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "*-*-1/3 21:00";
-      options = "--delete-older-than 28d";
-    };
+  nix.optimise = {
+    automatic = true;
+    dates = ["*-*-1/3 21:00"];
+  };
 
-    optimise = {
-      automatic = true;
-      dates = ["*-*-1/3 21:00"];
-    };
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep 5 --keep-since 7d";
+    flake = "/home/${config.my.user.alias}/.config/nixos";
   };
 }

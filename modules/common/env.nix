@@ -1,6 +1,6 @@
 {...}: {
   environment.sessionVariables = {
-    NH_FLAKE = "~/.config/nixos";
+    # NH_OS_FLAKE = "/home/${config.my.user.alias}/.config/nixos";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     XDG_SESSION_TYPE = "wayland";
     QT_QPA_PLATFORM = "wayland";
