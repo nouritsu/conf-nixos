@@ -1,6 +1,7 @@
 {lib, ...}: let
   supported_graphics = ["nvidia" "intel"];
   supported_system_kinds = ["desktop" "laptop"];
+  supported_boot_loadears = ["grub" "systemd"];
 
   email_regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 in {
@@ -29,7 +30,26 @@ in {
           };
         };
       };
-      description = "System Details";
+      description = "System Configuration";
+    };
+
+    boot = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          loader = lib.mkOption {
+            type = lib.types.enum supported_boot_loadears;
+            default = "grub";
+            description = "Boot Loader";
+          };
+
+          multi = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+            description = "Multi/Dual Boot";
+          };
+        };
+      };
+      description = "Bootloader Configuration";
     };
 
     user = lib.mkOption {
@@ -51,7 +71,7 @@ in {
           };
         };
       };
-      description = "User Details";
+      description = "User Configuration";
     };
   };
 }

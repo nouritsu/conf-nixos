@@ -11,6 +11,11 @@
       graphics = "nvidia";
     };
 
+    boot = {
+      loader = "grub";
+      multi = true;
+    };
+
     user = {
       alias = "aneesh";
       name = "Aneesh Bhave";

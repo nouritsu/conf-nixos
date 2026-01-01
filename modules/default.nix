@@ -1,9 +1,8 @@
-{...}: {
+{
   imports = [
-    ./apps
-    ./common
-    ./de
+    ./system
     ./theme
-    ./te
+    ./terminal
+    ./desktop
   ];
 }

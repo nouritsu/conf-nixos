@@ -1,0 +1,3 @@
+{
+  imports = [./starship.h.nix];
+}

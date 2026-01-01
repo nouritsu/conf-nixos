@@ -26,6 +26,10 @@
     waybar.url = "github:xav-ie/Waybar/fix-cava-nix-sync";
     wezterm.url = "github:wezterm/wezterm?dir=nix";
     yazi.url = "github:sxyazi/yazi";
+    batfetch = {
+      url = "github:ashish-kus/batfetch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {...} @ inputs: let

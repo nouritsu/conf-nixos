@@ -101,6 +101,26 @@
         "type": "github"
       }
     },
+    "batfetch": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1723107858,
+        "narHash": "sha256-7BOS6/1BkEt8dW4kqpHoJX0MVZC6EF+BPxhDRKsngFo=",
+        "owner": "ashish-kus",
+        "repo": "batfetch",
+        "rev": "7f3c79741b97c880d839e5d654c9c7de2567c735",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ashish-kus",
+        "repo": "batfetch",
+        "type": "github"
+      }
+    },
     "cachix": {
       "inputs": {
         "devenv": "devenv",
@@ -1467,6 +1487,7 @@
     },
     "root": {
       "inputs": {
+        "batfetch": "batfetch",
         "cachix": "cachix",
         "cachyos-kernel": "cachyos-kernel",
         "catppuccin": "catppuccin",

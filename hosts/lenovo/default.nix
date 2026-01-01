@@ -11,6 +11,11 @@
       graphics = "intel";
     };
 
+    boot = {
+      loader = "grub";
+      multi = false;
+    };
+
     user = {
       alias = "aneesh";
       name = "Aneesh Bhave";
