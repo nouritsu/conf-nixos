@@ -2,7 +2,6 @@
   pactl = "${pkgs.pulseaudio}/bin/pactl";
   notify-send = "${pkgs.libnotify}/bin/notify-send";
   awk = "${pkgs.gawk}/bin/awk";
-  tr = "${pkgs.coreutils}/bin/tr";
 
   volume-script = pkgs.writeShellScriptBin "waybar-volume" ''
     VALUE=1
@@ -52,7 +51,7 @@
     }
 
     get-volume() {
-      ${pactl} "get-$dev_vol" "$dev" | ${awk} '{print $5}' | ${tr} -d '%'
+      ${pactl} "get-$dev_vol" "$dev" | ${awk} '{print $5}' | tr -d '%'
     }
 
     get-icon() {

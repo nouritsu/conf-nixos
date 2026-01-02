@@ -8,14 +8,11 @@
   # Cache file for the clock icon
   icon_cache = "$XDG_RUNTIME_DIR/waybar-clock-icon";
 
-  date = "${pkgs.coreutils}/bin/date";
-  echo = "${pkgs.coreutils}/bin/echo";
-  cat = "${pkgs.coreutils}/bin/cat";
   pkill = "${pkgs.procps}/bin/pkill";
   gum = "${pkgs.gum}/bin/gum";
 
   update-icon = pkgs.writeShellScript "waybar-clock-update-icon" ''
-    hour=$(${date} +%H)
+    hour=$(date +%H)
 
     case $hour in
       00|12) icon="󱑖" ;;
@@ -33,10 +30,10 @@
       *) icon="󱡦" ;;
     esac
 
-    ${echo} "$icon" > ${icon_cache}
+    echo "$icon" > ${icon_cache}
     ${gum} log --level info "clock icon updated to: $icon (hour: $hour)"
 
-    if ${pkill} -SIGRTMIN+${builtins.toString sig} -x .waybar-wrapped; then
+    if ${pkill} -SIGRTMIN+${toString sig} -x .waybar-wrapped; then
       ${gum} log --level info "waybar signalled for clock update"
     else
       ${gum} log --level warn "could not signal waybar, is it running?"
@@ -45,17 +42,17 @@
 
   clock-display = pkgs.writeShellScript "waybar-clock-display" ''
     if [ -f ${icon_cache} ]; then
-      icon=$(${cat} ${icon_cache})
+      icon=$(cat ${icon_cache})
     else
       ${gum} log --level warn "icon cache does not exist"
       icon="󱡦"
     fi
 
     # Format: YYYY-MM-DD {icon} HH:MM:SS
-    datetime=$(${date} '+%Y-%m-%d')
-    time=$(${date} '+%H:%M:%S')
+    datetime=$(date '+%Y-%m-%d')
+    time=$(date '+%H:%M:%S')
 
-    ${echo} "$datetime $icon  $time"
+    echo "$datetime $icon  $time"
   '';
 
   timer-updater = pkgs.writeShellScriptBin "waybar-clock-timer" ''

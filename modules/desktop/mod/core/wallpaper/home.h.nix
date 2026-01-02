@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  wallpaper_dir = "$NH_FLAKE/new-modules/desktop/mod/core/wallpaper";
+  wallpaper_dir = "$NH_FLAKE/modules/desktop/mod/core/wallpaper";
 
   swww = "${pkgs.swww}/bin/swww";
   gum = "${pkgs.gum}/bin/gum";

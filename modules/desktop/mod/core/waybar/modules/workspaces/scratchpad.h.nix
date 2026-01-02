@@ -13,7 +13,6 @@
   socat = "${pkgs.socat}/bin/socat";
   gum = "${pkgs.gum}/bin/gum";
   pkill = "${pkgs.procps}/bin/pkill";
-  sleep = "${pkgs.coreutils}/bin/sleep";
 
   scratchpad = pkgs.writeShellScript "waybar-scratchpad" ''
     id=$(${hyprctl} monitors -j | ${jq} -r '.[] | select(.focused) | .specialWorkspace.id')
@@ -52,7 +51,7 @@
       done
 
       ${gum} log --level error "socat crashed/disconnected, retrying in 1s"
-      ${sleep} 1
+      sleep 1
     done
   '';
 in {

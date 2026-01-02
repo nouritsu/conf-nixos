@@ -8,4 +8,11 @@ in {
   wayland.windowManager.hyprland.settings.bind = [
     "SUPER, Z, exec, ${woomer}"
   ];
+
+  wayland.windowManager.hyprland.settings.windowrule = let
+    match_ = "match:title woomer";
+  in [
+    "no_anim on, ${match_}"
+    "immediate on, ${match_}"
+  ];
 }
