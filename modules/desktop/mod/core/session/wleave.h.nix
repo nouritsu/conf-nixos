@@ -35,4 +35,10 @@
         }
       '';
   };
+
+  wayland.windowManager.hyprland.settings.layerrule = let
+    match_ = "match:namespace wleave";
+  in [
+    "no_anim on, ${match_}"
+  ];
 }
