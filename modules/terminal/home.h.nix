@@ -20,7 +20,7 @@
     ## general
     ./mods/by-utility/general/btop.h.nix
     ./mods/by-utility/general/eva.h.nix
-    ./mods/by-utility/general/helix.h.nix
+    ./mods/by-utility/general/helix/home.h.nix
     ./mods/by-utility/general/hyperfine.h.nix
     ./mods/by-utility/general/sysfetch.h.nix
     ## help
