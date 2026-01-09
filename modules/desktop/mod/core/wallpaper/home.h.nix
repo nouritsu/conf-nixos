@@ -46,7 +46,7 @@ in {
   home.packages = [swww-change-wallpaper pkgs.swww];
 
   wayland.windowManager.hyprland.settings.bind = [
-    "SUPERSHIFT, W, exec, ${swww-change-wallpaper}/bin/swww-change-wallpaper"
+    "SUPERALT, W, exec, ${swww-change-wallpaper}/bin/swww-change-wallpaper"
   ];
 
   services.swww = {

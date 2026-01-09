@@ -29,6 +29,8 @@
     ## auth
     ./mod/core/auth/polkit.h.nix
     ./mod/core/auth/keyring.h.nix
+    ## clipboard
+    ./mod/core/clipboard/clipse.h.nix
     ## compability
     ./mod/core/compability/electron-ozone.h.nix
     ./mod/core/compability/qt.h.nix
