@@ -11,9 +11,6 @@
   hyprland = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
   hyprctl = lib.getExe' hyprland "hyprctl";
   jq = lib.getExe pkgs.jq;
-  socat = lib.getExe pkgs.socat;
-  gum = lib.getExe pkgs.gum;
-  pkill = lib.getExe' pkgs.procps "pkill";
 
   scratchpad = pkgs.writeShellScript "waybar-scratchpad" ''
     id=$(${hyprctl} monitors -j | ${jq} -r '.[] | select(.focused) | .specialWorkspace.id')
@@ -28,33 +25,44 @@
     echo "{\"class\": \"$class\", \"tooltip\": \"Windows: $wc\"}"
   '';
 
-  listener = pkgs.writeShellScriptBin "waybar-scratchpad-listener" ''
-    ${gum} log --level info "fetching hyprland instance signature"
-    HYPRLAND_INSTANCE_SIGNATURE=''${HYPRLAND_INSTANCE_SIGNATURE:-$(${hyprctl} instances -j | ${jq} -r '.[0].instance')}
+  listener = pkgs.writeShellApplication {
+    name = "waybar-scratchpad-listener";
+    runtimeInputs = [
+      hyprland
+      pkgs.jq
+      pkgs.socat
+      pkgs.gum
+      pkgs.procps
+      pkgs.gnugrep
+    ];
+    text = ''
+      gum log --level info "fetching hyprland instance signature"
+      HYPRLAND_INSTANCE_SIGNATURE=''${HYPRLAND_INSTANCE_SIGNATURE:-$(hyprctl instances -j | jq -r '.[0].instance')}
 
-    if [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
-      ${gum} log --level fatal "hyprland instance signature not found"
-    else
-      ${gum} log --level info "hyprland instance signature found"
-    fi
+      if [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+        gum log --level fatal "hyprland instance signature not found"
+      else
+        gum log --level info "hyprland instance signature found"
+      fi
 
-    sock="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
-    ${gum} log --level info "listening: $sock"
-    while true; do
-      ${socat} -U - UNIX-CONNECT:"$sock" | grep --line-buffered -E "activespecialv2|workspace>>" | while read -r line; do
-          ${gum} log --level debug "event recieved: $line"
+      sock="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
+      gum log --level info "listening: $sock"
+      while true; do
+        socat -U - UNIX-CONNECT:"$sock" | grep --line-buffered -E "activespecialv2|workspace>>" | while read -r line; do
+            gum log --level debug "event recieved: $line"
 
-          if ${pkill} -SIGRTMIN+${builtins.toString sig} -x .waybar-wrapped; then
-            ${gum} log --level info "waybar signalled"
-          else
-            ${gum} log --level error "could not signal waybar, is it runnning?"
-          fi
+            if pkill -SIGRTMIN+${builtins.toString sig} -x .waybar-wrapped; then
+              gum log --level info "waybar signalled"
+            else
+              gum log --level error "could not signal waybar, is it runnning?"
+            fi
+        done
+
+        gum log --level error "socat crashed/disconnected, retrying in 1s"
+        sleep 1
       done
-
-      ${gum} log --level error "socat crashed/disconnected, retrying in 1s"
-      sleep 1
-    done
-  '';
+    '';
+  };
 in {
   programs.waybar.settings.default."custom/scratchpad" = {
     format = "";

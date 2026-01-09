@@ -9,8 +9,8 @@
   # Cache file for the clock icon
   icon_cache = "$XDG_RUNTIME_DIR/waybar-clock-icon";
 
-  pkill = lib.getExe' pkgs.procps "pkill";
   gum = lib.getExe pkgs.gum;
+  pkill = lib.getExe' pkgs.procps "pkill";
 
   update-icon = pkgs.writeShellScript "waybar-clock-update-icon" ''
     hour=$(date +%H)
@@ -56,10 +56,16 @@
     echo "$datetime $icon  $time"
   '';
 
-  timer-updater = pkgs.writeShellScriptBin "waybar-clock-timer" ''
-    ${gum} log --level info "starting waybar clock icon updater"
-    ${update-icon}
-  '';
+  timer-updater = pkgs.writeShellApplication {
+    name = "waybar-clock-timer";
+    runtimeInputs = [
+      pkgs.gum
+    ];
+    text = ''
+      gum log --level info "starting waybar clock icon updater"
+      ${update-icon}
+    '';
+  };
 in {
   programs.waybar.settings.default."custom/clock" = {
     format = "{}";

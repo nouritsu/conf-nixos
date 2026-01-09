@@ -6,12 +6,17 @@
   ...
 }: let
   wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
-  wezterm = lib.getExe' wezterm-pkg "wezterm";
-  clipse = lib.getExe pkgs.clipse;
 
-  clipboard-history = pkgs.writeShellScriptBin "clipboard-history" ''
-    ${wezterm} start --class clipboard-history ${clipse}
-  '';
+  clipboard-history = pkgs.writeShellApplication {
+    name = "clipboard-history";
+    runtimeInputs = [
+      wezterm-pkg
+      pkgs.clipse
+    ];
+    text = ''
+      wezterm start --class clipboard-history clipse
+    '';
+  };
 in {
   services.clipse = {
     enable = true;

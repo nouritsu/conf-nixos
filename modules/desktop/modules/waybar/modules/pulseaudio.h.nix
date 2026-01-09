@@ -1,10 +1,14 @@
 {lib, pkgs, ...}: let
-  pactl = lib.getExe' pkgs.pulseaudio "pactl";
-  notify-send = lib.getExe' pkgs.libnotify "notify-send";
-  awk = lib.getExe' pkgs.gawk "awk";
   pavucontrol = lib.getExe pkgs.pavucontrol;
 
-  volume-script = pkgs.writeShellScriptBin "waybar-volume" ''
+  volume-script = pkgs.writeShellApplication {
+    name = "waybar-volume";
+    runtimeInputs = [
+      pkgs.pulseaudio
+      pkgs.libnotify
+      pkgs.gawk
+    ];
+    text = ''
     VALUE=1
     MIN=0
     MAX=100
@@ -41,7 +45,7 @@
 
     check-muted() {
       local muted
-      muted=$(${pactl} "get-$dev_mute" "$dev" | ${awk} '{print $2}')
+      muted=$(pactl "get-$dev_mute" "$dev" | awk '{print $2}')
       local state
       case $muted in
         'yes') state='Muted' ;;
@@ -52,7 +56,7 @@
     }
 
     get-volume() {
-      ${pactl} "get-$dev_vol" "$dev" | ${awk} '{print $5}' | tr -d '%'
+      pactl "get-$dev_vol" "$dev" | awk '{print $5}' | tr -d '%'
     }
 
     get-icon() {
@@ -75,8 +79,8 @@
     }
 
     toggle-mute() {
-      ${pactl} "set-$dev_mute" "$dev" toggle
-      ${notify-send} "$title: $(check-muted)" -i "$(get-icon)" -r 2425 -h string:x-canonical-private-synchronous:volume
+      pactl "set-$dev_mute" "$dev" toggle
+      notify-send "$title: $(check-muted)" -i "$(get-icon)" -r 2425 -h string:x-canonical-private-synchronous:volume
      }
 
     set-volume() {
@@ -95,12 +99,12 @@
           ;;
       esac
 
-      ${pactl} "set-$dev_vol" "$dev" "''${new_vol}%"
+      pactl "set-$dev_vol" "$dev" "''${new_vol}%"
 
       local icon
       icon=$(get-icon "$new_vol")
 
-      ${notify-send} "$title: ''${new_vol}%" -h int:value:$new_vol -i "$icon" -r 2425 -h string:x-canonical-private-synchronous:volume
+      notify-send "$title: ''${new_vol}%" -h int:value:$new_vol -i "$icon" -r 2425 -h string:x-canonical-private-synchronous:volume
     }
 
     main() {
@@ -136,7 +140,8 @@
     }
 
     main "$@"
-  '';
+    '';
+  };
 in {
   programs.waybar.settings.default = {
     "group/pulseaudio" = {

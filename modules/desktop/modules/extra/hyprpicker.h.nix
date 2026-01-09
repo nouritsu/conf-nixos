@@ -6,17 +6,21 @@
   ...
 }: let
   wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
-  wezterm = lib.getExe' wezterm-pkg "wezterm";
 
-  hyprpicker = lib.getExe pkgs.hyprpicker;
-  pastel = lib.getExe pkgs.pastel;
-
-  colour-picker = pkgs.writeShellScriptBin "colour-picker" ''
-    colour=$(${hyprpicker} --autocopy --lowercase-hex)
-    if [ -n "$colour" ]; then
-      ${wezterm} start --class colour-info -- sh -c "printf '\033[?25l'; echo ''${colour#\#} | ${pastel} color; read -s -r"
-    fi
-  '';
+  colour-picker = pkgs.writeShellApplication {
+    name = "colour-picker";
+    runtimeInputs = [
+      pkgs.hyprpicker
+      wezterm-pkg
+      pkgs.pastel
+    ];
+    text = ''
+      colour=$(hyprpicker --autocopy --lowercase-hex)
+      if [ -n "$colour" ]; then
+        wezterm start --class colour-info -- sh -c "printf '\033[?25l'; echo ''${colour#\#} | pastel color; read -s -r"
+      fi
+    '';
+  };
 in {
   home.packages = [
     colour-picker

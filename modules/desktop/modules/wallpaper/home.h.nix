@@ -1,10 +1,12 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   wallpaper_dir = "$NH_FLAKE/modules/desktop/mod/core/wallpaper";
 
-  swww = lib.getExe pkgs.swww;
   gum = lib.getExe pkgs.gum;
   logger = lib.getExe' pkgs.util-linux "logger";
-  fd = lib.getExe pkgs.fd;
 
   log = pkgs.writeShellScript "log" ''
     level="$1"
@@ -15,33 +17,40 @@
     ${logger} -p "user.$level" -t "$(basename "$0")" "$message"
   '';
 
-  swww-change-wallpaper = pkgs.writeShellScriptBin "swww-change-wallpaper" ''
-    log(){ ${log} "$@"; }
+  swww-change-wallpaper = pkgs.writeShellApplication {
+    name = "swww-change-wallpaper";
+    runtimeInputs = [
+      pkgs.swww
+      pkgs.fd
+    ];
+    text = ''
+      log(){ ${log} "$@"; }
 
-    dir="${wallpaper_dir}"
-    dir=$(eval echo "$dir")
+      dir="${wallpaper_dir}"
+      dir=$(eval echo "$dir")
 
-    if [[ ! -d "$dir" ]]; then
-      log error "wallpaper directory not found: $dir"
-      exit 1
-    fi
+      if [[ ! -d "$dir" ]]; then
+        log error "wallpaper directory not found: $dir"
+        exit 1
+      fi
 
-    mapfile -t wallpapers < <(${fd} -e png -e jpg -e jpeg -e gif -e webp . "$dir" --type f)
+      mapfile -t wallpapers < <(fd -e png -e jpg -e jpeg -e gif -e webp . "$dir" --type f)
 
-    if [[ ''${#wallpapers[@]} -eq 0 ]]; then
-      log error "wallpaper directory is empty: $dir"
-      exit 1
-    fi
+      if [[ ''${#wallpapers[@]} -eq 0 ]]; then
+        log error "wallpaper directory is empty: $dir"
+        exit 1
+      fi
 
-    selected="''${wallpapers[RANDOM % ''${#wallpapers[@]}]}"
+      selected="''${wallpapers[RANDOM % ''${#wallpapers[@]}]}"
 
-    log info "setting wallpaper: $selected"
-    ${swww} img $selected \
-    --transition-type grow \
-    --transition-duration 2 \
-    --transition-fps 165 \
-    --transition-pos 0.85,0.95
-  '';
+      log info "setting wallpaper: $selected"
+      swww img "$selected" \
+      --transition-type grow \
+      --transition-duration 2 \
+      --transition-fps 165 \
+      --transition-pos 0.85,0.95
+    '';
+  };
 in {
   home.packages = [swww-change-wallpaper pkgs.swww];
 
