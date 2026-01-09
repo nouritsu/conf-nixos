@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  glow = "${pkgs.glow}/bin/glow";
+{lib, pkgs, ...}: let
+  glow = lib.getExe pkgs.glow;
 in {
   home.shellAliases = {
     view-md = "${glow}";

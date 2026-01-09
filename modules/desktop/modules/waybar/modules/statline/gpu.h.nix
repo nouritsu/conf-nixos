@@ -1,14 +1,16 @@
 {
+  lib,
   pkgs,
   waybar_lib,
   ...
 }: let
-  terminal-launch = "${pkgs.wezterm}/bin/wezterm-gui start";
-  nvtop = "${pkgs.nvtopPackages.nvidia}/bin/nvtop"; # change based on gpu
-  jq = "${pkgs.jq}/bin/jq";
+  wezterm-gui = lib.getExe' pkgs.wezterm "wezterm-gui";
+  terminal-launch = "${wezterm-gui} start";
+  nvtop = lib.getExe' pkgs.nvtopPackages.nvidia "nvtop"; # change based on gpu
+  jq = lib.getExe pkgs.jq;
 
   waybar-gpu-usage = let
-    gpu-usage-waybar = "${pkgs.gpu-usage-waybar}/bin/gpu-usage-waybar";
+    gpu-usage-waybar = lib.getExe pkgs.gpu-usage-waybar;
   in
     pkgs.writeShellScript "waybar-gpu-usage" ''
       ( ${gpu-usage-waybar} & ) 2>/dev/null | head -n 1 | ${jq} -c '

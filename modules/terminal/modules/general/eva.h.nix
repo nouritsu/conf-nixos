@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  eva = "${pkgs.eva}/bin/eva";
+{lib, pkgs, ...}: let
+  eva = lib.getExe pkgs.eva;
 in {
   home.shellAliases = rec {
     calculator = eva;

@@ -1,9 +1,10 @@
 {
+  lib,
   pkgs,
   waybar_lib,
   ...
 }: let
-  wleave = "${pkgs.wleave}/bin/wleave";
+  wleave = lib.getExe pkgs.wleave;
 in {
   programs.waybar.settings.default."custom/power-menu" = {
     format = "󰤄 ";

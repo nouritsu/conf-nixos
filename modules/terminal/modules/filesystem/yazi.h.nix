@@ -1,11 +1,12 @@
 {
   inputs,
+  lib,
   osConfig,
   pkgs,
   ...
 }: let
   yazi-pkg = inputs.yazi.packages.${osConfig.my.system.arch}.default;
-  yazi = "${yazi-pkg}/bin/yazi";
+  yazi = lib.getExe yazi-pkg;
 
   plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";

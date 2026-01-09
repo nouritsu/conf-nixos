@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  grex = "${pkgs.grex}/bin/grex";
+{lib, pkgs, ...}: let
+  grex = lib.getExe pkgs.grex;
 in {
   home.packages = [
     pkgs.grex

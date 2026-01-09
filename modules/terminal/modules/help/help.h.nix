@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  navi = "${pkgs.navi}/bin/navi";
+{lib, pkgs, ...}: let
+  navi = lib.getExe pkgs.navi;
 in {
   home.packages = [
     pkgs.tealdeer

@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   waybar_lib,
   ...
@@ -8,8 +9,8 @@
   # Cache file for the clock icon
   icon_cache = "$XDG_RUNTIME_DIR/waybar-clock-icon";
 
-  pkill = "${pkgs.procps}/bin/pkill";
-  gum = "${pkgs.gum}/bin/gum";
+  pkill = lib.getExe' pkgs.procps "pkill";
+  gum = lib.getExe pkgs.gum;
 
   update-icon = pkgs.writeShellScript "waybar-clock-update-icon" ''
     hour=$(date +%H)

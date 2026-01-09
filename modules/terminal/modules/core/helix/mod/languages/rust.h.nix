@@ -1,6 +1,6 @@
-{pkgs, ...}: let
-  rust-analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-  lldb-dap = "${pkgs.lldb}/bin/lldb-dap";
+{lib, pkgs, ...}: let
+  rust-analyzer = lib.getExe pkgs.rust-analyzer;
+  lldb-dap = lib.getExe' pkgs.lldb "lldb-dap";
 in {
   programs.helix.languages = {
     language-server = {

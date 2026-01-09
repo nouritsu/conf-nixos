@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  vesktop = "${pkgs.vesktop}/bin/vesktop";
+{lib, pkgs, ...}: let
+  vesktop = lib.getExe pkgs.vesktop;
 in {
   home.packages = [
     pkgs.telegram-desktop

@@ -1,15 +1,15 @@
-{pkgs, ...}: let
-  wget2 = "${pkgs.wget2}/bin/wget";
-  axel = "${pkgs.axel}/bin/axel";
-  yt-dlp = "${pkgs.yt-dlp}/bin/yt-dlp";
-  spotdl = "${pkgs.spotdl}/bin/spotdl";
+{lib, pkgs, ...}: let
+  wget = lib.getExe' pkgs.wget2 "wget";
+  axel = lib.getExe pkgs.axel;
+  yt-dlp = lib.getExe pkgs.yt-dlp;
+  spotdl = lib.getExe pkgs.spotdl;
 in {
   home.packages = [
     pkgs.wget # usable with `command wget`
   ];
 
   home.shellAliases = rec {
-    wget = wget2;
+    inherit wget;
     download = axel;
 
     download-youtube = yt-dlp;

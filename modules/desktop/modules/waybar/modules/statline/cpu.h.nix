@@ -1,10 +1,12 @@
 {
+  lib,
   waybar_lib,
   pkgs,
   ...
 }: let
-  terminal-launch = "${pkgs.wezterm}/bin/wezterm-gui start";
-  btop = "${pkgs.btop}/bin/btop";
+  wezterm-gui = lib.getExe' pkgs.wezterm "wezterm-gui";
+  terminal-launch = "${wezterm-gui} start";
+  btop = lib.getExe pkgs.btop;
 in {
   programs.waybar.settings.default = {
     cpu = {

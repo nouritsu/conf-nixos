@@ -1,10 +1,11 @@
 {
   inputs,
+  lib,
   pkgs,
   config,
   ...
 }: let
-  tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
+  tuigreet = lib.getExe pkgs.tuigreet;
   hyprland-sessions = "${inputs.hyprland.packages.${config.my.system.arch}.hyprland}/share/wayland-sessions";
 in {
   services.greetd = {

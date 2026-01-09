@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   osConfig,
   inputs,
@@ -8,11 +9,11 @@
   sig = 8;
 
   hyprland = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
-  hyprctl = "${hyprland}/bin/hyprctl";
-  jq = "${pkgs.jq}/bin/jq";
-  socat = "${pkgs.socat}/bin/socat";
-  gum = "${pkgs.gum}/bin/gum";
-  pkill = "${pkgs.procps}/bin/pkill";
+  hyprctl = lib.getExe' hyprland "hyprctl";
+  jq = lib.getExe pkgs.jq;
+  socat = lib.getExe pkgs.socat;
+  gum = lib.getExe pkgs.gum;
+  pkill = lib.getExe' pkgs.procps "pkill";
 
   scratchpad = pkgs.writeShellScript "waybar-scratchpad" ''
     id=$(${hyprctl} monitors -j | ${jq} -r '.[] | select(.focused) | .specialWorkspace.id')

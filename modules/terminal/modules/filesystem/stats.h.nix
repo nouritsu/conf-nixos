@@ -1,6 +1,6 @@
-{pkgs, ...}: let
-  dust = "${pkgs.dust}/bin/dust";
-  tokei = "${pkgs.tokei}/bin/tokei";
+{lib, pkgs, ...}: let
+  dust = lib.getExe pkgs.dust;
+  tokei = lib.getExe pkgs.tokei;
 in {
   home.packages = [
     pkgs.dust

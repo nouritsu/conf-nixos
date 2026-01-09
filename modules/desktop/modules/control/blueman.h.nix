@@ -1,7 +1,6 @@
-{pkgs, ...}: let
-  blueman = "${pkgs.blueman}";
-  blueman-applet = "${blueman}/bin/blueman-applet";
-  blueman-manager = "${blueman}/bin/blueman-manager";
+{lib, pkgs, ...}: let
+  blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
+  blueman-manager = lib.getExe' pkgs.blueman "blueman-manager";
 in {
   home.packages = [
     pkgs.blueman

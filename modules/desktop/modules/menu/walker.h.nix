@@ -1,9 +1,10 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
 }: let
-  walker = "${pkgs.walker}/bin/walker";
+  walker = lib.getExe pkgs.walker;
 in {
   imports = [
     inputs.walker.homeManagerModules.default

@@ -1,16 +1,18 @@
 {
   inputs,
+  lib,
   osConfig,
   ...
 }: let
   wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
+  hyprcwd-pkg = inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default;
+
+  hyprcwd = lib.getExe' hyprcwd-pkg "hyprcwd";
   wezterm = rec {
-    bin = "${wezterm-pkg}/bin/wezterm-gui";
+    bin = lib.getExe' wezterm-pkg "wezterm-gui";
     cwd = "${bin} start --cwd \$(${hyprcwd}|| echo \$HOME)";
   };
-  wezterm-mux-server = "${wezterm-pkg}/bin/wezterm-mux-server";
-
-  hyprcwd = "${inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default}/bin/hyprcwd";
+  wezterm-mux-server = lib.getExe' wezterm-pkg "wezterm-mux-server";
 in {
   programs.wezterm = {
     enable = true;

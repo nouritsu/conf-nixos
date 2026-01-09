@@ -5,19 +5,19 @@
   inputs,
   ...
 }: let
-  nerdfetch = "${pkgs.nerdfetch}/bin/nerdfetch";
-  fastfetch = "${pkgs.fastfetch}/bin/fastfetch";
+  nerdfetch = lib.getExe pkgs.nerdfetch;
+  fastfetch = lib.getExe pkgs.fastfetch;
 
-  onefetch = "${pkgs.onefetch}/bin/onefetch";
+  onefetch = lib.getExe pkgs.onefetch;
 
-  cpufetch = "${pkgs.cpufetch}/bin/cpufetch";
+  cpufetch = lib.getExe pkgs.cpufetch;
   gpufetch =
     if is_nvidia
-    then "${pkgs.gpufetch.override {cudaSupport = true;}}/bin/gpufetch"
-    else "${pkgs.gpufetch}/bin/gpufetch";
-  ifetch = "${pkgs.ifetch}/bin/ifetch";
-  mfetch = "${pkgs.mfetch}/bin/mfetch";
-  batfetch = lib.mkIf is_laptop "${inputs.batfetch.packages.${pkgs.system}.default}/bin/batfetch";
+    then lib.getExe (pkgs.gpufetch.override {cudaSupport = true;})
+    else lib.getExe pkgs.gpufetch;
+  ifetch = lib.getExe pkgs.ifetch;
+  mfetch = lib.getExe pkgs.mfetch;
+  batfetch = lib.mkIf is_laptop (lib.getExe inputs.batfetch.packages.${pkgs.system}.default);
 
   # Meta
   is_laptop = osConfig.my.system.kind == "laptop";

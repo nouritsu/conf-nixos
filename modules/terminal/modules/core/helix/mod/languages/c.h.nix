@@ -1,6 +1,6 @@
-{pkgs, ...}: let
-  clangd = "${pkgs.clang-tools}/bin/clangd";
-  lldb-dap = "${pkgs.lldb}/bin/lldb-dap";
+{lib, pkgs, ...}: let
+  clangd = lib.getExe' pkgs.clang-tools "clangd";
+  lldb-dap = lib.getExe' pkgs.lldb "lldb-dap";
 in {
   programs.helix.languages = {
     language-server = {

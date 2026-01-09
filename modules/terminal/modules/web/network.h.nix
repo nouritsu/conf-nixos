@@ -1,8 +1,8 @@
-{pkgs, ...}: let
-  xh = "${pkgs.xh}/bin/xh";
-  speedtest-rs = "${pkgs.speedtest-rs}/bin/speedtest-rs";
-  browsh = "${pkgs.browsh}/bin/browsh";
-  wiki-tui = "${pkgs.wiki-tui}/bin/wiki-tui";
+{lib, pkgs, ...}: let
+  xh = lib.getExe pkgs.xh;
+  speedtest-rs = lib.getExe pkgs.speedtest-rs;
+  browsh = lib.getExe pkgs.browsh;
+  wiki-tui = lib.getExe pkgs.wiki-tui;
 in {
   home.packages = [
     pkgs.wiki-tui

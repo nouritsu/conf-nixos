@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  evcxr = "${pkgs.evcxr}/bin/evcxr";
+{lib, pkgs, ...}: let
+  evcxr = lib.getExe pkgs.evcxr;
 in {
   home.packages = [
     pkgs.rustup

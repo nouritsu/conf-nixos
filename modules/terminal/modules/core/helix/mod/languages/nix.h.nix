@@ -1,7 +1,7 @@
-{pkgs, ...}: let
-  nixd = "${pkgs.nixd}/bin/nixd";
-  nil = "${pkgs.nil}/bin/nil";
-  alejandra = "${pkgs.alejandra}/bin/alejandra";
+{lib, pkgs, ...}: let
+  nixd = lib.getExe pkgs.nixd;
+  nil = lib.getExe pkgs.nil;
+  alejandra = lib.getExe pkgs.alejandra;
 in {
   programs.helix.languages = {
     language-server = {

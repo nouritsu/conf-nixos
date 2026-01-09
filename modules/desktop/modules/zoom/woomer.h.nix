@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  woomer = "${pkgs.woomer}/bin/woomer";
+{lib, pkgs, ...}: let
+  woomer = lib.getExe pkgs.woomer;
 in {
   home.packages = [
     pkgs.woomer

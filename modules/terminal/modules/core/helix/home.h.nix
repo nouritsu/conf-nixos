@@ -1,11 +1,12 @@
 {
   config,
   inputs,
+  lib,
   osConfig,
   ...
 }: let
   helix-pkg = inputs.helix.packages.${osConfig.my.system.arch}.default;
-  hx = "${helix-pkg}/bin/hx";
+  hx = lib.getExe' helix-pkg "hx";
   cfg = config.my.helix;
 in {
   imports = [

@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  hexyl = "${pkgs.hexyl}/bin/hexyl";
+{lib, pkgs, ...}: let
+  hexyl = lib.getExe pkgs.hexyl;
 in {
   home.shellAliases = rec {
     view-bytes = hexyl;

@@ -5,10 +5,10 @@
 }: let
   cd_abbr_count = 7;
 
-  lsd = "${pkgs.lsd}/bin/lsd";
-  bat = "${pkgs.bat}/bin/bat";
-  xcp = "${pkgs.xcp}/bin/xcp";
-  rip2 = "${pkgs.rip2}/bin/rip";
+  lsd = lib.getExe pkgs.lsd;
+  bat = lib.getExe pkgs.bat;
+  xcp = lib.getExe pkgs.xcp;
+  rip = lib.getExe' pkgs.rip2 "rip";
 in {
   home = {
     packages = with pkgs; [
@@ -30,7 +30,7 @@ in {
 
       cp = xcp;
 
-      rm = "${rip2} --inspect";
+      rm = "${rip} --inspect";
     };
   };
 

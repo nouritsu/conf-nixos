@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  fish = "${pkgs.fish}/bin/fish";
+{lib, pkgs, ...}: let
+  fish = lib.getExe pkgs.fish;
 in {
   programs.helix.settings.editor = {
     line-number = "relative";

@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{lib, pkgs, ...}: let
+  any-nix-shell = lib.getExe pkgs.any-nix-shell;
+in {
   home.packages = [
     pkgs.any-nix-shell
   ];
@@ -8,6 +10,6 @@
     fish
     */
     ''
-      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+      ${any-nix-shell} fish --info-right | source
     '';
 }

@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  firefox = "${pkgs.firefox}/bin/firefox";
+{lib, pkgs, ...}: let
+  firefox = lib.getExe pkgs.firefox;
 in {
   programs.firefox = {
     enable = true;

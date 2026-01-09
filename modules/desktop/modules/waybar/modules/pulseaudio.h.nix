@@ -1,7 +1,8 @@
-{pkgs, ...}: let
-  pactl = "${pkgs.pulseaudio}/bin/pactl";
-  notify-send = "${pkgs.libnotify}/bin/notify-send";
-  awk = "${pkgs.gawk}/bin/awk";
+{lib, pkgs, ...}: let
+  pactl = lib.getExe' pkgs.pulseaudio "pactl";
+  notify-send = lib.getExe' pkgs.libnotify "notify-send";
+  awk = lib.getExe' pkgs.gawk "awk";
+  pavucontrol = lib.getExe pkgs.pavucontrol;
 
   volume-script = pkgs.writeShellScriptBin "waybar-volume" ''
     VALUE=1
@@ -166,7 +167,7 @@ in {
       };
       min-length = 7;
       max-length = 7;
-      on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+      on-click = pavucontrol;
       on-click-right = "${volume-script}/bin/waybar-volume output mute";
       on-scroll-up = "${volume-script}/bin/waybar-volume output raise";
       on-scroll-down = "${volume-script}/bin/waybar-volume output lower";
@@ -178,7 +179,7 @@ in {
       format-source-muted = " ";
       min-length = 7;
       max-length = 7;
-      on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+      on-click = pavucontrol;
       on-click-right = "${volume-script}/bin/waybar-volume input mute";
       on-scroll-up = "${volume-script}/bin/waybar-volume input raise";
       on-scroll-down = "${volume-script}/bin/waybar-volume input lower";

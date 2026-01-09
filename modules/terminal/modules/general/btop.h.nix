@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  btop = "${pkgs.btop}/bin/btop";
+{lib, pkgs, ...}: let
+  btop = lib.getExe pkgs.btop;
 in {
   programs.btop = {
     enable = true;

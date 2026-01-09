@@ -1,8 +1,8 @@
-{pkgs, ...}: let
+{lib, pkgs, ...}: let
   max-volume = toString 1.25;
-  pasystray = "${pkgs.pasystray}/bin/pasystray";
-  pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
-  wpctl = "${pkgs.wireplumber}/bin/wpctl";
+  pasystray = lib.getExe pkgs.pasystray;
+  pavucontrol = lib.getExe pkgs.pavucontrol;
+  wpctl = lib.getExe' pkgs.wireplumber "wpctl";
 in {
   home.packages = [
     pkgs.pasystray

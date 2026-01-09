@@ -1,6 +1,6 @@
-{pkgs, ...}: let
-  brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-  notify-send = "${pkgs.libnotify}/bin/notify-send";
+{lib, pkgs, ...}: let
+  brightnessctl = lib.getExe pkgs.brightnessctl;
+  notify-send = lib.getExe' pkgs.libnotify "notify-send";
 
   backlight-script = pkgs.writeShellScriptBin "waybar-backlight" ''
     case "$1" in

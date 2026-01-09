@@ -1,13 +1,14 @@
 {
+  lib,
   pkgs,
   inputs,
   osConfig,
   ...
 }: let
   hyprland = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
-  hyprctl = "${hyprland}/bin/hyprctl";
-  jq = "${pkgs.jq}/bin/jq";
-  wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+  hyprctl = lib.getExe' hyprland "hyprctl";
+  jq = lib.getExe pkgs.jq;
+  wl-copy = lib.getExe' pkgs.wl-clipboard "wl-copy";
 
   copy-active-pid = pkgs.writeShellScript "waybar-copy-active-pid" ''
     # focusHistoryID = 0 => window is in focus

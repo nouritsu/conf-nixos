@@ -1,11 +1,12 @@
 {
   config,
+  lib,
   osConfig,
   inputs,
   ...
 }: let
   hyprlock-pkg = inputs.hyprlock.packages.${osConfig.my.system.arch}.hyprlock;
-  hyprlock = "${hyprlock-pkg}/bin/hyprlock";
+  hyprlock = lib.getExe hyprlock-pkg;
 
   colors = config.lib.stylix.colors;
   to_rgb = base: "rgb(${colors."${base}-rgb-r"}, ${colors."${base}-rgb-g"}, ${colors."${base}-rgb-b"})";

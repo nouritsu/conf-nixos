@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   osConfig,
   inputs,
@@ -6,8 +7,8 @@
   ...
 }: let
   hyprland = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
-  hyprctl = "${hyprland}/bin/hyprctl";
-  jq = "${pkgs.jq}/bin/jq";
+  hyprctl = lib.getExe' hyprland "hyprctl";
+  jq = lib.getExe pkgs.jq;
 
   divr-gws0 = pkgs.writeShellScript "waybar-divr-gws0" ''
     id=$(${hyprctl} monitors -j | ${jq} -r '.[] | select(.focused) | .specialWorkspace.id')

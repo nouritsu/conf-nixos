@@ -1,11 +1,11 @@
-{pkgs, ...}: let
-  basedpyright = "${pkgs.basedpyright}/bin/basedpyright-langserver";
-  ruff = "${pkgs.ruff}/bin/ruff";
+{lib, pkgs, ...}: let
+  basedpyright-langserver = lib.getExe' pkgs.basedpyright "basedpyright-langserver";
+  ruff = lib.getExe pkgs.ruff;
 in {
   programs.helix.languages = {
     language-server = {
       basedpyright = {
-        command = basedpyright;
+        command = basedpyright-langserver;
         args = ["--stdio"];
         config = {};
       };

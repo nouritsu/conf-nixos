@@ -1,15 +1,15 @@
-{pkgs, ...}: let
+{lib, pkgs, ...}: let
   screenshot-dir-home = "images/screenshots";
-  grim = "${pkgs.grim}/bin/grim";
-  slurp = "${pkgs.slurp}/bin/slurp";
-  swappy = "${pkgs.swappy}/bin/swappy";
-  hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-  jq = "${pkgs.jq}/bin/jq";
-  gum = "${pkgs.gum}/bin/gum";
-  hostname = "${pkgs.nettools}/bin/hostname";
-  notify-send = "${pkgs.libnotify}/bin/notify-send";
-  xdg-open = "${pkgs.xdg-utils}/bin/xdg-open";
-  wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+  grim = lib.getExe pkgs.grim;
+  slurp = lib.getExe pkgs.slurp;
+  swappy = lib.getExe pkgs.swappy;
+  hyprctl = lib.getExe' pkgs.hyprland "hyprctl";
+  jq = lib.getExe pkgs.jq;
+  gum = lib.getExe pkgs.gum;
+  hostname = lib.getExe' pkgs.nettools "hostname";
+  notify-send = lib.getExe' pkgs.libnotify "notify-send";
+  xdg-open = lib.getExe' pkgs.xdg-utils "xdg-open";
+  wl-copy = lib.getExe' pkgs.wl-clipboard "wl-copy";
   screenshot = pkgs.writeShellScriptBin "screenshot" ''
     MODE="$1"
     LOG_FILE="$HOME/.local/state/screenshot/screenshot.log"

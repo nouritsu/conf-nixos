@@ -1,8 +1,8 @@
-{pkgs, ...}: let
-  fd = "${pkgs.fd}/bin/fd";
-  fzf = "${pkgs.fzf}/bin/fzf";
-  ripgrep = "${pkgs.ripgrep}/bin/rg";
-  ripgrep-all = "${pkgs.ripgrep-all}/bin/rga";
+{lib, pkgs, ...}: let
+  fd = lib.getExe pkgs.fd;
+  fzf = lib.getExe pkgs.fzf;
+  rg = lib.getExe' pkgs.ripgrep "rg";
+  rga = lib.getExe' pkgs.ripgrep-all "rga";
 in {
   home.packages = [
     pkgs.ripgrep # rg
@@ -19,9 +19,9 @@ in {
 
     fz = fzf;
 
-    grep = ripgrep;
+    grep = rg;
 
-    grepa = ripgrep-all;
+    grepa = rga;
     grep-all = grepa;
   };
 

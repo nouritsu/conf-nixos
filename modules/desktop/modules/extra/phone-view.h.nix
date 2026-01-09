@@ -1,19 +1,19 @@
-{pkgs, ...}: let
+{lib, pkgs, ...}: let
   PHONE_MODEL = "Pixel 9 Pro XL";
   CACHE_FILE = "$XDG_RUNTIME_DIR/phone-adb-address";
   AVAHI_TIMEOUT = 5;
   ADB_TIMEOUT = 3;
 
-  avahi-browse = "${pkgs.avahi}/bin/avahi-browse";
-  grep = "${pkgs.gnugrep}/bin/grep";
-  awk = "${pkgs.gawk}/bin/awk";
-  notify-send = "${pkgs.libnotify}/bin/notify-send";
-  scrcpy = "${pkgs.scrcpy}/bin/scrcpy";
-  adb = "${pkgs.android-tools}/bin/adb";
-  gum = "${pkgs.gum}/bin/gum";
-  logger = "${pkgs.util-linux}/bin/logger";
-  iwgetid = "${pkgs.wirelesstools}/bin/iwgetid";
-  systemctl = "${pkgs.systemd}/bin/systemctl";
+  avahi-browse = lib.getExe' pkgs.avahi "avahi-browse";
+  grep = lib.getExe' pkgs.gnugrep "grep";
+  awk = lib.getExe' pkgs.gawk "awk";
+  notify-send = lib.getExe' pkgs.libnotify "notify-send";
+  scrcpy = lib.getExe pkgs.scrcpy;
+  adb = lib.getExe' pkgs.android-tools "adb";
+  gum = lib.getExe pkgs.gum;
+  logger = lib.getExe' pkgs.util-linux "logger";
+  iwgetid = lib.getExe' pkgs.wirelesstools "iwgetid";
+  systemctl = lib.getExe' pkgs.systemd "systemctl";
 
   log = pkgs.writeShellScript "log" ''
     level="$1"

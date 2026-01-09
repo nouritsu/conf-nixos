@@ -1,14 +1,15 @@
 {
+  lib,
   pkgs,
   inputs,
   osConfig,
   ...
 }: let
   wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
-  wezterm = "${wezterm-pkg}/bin/wezterm";
+  wezterm = lib.getExe' wezterm-pkg "wezterm";
 
-  hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
-  pastel = "${pkgs.pastel}/bin/pastel";
+  hyprpicker = lib.getExe pkgs.hyprpicker;
+  pastel = lib.getExe pkgs.pastel;
 
   colour-picker = pkgs.writeShellScriptBin "colour-picker" ''
     colour=$(${hyprpicker} --autocopy --lowercase-hex)

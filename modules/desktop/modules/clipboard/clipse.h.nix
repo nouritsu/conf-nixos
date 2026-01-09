@@ -1,12 +1,13 @@
 {
   inputs,
+  lib,
   osConfig,
   pkgs,
   ...
 }: let
   wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
-  wezterm = "${wezterm-pkg}/bin/wezterm";
-  clipse = "${pkgs.clipse}/bin/clipse";
+  wezterm = lib.getExe' wezterm-pkg "wezterm";
+  clipse = lib.getExe pkgs.clipse;
 
   clipboard-history = pkgs.writeShellScriptBin "clipboard-history" ''
     ${wezterm} start --class clipboard-history ${clipse}

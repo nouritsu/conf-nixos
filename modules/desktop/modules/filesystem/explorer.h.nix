@@ -1,23 +1,24 @@
 {
+  lib,
   pkgs,
   inputs,
   osConfig,
   ...
 }: let
   wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
+  yazi-pkg = inputs.yazi.packages.${osConfig.my.system.arch}.default;
+  hyprcwd-pkg = inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default;
+
+  hyprcwd = lib.getExe' hyprcwd-pkg "hyprcwd";
+  yazi = lib.getExe yazi-pkg;
   wezterm = rec {
-    bin = "${wezterm-pkg}/bin/wezterm-gui";
+    bin = lib.getExe' wezterm-pkg "wezterm-gui";
     cwd = "${bin} start --cwd \$(${hyprcwd}|| echo \$HOME)";
   };
-
-  yazi-pkg = inputs.yazi.packages.${osConfig.my.system.arch}.default;
-  yazi = "${yazi-pkg}/bin/yazi";
-
   nautilus = rec {
-    bin = "${pkgs.nautilus}/bin/nautilus";
+    bin = lib.getExe pkgs.nautilus;
     cwd = "${bin} \$(${hyprcwd} || echo \$HOME)";
   };
-  hyprcwd = "${inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default}/bin/hyprcwd";
 in {
   home.packages = [
     pkgs.nautilus

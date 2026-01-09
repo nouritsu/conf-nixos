@@ -1,5 +1,5 @@
-{pkgs, ...}: let
-  steam = "${pkgs.steam}/bin/steam";
+{lib, pkgs, ...}: let
+  steam = lib.getExe pkgs.steam;
 in {
   home.packages = [
     pkgs.mangohud

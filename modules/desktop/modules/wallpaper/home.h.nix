@@ -1,10 +1,10 @@
-{pkgs, ...}: let
+{lib, pkgs, ...}: let
   wallpaper_dir = "$NH_FLAKE/modules/desktop/mod/core/wallpaper";
 
-  swww = "${pkgs.swww}/bin/swww";
-  gum = "${pkgs.gum}/bin/gum";
-  logger = "${pkgs.util-linux}/bin/logger";
-  fd = "${pkgs.fd}/bin/fd";
+  swww = lib.getExe pkgs.swww;
+  gum = lib.getExe pkgs.gum;
+  logger = lib.getExe' pkgs.util-linux "logger";
+  fd = lib.getExe pkgs.fd;
 
   log = pkgs.writeShellScript "log" ''
     level="$1"

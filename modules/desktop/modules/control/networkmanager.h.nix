@@ -1,6 +1,6 @@
-{pkgs, ...}: let
-  nm-applet = "${pkgs.networkmanagerapplet}/bin/nm-applet";
-  nm-connection-editor = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
+{lib, pkgs, ...}: let
+  nm-applet = lib.getExe' pkgs.networkmanagerapplet "nm-applet";
+  nm-connection-editor = lib.getExe' pkgs.networkmanagerapplet "nm-connection-editor";
 in {
   home.packages = [
     pkgs.networkmanager
