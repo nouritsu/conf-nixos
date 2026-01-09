@@ -1,6 +1,7 @@
 {pkgs, ...}: let
   max-volume = toString 1.25;
   pasystray = "${pkgs.pasystray}/bin/pasystray";
+  pavucontrol = "${pkgs.pavucontrol}/bin/pavucontrol";
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
 in {
   home.packages = [
@@ -16,6 +17,10 @@ in {
     ",XF86AudioRaiseVolume, exec, ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit ${max-volume}"
     ",XF86AudioLowerVolume, exec, ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%- --limit ${max-volume}"
     ",XF86AudioMute, exec, ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  ];
+
+  wayland.windowManager.hyprland.settings.bind = [
+    "SUPER, A, exec, ${pavucontrol}"
   ];
 
   wayland.windowManager.hyprland.settings.windowrule = let

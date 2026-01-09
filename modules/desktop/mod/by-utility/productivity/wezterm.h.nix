@@ -32,6 +32,7 @@ in {
             'sh',
             'fish',
             'yazi',
+            'clipse'
           },
         }
       '';

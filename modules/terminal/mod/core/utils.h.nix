@@ -14,7 +14,6 @@ in {
     packages = with pkgs; [
       uutils-coreutils-noprefix
       killall
-      wl-clipboard-rs
 
       nix-output-monitor
     ];
