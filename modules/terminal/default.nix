@@ -1,6 +1,6 @@
 {
   imports = [
-    # core/shell
-    ./mod/core/shell
+    # shell
+    ./modules/shell
   ];
 }

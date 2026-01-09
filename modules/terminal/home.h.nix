@@ -1,47 +1,53 @@
 {
   imports = [
-    # by-utility
-    ## development
-    ./mod/by-utility/development/android.h.nix
-    ./mod/by-utility/development/common.h.nix
-    ./mod/by-utility/development/git.h.nix
-    ./mod/by-utility/development/json.h.nix
-    ./mod/by-utility/development/nix.h.nix
-    ./mod/by-utility/development/python.h.nix
-    ./mod/by-utility/development/regex.h.nix
-    ./mod/by-utility/development/rust.h.nix
-    ## filesystem
-    ./mod/by-utility/filesystem/find.h.nix
-    ./mod/by-utility/filesystem/fs.h.nix
-    ./mod/by-utility/filesystem/ntfs.h.nix
-    ./mod/by-utility/filesystem/stats.h.nix
-    ./mod/by-utility/filesystem/yazi.h.nix
-    ./mod/by-utility/filesystem/zoxide.h.nix
-    ## general
-    ./mod/by-utility/general/btop.h.nix
-    ./mod/by-utility/general/eva.h.nix
-    ./mod/by-utility/general/helix/home.h.nix
-    ./mod/by-utility/general/hyperfine.h.nix
-    ./mod/by-utility/general/sysfetch.h.nix
-    ## help
-    ./mod/by-utility/help/help.h.nix
-    ./mod/by-utility/help/tealdeer.h.nix
-    ## media
-    ./mod/by-utility/media/av.h.nix
-    ./mod/by-utility/media/bytes.h.nix
-    ./mod/by-utility/media/markdown.h.nix
-    ./mod/by-utility/media/pdf.h.nix
-    ## web
-    ./mod/by-utility/web/download.h.nix
-    ./mod/by-utility/web/network.h.nix
-
     # core
-    ./mod/core/any-nix-shell.h.nix
-    ./mod/core/nixos.h.nix
-    ./mod/core/utils.h.nix
-    ## prompt
-    ./mod/core/prompt/home.h.nix
-    ## shell
-    ./mod/core/shell/home.h.nix
+    ./modules/core/helix/home.h.nix
+    ./modules/core/nixos.h.nix
+    ./modules/core/utils.h.nix
+
+    # development
+    ./modules/development/android.h.nix
+    ./modules/development/common.h.nix
+    ./modules/development/git.h.nix
+    ./modules/development/json.h.nix
+    ./modules/development/nix.h.nix
+    ./modules/development/python.h.nix
+    ./modules/development/regex.h.nix
+    ./modules/development/rust.h.nix
+
+    # filesystem
+    ./modules/filesystem/find.h.nix
+    ./modules/filesystem/fs.h.nix
+    ./modules/filesystem/ntfs.h.nix
+    ./modules/filesystem/stats.h.nix
+    ./modules/filesystem/yazi.h.nix
+    ./modules/filesystem/zoxide.h.nix
+
+    # general
+    ./modules/general/btop.h.nix
+    ./modules/general/eva.h.nix
+    ./modules/general/hyperfine.h.nix
+    ./modules/general/sysfetch.h.nix
+
+    # help
+    ./modules/help/help.h.nix
+    ./modules/help/tealdeer.h.nix
+
+    # media
+    ./modules/media/av.h.nix
+    ./modules/media/bytes.h.nix
+    ./modules/media/markdown.h.nix
+    ./modules/media/pdf.h.nix
+
+    # prompt
+    ./modules/prompt/home.h.nix
+
+    # shell
+    ./modules/shell/any-nix-shell.h.nix
+    ./modules/shell/home.h.nix
+
+    # web
+    ./modules/web/download.h.nix
+    ./modules/web/network.h.nix
   ];
 }
