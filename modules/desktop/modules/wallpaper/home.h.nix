@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  wallpaper_dir = "$NH_FLAKE/modules/desktop/mod/core/wallpaper";
+  wallpaper_dir = "$NH_FLAKE/modules/desktop/modules/wallpaper";
 
   gum = lib.getExe pkgs.gum;
   logger = lib.getExe' pkgs.util-linux "logger";

@@ -36,5 +36,8 @@
     services/xserver.nix
     # user
     user/aneesh.nix
+    # virtualization
+    ./virtualization/docker.nix
+    ./virtualization/waydroid.nix
   ];
 }

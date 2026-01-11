@@ -30,7 +30,7 @@ in {
 
       cp = xcp;
 
-      rm = "${rip} --inspect";
+      rm = "${rip}";
     };
   };
 

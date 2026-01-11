@@ -14,6 +14,7 @@
     ./modules/development/python.h.nix
     ./modules/development/regex.h.nix
     ./modules/development/rust.h.nix
+    ./modules/development/docker.h.nix
 
     # filesystem
     ./modules/filesystem/find.h.nix

@@ -31,7 +31,7 @@
     hash = "sha256-dQjZwRT1aMo3u0YuR+g036iQANTXnndaDQ3AoJ1yb1k=h";
   };
 in {
-  home.packages = with pkgs; [mediainfo ouch];
+  home.packages = with pkgs; [mediainfo ouch glow];
 
   home.shellAliases = {
     fm = "${yazi}";
