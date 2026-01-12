@@ -1,9 +1,9 @@
 {
   imports = [
     # gaming
-    ./modules/gaming/steam
+    modules/gaming/steam
 
     # session
-    ./modules/session/tuigreet.nix
+    modules/session/tuigreet.nix
   ];
 }

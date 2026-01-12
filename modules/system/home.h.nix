@@ -1,6 +1,6 @@
 {
   imports = [
     # hm
-    ./nix/home-manager.h.nix
+    modules/nix/home-manager.h.nix
   ];
 }

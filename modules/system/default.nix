@@ -1,44 +1,55 @@
 {...}: {
   imports = [
     # audio
-    audio/pipewire.nix
+    modules/audio/pipewire.nix
+
     # boot
-    boot/grub.nix
-    boot/systemd-boot.nix
+    modules/boot/grub.nix
+    modules/boot/systemd-boot.nix
+
     # graphics
-    graphics/graphics.nix
-    graphics/nvidia.nix
+    modules/graphics/graphics.nix
+    modules/graphics/nvidia.nix
+
     # i18n
-    i18n/locale.nix
-    i18n/timezone.nix
+    modules/i18n/locale.nix
+    modules/i18n/timezone.nix
+
     # kernel
-    kernel/cachyos-bore-lto.nix
+    modules/kernel/cachyos-bore-lto.nix
+
     # networking
-    networking/avahi.nix
-    networking/bluetooth.nix
-    networking/networking.nix
-    networking/ssh.nix
+    modules/networking/avahi.nix
+    modules/networking/bluetooth.nix
+    modules/networking/networking.nix
+    modules/networking/ssh.nix
+
     # nix
-    nix/cache.nix
-    nix/maintainence.nix
-    nix/misc.nix
-    nix/nh.nix
-    nix/overlays.nix
+    modules/nix/cache.nix
+    modules/nix/maintainence.nix
+    modules/nix/misc.nix
+    modules/nix/nh.nix
+    modules/nix/overlays.nix
+
     # peripherals
-    peripherals/keyboard.nix
+    modules/peripherals/keyboard.nix
+
     # security
-    security/keyring.nix
-    security/polkit.nix
-    security/rtkit.nix
-    security/firewall.nix
+    modules/security/keyring.nix
+    modules/security/polkit.nix
+    modules/security/rtkit.nix
+    modules/security/firewall.nix
+
     # misc services
-    services/printing.nix
-    services/udev.nix
-    services/xserver.nix
+    modules/services/printing.nix
+    modules/services/udev.nix
+    modules/services/xserver.nix
+
     # user
-    user/aneesh.nix
+    modules/user/aneesh.nix
+
     # virtualization
-    ./virtualization/docker.nix
-    ./virtualization/waydroid.nix
+    modules/virtualization/docker.nix
+    modules/virtualization/waydroid.nix
   ];
 }

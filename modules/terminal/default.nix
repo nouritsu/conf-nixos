@@ -1,6 +1,6 @@
 {
   imports = [
     # shell
-    ./modules/shell
+    modules/shell
   ];
 }

@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  local_pkg = pkg: ../../../pkgs/${pkg}/package.nix;
+  local_pkg = pkg: ../../../../pkgs/${pkg}/package.nix;
 in {
   programs.home-manager.enable = true;
 
