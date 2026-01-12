@@ -30,6 +30,7 @@
     security/keyring.nix
     security/polkit.nix
     security/rtkit.nix
+    security/firewall.nix
     # misc services
     services/printing.nix
     services/udev.nix
