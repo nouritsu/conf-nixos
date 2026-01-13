@@ -18,11 +18,12 @@
     # kernel
     modules/kernel/cachyos-bore-lto.nix
 
-    # networking
-    modules/networking/avahi.nix
-    modules/networking/bluetooth.nix
-    modules/networking/networking.nix
-    modules/networking/ssh.nix
+    # network
+    modules/network/avahi.nix
+    modules/network/bluetooth.nix
+    modules/network/networking.nix
+    modules/network/ssh.nix
+    modules/network/vpn.nix
 
     # nix
     modules/nix/cache.nix

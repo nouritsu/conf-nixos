@@ -15,6 +15,7 @@
     modules/development/regex.h.nix
     modules/development/rust.h.nix
     modules/development/docker.h.nix
+    modules/development/slint.h.nix
 
     # filesystem
     modules/filesystem/find.h.nix
@@ -50,5 +51,6 @@
     # web
     modules/web/download.h.nix
     modules/web/network.h.nix
+    modules/web/vpn.h.nix
   ];
 }

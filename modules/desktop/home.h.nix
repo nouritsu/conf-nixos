@@ -38,6 +38,7 @@
     # media
     modules/media/music.h.nix
     modules/media/office.h.nix
+    modules/media/mpv.h.nix
     modules/media/pdf.h.nix
 
     # menu
@@ -74,6 +75,7 @@
     # web
     modules/web/communication.h.nix
     modules/web/firefox.h.nix
+    modules/web/vpn.h.nix
 
     # zoom
     modules/zoom/woomer.h.nix

@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   rust-analyzer = lib.getExe pkgs.rust-analyzer;
   lldb-dap = lib.getExe' pkgs.lldb "lldb-dap";
 in {

@@ -14,4 +14,5 @@
 
   # Secrets
   sops.secrets."ssh-public-key" = {};
+  sops.secrets."mullvad-account-number" = {};
 }

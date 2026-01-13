@@ -27,6 +27,7 @@ in {
     ./mod/languages/c.h.nix
     ./mod/languages/python.h.nix
     ./mod/languages/rust.h.nix
+    ./mod/languages/slint.h.nix
   ];
 
   programs.helix = {

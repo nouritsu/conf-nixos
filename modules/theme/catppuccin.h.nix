@@ -29,6 +29,7 @@
     hyprland.enable = true;
     hyprlock.enable = false;
     lsd.enable = true;
+    mpv.enable = true;
     starship.enable = true;
     swaync = {
       enable = true;
