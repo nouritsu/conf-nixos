@@ -16,6 +16,7 @@
     modules/development/rust.h.nix
     modules/development/docker.h.nix
     modules/development/slint.h.nix
+    modules/development/binsider.h.nix
 
     # filesystem
     modules/filesystem/find.h.nix
@@ -24,6 +25,7 @@
     modules/filesystem/stats.h.nix
     modules/filesystem/yazi.h.nix
     modules/filesystem/zoxide.h.nix
+    modules/filesystem/filebot.h.nix
 
     # general
     modules/general/btop.h.nix
