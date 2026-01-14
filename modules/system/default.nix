@@ -7,6 +7,10 @@
     modules/boot/grub.nix
     modules/boot/systemd-boot.nix
 
+    # filesystem
+    modules/filesystem/exfat.nix
+    modules/filesystem/ntfs.nix
+
     # graphics
     modules/graphics/graphics.nix
     modules/graphics/nvidia.nix

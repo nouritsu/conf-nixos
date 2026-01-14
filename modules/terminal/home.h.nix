@@ -31,6 +31,7 @@
     modules/general/btop.h.nix
     modules/general/eva.h.nix
     modules/general/hyperfine.h.nix
+    modules/general/compress.h.nix
     modules/general/sysfetch.h.nix
 
     # help

@@ -11,6 +11,6 @@
     nhrb = "nh os boot";
     nhrs = "nh os switch";
     nhrt = "nh os test";
-    nhps = "nh search";
+    nhs = "nh search";
   };
 }
