@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   PHONE_MODEL = "Pixel 9 Pro XL";
   CACHE_FILE = "$XDG_RUNTIME_DIR/phone-adb-address";
   AVAHI_TIMEOUT = 5;
@@ -28,7 +32,7 @@
     text = ''
       set -uo pipefail
 
-      log() { ${log}/bin/log "$@"; }
+      log() { ${log} "$@"; }
 
       PHONE_MODEL="${PHONE_MODEL}"
       PHONE_MODEL_ADB="''${PHONE_MODEL// /_}"  # ' ' -> '_'
@@ -219,7 +223,7 @@
     text = ''
       set -uo pipefail
 
-      log() { ${log}/bin/log "$@"; }
+      log() { ${log} "$@"; }
 
       CACHE_FILE="${CACHE_FILE}"
       ADB_TIMEOUT="${toString ADB_TIMEOUT}"
@@ -329,7 +333,7 @@
     text = ''
       set -uo pipefail
 
-      log() { ${log}/bin/log "$@"; }
+      log() { ${log} "$@"; }
 
       CACHE_FILE="${CACHE_FILE}"
       ADB_TIMEOUT="${toString ADB_TIMEOUT}"

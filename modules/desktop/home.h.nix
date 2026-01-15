@@ -56,6 +56,7 @@
     # productivity
     modules/productivity/notes.h.nix
     modules/productivity/wezterm.h.nix
+    modules/productivity/penpot.h.nix
     modules/productivity/zed.h.nix
 
     # screencapture
