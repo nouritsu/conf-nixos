@@ -24,11 +24,6 @@ in {
       fi
 
       ${mullvad} auto-connect set on
-      ${mullvad} lockdown-mode set on
-      ${mullvad} dns set default \
-        --block-ads \
-        --block-trackers \
-        --block-malware
     '';
   };
 }

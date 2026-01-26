@@ -37,6 +37,8 @@
 
     # media
     modules/media/music.h.nix
+    modules/media/eog.h.nix
+    modules/media/books.h.nix
     modules/media/office.h.nix
     modules/media/mpv.h.nix
     modules/media/pdf.h.nix
@@ -54,8 +56,10 @@
     modules/peripherals/touchpad.h.nix
 
     # productivity
+    modules/productivity/anki.h.nix
     modules/productivity/notes.h.nix
     modules/productivity/wezterm.h.nix
+    modules/productivity/todo.h.nix
     modules/productivity/penpot.h.nix
     modules/productivity/zed.h.nix
 

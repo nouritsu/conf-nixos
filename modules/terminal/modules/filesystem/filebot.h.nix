@@ -4,14 +4,11 @@
   ...
 }: let
   license-file = config.sops.secrets.filebot-license.path;
-  license-script = pkgs.writeShellApplication {
-    name = "filebot-license-setup";
-    runtimeInputs = [pkgs.coreutils];
-    text = ''
-      mkdir -p "$HOME/.local/share/filebot/data"
-      ln -sf "${license-file}" "$HOME/.local/share/filebot/data/.license"
-    '';
-  };
+
+  license-script = pkgs.writeShellScript "filebot-license-script" ''
+    mkdir -p "$HOME/.local/share/filebot/data"
+    ln -sf "${license-file}" "$HOME/.local/share/filebot/data/.license"
+  '';
 in {
   home.packages = [pkgs.filebot];
 
@@ -24,7 +21,7 @@ in {
     Service = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${license-script}/bin/filebot-license-setup";
+      ExecStart = license-script;
     };
     Install = {
       WantedBy = ["default.target"];

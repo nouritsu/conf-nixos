@@ -9,6 +9,7 @@
     modules/development/android.h.nix
     modules/development/common.h.nix
     modules/development/git.h.nix
+    modules/development/direnv.h.nix
     modules/development/json.h.nix
     modules/development/nix.h.nix
     modules/development/python.h.nix
@@ -23,6 +24,7 @@
     modules/filesystem/fs.h.nix
     modules/filesystem/ntfs.h.nix
     modules/filesystem/stats.h.nix
+    modules/filesystem/scratch.h.nix
     modules/filesystem/yazi.h.nix
     modules/filesystem/zoxide.h.nix
     modules/filesystem/filebot.h.nix

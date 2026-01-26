@@ -7,6 +7,9 @@
     modules/boot/grub.nix
     modules/boot/systemd-boot.nix
 
+    # driver
+    modules/driver/drivers.nix
+
     # filesystem
     modules/filesystem/exfat.nix
     modules/filesystem/ntfs.nix
@@ -25,6 +28,7 @@
     # network
     modules/network/avahi.nix
     modules/network/bluetooth.nix
+    modules/network/dns.nix
     modules/network/networking.nix
     modules/network/ssh.nix
     modules/network/vpn.nix

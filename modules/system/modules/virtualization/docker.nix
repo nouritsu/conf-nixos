@@ -3,6 +3,7 @@
     enable = true;
     autoPrune.enable = true;
   };
+  virtualisation.oci-containers.backend = "docker";
 
   boot.specialFileSystems."/dev/binderfs" = {
     device = "binder";
