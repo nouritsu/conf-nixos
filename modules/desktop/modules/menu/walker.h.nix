@@ -18,4 +18,10 @@ in {
   wayland.windowManager.hyprland.settings.bind = [
     "SUPER, SUPER_L, exec, ${walker}"
   ];
+
+  wayland.windowManager.hyprland.settings.layerrule = let
+    match_ = "match:namespace walker";
+  in [
+    "no_anim on, ${match_}"
+  ];
 }

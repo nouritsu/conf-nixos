@@ -1,4 +1,4 @@
-{...}: {
+{
   wayland.windowManager.hyprland.settings = {
     animations = {
       enabled = true;
@@ -32,12 +32,10 @@
         "specialWorkspace, 1, 5, md3_decel, slidevert"
       ];
     };
-
     decoration = {
       rounding = 12;
       active_opacity = 0.95;
       inactive_opacity = 0.7;
-
       blur = {
         enabled = true;
         size = 10;
