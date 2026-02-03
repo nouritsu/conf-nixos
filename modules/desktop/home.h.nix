@@ -80,7 +80,6 @@
     # web
     modules/web/communication.h.nix
     modules/web/firefox.h.nix
-    modules/web/vpn.h.nix
 
     # zoom
     modules/zoom/woomer.h.nix

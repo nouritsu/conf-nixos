@@ -31,7 +31,6 @@
     modules/network/dns.nix
     modules/network/networking.nix
     modules/network/ssh.nix
-    modules/network/vpn.nix
 
     # nix
     modules/nix/cache.nix

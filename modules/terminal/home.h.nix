@@ -56,6 +56,5 @@
     # web
     modules/web/download.h.nix
     modules/web/network.h.nix
-    modules/web/vpn.h.nix
   ];
 }
