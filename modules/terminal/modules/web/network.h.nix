@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   xh = lib.getExe pkgs.xh;
   speedtest-rs = lib.getExe pkgs.speedtest-rs;
   browsh = lib.getExe pkgs.browsh;
@@ -14,5 +18,9 @@ in {
     speedtest = speedtest-rs;
     browser = "${browsh}";
     wiki = wiki-tui;
+  };
+
+  programs.fish.shellAbbrs = {
+    ssh-homelab = "ssh -p 18187 192.168.178.128";
   };
 }
