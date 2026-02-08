@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   any-nix-shell = lib.getExe pkgs.any-nix-shell;
 in {
   home.packages = [

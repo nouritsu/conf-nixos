@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   max-volume = toString 1.25;
   pasystray = lib.getExe pkgs.pasystray;
   pavucontrol = lib.getExe pkgs.pavucontrol;

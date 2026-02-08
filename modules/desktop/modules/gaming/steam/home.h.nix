@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   steam = lib.getExe pkgs.steam;
 in {
   home.packages = [

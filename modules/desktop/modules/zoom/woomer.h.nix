@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   woomer = lib.getExe pkgs.woomer;
 in {
   home.packages = [

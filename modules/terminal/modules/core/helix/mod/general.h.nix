@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   fish = lib.getExe pkgs.fish;
 in {
   programs.helix.settings.editor = {

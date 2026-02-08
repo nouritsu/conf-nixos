@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   backlight-script = pkgs.writeShellApplication {
     name = "waybar-backlight";
     runtimeInputs = [

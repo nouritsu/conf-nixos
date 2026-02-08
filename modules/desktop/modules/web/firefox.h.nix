@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   firefox = lib.getExe pkgs.firefox;
 in {
   programs.firefox = {

@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   btop = lib.getExe pkgs.btop;
 in {
   programs.btop = {

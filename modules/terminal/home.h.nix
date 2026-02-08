@@ -9,6 +9,7 @@
     modules/development/android.h.nix
     modules/development/common.h.nix
     modules/development/git.h.nix
+    modules/development/typst.h.nix
     modules/development/direnv.h.nix
     modules/development/json.h.nix
     modules/development/nix.h.nix

@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   hyperfine = lib.getExe pkgs.hyperfine;
 in {
   home.packages = [

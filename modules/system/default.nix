@@ -53,11 +53,15 @@
     modules/services/udev.nix
     modules/services/xserver.nix
 
+    # sync
+    modules/sync/syncthing.nix
+
     # user
     modules/user/aneesh.nix
 
     # virtualization
     modules/virtualization/docker.nix
     modules/virtualization/waydroid.nix
+    modules/virtualization/binfmt.nix
   ];
 }

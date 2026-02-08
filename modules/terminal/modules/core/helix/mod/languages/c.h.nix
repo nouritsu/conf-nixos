@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   clangd = lib.getExe' pkgs.clang-tools "clangd";
   lldb-dap = lib.getExe' pkgs.lldb "lldb-dap";
 in {

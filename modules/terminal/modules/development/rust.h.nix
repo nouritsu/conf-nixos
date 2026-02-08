@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   evcxr = lib.getExe pkgs.evcxr;
 in {
   home.packages = [

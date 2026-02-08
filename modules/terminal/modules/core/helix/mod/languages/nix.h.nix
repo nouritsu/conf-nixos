@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   nixd = lib.getExe pkgs.nixd;
   nil = lib.getExe pkgs.nil;
   alejandra = lib.getExe pkgs.alejandra;

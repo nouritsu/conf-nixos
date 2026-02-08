@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   notify-send = lib.getExe' pkgs.libnotify "notify-send";
 in {
   programs.waybar.settings.default.battery = {

@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   dust = lib.getExe pkgs.dust;
   tokei = lib.getExe pkgs.tokei;
 in {

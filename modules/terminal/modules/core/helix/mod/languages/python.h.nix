@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   basedpyright-langserver = lib.getExe' pkgs.basedpyright "basedpyright-langserver";
   ruff = lib.getExe pkgs.ruff;
 in {

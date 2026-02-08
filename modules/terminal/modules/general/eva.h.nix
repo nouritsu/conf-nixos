@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   eva = lib.getExe pkgs.eva;
 in {
   home.shellAliases = rec {

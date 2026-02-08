@@ -24,6 +24,9 @@ in {
     ./mod/nav/easymotion.h.nix
 
     ./mod/languages/nix.h.nix
+    ./mod/languages/typst.h.nix
+    ./mod/languages/harper.h.nix
+    ./mod/languages/cook-cli.h.nix
     ./mod/languages/c.h.nix
     ./mod/languages/python.h.nix
     ./mod/languages/rust.h.nix

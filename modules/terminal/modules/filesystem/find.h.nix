@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   fd = lib.getExe pkgs.fd;
   fzf = lib.getExe pkgs.fzf;
   rg = lib.getExe' pkgs.ripgrep "rg";

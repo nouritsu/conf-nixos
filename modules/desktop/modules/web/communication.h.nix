@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   vesktop = lib.getExe pkgs.vesktop;
 in {
   home.packages = [

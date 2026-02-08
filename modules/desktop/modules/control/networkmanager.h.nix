@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   nm-applet = lib.getExe' pkgs.networkmanagerapplet "nm-applet";
   nm-connection-editor = lib.getExe' pkgs.networkmanagerapplet "nm-connection-editor";
 in {

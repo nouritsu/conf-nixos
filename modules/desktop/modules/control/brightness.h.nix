@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   brightnessctl = lib.getExe pkgs.brightnessctl;
 in {
   wayland.windowManager.hyprland.settings.bind = [

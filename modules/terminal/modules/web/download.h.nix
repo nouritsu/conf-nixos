@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   wget = lib.getExe' pkgs.wget2 "wget";
   axel = lib.getExe pkgs.axel;
   yt-dlp = lib.getExe pkgs.yt-dlp;

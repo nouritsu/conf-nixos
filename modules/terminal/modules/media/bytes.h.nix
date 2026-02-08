@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   hexyl = lib.getExe pkgs.hexyl;
 in {
   home.shellAliases = rec {

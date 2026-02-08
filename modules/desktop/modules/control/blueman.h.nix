@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   blueman-applet = lib.getExe' pkgs.blueman "blueman-applet";
   blueman-manager = lib.getExe' pkgs.blueman "blueman-manager";
 in {

@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   navi = lib.getExe pkgs.navi;
 in {
   home.packages = [

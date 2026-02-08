@@ -3,7 +3,6 @@
   pkgs,
   ...
 }: let
-  # The standard NixOS command to get authorized keys for a user.
   get-nixos-ssh-keys = "${pkgs.openssh}/libexec/nixos-ssh-authorized-keys";
 
   get-sops-ssh-key = pkgs.writeShellScript "get-sops-ssh-key" ''
