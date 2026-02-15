@@ -21,6 +21,6 @@ in {
   };
 
   programs.fish.shellAbbrs = {
-    ssh-homelab = "ssh -p 18187 192.168.178.128";
+    ssh-homelab = "ssh 192.168.178.128";
   };
 }

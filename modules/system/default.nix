@@ -41,6 +41,7 @@
 
     # peripherals
     modules/peripherals/keyboard.nix
+    modules/peripherals/tablet.nix
 
     # security
     modules/security/keyring.nix

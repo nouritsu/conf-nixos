@@ -23,7 +23,6 @@
 in {
   services.openssh = {
     enable = true;
-    ports = [18187];
     openFirewall = true;
     allowSFTP = true;
     settings = {
