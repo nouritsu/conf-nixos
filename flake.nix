@@ -8,10 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     cachix.url = "github:cachix/cachix";
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     # Themeing
     catppuccin.url = "github:catppuccin/nix";

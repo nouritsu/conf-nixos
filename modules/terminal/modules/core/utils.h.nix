@@ -14,6 +14,7 @@ in {
     packages = with pkgs; [
       uutils-coreutils-noprefix
       killall
+      sops
 
       nix-output-monitor
     ];

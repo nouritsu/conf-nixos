@@ -1543,7 +1543,6 @@
         "hyprland": "hyprland",
         "hyprlock": "hyprlock",
         "nixpkgs": "nixpkgs_8",
-        "sops-nix": "sops-nix",
         "stylix": "stylix",
         "walker": "walker",
         "waybar": "waybar",
@@ -1632,26 +1631,6 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "sops-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1770683991,
-        "narHash": "sha256-xVfPvXDf9QN3Eh9dV+Lw6IkWG42KSuQ1u2260HKvpnc=",
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "rev": "8b89f44c2cc4581e402111d928869fe7ba9f7033",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "repo": "sops-nix",
         "type": "github"
       }
     },
