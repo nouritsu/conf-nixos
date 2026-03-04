@@ -1,6 +1,5 @@
 {...}: {
   imports = [
-    ./theme/home.h.nix
     ./terminal/home.h.nix
     ./desktop/home.h.nix
   ];

@@ -43,7 +43,14 @@
       systems = ["x86_64-linux"];
 
       imports = [
+        ({lib, ...}: {
+          options.flake.homeModules = lib.mkOption {
+            type = with lib.types; lazyAttrsOf raw;
+            default = {};
+          };
+        })
         (import-tree ./modules/system)
+        (import-tree ./modules/theme)
         ./hosts/pc.nix
       ];
     };

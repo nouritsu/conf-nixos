@@ -72,6 +72,11 @@
         virt-emulate-aarch64
         virt-waydroid
 
+        # Theme
+        theme-catppuccin
+        stylix-base
+        stylix-catppuccin
+
         # Extra
         extra-printing
         extra-xserver

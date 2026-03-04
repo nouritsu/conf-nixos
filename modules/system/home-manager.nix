@@ -39,6 +39,8 @@
       backupFileExtension = "backup";
       users.aneesh.imports = [
         self.homeModules.home-manager-base
+        self.homeModules.theme-catppuccin
+        self.homeModules.stylix-base
         ../home.h.nix
       ];
     };
