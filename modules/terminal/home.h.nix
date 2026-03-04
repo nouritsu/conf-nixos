@@ -1,7 +1,7 @@
 {
   imports = [
     # core
-    modules/core/helix/home.h.nix
+    modules/core/helix.nix
     modules/core/nixos.h.nix
     modules/core/utils.h.nix
 
@@ -11,13 +11,11 @@
     modules/development/git.h.nix
     modules/development/typst.h.nix
     modules/development/direnv.h.nix
-    modules/development/json.h.nix
     modules/development/nix.h.nix
     modules/development/python.h.nix
     modules/development/regex.h.nix
     modules/development/rust.h.nix
     modules/development/docker.h.nix
-    modules/development/slint.h.nix
     modules/development/binsider.h.nix
 
     # filesystem
@@ -25,10 +23,8 @@
     modules/filesystem/fs.h.nix
     modules/filesystem/ntfs.h.nix
     modules/filesystem/stats.h.nix
-    modules/filesystem/scratch.h.nix
     modules/filesystem/yazi.h.nix
     modules/filesystem/zoxide.h.nix
-    modules/filesystem/filebot.h.nix
 
     # general
     modules/general/btop.h.nix

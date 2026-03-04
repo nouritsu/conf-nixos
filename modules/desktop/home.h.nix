@@ -4,9 +4,6 @@
     modules/auth/polkit.h.nix
     modules/auth/keyring.h.nix
 
-    # clipboard
-    modules/clipboard/clipse.h.nix
-
     # compability
     modules/compability/electron-ozone.h.nix
     modules/compability/qt.h.nix
@@ -36,32 +33,18 @@
     modules/hyprland/home.h.nix
 
     # media
-    modules/media/music.h.nix
     modules/media/eog.h.nix
-    modules/media/books.h.nix
-    modules/media/office.h.nix
     modules/media/mpv.h.nix
     modules/media/pdf.h.nix
-
-    # menu
-    modules/menu/walker.h.nix
-
-    # notification
-    modules/notification/swaync.h.nix
 
     # peripherals
     modules/peripherals/keyboard.h.nix
     modules/peripherals/monitor.h.nix
     modules/peripherals/mouse.h.nix
-    modules/peripherals/touchpad.h.nix
 
     # productivity
     modules/productivity/anki.h.nix
-    modules/productivity/notes.h.nix
     modules/productivity/wezterm.h.nix
-    modules/productivity/todo.h.nix
-    modules/productivity/penpot.h.nix
-    modules/productivity/zed.h.nix
 
     # screencapture
     modules/screencapture/broadcast.h.nix
@@ -69,13 +52,6 @@
 
     # session
     modules/session/hyprlock.h.nix
-    modules/session/wleave.h.nix
-
-    # wallpaper
-    modules/wallpaper/home.h.nix
-
-    # waybar
-    modules/waybar/home.h.nix
 
     # web
     modules/web/communication.h.nix

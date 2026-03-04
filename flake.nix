@@ -1,6 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
     # Core
     home-manager = {
@@ -9,7 +11,7 @@
     };
     cachix.url = "github:cachix/cachix";
 
-    # Themeing
+    # Theming
     catppuccin.url = "github:catppuccin/nix";
     stylix = {
       url = "github:danth/stylix";
@@ -18,13 +20,13 @@
 
     # Software / Firmware
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
-    helix.url = "github:helix-editor/helix/master";
+    conf-helix.url = "github:nouritsu/conf-helix";
     hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
     hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
-    walker.url = "github:abenz1267/walker";
-    waybar.url = "github:Alexays/Waybar";
     wezterm.url = "github:wezterm/wezterm?dir=nix";
+    dms.url = "github:AvengeMedia/DankMaterialShell";
+    dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";
     yazi.url = "github:sxyazi/yazi";
     batfetch = {
       url = "github:ashish-kus/batfetch";
@@ -32,36 +34,17 @@
     };
   };
 
-  outputs = {...} @ inputs: let
-    common_modules = with inputs; [
-      ./modules
+  outputs = inputs @ {
+    flake-parts,
+    import-tree,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
 
-      # from inputs
-      home-manager.nixosModules.home-manager
-      stylix.nixosModules.stylix
-      catppuccin.nixosModules.catppuccin
-
-      ({config, ...}: {
-        home-manager = {
-          extraSpecialArgs = {inherit inputs;};
-          backupFileExtension = "backup"; # prevents some weird error somehow
-          users.${config.my.user.alias}.imports = [
-            ./modules/home.h.nix
-            inputs.catppuccin.homeModules.catppuccin
-          ];
-        };
-      })
-    ];
-
-    mk_host = host_mod:
-      inputs.nixpkgs.lib.nixosSystem {
-        modules = [./options.nix host_mod] ++ common_modules;
-        specialArgs = {inherit inputs;};
-      };
-  in {
-    nixosConfigurations = {
-      pc = mk_host ./hosts/pc;
-      lenovo = mk_host ./hosts/lenovo;
+      imports = [
+        (import-tree ./modules/system)
+        ./hosts/pc.nix
+      ];
     };
-  };
 }

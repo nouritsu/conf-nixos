@@ -5,5 +5,7 @@
 
     # session
     modules/session/tuigreet.nix
+
+    ./modules/dms.nix
   ];
 }

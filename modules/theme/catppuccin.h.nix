@@ -31,18 +31,8 @@
     lsd.enable = true;
     mpv.enable = true;
     starship.enable = true;
-    swaync = {
-      enable = true;
-      font = "JetBrainsMono Nerd Font Propo";
-    };
     vesktop.enable = true;
-    waybar.enable = false;
     wezterm.enable = true;
     yazi.enable = true;
-    zed = {
-      enable = true;
-      icons.enable = true;
-      italics = true;
-    };
   };
 }
