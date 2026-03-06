@@ -1,7 +1,7 @@
 {
   flake.nixosModules = {
     nixpkgs-base = {lib, ...}: let
-      local_pkg = pkg: ../pkgs/${pkg}/package.nix;
+      local_pkg = pkg: ../../pkgs/${pkg}/package.nix;
     in {
       nixpkgs.overlays = [
         # Local pkgs/pkg/package.nix
@@ -13,6 +13,29 @@
             ] (pkg: final.callPackage (local_pkg pkg) {})
         )
       ];
+    };
+
+    # TODO: finish moving to nh.nix
+    nix-nh = {...}: {
+      programs.nh = {
+        enable = true;
+        flake = "/home/aneesh/.config/nixos";
+
+        clean.enable = true;
+        clean.extraArgs = "--keep 5 --keep-since 7d";
+      };
+
+      programs.fish.shellAliases = {
+        conf = "$EDITOR $NH_FLAKE";
+      };
+
+      programs.fish.shellAbbrs = {
+        nhrb = "nh os boot";
+        nhrs = "nh os switch";
+        nhrt = "nh os test";
+        nhca = "nh clean all";
+        nhs = "nh search";
+      };
     };
 
     nixpkgs-unfree = {...}: {
@@ -50,18 +73,6 @@
           "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
           "wezterm.cachix.org-1:kAbhjYUC9qvblTE+s7S+kl5XM1zVa4skO+E/1IDWdH0="
         ];
-      };
-    };
-
-    nix-nh = {...}: {
-      programs.nh = {
-        enable = true;
-        flake = "/home/aneesh/.config/nixos";
-
-        clean = {
-          enable = true;
-          extraArgs = "--keep 5 --keep-since 7d";
-        };
       };
     };
   };

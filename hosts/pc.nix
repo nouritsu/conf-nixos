@@ -80,6 +80,34 @@
         # Extra
         extra-printing
         extra-xserver
+
+        # Applications
+        app-core
+        app-fish
+        app-git
+        app-gh
+        app-jujutsu
+        app-delta
+        app-helix
+        app-nh
+        app-starship
+        app-yazi
+
+        # Development
+        dev-core
+        dev-direnv
+        dev-android
+        dev-c
+        dev-nix
+        dev-python
+        dev-rust
+
+        # Extra (Applications)
+        extra-tui-viewers
+        extra-av
+        extra-pdf
+        extra-download
+        extra-fetchers
       ]);
   };
 

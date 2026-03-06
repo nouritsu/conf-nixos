@@ -20,7 +20,7 @@
 
     # Software / Firmware
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
-    conf-helix.url = "github:nouritsu/conf-helix";
+    helix.url = "github:nouritsu/conf-helix";
     hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
     hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
@@ -51,6 +51,7 @@
         })
         (import-tree ./modules/system)
         (import-tree ./modules/theme)
+        (import-tree ./modules/applications)
         ./hosts/pc.nix
       ];
     };

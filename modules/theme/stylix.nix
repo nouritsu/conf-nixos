@@ -1,7 +1,12 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
     nixosModules = {
       stylix-base = {pkgs, ...}: {
+        home-manager.users.aneesh.imports = [self.homeModules.theme-stylix];
         imports = [inputs.stylix.nixosModules.stylix];
 
         stylix = {
@@ -57,7 +62,7 @@
     };
 
     homeModules = {
-      stylix-base = {...}: {
+      theme-stylix = {...}: {
         stylix.targets = {
           btop.enable = false;
           firefox.enable = false;

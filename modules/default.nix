@@ -1,7 +1,7 @@
 {
   imports = [
     # ./system
-    ./terminal
+    # ./terminal
     ./desktop
   ];
 }

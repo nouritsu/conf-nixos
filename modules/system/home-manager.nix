@@ -1,4 +1,8 @@
-{inputs, self, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake.homeModules.home-manager-base = {
     osConfig,
     lib,
@@ -39,8 +43,6 @@
       backupFileExtension = "backup";
       users.aneesh.imports = [
         self.homeModules.home-manager-base
-        self.homeModules.theme-catppuccin
-        self.homeModules.stylix-base
         ../home.h.nix
       ];
     };

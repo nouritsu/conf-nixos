@@ -1,6 +1,11 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake = {
     nixosModules.theme-catppuccin = {
+      home-manager.users.aneesh.imports = [self.homeModules.theme-catppuccin];
       imports = [inputs.catppuccin.nixosModules.catppuccin];
 
       catppuccin = {

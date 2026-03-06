@@ -9,6 +9,7 @@
 
   environment.systemPackages = [
     pkgs.wl-clipboard-rs
+    pkgs.xournalpp
   ];
 
   programs.dms-shell = {

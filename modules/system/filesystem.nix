@@ -1,5 +1,12 @@
 {
   flake.nixosModules = {
+    fs-base = {pkgs, ...}: {
+      environment.systemPackages = [
+        pkgs.parted
+        pkgs.gparted-full
+      ];
+    };
+
     fs-exfat = {pkgs, ...}: {
       boot.supportedFilesystems = [
         "exfat"
