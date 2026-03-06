@@ -1,3 +1,0 @@
-{
-  imports = [./starship.h.nix];
-}
