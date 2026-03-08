@@ -38,12 +38,14 @@
   flake.nixosModules.home-manager-integration = {...}: {
     imports = [inputs.home-manager.nixosModules.home-manager];
 
+    my.hmUsers = ["aneesh"];
+
     home-manager = {
       extraSpecialArgs = {inherit inputs;};
       backupFileExtension = "backup";
       users.aneesh.imports = [
         self.homeModules.home-manager-base
-        ../home.h.nix
+        # ../home.h.nix
       ];
     };
   };

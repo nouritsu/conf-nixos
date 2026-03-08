@@ -5,7 +5,7 @@
       lib,
       ...
     }: {
-      home-manager.users.aneesh.imports = [self.homeModules.app-core];
+      my.hmModules = ["app-core"];
 
       environment.systemPackages = with pkgs; [
         uutils-coreutils-noprefix

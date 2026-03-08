@@ -5,14 +5,11 @@
         enable = true;
         openFirewall = true;
         allowSFTP = true;
-      };
-    };
-
-    ssh-harden = {...}: {
-      services.openssh.settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = false;
-        PubkeyAuthentication = true;
+        settings = {
+          PermitRootLogin = "no";
+          PasswordAuthentication = false;
+          PubkeyAuthentication = true;
+        };
       };
     };
   };

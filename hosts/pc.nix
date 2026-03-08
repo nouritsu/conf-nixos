@@ -8,9 +8,11 @@
     modules =
       [
         ../options.nix
-        ../modules
+        # ../modules
       ]
       ++ (with self.nixosModules; [
+        opts-hm-modules
+
         # Host
         host-pc-base
         host-pc-hwconf
@@ -47,7 +49,6 @@
         net-dns-pihole
         net-dns-cloudflare
         ssh-base
-        ssh-harden
 
         # Filesystem
         fs-exfat
@@ -81,6 +82,13 @@
         extra-printing
         extra-xserver
 
+        # Desktop
+        desktop
+        app-hyprland
+        app-hyprlock
+        app-tuigreet
+        app-dms
+
         # Applications
         app-core
         app-fish
@@ -92,6 +100,15 @@
         app-nh
         app-starship
         app-yazi
+        app-woomer
+        app-explorer
+        app-firefox
+        app-hyprpicker
+        app-scrcpy
+        app-screenshot
+        app-steam
+        app-web
+        app-wezterm
 
         # Development
         dev-core
@@ -104,7 +121,7 @@
 
         # Extra (Applications)
         extra-tui-viewers
-        extra-av
+        extra-media
         extra-pdf
         extra-download
         extra-fetchers

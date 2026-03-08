@@ -18,14 +18,18 @@
       };
     };
 
-    extra-av = {pkgs, ...}: {
-      environment.systemPackages = [pkgs.ffmpeg-full];
+    extra-media = {pkgs, ...}: {
+      environment.systemPackages = [pkgs.ffmpeg-full pkgs.obs-studio pkgs.eog pkgs.mpv];
     };
 
     extra-pdf = {pkgs, ...}: {
       environment.systemPackages = [
         pkgs.pdftk
         pkgs.poppler-utils
+        pkgs.pdfchain
+        pkgs.kdePackages.okular
+        pkgs.zathura
+        pkgs.zathuraPkgs.zathura_pdf_mupdf
       ];
     };
 
@@ -46,6 +50,12 @@
         download-spotify = "spotdl";
         download-spot = "spotdl";
       };
+    };
+
+    extra-productivity = {pkgs, ...}: {
+      environment.systemPackages = [
+        pkgs.anki
+      ];
     };
 
     extra-fetchers = {

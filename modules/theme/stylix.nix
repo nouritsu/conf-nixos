@@ -6,7 +6,7 @@
   flake = {
     nixosModules = {
       stylix-base = {pkgs, ...}: {
-        home-manager.users.aneesh.imports = [self.homeModules.theme-stylix];
+        my.hmModules = ["theme-stylix"];
         imports = [inputs.stylix.nixosModules.stylix];
 
         stylix = {

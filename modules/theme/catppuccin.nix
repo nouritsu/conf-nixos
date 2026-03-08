@@ -5,7 +5,7 @@
 }: {
   flake = {
     nixosModules.theme-catppuccin = {
-      home-manager.users.aneesh.imports = [self.homeModules.theme-catppuccin];
+      my.hmModules = ["theme-catppuccin"];
       imports = [inputs.catppuccin.nixosModules.catppuccin];
 
       catppuccin = {

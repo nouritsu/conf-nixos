@@ -2,20 +2,20 @@
   flake = {
     nixosModules = {
       app-git = {...}: {
-        home-manager.users.aneesh.imports = [self.homeModules.app-git];
+        my.hmModules = ["app-git"];
         programs.git.enable = true;
       };
 
       app-gh = {...}: {
-        home-manager.users.aneesh.imports = [self.homeModules.app-gh];
+        my.hmModules = ["app-gh"];
       };
 
       app-jujutsu = {...}: {
-        home-manager.users.aneesh.imports = [self.homeModules.app-jujutsu];
+        my.hmModules = ["app-jujutsu"];
       };
 
       app-delta = {...}: {
-        home-manager.users.aneesh.imports = [self.homeModules.app-delta];
+        my.hmModules = ["app-delta"];
       };
     };
 

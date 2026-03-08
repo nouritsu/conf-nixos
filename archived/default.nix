@@ -2,6 +2,6 @@
   imports = [
     # ./system
     # ./terminal
-    ./desktop
+    # ./desktop
   ];
 }

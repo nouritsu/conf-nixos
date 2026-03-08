@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.nixosModules.app-yazi = {...}: {
-    home-manager.users.aneesh.imports = [self.homeModules.app-yazi];
+    my.hmModules = ["app-yazi"];
   };
 
   flake.homeModules = {

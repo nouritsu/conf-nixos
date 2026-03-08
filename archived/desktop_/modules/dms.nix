@@ -9,8 +9,15 @@
 
   environment.systemPackages = [
     pkgs.wl-clipboard-rs
+    pkgs.qt6.qtwebsockets
+    pkgs.valent
     pkgs.xournalpp
   ];
+
+  programs.kdeconnect = {
+    enable = true;
+    package = pkgs.valent;
+  };
 
   programs.dms-shell = {
     enable = true;

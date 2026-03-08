@@ -49,10 +49,9 @@
             default = {};
           };
         })
-        (import-tree ./modules/system)
-        (import-tree ./modules/theme)
-        (import-tree ./modules/applications)
-        ./hosts/pc.nix
+        (import-tree ./options)
+        (import-tree ./modules)
+        (import-tree ./hosts)
       ];
     };
 }

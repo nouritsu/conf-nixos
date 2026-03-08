@@ -1,5 +1,0 @@
-finish
-terminal/core
-terminal/development
-terminal/shell
-terminal/help

@@ -1,6 +1,6 @@
 {self, ...}: {
   flake.nixosModules.app-starship = {...}: {
-    home-manager.users.aneesh.imports = [self.homeModules.starship];
+    my.hmModules = ["starship"];
   };
 
   flake.homeModules = {

@@ -1,7 +1,7 @@
 {self, ...}: {
   flake = {
     nixosModules.app-fish = {pkgs, ...}: {
-      home-manager.users.aneesh.imports = [self.homeModules.app-fish];
+      my.hmModules = ["app-fish"];
 
       programs.fish.enable = true;
       users.defaultUserShell = pkgs.fish;
@@ -44,10 +44,6 @@
             src = pkgs.fishPlugins.colored-man-pages.src;
           }
 
-          {
-            name = "fish-you-should-use";
-            src = pkgs.fishPlugins.fish-you-should-use.src;
-          }
           {
             name = "fzf-fish";
             src = pkgs.fishPlugins.fzf-fish.src;
