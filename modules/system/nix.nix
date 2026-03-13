@@ -1,20 +1,5 @@
 {
   flake.nixosModules = {
-    nixpkgs-base = {lib, ...}: let
-      local_pkg = pkg: ../../pkgs/${pkg}/package.nix;
-    in {
-      nixpkgs.overlays = [
-        # Local pkgs/pkg/package.nix
-        (
-          final: _:
-            lib.genAttrs [
-              "ifetch"
-              "mfetch"
-            ] (pkg: final.callPackage (local_pkg pkg) {})
-        )
-      ];
-    };
-
     # TODO: finish moving to nh.nix
     nix-nh = {...}: {
       programs.nh = {

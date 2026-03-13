@@ -1,8 +1,9 @@
-{
-  self,
-  ...
-}: {
-  flake.nixosModules.opts-hm-modules = {lib, config, ...}: {
+{self, ...}: {
+  flake.nixosModules.opts-hm-modules = {
+    lib,
+    config,
+    ...
+  }: {
     options = let
       inherit (lib) mkOption types;
     in {

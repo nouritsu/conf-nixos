@@ -1,4 +1,4 @@
-{self, ...}: {
+{
   flake.nixosModules = {
     app-core = {
       pkgs,
@@ -25,10 +25,7 @@
         eva
         hyperfine
         dust
-
-        # TODO: find a better place for these
         sops
-        nix-output-monitor
       ];
 
       programs.zoxide.enable = true;
@@ -72,7 +69,6 @@
         du = "dust";
       };
 
-      # form: abbr = expansion
       programs.fish.shellAbbrs = let
         cd_abbr_count = 7;
       in

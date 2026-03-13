@@ -3,13 +3,7 @@
   self,
   ...
 }: {
-  flake.homeModules.home-manager-base = {
-    osConfig,
-    lib,
-    ...
-  }: let
-    local_pkg = pkg: ../../pkgs/${pkg}/package.nix;
-  in {
+  flake.homeModules.home-manager-base = {osConfig, ...}: {
     programs.home-manager.enable = true;
 
     home = {
@@ -22,17 +16,6 @@
       allowUnfree = true;
       allowUnfreePredicate = _: true;
     };
-
-    nixpkgs.overlays = [
-      # Local pkgs/pkg/package.nix
-      (
-        final: _:
-          lib.genAttrs [
-            "ifetch"
-            "mfetch"
-          ] (pkg: final.callPackage (local_pkg pkg) {})
-      )
-    ];
   };
 
   flake.nixosModules.home-manager-integration = {...}: {

@@ -25,6 +25,7 @@
     hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
     wezterm.url = "github:wezterm/wezterm?dir=nix";
+
     dms.url = "github:AvengeMedia/DankMaterialShell";
     dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";
     yazi.url = "github:sxyazi/yazi";
@@ -32,6 +33,7 @@
       url = "github:ashish-kus/batfetch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs = inputs @ {
@@ -51,6 +53,7 @@
         })
         (import-tree ./options)
         (import-tree ./modules)
+        (import-tree ./packages)
         (import-tree ./hosts)
       ];
     };

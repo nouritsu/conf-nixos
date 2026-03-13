@@ -18,7 +18,7 @@
         host-pc-hwconf
 
         # Nix
-        nixpkgs-base
+        # nixpkgs-base
         nixpkgs-unfree
         nix-base
         nix-cache
@@ -42,6 +42,7 @@
         # Peripherals
         peripheral-keyboard
         peripheral-tablet
+        peripheral-razer
 
         # Network
         net-base
@@ -57,12 +58,14 @@
         fs-xfs
 
         # Security
+        security-pki
         security-keyring
         security-polkit
         security-rtkit
 
         # Users
         user-aneesh
+        secrets
 
         # i18n
         i18n-locale
@@ -83,8 +86,11 @@
         extra-xserver
 
         # Desktop
-        desktop
-        app-hyprland
+        desktop-control
+        desktop-wayland
+        desktop-cursor
+        desktop-xdg
+        desktop-hyprland
         app-hyprlock
         app-tuigreet
         app-dms

@@ -59,6 +59,7 @@
         pkgs.statix
         pkgs.nix-inspect
         pkgs.manix
+        pkgs.nix-output-monitor
       ];
 
       programs.fish.shellAliases.repl-nix = "nix repl";

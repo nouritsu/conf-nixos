@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake.nixosModules = {
     extra-tui-viewers = {pkgs, ...}: {
       environment.systemPackages = [
@@ -30,6 +34,7 @@
         pkgs.kdePackages.okular
         pkgs.zathura
         pkgs.zathuraPkgs.zathura_pdf_mupdf
+        pkgs.jellyfin-desktop
       ];
     };
 
@@ -73,8 +78,8 @@
         pkgs.onefetch
         pkgs.cpufetch
         (pkgs.gpufetch.override {cudaSupport = is_nvidia;})
-        pkgs.ifetch # overlay
-        pkgs.mfetch # overlay
+        self.packages.${system}.ifetch
+        self.packages.${system}.mfetch
         inputs.batfetch.packages.${system}.default
       ];
 
