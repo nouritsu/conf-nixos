@@ -41,6 +41,7 @@
 
         # Peripherals
         peripheral-keyboard
+        peripheral-monitor
         peripheral-tablet
         peripheral-razer
 

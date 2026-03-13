@@ -11,7 +11,7 @@
   flake.nixosModules = {
     app-helix = {pkgs, ...}: {
       environment.systemPackages = [
-        self.packages.${pkgs.system}.helix
+        self.packages.${pkgs.stdenv.hostPlatform.system}.helix
       ];
 
       nix.settings = {

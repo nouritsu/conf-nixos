@@ -11,17 +11,7 @@
       pkgs.qt6.qtwebsockets
       pkgs.xournalpp
       pkgs.dsearch
-      pkgs.i2c-tools
-      pkgs.ddcutil
     ];
-
-    services.ddccontrol = {
-      enable = true;
-      package = pkgs.ddcutil-service;
-    };
-
-    hardware.i2c.enable = true;
-    users.users.aneesh.extraGroups = ["i2c"];
 
     environment.sessionVariables = {
       QML2_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";

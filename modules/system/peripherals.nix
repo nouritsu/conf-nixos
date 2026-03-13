@@ -5,6 +5,21 @@
       services.xserver.xkb.layout = "eu";
     };
 
+    peripheral-monitor = {pkgs, ...}: {
+      environment.systemPackages = [
+        pkgs.ddcutil
+        pkgs.i2c-tools
+      ];
+
+      services.ddccontrol = {
+        enable = true;
+        package = pkgs.ddcutil-service;
+      };
+
+      hardware.i2c.enable = true;
+      users.users.aneesh.extraGroups = ["i2c"];
+    };
+
     peripheral-tablet = {...}: {
       hardware.opentabletdriver.enable = true;
       hardware.uinput.enable = true;
