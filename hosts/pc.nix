@@ -39,6 +39,9 @@
         firmware-redist
         firmware-amd
 
+        # Services
+        srv-beszel-agent
+
         # Peripherals
         peripheral-keyboard
         peripheral-monitor
@@ -110,6 +113,7 @@
         app-woomer
         app-explorer
         app-firefox
+        app-brave
         app-hyprpicker
         app-scrcpy
         app-screenshot

@@ -101,7 +101,7 @@
             "SUPER, F, fullscreen"
             "SUPERSHIFT, F, togglefloating"
 
-            "SUPERSHIFT, T, togglesplit"
+            "SUPERSHIFT, T, layoutmsg, togglesplit"
           ];
 
         bindm = [
