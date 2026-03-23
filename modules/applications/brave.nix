@@ -3,11 +3,11 @@
     my.hmModules = ["app-brave"];
 
     environment.etc."brave/policies/managed/default.json".text = builtins.toJSON {
-      ExtensionInstallForcelist = [
-        "mnjggcdmjocbbbhaepdhchncahnbgone;https://clients2.google.com/service/update2/crx" # sponsor block
-        "eimadpbcbfnmbkopoojfekhnkhdbieeh;https://clients2.google.com/service/update2/crx" # dark reader
-        "nngceckbapebfimnlniiiahkandclblb;https://clients2.google.com/service/update2/crx" # bit warden
-        "lnjaiaapbakfhlbjenjkhffcdpoompki;https://clients2.google.com/service/update2/crx" # catppuccin icons
+      ExtensionInstallForcelist = map (id: "${id};https://clients2.google.com/service/update2/crx") [
+        "mnjggcdmjocbbbhaepdhchncahnbgone" # sponsor block
+        "eimadpbcbfnmbkopoojfekhnkhdbieeh" # dark reader
+        "lnjaiaapbakfhlbjenjkhffcdpoompki" # catppuccin icons
+        "ghmbeldphafepmbegfdlkpapadhbakde" # proton pass
       ];
 
       # disable brave bloat
@@ -28,7 +28,7 @@
     ...
   }: let
     patchScript = pkgs.writers.writePython3 "brave-site-search-patch" {
-      flakeIgnore = ["E501"];
+      flakeIgnore = ["E501"]; # violation caused by long URLs
     } (builtins.readFile ./brave-search-patch.py);
   in {
     programs.brave = {

@@ -9,7 +9,8 @@
         lazydocker
         lazygit
         claude-code
-        pkgs.tokei
+        opencode
+        tokei
       ];
 
       programs.fish.shellAliases = {
