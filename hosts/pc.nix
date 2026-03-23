@@ -22,7 +22,6 @@
         nixpkgs-unfree
         nix-base
         nix-cache
-        nix-nh
         home-manager-integration
 
         # Boot
@@ -160,6 +159,8 @@
           email = "aneesh1701@gmail.com";
         };
       };
+
+      networking.hostName = "pc";
 
       # ================================================================ #
       # =                         DO NOT TOUCH                         = #

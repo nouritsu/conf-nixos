@@ -1,8 +1,4 @@
-{
-  inputs,
-  self,
-  ...
-}: {
+{inputs, ...}: {
   flake = {
     nixosModules.theme-catppuccin = {
       my.hmModules = ["theme-catppuccin"];
@@ -15,6 +11,7 @@
         accent = "mauve";
 
         gtk.icon.enable = true;
+        grub.enable = true;
       };
     };
 

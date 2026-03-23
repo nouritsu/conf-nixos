@@ -2,8 +2,6 @@
   flake.nixosModules = {
     net-base = {pkgs, ...}: {
       networking.networkmanager.enable = true;
-      # TODO: move to per host module
-      networking.hostName = "pc";
       networking.firewall.enable = true;
 
       # TODO: move this to desktop/packages

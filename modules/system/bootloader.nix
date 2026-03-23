@@ -8,9 +8,6 @@
     bootloader-grub = {...}: {
       boot.loader.grub.enable = true;
       boot.loader.grub.device = "nodev";
-
-      # TODO: move to theming
-      catppuccin.grub.enable = true;
     };
 
     bootloader-dual-boot = {...}: {

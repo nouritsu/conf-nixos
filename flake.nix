@@ -1,6 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    determinate.url = "github:DeterminateSystems/determinate/main";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
@@ -20,7 +22,7 @@
 
     # Software / Firmware
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
-    helix.url = "github:nouritsu/conf-helix";
+    helix.url = "github:helix-editor/helix/master";
     hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
     hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
@@ -34,6 +36,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix.url = "github:Mic92/sops-nix";
+
+    # Wrapper modules for helix
+    wrappers = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {

@@ -1,13 +1,4 @@
-{
-  inputs,
-  self,
-  ...
-}: {
-  perSystem = {system, ...}: {
-    packages.helix = inputs.helix.packages.${system}.helix-full;
-    packages.helix-min = inputs.helix.packages.${system}.helix-min;
-  };
-
+{self, ...}: {
   flake.nixosModules = {
     app-helix = {pkgs, ...}: {
       environment.systemPackages = [
