@@ -94,6 +94,7 @@
         desktop-cursor
         desktop-xdg
         desktop-hyprland
+        desktop-niri
         app-hyprlock
         app-tuigreet
         app-dms
