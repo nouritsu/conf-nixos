@@ -8,8 +8,6 @@
         grex
         lazydocker
         lazygit
-        claude-code
-        opencode
         tokei
       ];
 

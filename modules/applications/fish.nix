@@ -1,4 +1,4 @@
-{self, ...}: {
+{
   flake = {
     nixosModules.app-fish = {pkgs, ...}: {
       my.hmModules = ["app-fish"];

@@ -1,4 +1,4 @@
-{self, ...}: {
+{inputs, ...}: {
   flake.nixosModules.app-yazi = {...}: {
     my.hmModules = ["app-yazi"];
   };

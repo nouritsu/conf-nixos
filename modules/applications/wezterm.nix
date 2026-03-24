@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   flake.nixosModules.app-wezterm = {...}: {
     my.hmModules = ["app-wezterm"];
   };

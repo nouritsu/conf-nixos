@@ -97,6 +97,7 @@
         app-hyprlock
         app-tuigreet
         app-dms
+        ai-opencode
 
         # Applications
         app-core
