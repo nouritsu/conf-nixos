@@ -11,7 +11,7 @@ in {
     ...
   }: {
     packages.niri = wrappers.wrappers.niri.wrap [
-      {
+      ({config, ...}: {
         inherit pkgs;
 
         package = let
@@ -19,9 +19,13 @@ in {
         in
           lib.mkForce
           niri.packages.${system}.niri-unstable;
-      }
+
+        passthru.configPath = config."config.kdl".path;
+      })
 
       self.nixosModules.wniri-keybinds
+      self.nixosModules.wniri-appearance
+      self.nixosModules.wniri-startup
     ];
   };
 }
