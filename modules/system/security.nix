@@ -48,15 +48,9 @@
 
   flake.homeModules = {
     security-keyring = {...}: {
-      wayland.windowManager.hyprland.settings.exec-once = [
-        "gnome-keyring-daemon --start --components=secrets,pkcs11,ssh"
-      ];
     };
 
-    security-polkit = {pkgs, ...}: {
-      wayland.windowManager.hyprland.settings.exec-once = [
-        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-      ];
+    security-polkit = {...}: {
     };
   };
 }

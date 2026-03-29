@@ -3,17 +3,12 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.app-explorer = {pkgs, ...}: {
+  flake.nixosModules.app-explorer = {...}: {
     my.hmModules = ["app-explorer"];
 
     imports = [
       self.nixosModules.app-wezterm
       self.nixosModules.app-yazi
-    ];
-
-    environment.systemPackages = [
-      # TODO:  move to hyprland
-      inputs.hyprcwd-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 
@@ -25,26 +20,19 @@
   }: let
     wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
     yazi-pkg = inputs.yazi.packages.${osConfig.my.system.arch}.default;
-    hyprcwd-pkg = inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default;
 
-    hyprcwd = lib.getExe' hyprcwd-pkg "hyprcwd";
     yazi = lib.getExe yazi-pkg;
     wezterm = rec {
       bin = lib.getExe' wezterm-pkg "wezterm-gui";
-      cwd = "${bin} start --cwd \$(${hyprcwd}|| echo \$HOME)";
+      cwd = ""; # TODO
     };
     nautilus = rec {
       bin = lib.getExe pkgs.nautilus;
-      cwd = "${bin} \$(${hyprcwd} || echo \$HOME)";
+      cwd = ""; # TODO
     };
   in {
     home.packages = [
       pkgs.nautilus
-    ];
-
-    wayland.windowManager.hyprland.settings.bind = [
-      "SUPER, E, exec, ${wezterm.cwd} -- ${yazi}"
-      "SUPERSHIFT, E, exec, ${nautilus.cwd}"
     ];
   };
 }

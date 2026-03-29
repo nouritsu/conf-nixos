@@ -104,10 +104,7 @@
     home.packages = [
       screenshot
     ];
-    wayland.windowManager.hyprland.settings.bind = [
-      ",PRINT, exec, screenshot monitor"
-      "SUPER, PRINT, exec, screenshot region"
-      "SUPER SHIFT, PRINT, exec, screenshot window"
-    ];
+
+    # TODO: move to NIRI
   };
 }

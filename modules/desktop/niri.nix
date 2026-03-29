@@ -13,6 +13,9 @@
       package = wniri;
     };
 
+    # xwayland-satellite must be in $PATH for niri's built-in X11 integration
+    environment.systemPackages = [pkgs.xwayland-satellite];
+
     # restart niri with new settings on rebuild
     system.userActivationScripts = {
       niri-reload-config = {

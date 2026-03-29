@@ -4,12 +4,11 @@
     pkgs,
     ...
   }: let
-    rust-analyzer = lib.getExe pkgs.rust-analyzer;
     lldb-dap = lib.getExe' pkgs.lldb "lldb-dap";
   in {
     languages.language-server = {
       rust-analyzer = {
-        command = rust-analyzer;
+        command = "rust-analyzer";
         config = {
           inlayHints = {
             bindingModeHints.enable = false;

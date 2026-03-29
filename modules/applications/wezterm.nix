@@ -1,23 +1,14 @@
-{inputs, ...}: {
+{
   flake.nixosModules.app-wezterm = {...}: {
     my.hmModules = ["app-wezterm"];
   };
 
   flake.homeModules.app-wezterm = {
     inputs,
-    lib,
     osConfig,
     ...
   }: let
     wezterm-pkg = inputs.wezterm.packages.${osConfig.my.system.arch}.default;
-    hyprcwd-pkg = inputs.hyprcwd-rs.packages.${osConfig.my.system.arch}.default;
-
-    hyprcwd = lib.getExe' hyprcwd-pkg "hyprcwd";
-    wezterm = rec {
-      bin = lib.getExe' wezterm-pkg "wezterm-gui";
-      cwd = "${bin} start --cwd \$(${hyprcwd}|| echo \$HOME)";
-    };
-    wezterm-mux-server = lib.getExe' wezterm-pkg "wezterm-mux-server";
   in {
     programs.wezterm = {
       enable = true;
@@ -44,14 +35,5 @@
           }
         '';
     };
-
-    wayland.windowManager.hyprland.settings.exec-once = [
-      "${wezterm-mux-server} --daemonize"
-    ];
-
-    wayland.windowManager.hyprland.settings.bind = [
-      "SUPER, T, exec, ${wezterm.bin}"
-      "SUPER, RETURN, exec, ${wezterm.cwd}"
-    ];
   };
 }

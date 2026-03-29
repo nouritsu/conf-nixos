@@ -1,8 +1,4 @@
-{
-  inputs,
-  self,
-  ...
-}: {
+{inputs, ...}: {
   flake = {
     nixosModules = {
       stylix-base = {pkgs, ...}: {
@@ -68,7 +64,6 @@
           firefox.enable = false;
           fish.enable = false;
           helix.enable = false;
-          hyprland.enable = false;
           hyprlock.enable = false;
           starship.enable = false;
           vesktop.enable = false;

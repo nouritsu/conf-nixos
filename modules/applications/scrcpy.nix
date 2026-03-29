@@ -440,18 +440,6 @@
       phone-mirror
     ];
 
-    wayland.windowManager.hyprland.settings.bind = [
-      "SUPER, P, exec, ${phone-mirror}/bin/phone-mirror"
-    ];
-
-    wayland.windowManager.hyprland.settings.windowrule = let
-      match_ = "match:class \\.scrcpy\\-wrapped";
-    in [
-      "opacity 1.0 override 1.0 override, ${match_}"
-      "float on, ${match_}"
-      "pin on, ${match_}"
-    ];
-
     systemd.user.services.phone-connect = {
       Unit = {
         Description = "Phone connection keepalive";

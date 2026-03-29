@@ -1,21 +1,20 @@
-{
+{self, ...}: {
   flake.nixosModules.desktop-xdg = {...}: {
     my.hmModules = ["desktop-xdg"];
   };
 
-  flake.homeModules.desktop-xdg = {pkgs, ...}: {
+  flake.homeModules.desktop-xdg = {pkgs, ...}: let
+    inherit (pkgs.stdenv.hostPlatform) system;
+  in {
     xdg.portal = {
       enable = true;
+
       extraPortals = [
+        pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
       ];
-      config.common.default = ["hyprland" "gtk"];
-    };
 
-    xdg.configFile."hypr/xdph.conf".text = ''
-      screencopy {
-        allow_token_by_default = true
-      }
-    '';
+      configPackages = [self.packages.${system}.niri];
+    };
   };
 }

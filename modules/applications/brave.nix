@@ -41,12 +41,5 @@
     home.activation.braveSiteSearch = lib.hm.dag.entryAfter ["writeBoundary"] ''
       run ${patchScript}
     '';
-
-    wayland.windowManager.hyprland.settings.bind = [
-      "SUPER, W, exec, brave"
-    ];
-    wayland.windowManager.hyprland.settings.windowrule = [
-      "opacity 1.0 override 1.0 override, match:class brave-browser"
-    ];
   };
 }

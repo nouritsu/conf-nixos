@@ -1,18 +1,18 @@
-{inputs, ...}: {
+{self, ...}: {
   flake.nixosModules.app-tuigreet = {
     pkgs,
-    config,
     lib,
     ...
   }: let
+    inherit (pkgs.stdenv.hostPlatform) system;
     tuigreet = lib.getExe pkgs.tuigreet;
-    hyprland-sessions = "${inputs.hyprland.packages.${config.my.system.arch}.hyprland}/share/wayland-sessions";
+    niri-sessions = "${self.packages.${system}.niri}/share/wayland-sessions";
   in {
     services.greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${tuigreet} --time --remember --remember-session --sessions ${hyprland-sessions}";
+          command = "${tuigreet} --time --remember --remember-session --sessions ${niri-sessions}";
           user = "greeter";
         };
       };

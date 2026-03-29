@@ -52,7 +52,7 @@
       );
   in {
     wayland.windowManager.hyprland = {
-      enable = true;
+      enable = false;
       package = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
       portalPackage = inputs.hyprland.packages.${osConfig.my.system.arch}.xdg-desktop-portal-hyprland;
       xwayland.enable = true;

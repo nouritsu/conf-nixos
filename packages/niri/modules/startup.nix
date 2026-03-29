@@ -1,7 +1,7 @@
 {
   flake.nixosModules.wniri-startup = {pkgs, ...}: let
     delay = toString 5;
-    delayed = cmd: ["sleep" (toString delay) "&&"] ++ cmd;
+    delayed = cmd: ["${pkgs.runtimeShell}" "-c" "sleep ${delay}; exec ${pkgs.lib.escapeShellArgs cmd}"];
   in {
     settings.spawn-at-startup = [
       # system
@@ -9,9 +9,8 @@
       ["gnome-keyring-daemon" "--start" "--components=secrets,pkcs11,ssh"]
 
       # user/core
-      # ["dms" "run"]
+      ["dms" "run"]
       "kdeconnectd"
-      ["wezterm-mux-server" "--daemonize"]
 
       # user/extra
       (delayed ["steam" "-silent"])

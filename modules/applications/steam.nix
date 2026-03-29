@@ -18,9 +18,5 @@
 
   flake.homeModules.app-steam = {...}: {
     home.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";
-
-    wayland.windowManager.hyprland.settings.exec-once = [
-      "steam -silent"
-    ];
   };
 }

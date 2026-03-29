@@ -7,10 +7,7 @@
     colors = config.lib.stylix.colors;
     to_rgb = base: "rgb(${colors."${base}-rgb-r"}, ${colors."${base}-rgb-g"}, ${colors."${base}-rgb-b"})";
   in {
-    wayland.windowManager.hyprland.settings.bind = [
-      "SUPERALT, ESCAPE, exec, hyprlock"
-    ];
-
+    # TODO: USE AS LOCK SCREEN
     programs.hyprlock = {
       enable = true;
       settings = {

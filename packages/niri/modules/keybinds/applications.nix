@@ -1,7 +1,7 @@
 {
   flake.nixosModules.wniri-keybinds = {...}: {
     settings.binds = {
-      "Mod+Return".spawn = "wezterm";
+      "Mod+Return".spawn = "wezterm"; # TODO: fix to use niri-cwd
       "Mod+W".spawn = "brave";
 
       "Mod+D".spawn = "vesktop";
@@ -15,6 +15,8 @@
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
       "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
+
+      "Mod+P".spawn = "phone-mirror";
     };
   };
 }

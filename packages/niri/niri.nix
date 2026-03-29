@@ -26,6 +26,7 @@ in {
       self.nixosModules.wniri-keybinds
       self.nixosModules.wniri-appearance
       self.nixosModules.wniri-startup
+      self.nixosModules.wniri-outputs
     ];
   };
 }

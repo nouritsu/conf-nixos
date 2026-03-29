@@ -45,7 +45,6 @@
           enable = true;
           useItalics = true;
         };
-        hyprland.enable = true;
         hyprlock.enable = false;
         lsd.enable = true;
         mpv.enable = true;
