@@ -40,12 +40,12 @@
 
     settings.binds = let
       win_focus =
-        (mk_lr_bind {"Mod+%d"."focus-column-%d" = null;})
-        // (mk_ud_bind {"Mod+%d"."focus-window-or-workspace-%d" = null;});
+        (mk_lr_bind {"Mod+%d"."focus-column-%d" = _: {};})
+        // (mk_ud_bind {"Mod+%d"."focus-window-or-workspace-%d" = _: {};});
 
       win_move =
-        (mk_lr_bind {"Mod+Shift+%d"."move-column-%d" = null;})
-        // (mk_ud_bind {"Mod+Shift+%d"."move-window-to-workspace-%d" = null;});
+        (mk_lr_bind {"Mod+Shift+%d"."move-column-%d" = _: {};})
+        // (mk_ud_bind {"Mod+Shift+%d"."move-window-to-workspace-%d" = _: {};});
 
       ws_focus = lib.foldl' lib.mergeAttrs {} (map (n: {
         "Mod+${toString n}"."focus-workspace" = n;
@@ -56,20 +56,20 @@
       }) (lib.range 1 9));
     in
       {
-        "Mod+Q".close-window = null;
+        "Mod+Q".close-window = _: {};
 
-        "Mod+C".center-visible-columns = null;
-        "Mod+Shift+C".center-window = null;
+        "Mod+C".center-visible-columns = _: {};
+        "Mod+Shift+C".center-window = _: {};
 
-        "Mod+F".fullscreen-window = null;
-        "Mod+Shift+F".toggle-window-floating = null;
+        "Mod+F".fullscreen-window = _: {};
+        "Mod+Shift+F".toggle-window-floating = _: {};
 
-        "Mod+R".switch-preset-column-width = null;
+        "Mod+R".switch-preset-column-width = _: {};
 
-        "Mod+M".maximize-column = null;
-        "Mod+Shift+M"."expand-column-to-available-width" = null;
+        "Mod+M".maximize-column = _: {};
+        "Mod+Shift+M"."expand-column-to-available-width" = _: {};
 
-        "Mod+Tab".toggle-overview = null;
+        "Mod+Tab".toggle-overview = _: {};
       }
       // win_focus // win_move // ws_focus // ws_move;
   };
