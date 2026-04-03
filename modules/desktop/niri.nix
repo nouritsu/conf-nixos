@@ -13,8 +13,12 @@
       package = wniri;
     };
 
-    # xwayland-satellite must be in $PATH for niri's built-in X11 integration
     environment.systemPackages = [pkgs.xwayland-satellite];
+
+    environment.variables = {
+      XDG_CURRENT_DESKTOP = "niri";
+      XDG_SESSION_DESKTOP = "niri";
+    };
 
     # restart niri with new settings on rebuild
     system.userActivationScripts = {

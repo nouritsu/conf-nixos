@@ -40,6 +40,7 @@
 
         # Services
         srv-beszel-agent
+        srv-ollama
 
         # Peripherals
         peripheral-keyboard
@@ -93,7 +94,6 @@
         desktop-wayland
         desktop-cursor
         desktop-xdg
-        desktop-hyprland
         desktop-niri
         app-hyprlock
         app-tuigreet

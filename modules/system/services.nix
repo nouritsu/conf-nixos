@@ -23,5 +23,9 @@
         '';
       };
     };
+
+    srv-ollama = {...}: {
+      services.ollama.enable = true;
+    };
   };
 }

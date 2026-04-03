@@ -3,22 +3,15 @@
     my.hmModules = ["app-screenshot"];
   };
 
-  flake.homeModules.app-screenshot = {
-    pkgs,
-    inputs,
-    osConfig,
-    ...
-  }: let
+  flake.homeModules.app-screenshot = {pkgs, ...}: let
     screenshot-dir-home = "images/screenshots";
 
-    hyprland-pkg = inputs.hyprland.packages.${osConfig.my.system.arch}.hyprland;
     screenshot = pkgs.writeShellApplication {
       name = "screenshot";
       runtimeInputs = [
         pkgs.grim
         pkgs.slurp
         pkgs.swappy
-        hyprland-pkg
         pkgs.jq
         pkgs.gum
         pkgs.nettools

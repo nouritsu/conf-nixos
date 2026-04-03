@@ -22,7 +22,7 @@ in {
 
         passthru.configPath = config."config.kdl".path;
       })
-
+      self.nixosModules.wniri-core
       self.nixosModules.wniri-keybinds
       self.nixosModules.wniri-appearance
       self.nixosModules.wniri-startup

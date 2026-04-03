@@ -15,6 +15,7 @@
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
       "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
+      "Mod+Space".spawn-sh = "dms ipc call notifications toggle";
 
       "Mod+P".spawn = "phone-mirror";
     };

@@ -7,6 +7,7 @@
       # system
       "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
       ["gnome-keyring-daemon" "--start" "--components=secrets,pkcs11,ssh"]
+      ["spawn-at-startup" "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE"]
 
       # user/core
       ["dms" "run"]

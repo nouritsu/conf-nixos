@@ -23,8 +23,6 @@
     # Software / Firmware
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
     helix.url = "github:helix-editor/helix/master";
-    hyprcwd-rs.url = "github:JonnieCache/hyprcwd-rs";
-    hyprland.url = "github:hyprwm/hyprland";
     niri.url = "github:sodiboo/niri-flake";
     hyprlock.url = "github:hyprwm/hyprlock";
     wezterm.url = "github:wezterm/wezterm?dir=nix";

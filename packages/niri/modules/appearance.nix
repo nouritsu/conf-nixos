@@ -1,6 +1,8 @@
 {
   flake.nixosModules.wniri-appearance = {...}: {
     settings = {
+      prefer-no-csd = _: {};
+
       layout = {
         gaps = 5;
         struts = {
@@ -9,12 +11,13 @@
           top = 5;
           bottom = 5;
         };
-        border = {
+
+        focus-ring = {
           width = 3;
-          "active-color" = "#cba6f7";
-          "inactive-color" = "#313244";
+          "active-color" = "#cba6f7"; # mauve
+          "inactive-color" = "#313244"; # surface0
+          "urgent-color" = "#f38ba8"; # red
         };
-        focus-ring.off = null;
       };
 
       window-rules = [

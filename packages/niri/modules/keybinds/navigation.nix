@@ -70,6 +70,11 @@
         "Mod+Shift+M"."expand-column-to-available-width" = _: {};
 
         "Mod+Tab".toggle-overview = _: {};
+
+        "Mod+WheelScrollDown".focus-column-left = _: {};
+        "Mod+WheelScrollUp".focus-column-right = _: {};
+        "Mod+Shift+WheelScrollDown".focus-workspace-down = _: {};
+        "Mod+Shift+WheelScrollUp".focus-workspace-up = _: {};
       }
       // win_focus // win_move // ws_focus // ws_move;
   };
