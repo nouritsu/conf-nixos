@@ -1,7 +1,5 @@
 {inputs, ...}: {
   flake.nixosModules.app-dms = {pkgs, ...}: {
-    my.hmModules = ["app-dms"];
-
     imports = [
       inputs.dms-plugin-registry.modules.default
     ];
@@ -43,8 +41,5 @@
         powerOptions.enable = true;
       };
     };
-  };
-
-  flake.homeModules.app-dms = {...}: {
   };
 }

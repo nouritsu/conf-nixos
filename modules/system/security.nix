@@ -19,8 +19,6 @@
     };
 
     security-keyring = {pkgs, ...}: {
-      my.hmModules = ["security-keyring"];
-
       services.gnome.gnome-keyring.enable = true;
       security.pam.services.greetd.enableGnomeKeyring = true;
       security.pam.services.login.enableGnomeKeyring = true; # for TTYs etc.
@@ -32,8 +30,6 @@
     };
 
     security-polkit = {pkgs, ...}: {
-      my.hmModules = ["security-polkit"];
-
       security.polkit.enable = true;
 
       environment.systemPackages = [
@@ -43,14 +39,6 @@
 
     security-rtkit = {...}: {
       security.rtkit.enable = true;
-    };
-  };
-
-  flake.homeModules = {
-    security-keyring = {...}: {
-    };
-
-    security-polkit = {...}: {
     };
   };
 }

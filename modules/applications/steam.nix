@@ -1,7 +1,5 @@
 {
   flake.nixosModules.app-steam = {pkgs, ...}: {
-    my.hmModules = ["app-steam"];
-
     programs.steam = {
       enable = true;
       gamescopeSession.enable = true;
@@ -14,9 +12,9 @@
       pkgs.r2modman
       pkgs.satisfactorymodmanager
     ];
-  };
 
-  flake.homeModules.app-steam = {...}: {
-    home.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";
+    environment.variables = {
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";
+    };
   };
 }
