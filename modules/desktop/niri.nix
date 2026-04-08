@@ -15,11 +15,7 @@
 
     environment.systemPackages = [pkgs.xwayland-satellite];
 
-    environment.variables = {
-      XDG_CURRENT_DESKTOP = "niri";
-      XDG_SESSION_DESKTOP = "niri";
-    };
-
+    # TODO: fix
     # restart niri with new settings on rebuild
     system.userActivationScripts = {
       niri-reload-config = {

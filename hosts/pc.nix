@@ -111,11 +111,9 @@
         app-nh
         app-starship
         app-yazi
-        app-woomer
-        app-explorer
         app-firefox
         app-brave
-        app-hyprpicker
+        # app-hyprpicker
         app-scrcpy
         app-screenshot
         app-steam

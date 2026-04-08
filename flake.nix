@@ -2,6 +2,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     determinate.url = "github:DeterminateSystems/determinate/main";
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
@@ -25,7 +27,6 @@
     helix.url = "github:helix-editor/helix/master";
     niri.url = "github:sodiboo/niri-flake";
     hyprlock.url = "github:hyprwm/hyprlock";
-    wezterm.url = "github:wezterm/wezterm?dir=nix";
 
     dms.url = "github:AvengeMedia/DankMaterialShell";
     dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";

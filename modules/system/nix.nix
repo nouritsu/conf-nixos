@@ -7,10 +7,12 @@
     nix-base = {...}: {
       imports = [
         inputs.determinate.nixosModules.default
+        inputs.nix-index-database.nixosModules.default
       ];
+
       programs.nix-ld.enable = true;
       nix.settings.trusted-users = ["root" "@wheel"];
-      nix.settings.eval-cores = 0;
+      programs.nix-index-database.comma.enable = true;
     };
 
     # TODO: move to per application
@@ -21,14 +23,12 @@
           "https://cache.garnix.io"
           "https://nix-community.cachix.org"
           "https://yazi.cachix.org"
-          "https://wezterm.cachix.org"
         ];
         trusted-public-keys = [
           "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
           "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
           "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
-          "wezterm.cachix.org-1:kAbhjYUC9qvblTE+s7S+kl5XM1zVa4skO+E/1IDWdH0="
         ];
       };
     };

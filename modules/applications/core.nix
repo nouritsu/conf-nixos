@@ -7,6 +7,9 @@
     }: {
       my.hmModules = ["app-core"];
 
+      security.sudo.enable = false;
+      security.sudo-rs.enable = true;
+
       environment.systemPackages = with pkgs; [
         uutils-coreutils-noprefix
         killall
