@@ -4,8 +4,9 @@
       services.printing.enable = true;
     };
 
-    extra-xserver = {...}: {
+    extra-xserver = {pkgs, ...}: {
       services.xserver.enable = true;
+      services.xserver.excludePackages = [pkgs.xterm];
     };
   };
 }

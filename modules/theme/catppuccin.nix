@@ -41,15 +41,10 @@
         };
         fish.enable = true;
         fzf.enable = true;
-        helix = {
-          enable = true;
-          useItalics = true;
-        };
         hyprlock.enable = false;
         lsd.enable = true;
         mpv.enable = true;
         starship.enable = true;
-        vesktop.enable = true;
         wezterm.enable = true;
         yazi.enable = true;
       };

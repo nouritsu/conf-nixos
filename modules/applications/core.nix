@@ -11,6 +11,10 @@
       security.sudo-rs.enable = true;
 
       environment.systemPackages = with pkgs; [
+        proton-authenticator
+        protonmail-desktop
+        proton-pass
+
         uutils-coreutils-noprefix
         killall
         lsd

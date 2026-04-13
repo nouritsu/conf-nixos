@@ -7,7 +7,15 @@
     inherit (pkgs.stdenv.hostPlatform) system;
     woomer = lib.getExe pkgs.woomer;
     wezterm = lib.getExe self.packages.${system}.wezterm;
+    scrcpy = lib.getExe self.packages.${system}.scrcpy;
   in {
+    settings.window-rules = [
+      {
+        matches = [{app-id = "^\\.scrcpy-wrapped$";}];
+        default-column-width = {fixed = 615;};
+      }
+    ];
+
     settings.binds = {
       # Applications
       "Mod+Return".spawn = wezterm;
@@ -15,6 +23,7 @@
 
       "Mod+D".spawn = "vesktop";
       "Mod+Z".spawn = woomer;
+      "Mod+P".spawn = scrcpy;
 
       "Mod+S".spawn = "pavucontrol";
       "Mod+B".spawn = "blueman-manager";
@@ -26,8 +35,6 @@
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
       "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
       "Mod+Space".spawn-sh = "dms ipc call notifications toggle";
-
-      "Mod+P".spawn = "phone-mirror";
 
       # Window actions
       "Mod+Q".close-window = {};
@@ -45,10 +52,10 @@
       "Mod+Shift+WheelScrollUp".focus-workspace-up = {};
 
       # Focus column left/right (win_focus lr)
-      "Mod+H".focus-column-left = {};
-      "Mod+left".focus-column-left = {};
-      "Mod+L".focus-column-right = {};
-      "Mod+right".focus-column-right = {};
+      "Mod+H".focus-column-or-monitor-left = {};
+      "Mod+left".focus-column-or-monitor-left = {};
+      "Mod+L".focus-column-or-monitor-right = {};
+      "Mod+right".focus-column-or-monitor-right = {};
 
       # Focus window/workspace up/down (win_focus ud)
       "Mod+K".focus-window-or-workspace-up = {};
@@ -57,10 +64,10 @@
       "Mod+down".focus-window-or-workspace-down = {};
 
       # Move column left/right (win_move lr)
-      "Mod+Shift+H".move-column-left = {};
-      "Mod+Shift+left".move-column-left = {};
-      "Mod+Shift+L".move-column-right = {};
-      "Mod+Shift+right".move-column-right = {};
+      "Mod+Shift+H".move-column-left-or-to-monitor-left = {};
+      "Mod+Shift+left".move-column-left-or-to-monitor-left = {};
+      "Mod+Shift+L".move-column-right-or-to-monitor-right = {};
+      "Mod+Shift+right".move-column-right-or-to-monitor-right = {};
 
       # Move window to workspace up/down (win_move ud)
       "Mod+Shift+K".move-window-to-workspace-up = {};

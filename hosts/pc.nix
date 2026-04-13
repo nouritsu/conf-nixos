@@ -5,161 +5,136 @@
 }: {
   flake.nixosConfigurations.pc = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {inherit inputs;};
-    modules =
-      [
-        ../options.nix
-        # ../modules
-      ]
-      ++ (with self.nixosModules; [
-        opts-hm-modules
+    modules = with self.nixosModules; [
+      opts-hm-modules
 
-        # Host
-        host-pc-base
-        host-pc-hwconf
+      # Host
+      host-pc-base
+      host-pc-hwconf
 
-        # Nix
-        # nixpkgs-base
-        nixpkgs-unfree
-        nix-base
-        nix-cache
-        home-manager-integration
+      # Nix
+      # nixpkgs-base
+      nixpkgs-unfree
+      nix-base
+      nix-cache
+      home-manager-integration
 
-        # Boot
-        bootloader-grub
-        bootloader-efi
-        bootloader-dual-boot
-        kernel-cachyos-bore-lto
+      # Boot
+      bootloader-grub
+      bootloader-efi
+      bootloader-dual-boot
+      kernel-cachyos-bore-lto
 
-        # Hardware
-        audio
-        bluetooth
-        graphics-base
-        graphics-nvidia
-        firmware-redist
-        firmware-amd
+      # Hardware
+      audio
+      bluetooth
+      graphics-base
+      graphics-nvidia
+      firmware-redist
+      firmware-amd
 
-        # Services
-        srv-beszel-agent
-        srv-ollama
+      # Services
+      srv-beszel-agent
+      srv-ollama
 
-        # Peripherals
-        peripheral-keyboard
-        peripheral-monitor
-        peripheral-tablet
-        peripheral-razer
+      # Peripherals
+      peripheral-keyboard
+      peripheral-monitor
+      peripheral-tablet
+      peripheral-razer
 
-        # Network
-        net-base
-        net-avahi
-        net-dns-pihole
-        net-dns-cloudflare
-        ssh-base
+      # Network
+      net-base
+      net-avahi
+      net-dns-pihole
+      net-dns-cloudflare
+      ssh-base
 
-        # Filesystem
-        fs-exfat
-        fs-ntfs
-        fs-btrfs
-        fs-xfs
+      # Filesystem
+      fs-exfat
+      fs-ntfs
+      fs-btrfs
+      fs-xfs
 
-        # Security
-        security-pki
-        security-keyring
-        security-polkit
-        security-rtkit
+      # Security
+      security-pki
+      security-keyring
+      security-polkit
+      security-rtkit
 
-        # Users
-        user-aneesh
-        secrets
+      # Users
+      user-aneesh
+      secrets
 
-        # i18n
-        i18n-locale
-        i18n-tz-germany
+      # i18n
+      i18n-locale
+      i18n-tz-germany
 
-        # Virtualization
-        virt-podman
-        virt-emulate-aarch64
-        virt-waydroid
+      # Virtualization
+      virt-podman
+      virt-emulate-aarch64
+      virt-waydroid
 
-        # Theme
-        theme-catppuccin
-        stylix-base
-        stylix-catppuccin
+      # Theme
+      theme-catppuccin
+      stylix-base
+      stylix-catppuccin
 
-        # Extra
-        extra-printing
-        extra-xserver
+      # Extra
+      extra-printing
+      extra-xserver
 
-        # Desktop
-        desktop-control
-        desktop-wayland
-        desktop-cursor
-        desktop-xdg
-        desktop-niri
-        app-hyprlock
-        app-tuigreet
-        app-dms
-        ai-opencode
+      # Desktop
+      desktop-control
+      desktop-wayland
+      desktop-cursor
+      desktop-xdg
+      desktop-niri
+      app-hyprlock
+      app-tuigreet
+      app-dms
+      ai-opencode
 
-        # Applications
-        app-core
-        app-fish
-        app-git
-        app-gh
-        app-jujutsu
-        app-delta
-        app-helix
-        app-nh
-        app-starship
-        app-yazi
-        app-firefox
-        app-brave
-        # app-hyprpicker
-        app-scrcpy
-        app-screenshot
-        app-steam
-        app-web
-        app-wezterm
+      # Applications
+      app-core
+      app-fish
+      app-git
+      app-gh
+      app-jujutsu
+      app-delta
+      app-helix
+      app-nh
+      app-starship
+      app-yazi
+      app-firefox
+      app-brave
+      # app-hyprpicker
+      app-scrcpy
+      app-screenshot
+      app-steam
+      app-web
+      app-wezterm
 
-        # Development
-        dev-core
-        dev-direnv
-        dev-android
-        dev-c
-        dev-nix
-        dev-python
-        dev-rust
+      # Development
+      dev-core
+      dev-direnv
+      dev-android
+      dev-c
+      dev-nix
+      dev-python
+      dev-rust
 
-        # Extra (Applications)
-        extra-tui-viewers
-        extra-media
-        extra-pdf
-        extra-download
-        extra-fetchers
-      ]);
+      # Extra (Applications)
+      extra-tui-viewers
+      extra-media
+      extra-pdf
+      extra-download
+      extra-fetchers
+    ];
   };
 
   flake.nixosModules = {
     host-pc-base = {...}: {
-      my = {
-        system = {
-          arch = "x86_64-linux";
-          kind = "desktop";
-          hostname = "pc";
-          graphics = "nvidia";
-        };
-
-        boot = {
-          loader = "grub";
-          multi = true;
-        };
-
-        user = {
-          alias = "aneesh";
-          name = "Aneesh Bhave";
-          email = "aneesh1701@gmail.com";
-        };
-      };
-
       networking.hostName = "pc";
 
       # ================================================================ #

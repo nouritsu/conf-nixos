@@ -31,6 +31,7 @@
       environment.systemPackages = [
         pkgs.android-tools
         pkgs.slint-viewer
+        pkgs.pixelflasher
       ];
     };
 

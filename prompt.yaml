@@ -1,0 +1,16 @@
+- battery (for laptop)
+- character
+- cmd_duration
+- directory
+- git_branch
+- git_metrics
+- git_status
+- hostname
+- jobs
+- localip (for ssh)
+- memory_usage
+- nix_shell
+- status
+- sudo
+- time
+- username

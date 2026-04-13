@@ -3,12 +3,12 @@
   self,
   ...
 }: {
-  flake.homeModules.home-manager-base = {osConfig, ...}: {
+  flake.homeModules.home-manager-base = {...}: {
     programs.home-manager.enable = true;
 
     home = {
-      username = osConfig.my.user.alias;
-      homeDirectory = "/home/${osConfig.my.user.alias}";
+      username = "aneesh";
+      homeDirectory = "/home/aneesh";
       stateVersion = "25.11";
     };
 
@@ -30,7 +30,6 @@
       backupFileExtension = "backup";
       users.aneesh.imports = [
         self.homeModules.home-manager-base
-        # ../home.h.nix
       ];
     };
   };

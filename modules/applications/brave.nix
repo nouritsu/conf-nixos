@@ -1,6 +1,10 @@
 {
-  flake.nixosModules.app-brave = {...}: {
+  flake.nixosModules.app-brave = {pkgs, ...}: {
     my.hmModules = ["app-brave"];
+
+    environment.systemPackages = [
+      pkgs.qutebrowser
+    ];
 
     environment.etc."brave/policies/managed/default.json".text = builtins.toJSON {
       ExtensionInstallForcelist = map (id: "${id};https://clients2.google.com/service/update2/crx") [
