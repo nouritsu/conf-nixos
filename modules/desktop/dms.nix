@@ -9,6 +9,7 @@
       pkgs.qt6.qtwebsockets
       pkgs.xournalpp
       pkgs.dsearch
+      pkgs.wl-mirror
     ];
 
     environment.sessionVariables = {
@@ -30,6 +31,7 @@
         calculator.enable = true;
         emojiLauncher.enable = true;
         commandRunner.enable = true;
+        displayMirror.enable = true;
         webSearch.enable = true;
         sshConnections.enable = true;
         displayOutput.enable = true;

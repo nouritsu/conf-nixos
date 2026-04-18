@@ -11,6 +11,7 @@
       pkgs.protonup-ng
       pkgs.r2modman
       pkgs.satisfactorymodmanager
+      pkgs.eden
     ];
 
     environment.variables = {
