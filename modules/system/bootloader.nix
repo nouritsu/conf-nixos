@@ -1,17 +1,30 @@
-{
-  flake.nixosModules = {
-    bootloader-efi = {...}: {
-      boot.loader.grub.efiSupport = true;
-      boot.loader.efi.canTouchEfiVariables = true;
+{inputs, ...}: {
+  flake.nixosModules.bootloader = {pkgs, ...}: {
+    imports = [inputs.lanzaboote.nixosModules.lanzaboote];
+
+    boot.lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
     };
 
-    bootloader-grub = {...}: {
-      boot.loader.grub.enable = true;
-      boot.loader.grub.device = "nodev";
+    boot.loader.systemd-boot = {
+      enable = false;
+
+      windows."11" = {
+        title = "Windows 11";
+        efiDeviceHandle = "HD1b";
+        sortKey = "y_windows";
+      };
+
+      edk2-uefi-shell = {
+        enable = true;
+        sortKey = "z_shell";
+      };
     };
 
-    bootloader-dual-boot = {...}: {
-      boot.loader.grub.useOSProber = true;
-    };
+    boot.loader.efi.canTouchEfiVariables = true;
+
+    # sbctl: Secure Boot key management
+    environment.systemPackages = [pkgs.sbctl];
   };
 }

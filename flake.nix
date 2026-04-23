@@ -24,6 +24,7 @@
 
     # Software / Firmware
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
+    lanzaboote.url = "github:nix-community/lanzaboote";
     helix.url = "github:helix-editor/helix/master";
     niri.url = "github:sodiboo/niri-flake";
     hyprlock.url = "github:hyprwm/hyprlock";
@@ -37,7 +38,6 @@
     };
     sops-nix.url = "github:Mic92/sops-nix";
 
-    # Wrapper modules for helix
     wrappers = {
       url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";

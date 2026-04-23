@@ -20,9 +20,7 @@
       home-manager-integration
 
       # Boot
-      bootloader-grub
-      bootloader-efi
-      bootloader-dual-boot
+      bootloader
       kernel-cachyos-bore-lto
 
       # Hardware
