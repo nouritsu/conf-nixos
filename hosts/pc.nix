@@ -104,7 +104,6 @@
       app-nh
       app-starship
       app-yazi
-      app-firefox
       app-brave
       # app-hyprpicker
       app-scrcpy

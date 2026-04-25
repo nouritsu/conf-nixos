@@ -8,6 +8,11 @@
     woomer = lib.getExe pkgs.woomer;
     wezterm = lib.getExe self.packages.${system}.wezterm;
     scrcpy = lib.getExe self.packages.${system}.scrcpy;
+
+    wpctl = lib.getExe' pkgs.wireplumber "wpctl";
+    brightnessctl = lib.getExe pkgs.brightnessctl;
+    playerctl = lib.getExe pkgs.playerctl;
+    niri = lib.getExe pkgs.niri;
   in {
     settings.window-rules = [
       {
@@ -35,6 +40,25 @@
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
       "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
       "Mod+Space".spawn-sh = "dms ipc call notifications toggle";
+
+      # Audio
+      "XF86AudioRaiseVolume".spawn = [wpctl "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"];
+      "XF86AudioLowerVolume".spawn = [wpctl "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
+      "XF86AudioMute".spawn = [wpctl "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"];
+      "XF86AudioMicMute".spawn = [wpctl "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"];
+
+      # Brightness
+      "XF86MonBrightnessUp".spawn = [brightnessctl "set" "5%+"];
+      "XF86MonBrightnessDown".spawn = [brightnessctl "set" "5%-"];
+
+      # Media
+      "XF86AudioPlay".spawn = [playerctl "play-pause"];
+      "XF86AudioPrev".spawn = [playerctl "previous"];
+      "XF86AudioNext".spawn = [playerctl "next"];
+
+      # Screenshot
+      "Print".screenshot = {};
+      "Shift+Print".screenshot-screen = {};
 
       # Window actions
       "Mod+Q".close-window = {};
