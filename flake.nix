@@ -17,6 +17,7 @@
 
     # Theming
     catppuccin.url = "github:catppuccin/nix";
+    nix-colors.url = "github:misterio77/nix-colors";
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +29,7 @@
     helix.url = "github:helix-editor/helix/master";
     niri.url = "github:sodiboo/niri-flake";
     hyprlock.url = "github:hyprwm/hyprlock";
-
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     dms.url = "github:AvengeMedia/DankMaterialShell";
     dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";
     yazi.url = "github:sxyazi/yazi";
@@ -51,6 +52,13 @@
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
+
+      perSystem = {system, ...}: {
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      };
 
       imports = [
         ({lib, ...}: {

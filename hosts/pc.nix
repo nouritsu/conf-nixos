@@ -39,6 +39,7 @@
       peripheral-keyboard
       peripheral-monitor
       peripheral-tablet
+      peripheral-controller
       peripheral-razer
 
       # Network
@@ -88,7 +89,6 @@
       desktop-cursor
       desktop-xdg
       desktop-niri
-      app-hyprlock
       app-tuigreet
       app-dms
       ai-opencode
@@ -107,7 +107,6 @@
       app-brave
       # app-hyprpicker
       app-scrcpy
-      app-screenshot
       app-steam
       app-web
       app-wezterm

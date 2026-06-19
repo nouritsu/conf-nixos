@@ -31,6 +31,26 @@
       '';
     };
 
+    peripheral-controller = {pkgs, ...}: {
+      # Xbox One/Series wireless controllers over Bluetooth
+      hardware.xpadneo.enable = true;
+      # Xbox One/Series controllers over the wireless dongle and USB
+      hardware.xone.enable = true;
+      # Steam controller udev rules + generic gamepad permissions
+      hardware.steam-hardware.enable = true;
+
+      environment.systemPackages = [
+        pkgs.linuxConsoleTools # jstest / jscal for testing & calibration
+        pkgs.evtest # raw input event inspection
+        pkgs.antimicrox # map gamepad input to keyboard/mouse
+      ];
+
+      # Broad udev rules covering DualShock/DualSense, Switch Pro, 8BitDo, etc.
+      services.udev.packages = [pkgs.game-devices-udev-rules];
+
+      users.users.aneesh.extraGroups = ["input"];
+    };
+
     peripheral-razer = {pkgs, ...}: {
       hardware.openrazer.enable = true;
 

@@ -12,8 +12,6 @@
       stateVersion = "25.11";
     };
 
-    gtk.gtk4.theme = null;
-
     nixpkgs.config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;

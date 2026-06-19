@@ -14,8 +14,11 @@
         proton-authenticator
         protonmail-desktop
         proton-pass
+        proton-vpn
 
         uutils-coreutils-noprefix
+        easyeffects
+        prismlauncher
         killall
         lsd
         xcp
@@ -34,6 +37,18 @@
         dust
         sops
       ];
+
+      systemd.user.services.easyeffects = {
+        description = "EasyEffects audio service";
+        wantedBy = ["graphical-session.target"];
+        partOf = ["graphical-session.target"];
+        after = ["graphical-session.target" "pipewire.service"];
+        serviceConfig = {
+          ExecStart = "${pkgs.easyeffects}/bin/easyeffects --service-mode";
+          Restart = "on-failure";
+          Slice = "session.slice";
+        };
+      };
 
       programs.zoxide.enable = true;
 

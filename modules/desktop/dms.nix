@@ -1,15 +1,22 @@
-{inputs, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake.nixosModules.app-dms = {pkgs, ...}: {
     imports = [
-      inputs.dms-plugin-registry.modules.default
+      inputs.dms-plugin-registry.nixosModules.default
     ];
 
-    environment.systemPackages = [
+    environment.systemPackages = let
+      inherit (pkgs.stdenv.hostPlatform) system;
+    in [
       pkgs.wl-clipboard-rs
       pkgs.qt6.qtwebsockets
       pkgs.xournalpp
       pkgs.dsearch
       pkgs.wl-mirror
+      self.packages.${system}.hyprlock
     ];
 
     environment.sessionVariables = {
