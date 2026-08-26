@@ -24,5 +24,18 @@
         };
       };
     };
+
+    # Integrated Intel graphics: i915/xe come from the kernel, so this only
+    # adds the VA-API stack for hardware video decode.
+    provides.intel.nixos = {pkgs, ...}: {
+      environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
+
+      hardware.graphics.extraPackages = [
+        pkgs.intel-media-driver
+        pkgs.vpl-gpu-rt
+      ];
+
+      environment.systemPackages = [pkgs.libva-utils];
+    };
   };
 }

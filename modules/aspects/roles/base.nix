@@ -17,10 +17,7 @@
     filesystem.btrfs
     filesystem.xfs
     firmware.redist
-    firmware.amd
     ssh
-    secrets
-    services.beszel
     yazi
   ];
 }
