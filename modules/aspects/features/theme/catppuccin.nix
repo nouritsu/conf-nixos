@@ -1,0 +1,54 @@
+{inputs, ...}: {
+  den.aspects.catppuccin.nixos = {
+    imports = [inputs.catppuccin.nixosModules.catppuccin];
+
+    catppuccin = {
+      enable = true;
+      cache.enable = true;
+      flavor = "mocha";
+      accent = "mauve";
+
+      gtk.icon.enable = true;
+      grub.enable = true;
+    };
+  };
+
+  # HM half (old theme-catppuccin homeModule) → blob
+  den.aspects.aneesh.homeManager = {
+    imports = [inputs.catppuccin.homeModules.catppuccin];
+
+    catppuccin = {
+      enable = true;
+      cache.enable = true;
+      flavor = "mocha";
+      accent = "mauve";
+
+      bat.enable = true;
+      btop.enable = true;
+      cursors = {
+        enable = true;
+        accent = "dark";
+      };
+      delta.enable = true;
+      firefox = {
+        enable = true;
+        force = true;
+        profiles.default = {
+          enable = true;
+          force = true;
+        };
+      };
+      fish.enable = true;
+      fzf.enable = true;
+      hyprlock.enable = false;
+      lsd.enable = true;
+      mpv.enable = true;
+      starship.enable = true;
+      wezterm.enable = true;
+      zed = {
+        enable = true;
+        icons.enable = true;
+      };
+    };
+  };
+}

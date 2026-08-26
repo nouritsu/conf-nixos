@@ -1,0 +1,3 @@
+# NixOS system features go here: boot, kernel, nix, audio, bluetooth, graphics,
+# firmware, filesystem, security, i18n, virtualization, services, peripherals,
+# network, printing, xserver. One aspect per concern (den.aspects.<name>).

@@ -8,6 +8,7 @@
     woomer = lib.getExe pkgs.woomer;
     wezterm = lib.getExe self.packages.${system}.wezterm;
     scrcpy = lib.getExe self.packages.${system}.scrcpy;
+    floorp = lib.getExe self.packages.${system}.floorp;
 
     wpctl = lib.getExe' pkgs.wireplumber "wpctl";
     brightnessctl = lib.getExe pkgs.brightnessctl;
@@ -24,7 +25,7 @@
     settings.binds = {
       # Applications
       "Mod+Return".spawn = wezterm;
-      "Mod+W".spawn = "brave";
+      "Mod+W".spawn = floorp;
 
       "Mod+D".spawn = "vesktop";
       "Mod+Z".spawn = woomer;

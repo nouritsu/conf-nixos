@@ -8,6 +8,9 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
+    # Den framework
+    den.url = "github:denful/den";
+
     # Core
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -51,26 +54,9 @@
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux"];
-
-      perSystem = {system, ...}: {
-        _module.args.pkgs = import inputs.nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      };
-
       imports = [
-        ({lib, ...}: {
-          options.flake.homeModules = lib.mkOption {
-            type = with lib.types; lazyAttrsOf raw;
-            default = {};
-          };
-        })
-        (import-tree ./options)
         (import-tree ./modules)
         (import-tree ./packages)
-        (import-tree ./hosts)
       ];
     };
 }
