@@ -1,0 +1,41 @@
+# Evaluates every flake output without realising any of it. The pc closure is
+# 40 GiB across 4229 paths, so a hosted runner could never build this config —
+# but it can prove the config still evaluates, which is what actually breaks
+# after a lock bump or an aspect rename.
+name: check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    name: eval and format
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # The same Nix the hosts run, so an evaluation difference surfaces here
+      # rather than at switch time.
+      - uses: DeterminateSystems/determinate-nix-action@v3
+
+      # Forces both nixosConfigurations and all thirteen checks to their
+      # derivations. Warnings are expected and must not fail the run: the
+      # options.json one comes from home-manager upstream.
+      - name: evaluate every flake output
+        run: nix flake check --no-build --show-trace
+
+      # --no-build skips the checks as well, so treefmt needs its own step.
+      # It is small: alejandra and deadnix over 95 files, a few seconds.
+      - name: check formatting and dead code
+        run: nix build --no-link .#checks.x86_64-linux.treefmt
