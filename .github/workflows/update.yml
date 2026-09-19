@@ -1,0 +1,63 @@
+# Every one of the 24 inputs tracks a moving branch, so the lock only stays
+# current if something bumps it. Splitting by cadence keeps the two kinds of
+# risk apart: nixpkgs and the module frameworks move weekly because that is
+# where security fixes and option renames arrive, while the desktop flakes
+# move monthly because a helix or niri bump is a deliberate act, not
+# housekeeping. Bumping everything at once is what left helix two months
+# behind the rest of the lock.
+name: update
+
+on:
+  schedule:
+    - cron: "0 4 * * 1" # core, Mondays
+    - cron: "0 4 1 * *" # apps, the 1st
+  workflow_dispatch:
+    inputs:
+      set:
+        description: Which input set to bump
+        type: choice
+        options: [core, apps]
+        default: core
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  core:
+    name: core inputs
+    if: inputs.set == 'core' || github.event.schedule == '0 4 * * 1'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: DeterminateSystems/determinate-nix-action@v3
+
+      - uses: DeterminateSystems/update-flake-lock@v29
+        with:
+          inputs: nixpkgs home-manager sops-nix den determinate flake-parts import-tree treefmt-nix nix-index-database lanzaboote cachix
+          branch: flake-lock/core
+          commit-msg: "chore(flake): bump core inputs"
+          pr-title: "chore(flake): bump core inputs"
+          # A PR opened with the default GITHUB_TOKEN does not trigger other
+          # workflows, so a bump would arrive with no check run against it.
+          # Falls back to that token anyway, so this works before the PAT
+          # exists; it just means reviewing an unchecked PR until it does.
+          token: ${{ secrets.FLAKE_LOCK_TOKEN || github.token }}
+
+  apps:
+    name: app inputs
+    if: inputs.set == 'apps' || github.event.schedule == '0 4 1 * *'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: DeterminateSystems/determinate-nix-action@v3
+
+      - uses: DeterminateSystems/update-flake-lock@v29
+        with:
+          inputs: helix niri hyprlock dms dms-plugin-registry yazi spicetify-nix stylix catppuccin wrappers cachyos-kernel batfetch nix-colors
+          branch: flake-lock/apps
+          commit-msg: "chore(flake): bump app inputs"
+          pr-title: "chore(flake): bump app inputs"
+          token: ${{ secrets.FLAKE_LOCK_TOKEN || github.token }}
