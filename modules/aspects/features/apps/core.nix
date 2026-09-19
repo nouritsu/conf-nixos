@@ -9,7 +9,6 @@
     environment.systemPackages = [
       self.packages.${system}.wezterm
       self.packages.${system}.floorp
-      pkgs.brave
       pkgs.nautilus
 
       # fish comes from den battery
@@ -43,33 +42,27 @@
     '';
 
     programs.fish.shellAliases = {
-      # ls
       ls = "lsd -F --total-size --group-directories-first --hyperlink auto --git --extensionsort --classify";
       l = "ls -1";
       ll = "ls -lA";
       lr = "ll --recursive";
       tree = "ls --tree";
 
-      # btop
       top = "btop";
       bottom = "btop";
 
-      # find
       find = "fd --no-ignore";
       findh = "find --hidden";
       findg = "fd";
       findhg = "findg --hidden";
 
-      # eva
       calculator = "eva";
       calc = "eva";
 
-      # hyperfine
       wtime = "hyperfine --runs 1 --warmup 3 --";
       bench = "hyperfine --runs 5 --";
       wbench = "hyperfine --runs 5 --warmup 3 --";
 
-      # rg / rga
       grep = "rg";
       grepa = "rga";
 

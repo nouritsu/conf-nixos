@@ -13,7 +13,7 @@
 
         boot.lanzaboote = {
           enable = true;
-          pkiBundle = "/var/lib/sbctl"; # sbctl key store (same as old)
+          pkiBundle = "/var/lib/sbctl";
         };
 
         # lanzaboote replaces systemd-boot as the bootloader.

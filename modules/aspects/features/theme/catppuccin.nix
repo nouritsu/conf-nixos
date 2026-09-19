@@ -4,6 +4,10 @@
 
     catppuccin = {
       enable = true;
+      # Enrol every port by default. Upstream is splitting the two knobs:
+      # `enable` becomes a global kill switch, `autoEnable` does the enrolling.
+      # Setting both keeps today's behaviour once that lands.
+      autoEnable = true;
       cache.enable = true;
       flavor = "mocha";
       accent = "mauve";
@@ -13,12 +17,12 @@
     };
   };
 
-  # HM half (old theme-catppuccin homeModule) → blob
   den.aspects.aneesh.homeManager = {
     imports = [inputs.catppuccin.homeModules.catppuccin];
 
     catppuccin = {
       enable = true;
+      autoEnable = true;
       cache.enable = true;
       flavor = "mocha";
       accent = "mauve";
@@ -30,14 +34,10 @@
         accent = "dark";
       };
       delta.enable = true;
-      firefox = {
-        enable = true;
-        force = true;
-        profiles.default = {
-          enable = true;
-          force = true;
-        };
-      };
+      # The browser here is Floorp (packages/floorp/floorp.nix), which carries
+      # Catppuccin Mocha/Mauve as a force-installed add-on. There is no
+      # `programs.firefox` profile for this port to attach to.
+      firefox.enable = false;
       fish.enable = true;
       fzf.enable = true;
       hyprlock.enable = false;

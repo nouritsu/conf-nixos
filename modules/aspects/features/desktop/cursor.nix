@@ -20,6 +20,7 @@
     };
   in {
     home.pointerCursor = lib.mkForce {
+      enable = true;
       name = "catppuccin-mocha-dark-cursors";
       package = catppuccin-mocha-dark-cursors;
       size = 24;

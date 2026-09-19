@@ -13,6 +13,7 @@
     greeter
     lock
     core
+    brave
     catppuccin
     stylix
     stylix.catppuccin

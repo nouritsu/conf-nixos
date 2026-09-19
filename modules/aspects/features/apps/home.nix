@@ -1,6 +1,5 @@
 {
   den.aspects.aneesh.homeManager = {pkgs, ...}: {
-    # old app-core (HM half)
     programs.man = {
       enable = true;
       generateCaches = true;
@@ -24,7 +23,6 @@
       };
     };
 
-    # old app-fish (HM half): plugins
     programs.fish = {
       enable = true;
       plugins = [

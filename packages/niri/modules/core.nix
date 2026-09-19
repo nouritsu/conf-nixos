@@ -6,6 +6,10 @@
   }: {
     settings = {
       xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
+
+      # flat profile = raw 1:1 movement, no pointer acceleration
+      input.mouse.accel-profile = "flat";
+
       layout = {
         empty-workspace-above-first = _: {};
         preset-column-widths = [

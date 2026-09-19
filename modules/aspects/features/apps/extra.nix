@@ -121,6 +121,7 @@
           pkgs.telegram-desktop
           pkgs.whatsapp-electron
           pkgs.vesktop
+          pkgs.teams-for-linux
           pkgs.slack
         ];
       };

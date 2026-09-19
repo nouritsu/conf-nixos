@@ -6,6 +6,7 @@
       kernel.cachyos-bore-lto
       firmware.amd
       graphics.nvidia
+      cpu.balanced
 
       # Desk-bound hardware: Wooting keyboard, DDC/CI monitor control,
       # drawing tablet. These live here rather than in the desktop role

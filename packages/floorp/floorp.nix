@@ -2,8 +2,8 @@
   perSystem = {pkgs, ...}: let
     # Floorp is a Firefox fork, so wrapFirefox + enterprise policies apply just
     # like upstream Firefox. floorp-bin-unwrapped is the (cached) prebuilt base.
-    # Add-ons force-installed from addons.mozilla.org, ported from the Brave
-    # ExtensionInstallForcelist. The "latest" redirect keeps them up to date.
+    # Add-ons force-installed from addons.mozilla.org; the "latest" redirect
+    # keeps them up to date.
     mkExtension = slug: {
       install_url = "https://addons.mozilla.org/firefox/downloads/latest/${slug}/latest.xpi";
       installation_mode = "force_installed";
@@ -13,7 +13,6 @@
     # set in modules/aspects/features/theme/catppuccin.nix).
     themeId = "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}";
 
-    # Site searches ported from brave-search-patch.py.
     mkEngine = Name: Alias: URLTemplate: {
       inherit Name Alias URLTemplate;
       Method = "GET";
@@ -41,11 +40,10 @@
           ];
         };
 
-        # Carried over from the Brave managed policy.
         PasswordManagerEnabled = false; # Proton Pass manages credentials
         DisplayBookmarksToolbar = "always";
 
-        # Trim browser bloat (Brave had its own equivalents disabled).
+        # Trim browser bloat.
         DisableTelemetry = true;
         DisablePocket = true;
       };

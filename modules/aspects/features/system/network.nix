@@ -1,8 +1,8 @@
 {
   den.aspects.network = {
-    # net-base
     nixos = {pkgs, ...}: {
       networking.networkmanager.enable = true;
+      networking.networkmanager.wifi.powersave = false;
       networking.firewall.enable = true;
 
       environment.systemPackages = [pkgs.networkmanagerapplet];
@@ -16,7 +16,7 @@
     };
 
     provides.dns-pihole.nixos = {lib, ...}: {
-      networking.nameservers = lib.mkBefore ["192.168.178.168"];
+      networking.nameservers = lib.mkBefore ["192.168.178.128"];
     };
     provides.dns-cloudflare.nixos = {
       networking.nameservers = ["1.1.1.1" "1.0.0.1"];

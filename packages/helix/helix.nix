@@ -21,12 +21,10 @@ in {
     min =
       core
       ++ [
-        # editor
         self.nixosModules.whelix-settings-editor
         self.nixosModules.whelix-settings-statusline
         self.nixosModules.whelix-settings-theme
 
-        # keybinds
         self.nixosModules.whelix-keybinds-core
         self.nixosModules.whelix-keybinds-buffer
         self.nixosModules.whelix-keybinds-easymotion
@@ -38,14 +36,11 @@ in {
   in {
     packages.helix = wrappers.wrappers.helix.wrap (min
       ++ [
-        # core
         self.nixosModules.whelix-spellcheck
 
-        # integrations
         self.nixosModules.whelix-integrations-lazygit
         self.nixosModules.whelix-integrations-yazi
 
-        # lsp
         self.nixosModules.whelix-lsp-c
         self.nixosModules.whelix-lsp-cook-cli
         self.nixosModules.whelix-lsp-nix

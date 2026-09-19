@@ -37,7 +37,6 @@
     programs.fish.shellAliases.lazyjj = "jjui";
     programs.delta.enableJujutsuIntegration = true;
 
-    # delta (diff pager)
     programs.delta.enable = true;
   };
 }
