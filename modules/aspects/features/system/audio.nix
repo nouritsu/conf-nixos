@@ -11,9 +11,9 @@
           support32Bit = true;
         };
       };
-
-      users.users.aneesh.extraGroups = ["audio"];
     };
+
+    user.extraGroups = ["audio"];
 
     provides.rtkit.nixos = {
       security.rtkit.enable = true;

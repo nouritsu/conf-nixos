@@ -12,30 +12,36 @@
       };
     };
 
-    monitor.nixos = {pkgs, ...}: {
-      environment.systemPackages = [
-        pkgs.ddcutil
-        pkgs.i2c-tools
-      ];
+    monitor = {
+      nixos = {pkgs, ...}: {
+        environment.systemPackages = [
+          pkgs.ddcutil
+          pkgs.i2c-tools
+        ];
 
-      services.ddccontrol = {
-        enable = true;
-        package = pkgs.ddcutil-service;
+        services.ddccontrol = {
+          enable = true;
+          package = pkgs.ddcutil-service;
+        };
+
+        hardware.i2c.enable = true;
       };
 
-      hardware.i2c.enable = true;
-      users.users.aneesh.extraGroups = ["i2c"];
+      user.extraGroups = ["i2c"];
     };
 
-    tablet.nixos = {
-      hardware.opentabletdriver.enable = true;
-      hardware.uinput.enable = true;
-      users.users.aneesh.extraGroups = ["input"];
+    tablet = {
+      nixos = {
+        hardware.opentabletdriver.enable = true;
+        hardware.uinput.enable = true;
 
-      services.udev.extraRules = ''
-        SUBSYSTEM=="hidraw", ATTRS{idVendor}=="28bd", ATTRS{idProduct}=="0928", MODE="0660", GROUP="input"
-        SUBSYSTEM=="usb", ATTRS{idVendor}=="28bd", ATTRS{idProduct}=="0928", MODE="0660", GROUP="input"
-      '';
+        services.udev.extraRules = ''
+          SUBSYSTEM=="hidraw", ATTRS{idVendor}=="28bd", ATTRS{idProduct}=="0928", MODE="0660", GROUP="input"
+          SUBSYSTEM=="usb", ATTRS{idVendor}=="28bd", ATTRS{idProduct}=="0928", MODE="0660", GROUP="input"
+        '';
+      };
+
+      user.extraGroups = ["input"];
     };
 
     controller = {
@@ -51,20 +57,22 @@
         ];
 
         services.udev.packages = [pkgs.game-devices-udev-rules];
-
-        users.users.aneesh.extraGroups = ["input"];
       };
+
+      user.extraGroups = ["input"];
     };
 
-    razer.nixos = {pkgs, ...}: {
-      hardware.openrazer.enable = false;
+    razer = {
+      nixos = {pkgs, ...}: {
+        hardware.openrazer.enable = false;
 
-      environment.systemPackages = [
-        pkgs.openrazer-daemon
-        pkgs.polychromatic
-      ];
+        environment.systemPackages = [
+          pkgs.openrazer-daemon
+          pkgs.polychromatic
+        ];
+      };
 
-      users.users.aneesh.extraGroups = ["openrazer" "plugdev"];
+      user.extraGroups = ["openrazer" "plugdev"];
     };
   };
 }
