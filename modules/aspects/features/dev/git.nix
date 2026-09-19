@@ -28,8 +28,8 @@
 
     programs.jujutsu = {
       enable = true;
-      settings = {
-        user = "Aneesh Bhave";
+      settings.user = {
+        name = "Aneesh Bhave";
         email = "aneesh1701@gmail.com";
       };
     };

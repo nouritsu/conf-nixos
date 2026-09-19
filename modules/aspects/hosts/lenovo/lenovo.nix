@@ -12,6 +12,9 @@
       firmware.updates
       graphics.intel
       power.thermald
+
+      # Inbound ssh from the desktop.
+      ssh.from-pc
     ];
   };
 }

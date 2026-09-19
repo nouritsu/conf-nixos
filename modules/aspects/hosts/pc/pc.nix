@@ -19,6 +19,9 @@
       # store and the beszel agent that consumes it are pc-scoped.
       secrets
       services.beszel
+
+      # Inbound ssh from the laptop.
+      ssh.from-laptop
     ];
   };
 }

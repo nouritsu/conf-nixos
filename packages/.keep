@@ -1,3 +1,0 @@
-# Wrapped packages (nix-wrapper-modules), ported in Phase 5 from old/packages.
-# When the first one lands, wire this tree into den/flake.nix:
-#   imports = [ (import-tree ./modules) (import-tree ./packages) ];
