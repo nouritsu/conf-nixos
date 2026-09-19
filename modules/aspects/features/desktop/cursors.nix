@@ -1,5 +1,5 @@
 {
-  den.aspects.aneesh.homeManager = {
+  den.aspects.cursors.homeManager = {
     lib,
     pkgs,
     ...

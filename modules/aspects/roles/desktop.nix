@@ -15,6 +15,7 @@
     core
     brave
     catppuccin
+    cursors
     stylix
     stylix.catppuccin
     extra.fetchers

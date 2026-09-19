@@ -8,6 +8,7 @@
     dev.nix
     dev.python
     dev.rust
+    git
     helix
     virtualization.podman
     virtualization.emulate-aarch64

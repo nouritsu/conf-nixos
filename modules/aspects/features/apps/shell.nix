@@ -1,5 +1,5 @@
 {
-  den.aspects.aneesh.homeManager = {pkgs, ...}: {
+  den.aspects.shell.homeManager = {pkgs, ...}: {
     programs.man = {
       enable = true;
       generateCaches = true;

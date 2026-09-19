@@ -1,5 +1,5 @@
 {
-  den.aspects.aneesh.homeManager = {lib, ...}: {
+  den.aspects.starship.homeManager = {lib, ...}: {
     programs.starship = {
       enable = true;
 

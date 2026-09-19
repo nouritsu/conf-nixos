@@ -19,5 +19,7 @@
     firmware.redist
     ssh
     yazi
+    shell
+    starship
   ];
 }
