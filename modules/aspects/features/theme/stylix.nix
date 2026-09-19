@@ -39,16 +39,9 @@
       environment.systemPackages = [pkgs.nerd-fonts.jetbrains-mono];
     };
 
-    provides.catppuccin.nixos = {pkgs, ...}: {
-      stylix = {
-        polarity = "dark";
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-      };
-    };
-  };
-
-  den.aspects.aneesh.homeManager = {
-    stylix.targets = {
+    # Targets whose theming another tool already owns (catppuccin ports, the
+    # wrapped packages under packages/, or the zed block in aspects/defaults.nix).
+    homeManager.stylix.targets = {
       btop.enable = false;
       firefox.enable = false;
       fish.enable = false;
@@ -58,6 +51,13 @@
       vesktop.enable = false;
       yazi.enable = false;
       zed.enable = false;
+    };
+
+    provides.catppuccin.nixos = {pkgs, ...}: {
+      stylix = {
+        polarity = "dark";
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      };
     };
   };
 }

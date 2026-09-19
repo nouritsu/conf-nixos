@@ -17,7 +17,7 @@
     };
   };
 
-  den.aspects.aneesh.homeManager = {
+  den.aspects.catppuccin.homeManager = {
     imports = [inputs.catppuccin.homeModules.catppuccin];
 
     catppuccin = {
