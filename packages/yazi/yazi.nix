@@ -3,17 +3,17 @@
   inputs,
   ...
 }: let
-  inherit (inputs) wrappers yazi;
+  inherit (inputs) wrappers;
 in {
   perSystem = {
     pkgs,
-    system,
+    inputs',
     ...
   }: {
     packages.yazi = wrappers.wrappers.yazi.wrap [
       {
         inherit pkgs;
-        package = yazi.packages.${system}.default;
+        package = inputs'.yazi.packages.default;
         # wrap `ya` too so it sees the same baked config
         wrapperVariants.ya = {};
       }

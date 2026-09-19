@@ -55,12 +55,15 @@
       };
 
       embedded = {
-        includes = [(den.batteries.unfree ["stm32cubemx" "nrfconnect" "nrf-udev" "segger-jlink"])];
-        nixos = {pkgs, ...}: {
-          nixpkgs.config.segger-jlink.acceptLicense = true;
+        includes = [
+          (den.batteries.unfree ["stm32cubemx" "nrfconnect" "nrf-udev" "segger-jlink"])
+
           # J-Link GUI tools (JFlash etc.) link against SEGGER's bundled EOL Qt4;
           # only those tools use it, so scope the exception to this aspect
-          nixpkgs.config.permittedInsecurePackages = ["segger-jlink-qt4-952"];
+          (den.batteries.insecure ["segger-jlink-qt4-952"])
+        ];
+        nixos = {pkgs, ...}: {
+          nixpkgs.config.segger-jlink.acceptLicense = true;
 
           environment.variables._JAVA_AWT_WM_NONREPARENTING = "1";
 

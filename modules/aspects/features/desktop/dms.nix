@@ -1,5 +1,9 @@
 {inputs, ...}: {
-  den.aspects.dms.nixos = {pkgs, ...}: {
+  den.aspects.dms.nixos = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     imports = [
       inputs.dms-plugin-registry.nixosModules.default
     ];
@@ -23,7 +27,7 @@
 
     programs.dms-shell = {
       enable = true;
-      package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      package = inputs'.dms.packages.default;
 
       plugins = {
         homeAssistantMonitor.enable = true;

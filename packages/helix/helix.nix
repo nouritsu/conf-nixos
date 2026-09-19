@@ -3,17 +3,17 @@
   inputs,
   ...
 }: let
-  inherit (inputs) wrappers helix;
+  inherit (inputs) wrappers;
 in {
   perSystem = {
     pkgs,
-    system,
+    inputs',
     ...
   }: let
     core = [
       {
         inherit pkgs;
-        package = helix.packages.${system}.helix;
+        package = inputs'.helix.packages.helix;
       }
       self.nixosModules.whelix-options
     ];
