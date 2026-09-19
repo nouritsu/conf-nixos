@@ -1,15 +1,13 @@
-{
-  self,
-  den,
-  ...
-}: {
+{den, ...}: {
   den.aspects.ai = {
     includes = [(den.batteries.unfree ["claude-code" "cursor"])];
-    nixos = {pkgs, ...}: let
-      inherit (pkgs.stdenv.hostPlatform) system;
-    in {
+    nixos = {
+      self',
+      pkgs,
+      ...
+    }: {
       environment.systemPackages = [
-        self.packages.${system}.opencode
+        self'.packages.opencode
         pkgs.claude-code
         pkgs.code-cursor
       ];

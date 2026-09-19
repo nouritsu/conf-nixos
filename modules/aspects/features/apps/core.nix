@@ -1,14 +1,13 @@
-{self, ...}: {
+{
   den.aspects.core.nixos = {
+    self',
     pkgs,
     lib,
     ...
-  }: let
-    inherit (pkgs.stdenv.hostPlatform) system;
-  in {
+  }: {
     environment.systemPackages = [
-      self.packages.${system}.wezterm
-      self.packages.${system}.floorp
+      self'.packages.wezterm
+      self'.packages.floorp
       pkgs.nautilus
 
       # fish comes from den battery

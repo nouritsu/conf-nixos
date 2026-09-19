@@ -1,21 +1,18 @@
-{
-  self,
-  inputs,
-  den,
-  ...
-}: {
+{den, ...}: {
   den.aspects.extra.provides = {
     media = {
       includes = [(den.batteries.unfree ["spotify"])];
-      nixos = {pkgs, ...}: let
-        inherit (pkgs.stdenv.hostPlatform) system;
-      in {
+      nixos = {
+        self',
+        pkgs,
+        ...
+      }: {
         environment.systemPackages = [
           pkgs.ffmpeg-full
           pkgs.obs-studio
           pkgs.eog
           pkgs.mpv
-          self.packages.${system}.spotify
+          self'.packages.spotify
         ];
       };
     };
@@ -64,12 +61,13 @@
         ])
       ];
       nixos = {
+        self',
+        inputs',
         pkgs,
         config,
         lib,
         ...
       }: let
-        inherit (pkgs.stdenv.hostPlatform) system;
         is_nvidia = lib.elem "nvidia" config.services.xserver.videoDrivers;
       in {
         environment.systemPackages = [
@@ -78,9 +76,9 @@
           pkgs.onefetch
           pkgs.cpufetch
           (pkgs.gpufetch.override {cudaSupport = is_nvidia;})
-          self.packages.${system}.ifetch
-          self.packages.${system}.mfetch
-          inputs.batfetch.packages.${system}.default
+          self'.packages.ifetch
+          self'.packages.mfetch
+          inputs'.batfetch.packages.default
         ];
 
         programs.fish.shellAliases = {

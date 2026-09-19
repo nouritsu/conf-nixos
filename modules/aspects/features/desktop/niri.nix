@@ -1,13 +1,13 @@
-{self, ...}: {
+{
   den.aspects.niri = {
     nixos = {
+      self',
       pkgs,
       lib,
       config,
       ...
     }: let
-      inherit (pkgs.stdenv.hostPlatform) system;
-      wniri = self.packages.${system}.niri;
+      wniri = self'.packages.niri;
     in {
       programs.niri = {
         enable = true;
@@ -38,9 +38,12 @@
       };
     };
 
-    provides.portals.nixos = {pkgs, ...}: let
-      inherit (pkgs.stdenv.hostPlatform) system;
-      niri = self.packages.${system}.niri;
+    provides.portals.nixos = {
+      self',
+      pkgs,
+      ...
+    }: let
+      niri = self'.packages.niri;
     in {
       xdg.portal = {
         enable = true;

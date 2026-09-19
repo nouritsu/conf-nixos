@@ -1,7 +1,7 @@
-{self, ...}: {
-  den.aspects.yazi.nixos = {pkgs, ...}: {
+{
+  den.aspects.yazi.nixos = {self', ...}: {
     environment.systemPackages = [
-      self.packages.${pkgs.stdenv.hostPlatform.system}.yazi
+      self'.packages.yazi
     ];
 
     programs.fish.shellAliases.fm = "yazi";

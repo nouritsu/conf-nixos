@@ -3,6 +3,12 @@
     includes = [
       den.batteries.hostname
       den.batteries.define-user
+
+      # Hand every class module the system-selected flake outputs, so aspects
+      # can say self'.packages.foo instead of threading `self` through the
+      # flake-parts scope and indexing it by pkgs.stdenv.hostPlatform.system.
+      den.batteries.self'
+      den.batteries.inputs'
     ];
 
     # Zed editor — tuned for embedded C/C++ with Nix and other common

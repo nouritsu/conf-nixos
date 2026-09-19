@@ -1,12 +1,12 @@
-{self, ...}: {
+{
   den.aspects.greeter.nixos = {
+    self',
     pkgs,
     lib,
     ...
   }: let
-    inherit (pkgs.stdenv.hostPlatform) system;
     tuigreet = lib.getExe pkgs.tuigreet;
-    niri = self.packages.${system}.niri;
+    niri = self'.packages.niri;
     sessions = "${niri}/share/wayland-sessions";
   in {
     services.greetd = {

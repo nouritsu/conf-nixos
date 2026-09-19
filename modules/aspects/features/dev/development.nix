@@ -1,8 +1,4 @@
-{
-  self,
-  den,
-  ...
-}: {
+{den, ...}: {
   den.aspects.dev = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = [
@@ -28,14 +24,16 @@
         programs.fish.shellAbbrs."direnv-init" = "echo 'use flake' > .envrc && direnv allow";
       };
 
-      android.nixos = {pkgs, ...}: let
-        inherit (pkgs.stdenv.hostPlatform) system;
-      in {
+      android.nixos = {
+        self',
+        pkgs,
+        ...
+      }: {
         environment.systemPackages = [
           pkgs.android-tools
           pkgs.slint-viewer
           pkgs.pixelflasher
-          self.packages.${system}.scrcpy
+          self'.packages.scrcpy
         ];
       };
 

@@ -1,7 +1,7 @@
-{self, ...}: {
-  den.aspects.helix.nixos = {pkgs, ...}: {
+{
+  den.aspects.helix.nixos = {self', ...}: {
     environment.systemPackages = [
-      self.packages.${pkgs.stdenv.hostPlatform.system}.helix
+      self'.packages.helix
     ];
 
     nix.settings = {
