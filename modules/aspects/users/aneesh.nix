@@ -12,6 +12,10 @@
 
     user = {
       description = "Aneesh Bhave";
+
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEaijmb2WJa4WkQNoKz05gibSe/4rIohMVJtY3KSM0va ab@nouritsu.com"
+      ];
     };
   };
 }

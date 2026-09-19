@@ -1,5 +1,6 @@
 keys:
   - &pc age1wygzuq7267u5mmrlc482fsfrdfd77jc0y3gs53v0jz04069gmesqq6waee
+  - &nouritsu age1q6pjxqhkml9kvxunkgramqm9mpz6274v880qfsrqvyy78naradaqtlzcc4
 creation_rules:
   # matches both old/modules/secrets/secrets.yaml and
   # den/modules/aspects/features/secrets/secrets.yaml
@@ -7,3 +8,4 @@ creation_rules:
     key_groups:
       - age:
           - *pc
+          - *nouritsu
