@@ -13,7 +13,6 @@
     wpctl = lib.getExe' pkgs.wireplumber "wpctl";
     brightnessctl = lib.getExe pkgs.brightnessctl;
     playerctl = lib.getExe pkgs.playerctl;
-    niri = lib.getExe pkgs.niri;
   in {
     settings.window-rules = [
       {
