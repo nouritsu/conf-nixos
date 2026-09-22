@@ -66,6 +66,7 @@
       lib,
       ...
     }: {
+      nixpkgs.overlays = [(import ../../../_overlays/xwayland-satellite.nix)];
       environment.systemPackages = [pkgs.xwayland-satellite];
       services.xserver.enable = lib.mkForce false;
     };
