@@ -37,6 +37,16 @@
 
       nix.settings.trusted-users = ["root" "@wheel"];
 
+      # Determinate's unmanaged /etc/nix/nix.conf supplied these; the repo owns
+      # them now. experimental-features especially: nix.custom.conf has always
+      # written it empty, so without this line nothing that speaks flakes --
+      # nh included -- can run.
+      nix.settings.experimental-features = ["nix-command" "flakes"];
+
+      # Parity with what determinate-nixd wrote. Lets derivations that opt out
+      # of substitution still come from a cache.
+      nix.settings.always-allow-substitutes = true;
+
       # TODO: move to per app
       nix.settings.extra-substituters = [
         "https://attic.xuyh0120.win/lantian"
