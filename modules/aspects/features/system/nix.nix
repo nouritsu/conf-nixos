@@ -11,7 +11,6 @@
   in {
     nixos = {config, ...}: {
       imports = [
-        inputs.determinate.nixosModules.default
         inputs.nix-index-database.nixosModules.default
       ];
 
@@ -46,6 +45,26 @@
       # Parity with what determinate-nixd wrote. Lets derivations that opt out
       # of substitution still come from a cache.
       nix.settings.always-allow-substitutes = true;
+
+      # The system registry already pins `nixpkgs` to this flake's own nixpkgs
+      # store path -- nixpkgs.flake.setFlakeRegistry defaults true under
+      # lib.nixosSystem, and determinate was the only thing overriding it with a
+      # FlakeHub tarball. A path entry carries store context, so registry.json
+      # gains a reference and the tree stops being collected by nh clean; a URL
+      # string carries none, which is why the pinned nixpkgs was refetched on
+      # every clean.
+      #
+      # The *global* registry is then pure cost: a channels.nixos.org fetch,
+      # re-checked every tarball-ttl, on every `nix shell` / `nix run`. Empty
+      # disables it; use-registries stays on, so /etc/nix/registry.json still
+      # resolves `nixpkgs`.
+      nix.settings.flake-registry = "";
+
+      # Channels are dead weight on a flake system, and the root channel profile
+      # was still shadowing <nixpkgs> with a Dec-2025 tree. Off, nix.nixPath
+      # collapses to `nixpkgs=flake:nixpkgs`, which routes through the registry
+      # entry above and so back to this flake's pinned nixpkgs.
+      nix.channel.enable = false;
 
       # TODO: move to per app
       nix.settings.extra-substituters = [

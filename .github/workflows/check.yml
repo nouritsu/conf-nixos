@@ -25,9 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # The same Nix the hosts run, so an evaluation difference surfaces here
-      # rather than at switch time.
-      - uses: DeterminateSystems/determinate-nix-action@v3
+      # The hosts run nix.package from the pinned nixpkgs and this action
+      # installs the same lineage, so an evaluation difference surfaces here
+      # rather than at switch time. It also sets experimental-features and an
+      # access-tokens entry for github.com, which keeps cold input fetches off
+      # the anonymous rate limit.
+      - uses: cachix/install-nix-action@v31
 
       # Forces both nixosConfigurations and all thirteen checks to their
       # derivations. Warnings are expected and must not fail the run: the

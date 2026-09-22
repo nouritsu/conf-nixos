@@ -31,11 +31,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: cachix/install-nix-action@v31
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
-          inputs: nixpkgs home-manager sops-nix den determinate flake-parts import-tree treefmt-nix nix-index-database lanzaboote cachix
+          inputs: nixpkgs home-manager sops-nix den flake-parts import-tree treefmt-nix nix-index-database lanzaboote cachix
           branch: flake-lock/core
           commit-msg: "chore(flake): bump core inputs"
           pr-title: "chore(flake): bump core inputs"
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: cachix/install-nix-action@v31
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
