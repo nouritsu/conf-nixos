@@ -11,7 +11,7 @@
       # blanket, mirroring that discipline -- spicetify wraps the unfree
       # spotify client, and nothing else under packages/ is unfree.
       config.allowUnfreePredicate = pkg:
-        builtins.elem (inputs.nixpkgs.lib.getName pkg) ["spotify"];
+        builtins.elem (inputs.nixpkgs.lib.getName pkg) ["spotify" "splashtop-business"];
     };
   };
 }
