@@ -19,7 +19,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    cachix.url = "github:cachix/cachix";
 
     # Theming
     catppuccin.url = "github:catppuccin/nix";
@@ -34,7 +33,6 @@
     lanzaboote.url = "github:nix-community/lanzaboote";
     helix.url = "github:helix-editor/helix/master";
     niri.url = "github:sodiboo/niri-flake";
-    hyprlock.url = "github:hyprwm/hyprlock";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     dms.url = "github:AvengeMedia/DankMaterialShell";
     dms-plugin-registry.url = "github:AvengeMedia/dms-plugin-registry";

@@ -1,4 +1,4 @@
-# Every one of the 24 inputs tracks a moving branch, so the lock only stays
+# Every one of the 21 inputs tracks a moving branch, so the lock only stays
 # current if something bumps it. Splitting by cadence keeps the two kinds of
 # risk apart: nixpkgs and the module frameworks move weekly because that is
 # where security fixes and option renames arrive, while the desktop flakes
@@ -35,7 +35,7 @@ jobs:
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
-          inputs: nixpkgs home-manager sops-nix den flake-parts import-tree treefmt-nix nix-index-database lanzaboote cachix
+          inputs: nixpkgs home-manager sops-nix den flake-parts import-tree treefmt-nix nix-index-database lanzaboote
           branch: flake-lock/core
           commit-msg: "chore(flake): bump core inputs"
           pr-title: "chore(flake): bump core inputs"
@@ -56,7 +56,7 @@ jobs:
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
-          inputs: helix niri hyprlock dms dms-plugin-registry yazi spicetify-nix stylix catppuccin wrappers cachyos-kernel batfetch nix-colors
+          inputs: helix niri dms dms-plugin-registry yazi spicetify-nix stylix catppuccin wrappers cachyos-kernel batfetch nix-colors
           branch: flake-lock/apps
           commit-msg: "chore(flake): bump app inputs"
           pr-title: "chore(flake): bump app inputs"
