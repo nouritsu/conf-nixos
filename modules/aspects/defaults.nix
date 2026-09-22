@@ -1,4 +1,8 @@
-{den, ...}: {
+{
+  den,
+  inputs,
+  ...
+}: {
   den.default = {
     includes = [
       den.batteries.hostname
@@ -10,6 +14,12 @@
       den.batteries.self'
       den.batteries.inputs'
     ];
+
+    # Applied here rather than from the aspects that need an overlay, because
+    # the hosts do not carry the same aspects: lenovo has niri.xwayland but not
+    # kernel.cachyos-bore-lto, so hanging the list off either one silently
+    # drops it on the other host.
+    nixos.nixpkgs.overlays = import ../_overlays inputs;
 
     # Hands home-manager the host's pkgs instead of letting every user
     # evaluate its own. This is a correctness fix as much as a cost one: with
