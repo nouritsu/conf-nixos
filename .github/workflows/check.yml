@@ -32,13 +32,31 @@ jobs:
       # the anonymous rate limit.
       - uses: cachix/install-nix-action@v31
 
-      # Forces both nixosConfigurations and all thirteen checks to their
-      # derivations. Warnings are expected and must not fail the run: the
-      # options.json one comes from home-manager upstream.
+      # `nix flake check --no-build` reads as the obvious tool here and is the
+      # wrong one. --no-build declines to realise anything, but forcing a
+      # package whose source is filtered -- yazi strips its markdown before
+      # building -- has to materialise that tree to read its Cargo.lock. On a
+      # warm store the path is already present and it passes; on a cold runner
+      # it fails with "path ... is not valid". That is why this ran green
+      # locally and red on the first push. nix eval carries no such
+      # restriction.
+      #
+      # Forcing a drvPath is the same gate: it evaluates the whole module
+      # system and every package. checks are config.packages (modules/flake/
+      # checks.nix), so the second command covers them too, and both are
+      # written generically so a new host or package is picked up without
+      # touching this file.
+      #
+      # Warnings are expected and must not fail the run: the options.json one
+      # comes from home-manager upstream.
       - name: evaluate every flake output
-        run: nix flake check --no-build --show-trace
+        run: |
+          nix eval --json --show-trace .#nixosConfigurations \
+            --apply 'builtins.mapAttrs (_: c: c.config.system.build.toplevel.drvPath)'
+          nix eval --json --show-trace .#packages.x86_64-linux \
+            --apply 'builtins.mapAttrs (_: p: p.drvPath)'
 
-      # --no-build skips the checks as well, so treefmt needs its own step.
+      # Evaluation alone never builds, so treefmt needs its own step.
       # It is small: alejandra and deadnix over 95 files, a few seconds.
       - name: check formatting and dead code
         run: nix build --no-link .#checks.x86_64-linux.treefmt
