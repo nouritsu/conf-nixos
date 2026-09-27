@@ -1,10 +1,11 @@
-{
+{self, ...}: {
   flake.nixosModules.whelix-integrations-lazygit = {
     lib,
     pkgs,
     ...
   }: let
-    lazygit = lib.getExe pkgs.lazygit;
+    # the wrapped one, so it opens with the catppuccin theme
+    lazygit = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.lazygit;
   in {
     helix'.binds_space =
       /*

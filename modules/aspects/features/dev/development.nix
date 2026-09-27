@@ -7,7 +7,6 @@
         pkgs.gnumake
         pkgs.grex
         pkgs.lazydocker
-        pkgs.lazygit
         pkgs.tokei
       ];
 

@@ -32,7 +32,6 @@
         enable = true;
         accent = "dark";
       };
-      delta.enable = true;
       # The browser here is Floorp (packages/floorp/floorp.nix), which carries
       # Catppuccin Mocha/Mauve as a force-installed add-on. There is no
       # `programs.firefox` profile for this port to attach to.
