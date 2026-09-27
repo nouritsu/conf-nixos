@@ -1,10 +1,11 @@
-{
+{self, ...}: {
   flake.nixosModules.whelix-integrations-yazi = {
     lib,
     pkgs,
     ...
   }: let
-    yazi = lib.getExe pkgs.yazi;
+    # the wrapped one, with its plugins, keymap and theme
+    yazi = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.yazi;
   in {
     helix'.binds_space =
       /*
