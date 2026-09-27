@@ -69,7 +69,7 @@
           error = "bold red";
         };
         username = {
-          user = "purple bold";
+          user = "mauve bold";
           root = "red bold";
         };
         hostname = "bold green";
@@ -112,16 +112,16 @@
 
         package = "bold bright-yellow";
 
-        git_branch = "bold bright-purple";
+        git_branch = "bold mauve";
 
         git_metrics = {
           added = "bold green";
           deleted = "bold red";
         };
 
-        git_status = "bold purple";
+        git_status = "bold mauve";
 
-        jobs = "bold bright-purple";
+        jobs = "bold mauve";
 
         memory_usage = {
           memory = "bold yellow";
