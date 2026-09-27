@@ -24,7 +24,6 @@
       pkgs.fzf
       pkgs.ripgrep
       pkgs.ripgrep-all
-      pkgs.tealdeer
       pkgs.gnutar
       pkgs.ouch
       pkgs.unzip

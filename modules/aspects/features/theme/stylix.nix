@@ -42,12 +42,10 @@
     # Targets whose theming another tool already owns (catppuccin ports, the
     # wrapped packages under packages/, or the zed block in aspects/defaults.nix).
     homeManager.stylix.targets = {
-      btop.enable = false;
       firefox.enable = false;
       fish.enable = false;
       helix.enable = false;
       hyprlock.enable = false;
-      starship.enable = false;
       vesktop.enable = false;
       yazi.enable = false;
       zed.enable = false;

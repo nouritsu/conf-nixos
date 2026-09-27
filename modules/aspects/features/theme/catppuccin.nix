@@ -28,7 +28,6 @@
       accent = "mauve";
 
       bat.enable = true;
-      btop.enable = true;
       cursors = {
         enable = true;
         accent = "dark";
@@ -43,7 +42,6 @@
       hyprlock.enable = false;
       lsd.enable = true;
       mpv.enable = true;
-      starship.enable = true;
       wezterm.enable = true;
       zed = {
         enable = true;
