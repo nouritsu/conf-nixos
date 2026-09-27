@@ -43,6 +43,7 @@ in {
 
         self.nixosModules.whelix-lsp-c
         self.nixosModules.whelix-lsp-cook-cli
+        self.nixosModules.whelix-lsp-gdscript
         self.nixosModules.whelix-lsp-nix
         self.nixosModules.whelix-lsp-python
         self.nixosModules.whelix-lsp-rust
