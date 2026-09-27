@@ -42,9 +42,15 @@
         airQuality.enable = true;
         dockerManager.enable = true;
         dankActions.enable = true;
-        dankBatteryAlerts.enable = true;
         dankLauncherKeys.enable = true;
-        powerOptions.enable = true;
+
+        # dankBatteryAlerts and powerOptions are gone from the registry, and
+        # enabling a name it no longer defines leaves `.src` undefined, which is
+        # an eval error rather than a no-op. Both were delisted because DMS
+        # absorbed them: low/critical battery notifications are now
+        # Settings -> Battery -> Alerts (batteryNotifyLow, batteryNotifyCritical),
+        # and the launcher grows a built-in `dms_power` provider covering lock,
+        # logout, suspend, hibernate, reboot, soft reboot and poweroff.
       };
     };
   };
