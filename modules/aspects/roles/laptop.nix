@@ -2,6 +2,7 @@
   den.aspects.laptop.includes = with den.aspects; [
     base
     desktop
+    gaming
     development
     office
     ai

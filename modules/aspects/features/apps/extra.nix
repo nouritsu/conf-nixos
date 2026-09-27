@@ -149,18 +149,26 @@
         environment.systemPackages = [
           pkgs.mangohud
           pkgs.protonup-ng
-          pkgs.lumafly
-          pkgs.r2modman
-          pkgs.satisfactorymodmanager
-          pkgs.eden
-          pkgs.prismlauncher
-          pkgs.deadlock-mod-manager
         ];
 
         environment.variables = {
           STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";
         };
       };
+    };
+
+    game-mods.nixos = {pkgs, ...}: {
+      environment.systemPackages = [
+        pkgs.lumafly
+        pkgs.r2modman
+        pkgs.satisfactorymodmanager
+        pkgs.prismlauncher
+        pkgs.deadlock-mod-manager
+      ];
+    };
+
+    emulation.nixos = {pkgs, ...}: {
+      environment.systemPackages = [pkgs.eden];
     };
 
     proton = {
