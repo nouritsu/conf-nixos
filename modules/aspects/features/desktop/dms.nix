@@ -25,6 +25,12 @@
       enable = true;
     };
 
+    # DMS's power-profile switcher talks to this daemon over D-Bus, and
+    # cpu.balanced Requires it. nixpkgs' dms-shell module enabled it by
+    # default until the 2026-09-26 nixpkgs; since then only hosts with the
+    # power aspect had it, and pc silently lost it.
+    services.power-profiles-daemon.enable = true;
+
     programs.dms-shell = {
       enable = true;
       package = inputs'.dms.packages.default;
