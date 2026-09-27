@@ -7,6 +7,7 @@
     office
     ai
     power
+    dms.battery
     extra.media
     extra.download
     extra.productivity

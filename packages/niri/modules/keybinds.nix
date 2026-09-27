@@ -39,6 +39,8 @@
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
       "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
+      "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";
+      "Mod+C".spawn-sh = "dms color pick -a";
       "Mod+Space".spawn-sh = "dms ipc call notifications toggle";
 
       # Audio
@@ -57,12 +59,13 @@
       "XF86AudioNext".spawn = [playerctl "next"];
 
       # Screenshot
-      "Print".screenshot = {};
+      "Print".spawn-sh = "dms ipc call screenshotPlus capture";
       "Shift+Print".screenshot-screen = {};
+      "Ctrl+Print".screenshot = {};
 
       # Window actions
       "Mod+Q".close-window = {};
-      "Mod+C".center-visible-columns = {};
+      "Mod+Ctrl+C".center-visible-columns = {};
       "Mod+Shift+C".center-window = {};
       "Mod+F".fullscreen-window = {};
       "Mod+Shift+F".toggle-window-floating = {};

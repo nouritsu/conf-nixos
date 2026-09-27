@@ -12,6 +12,7 @@
       firmware.updates
       graphics.intel
       power.thermald
+      dms.ideapad
 
       # Inbound ssh from the desktop.
       ssh.from-pc
