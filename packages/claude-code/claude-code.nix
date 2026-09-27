@@ -44,7 +44,9 @@ in {
           Stop) body="Finished" ;;
           *) body=$(jq -r '.message // "Needs your input"' <<<"$input") ;;
         esac
-        notify-send --app-name="Claude Code" --icon=${icon} "Claude Code · $project" "$body"
+        # --app-icon, not --icon: libnotify sends --icon as the image-path
+        # hint, which DMS draws twice (as the icon and as a content image).
+        notify-send --app-name="Claude Code" --app-icon=${icon} "Claude Code · $project" "$body"
       '';
     };
 
