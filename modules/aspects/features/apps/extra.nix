@@ -11,20 +11,23 @@
           pkgs.ffmpeg-full
           pkgs.obs-studio
           pkgs.eog
-          pkgs.mpv
+          self'.packages.mpv
           self'.packages.spotify
         ];
       };
     };
 
-    pdf.nixos = {pkgs, ...}: {
+    pdf.nixos = {
+      self',
+      pkgs,
+      ...
+    }: {
       environment.systemPackages = [
         pkgs.pdftk
         pkgs.poppler-utils
         pkgs.pdfchain
         pkgs.kdePackages.okular
-        pkgs.zathura
-        pkgs.zathuraPkgs.zathura_pdf_mupdf
+        self'.packages.zathura
       ];
     };
 

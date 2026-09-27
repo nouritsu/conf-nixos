@@ -40,7 +40,6 @@
       fzf.enable = true;
       hyprlock.enable = false;
       lsd.enable = true;
-      mpv.enable = true;
       wezterm.enable = true;
       zed = {
         enable = true;
