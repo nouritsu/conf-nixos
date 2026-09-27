@@ -4,6 +4,7 @@ in {
   perSystem = {
     pkgs,
     lib,
+    self',
     ...
   }: let
     # Claude spark from simple-icons (CC0), filled in Claude's orange and
@@ -59,6 +60,17 @@ in {
       '';
     };
 
+    # the same for .gd files, with GDQuest's formatter (the official style guide)
+    gdscript-format = pkgs.writeShellApplication {
+      name = "claude-gdscript-format";
+      runtimeInputs = [pkgs.jq pkgs.gdscript-formatter];
+      text = ''
+        file=$(jq -r '.tool_input.file_path // empty')
+        [[ $file == *.gd && -f $file ]] || exit 0
+        gdscript-formatter "$file" || true
+      '';
+    };
+
     # Local plugin in place of the marketplace *-lsp ones, with servers at
     # store paths instead of whatever is on PATH. Only one server may own an
     # extension, so .nix gets nil (not nixd).
@@ -87,6 +99,13 @@ in {
             ".hxx" = "cpp";
           };
         };
+        # Godot's server lives in the editor; the bridge starts a headless one
+        # when yours isn't open, and that first imports the whole project.
+        godot = {
+          command = lib.getExe self'.packages.godot-lsp;
+          extensionToLanguage.".gd" = "gdscript";
+          startupTimeout = 300000;
+        };
       };
     });
   in {
@@ -107,6 +126,10 @@ in {
           context7 = {
             type = "http";
             url = "https://mcp.context7.com/mcp";
+          };
+          godot = {
+            type = "stdio";
+            command = lib.getExe self'.packages.godot-mcp;
           };
         };
 
@@ -129,8 +152,14 @@ in {
             "Bash(nix flake show *)"
             "Bash(nix flake metadata *)"
             "Bash(journalctl *)"
+            "Bash(gdscript-formatter lint *)"
+            "Bash(gdscript-formatter --check *)"
             "mcp__nixos"
             "mcp__context7"
+            "mcp__godot__get_godot_version"
+            "mcp__godot__list_projects"
+            "mcp__godot__get_project_info"
+            "mcp__godot__get_debug_output"
           ];
 
           hooks = {
@@ -164,6 +193,10 @@ in {
                   {
                     type = "command";
                     command = lib.getExe nix-format;
+                  }
+                  {
+                    type = "command";
+                    command = lib.getExe gdscript-format;
                   }
                 ];
               }
