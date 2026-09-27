@@ -18,6 +18,9 @@
 
       # Rebuilds pull from the desktop's store whenever it answers.
       nix.from-pc
+
+      # Takes the desktop's compiles while on AC power.
+      nix.builds-from-pc
     ];
   };
 }

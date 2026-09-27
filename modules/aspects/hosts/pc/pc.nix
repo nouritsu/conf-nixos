@@ -18,10 +18,11 @@
 
       # sops-nix age key lives on this host only, so the secret store and
       # everything that consumes it -- the beszel agent, the binary cache's
-      # signing key -- are pc-scoped.
+      # signing key, the remote builder's ssh key -- are pc-scoped.
       secrets
       services.beszel
       nix.serve
+      nix.builds-on-laptop
 
       # Inbound ssh from the laptop.
       ssh.from-laptop
