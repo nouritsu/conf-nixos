@@ -32,15 +32,13 @@
     #
     # The inputs below deliberately keep their own nixpkgs. Each ships a
     # prebuilt binary from a cache this system trusts, so a follows would change
-    # the derivation hash, turn every cache hit into a local build, and in two
-    # cases put a compiler on the critical path of a rebuild:
+    # the derivation hash and turn every cache hit into a local build:
     #
     #   cachyos-kernel  attic.xuyh0120.win/lantian  the whole kernel
     #   helix           helix.cachix.org            inputs'.helix.packages.helix
     #   yazi            yazi.cachix.org             inputs'.yazi.packages.default
-    #   niri            sodiboo's cache             niri.packages.<sys>.niri-unstable
-    #   dms             cache.garnix.io             inputs'.dms.packages.default
-    #   lanzaboote      cache.garnix.io             reads as a pure module but is
+    #   niri            niri.cachix.org             niri.packages.<sys>.niri-unstable
+    #   lanzaboote      nix-community.cachix.org    reads as a pure module but is
     #                     not: nixosModules.lanzaboote pins boot.lanzaboote.package
     #                     to self.packages.<sys>.lzbt, a Rust build against its own
     #                     nixpkgs + crane + rust-overlay, on pc's Secure Boot path.
@@ -48,8 +46,16 @@
     lanzaboote.url = "github:nix-community/lanzaboote";
     helix.url = "github:helix-editor/helix/master";
     niri.url = "github:sodiboo/niri-flake";
-    dms.url = "github:AvengeMedia/DankMaterialShell";
     yazi.url = "github:sxyazi/yazi";
+
+    # dms kept its own nixpkgs for a prebuilt dms-shell on cache.garnix.io,
+    # which is gone -- the name stopped resolving. It builds here whichever
+    # nixpkgs it gets, and on its own one it dragged a second Qt, ffmpeg,
+    # python and glibc into the closure: following ours took 1.5 GiB off pc.
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Its nixpkgs was locked to c043004d -- the rev this flake already pins,
     # just fetched as a tarball rather than via github, so the lock carried a
