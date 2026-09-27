@@ -15,6 +15,9 @@
 
       # Inbound ssh from the desktop.
       ssh.from-pc
+
+      # Rebuilds pull from the desktop's store whenever it answers.
+      nix.from-pc
     ];
   };
 }
