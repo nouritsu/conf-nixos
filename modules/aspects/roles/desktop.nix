@@ -15,7 +15,6 @@
     core
     brave
     catppuccin
-    cursors
     fonts
     dms.theming
     extra.fetchers

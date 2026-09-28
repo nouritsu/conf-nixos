@@ -26,5 +26,44 @@
       # ~/.local/share/themes and patches its colours into that copy.
       pkgs.adw-gtk3
     ];
+
+    # DMS applies the cursor through niri: it writes cursor.kdl, niri draws
+    # its own cursor from it and exports XCURSOR_* to everything it spawns,
+    # and GTK 4, Qt 6 and Chromium ask niri for the cursor anyway
+    # (cursor-shape-v1). GTK 3 draws its own from dconf's cursor-theme, which
+    # DMS never writes, so this copies DMS's choice there whenever the file
+    # changes. It also keeps the `default` theme pointing at it for anything
+    # started without XCURSOR_THEME.
+    systemd.user.paths.dms-cursor-sync = {
+      wantedBy = ["graphical-session.target"];
+      pathConfig.PathChanged = "%h/.config/niri/dms/cursor.kdl";
+    };
+
+    systemd.user.services.dms-cursor-sync = {
+      description = "Copy the DMS cursor into dconf for GTK 3";
+      wantedBy = ["graphical-session.target"];
+      serviceConfig.Type = "oneshot";
+      path = [pkgs.dconf pkgs.gnused pkgs.coreutils];
+      script = ''
+        kdl=$HOME/.config/niri/dms/cursor.kdl
+        key=/org/gnome/desktop/interface
+        theme=$(sed -n 's/^[[:space:]]*xcursor-theme "\(.*\)"$/\1/p' "$kdl" 2>/dev/null)
+        size=$(sed -n 's/^[[:space:]]*xcursor-size \([0-9]*\)$/\1/p' "$kdl" 2>/dev/null)
+
+        if [ -n "$theme" ]; then
+          dconf write "$key/cursor-theme" "'$theme'"
+          mkdir -p "$HOME/.icons/default"
+          printf '[Icon Theme]\nInherits=%s\n' "$theme" > "$HOME/.icons/default/index.theme"
+        else
+          dconf reset "$key/cursor-theme"
+        fi
+
+        if [ -n "$size" ]; then
+          dconf write "$key/cursor-size" "$size"
+        else
+          dconf reset "$key/cursor-size"
+        fi
+      '';
+    };
   };
 }
