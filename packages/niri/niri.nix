@@ -27,6 +27,7 @@ in {
       self.nixosModules.wniri-appearance
       self.nixosModules.wniri-startup
       self.nixosModules.wniri-outputs
+      self.nixosModules.wniri-dms
     ];
   };
 }

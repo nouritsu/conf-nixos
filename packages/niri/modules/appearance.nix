@@ -12,12 +12,8 @@
           bottom = 5;
         };
 
-        focus-ring = {
-          width = 3;
-          "active-color" = "#cba6f7"; # mauve
-          "inactive-color" = "#313244"; # surface0
-          "urgent-color" = "#f38ba8"; # red
-        };
+        # Its colours come from DMS, through ./dms.nix.
+        focus-ring.width = 3;
       };
 
       window-rules = [
