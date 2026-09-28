@@ -7,8 +7,9 @@
     settings = {
       xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
-      # flat profile = raw 1:1 movement, no pointer acceleration
-      input.mouse.accel-profile = "flat";
+      # Mouse and touchpad settings come from DMS (./dms.nix). Pointing-device
+      # sections do not merge across includes, so a mouse block here would be
+      # replaced wholesale anyway.
 
       layout = {
         empty-workspace-above-first = _: {};
