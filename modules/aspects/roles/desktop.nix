@@ -16,8 +16,8 @@
     brave
     catppuccin
     cursors
-    stylix
-    stylix.catppuccin
+    fonts
+    dms.theming
     extra.fetchers
     extra.tui-viewers
   ];

@@ -1,8 +1,8 @@
 {
   # Zed editor — tuned for embedded C/C++ with Nix and other common
   # languages. Catppuccin Mocha comes from the catppuccin-nix module
-  # (see features/theme/catppuccin.nix); the stylix Zed target is
-  # disabled in features/theme/stylix.nix so it does not override it.
+  # (see features/theme/catppuccin.nix), not DMS: DMS's Zed template takes
+  # its syntax colours from dank16, which is not the Catppuccin palette.
   den.aspects.zed.homeManager.programs.zed-editor = {
     enable = true;
 
@@ -17,7 +17,7 @@
     ];
 
     userSettings = {
-      # ZedMono Nerd Font to match the rest of the system (stylix).
+      # ZedMono Nerd Font to match the rest of the system (the fonts aspect).
       buffer_font_family = "ZedMono Nerd Font";
       ui_font_family = "ZedMono Nerd Font";
       buffer_font_size = 15;

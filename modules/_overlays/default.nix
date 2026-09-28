@@ -5,9 +5,8 @@
 # first and installed by the second.
 #
 # A single nixpkgs.pkgs instance would be better still, but is out of reach
-# here: it asserts nixpkgs.config == {}, and the writers are stylix's two
-# overlays plus den's own unfree and insecure batteries, none of them ours to
-# drop.
+# here: it asserts nixpkgs.config == {}, and den's own unfree and insecure
+# batteries write it, neither of them ours to drop.
 #
 # Overlays are lazy, so the whole list is free on a host that forces none of
 # it. cachyosKernels is one attribute that nothing evaluates unless

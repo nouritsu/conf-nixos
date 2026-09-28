@@ -27,9 +27,8 @@
 
     # Holds no config, but must stay on. niri-session re-execs through the
     # fish login shell, and the config.fish this generates is what sources
-    # hm-session-vars into the graphical session: cursor theme, qt5ct and
-    # kvantum, stylix's XDG_CONFIG_DIRS, GLAMOUR_STYLE. There is no
-    # ~/.profile to fall back on.
+    # hm-session-vars into the graphical session: GLAMOUR_STYLE and the
+    # cursor theme. There is no ~/.profile to fall back on.
     programs.fish.enable = true;
   };
 }

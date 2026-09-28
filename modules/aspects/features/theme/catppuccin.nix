@@ -1,6 +1,18 @@
 {inputs, ...}: {
   den.aspects.catppuccin.nixos = {
+    config,
+    pkgs,
+    ...
+  }: {
     imports = [inputs.catppuccin.nixosModules.catppuccin];
+
+    # Papirus with folders in the flavour's accent. DMS picks the icon theme
+    # (Papirus-Dark) and hands it to GTK, Qt and the portal.
+    environment.systemPackages = [
+      (pkgs.catppuccin-papirus-folders.override {
+        inherit (config.catppuccin) flavor accent;
+      })
+    ];
 
     catppuccin = {
       enable = true;

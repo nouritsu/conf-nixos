@@ -1,8 +1,7 @@
 {
   # Policies land in /etc/brave/policies/managed/ via programs.chromium, which
-  # nixpkgs also points at Brave. stylix already owns that option (it writes
-  # BrowserThemeColor there), so going through the module rather than
-  # environment.etc keeps both sets merged into one policy file.
+  # nixpkgs also points at Brave. No theme colour is forced here: Brave's GTK
+  # theme follows the colours DMS writes for GTK.
   den.aspects.brave.nixos = {pkgs, ...}: let
     # Force-installed add-ons; the Chrome Web Store update URL keeps them current.
     mkExtension = id: "${id};https://clients2.google.com/service/update2/crx";

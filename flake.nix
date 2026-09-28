@@ -23,8 +23,14 @@
     # Theming
     catppuccin.url = "github:catppuccin/nix";
     nix-colors.url = "github:misterio77/nix-colors";
-    stylix = {
-      url = "github:danth/stylix";
+
+    # The Qt platform theme DMS drives: it reads DMS's KDE colour scheme and
+    # repaints running apps when DMS rewrites its config. nixpkgs builds it
+    # with -DBUILD_QT5=OFF; this flake's package adds a qt5 output, so
+    # splashtop, antimicrox and qaseprite follow too. It follows ours because
+    # a Qt plugin has to match the Qt the apps load it into.
+    qtengine = {
+      url = "github:kossLAN/qtengine";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
