@@ -1,6 +1,5 @@
 {
-  # Gaps, focus-ring and border width, corner radius and every colour come from
-  # DMS through ./dms.nix. What stays here is what DMS has no setting for.
+  # only what DMS has no setting for
   flake.nixosModules.wniri-appearance = {...}: {
     settings = {
       prefer-no-csd = _: {};

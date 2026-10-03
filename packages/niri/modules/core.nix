@@ -7,9 +7,7 @@
     settings = {
       xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
-      # Mouse and touchpad settings come from DMS (./dms.nix). Pointing-device
-      # sections do not merge across includes, so a mouse block here would be
-      # replaced wholesale anyway.
+      # mouse/touchpad come from DMS; a block here would be replaced anyway
 
       layout = {
         empty-workspace-above-first = _: {};

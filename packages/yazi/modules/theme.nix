@@ -1,6 +1,5 @@
 {inputs, ...}: {
-  # catppuccin mocha/mauve, baked in since the catppuccin-nix home-manager
-  # target only applies when programs.yazi is enabled there
+  # catppuccin mocha/mauve
   flake.nixosModules.wyazi-theme = {
     lib,
     pkgs,
@@ -12,8 +11,7 @@
     settings.theme =
       flavor
       // {
-        # the flavor expects the tmTheme copied to ~/.config/yazi; point
-        # code-preview highlighting at the store instead
+        # the flavor expects its tmTheme in ~/.config/yazi; use the store's
         mgr = flavor.mgr // {syntect_theme = "${sources.bat}/Catppuccin Mocha.tmTheme";};
       };
   };

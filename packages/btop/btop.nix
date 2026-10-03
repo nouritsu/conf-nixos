@@ -7,7 +7,7 @@ in {
     inputs',
     ...
   }: let
-    # catppuccin's mocha theme highlights in blue; mauve is the accent here
+    # mocha highlights in blue; swap in mauve
     theme = pkgs.runCommand "catppuccin_mocha_mauve.theme" {} ''
       sed \
         -e 's/^theme\[hi_fg\]=.*/theme[hi_fg]="#${palette.base0E}"/' \
@@ -30,7 +30,7 @@ in {
           proc_gradient = false;
           update_ms = 1000;
 
-          # --config points into the store, so there is nowhere to save to
+          # config is in the store, nowhere to save
           save_config_on_exit = false;
         };
       }

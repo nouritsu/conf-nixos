@@ -1,7 +1,5 @@
 {inputs, ...}: {
-  # catppuccin mocha palette, merged the way the catppuccin-nix home-manager
-  # port did: with it, colour names like red/yellow/green/blue/mauve resolve to
-  # the palette instead of the terminal's ANSI slots
+  # catppuccin mocha palette, so colour names resolve to it, not ANSI
   flake.nixosModules.wstarship-theme = {
     lib,
     pkgs,

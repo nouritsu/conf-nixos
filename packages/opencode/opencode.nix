@@ -36,8 +36,7 @@ in {
             };
           };
 
-          # opencode has neither built in; the server is the same bridge
-          # claude-code and helix use
+          # neither is built in; same bridge as claude-code and helix
           lsp.godot = {
             command = [(lib.getExe self'.packages.godot-lsp)];
             extensions = [".gd"];

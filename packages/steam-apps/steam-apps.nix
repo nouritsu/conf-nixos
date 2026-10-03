@@ -4,12 +4,8 @@
     lib,
     ...
   }: let
-    # Launches a native Linux app bought on Steam from whichever library holds
-    # it; Steam lists its libraries in libraryfolders.vdf. The binaries expect
-    # an FHS system, so they run under steam-run. steam-run comes from PATH,
-    # i.e. from programs.steam, so the launcher carries no Steam runtime of its
-    # own. Steam may start an app in its container runtime instead, which ships
-    # libraries steam-run lacks; extraLibs fills those in.
+    # native Steam app from whichever library has it, under programs.steam's
+    # steam-run; extraLibs covers what Steam's own runtime would add
     steamApp = {
       name,
       dir,

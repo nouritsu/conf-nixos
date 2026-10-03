@@ -7,9 +7,7 @@ in {
     inputs',
     ...
   }: {
-    # delta reads its [delta] section through libgit2, which never looks at the
-    # GIT_CONFIG_GLOBAL the git wrapper sets, so it carries a config of its own;
-    # the git and jujutsu wrappers point their pagers here.
+    # libgit2 ignores GIT_CONFIG_GLOBAL, so delta has its own config
     packages.delta = wrappers.lib.wrapPackage [
       {
         inherit pkgs;

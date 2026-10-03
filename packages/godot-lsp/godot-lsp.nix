@@ -5,11 +5,8 @@
     self',
     ...
   }: {
-    # GDScript's language server lives inside the Godot editor and speaks TCP;
-    # editors and AI tools want a stdio command. This bridges the two for the
-    # project at or below the working directory: through the open editor when
-    # it has that project, otherwise through a private headless editor that
-    # lives as long as the bridge.
+    # stdio bridge to Godot's TCP language server: the open editor if it
+    # has this project, else a private headless one
     packages.godot-lsp = pkgs.writeShellApplication {
       name = "godot-lsp";
       runtimeInputs = [
@@ -39,8 +36,7 @@
           exit 1
         fi
 
-        # Which project an editor process has open: the project manager starts
-        # editors with --path, a shell may pass project.godot or just cd there.
+        # --path from the project manager, project.godot, or cwd
         project_of() {
           local pid=$1 cwd prev="" arg
           cwd=$(readlink "/proc/$pid/cwd") || return 1
@@ -62,15 +58,13 @@
           exec socat STDIO "TCP:127.0.0.1:$port"
         fi
 
-        # Its own config, data and cache, so this editor never saves over the
-        # settings of one you open later. The project's .godot/ is shared.
+        # own config/data/cache so it never saves over a real editor's settings
         state=''${XDG_STATE_HOME:-$HOME/.local/state}/godot-lsp
         mkdir -p "$state"
         port=$(shuf -i 20000-60999 -n 1)
         while [[ -n $(ss -Htln "sport = :$port") ]]; do port=$(shuf -i 20000-60999 -n 1); done
 
-        # Godot from PATH, so a project's devShell picks the version; this
-        # config's Godot when there is none.
+        # PATH first, so a devShell picks the version
         godot=$(command -v godot || echo ${lib.getExe self'.packages.godot})
 
         # pdeathsig: the editor goes when this script does, however it goes

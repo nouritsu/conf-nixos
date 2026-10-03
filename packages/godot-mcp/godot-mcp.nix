@@ -6,9 +6,7 @@ in {
     self',
     ...
   }: {
-    # godot-mcp runs `godot` from PATH when GODOT_PATH is unset. Appending this
-    # config's Godot keeps a project devShell's version first and still works
-    # where no Godot is on PATH.
+    # appended, so a devShell's Godot still wins
     packages.godot-mcp = wrappers.lib.wrapPackage [
       {
         inherit pkgs;

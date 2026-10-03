@@ -8,15 +8,11 @@ in {
   }: let
     bin = name: "/run/current-system/sw/bin/${name}";
 
-    # Keys forced into Godot's own editor_settings-<major>.<minor>.tres before
-    # every launch; the rest of that file stays Godot's. Each is written only
-    # while the programs it names exist, so a host without Steam keeps Godot's
-    # defaults instead of a dead path.
+    # forced into editor_settings on launch, if the program exists
     settings = [
       {
-        # Godot looks for Blender at fixed FHS paths, never on PATH, and
-        # dismissing the prompt that follows turns .blend import off in
-        # project.godot.
+        # Godot only checks fixed FHS paths, and dismissing its prompt
+        # turns .blend import off in project.godot
         key = "filesystem/import/blender/blender_path";
         value = bin "blender";
         needs = ["blender"];
@@ -82,8 +78,7 @@ in {
           '')
           settings}
 
-        # Replace each key where it stands; append the rest, which lands them in
-        # [resource], always the last section of the file.
+        # replace in place; new keys go to [resource], the last section
         WANT=$want awk '
           BEGIN {
             n = split(ENVIRON["WANT"], lines, "\n")

@@ -13,10 +13,8 @@ in {
   }: let
     delta = lib.getExe self'.packages.delta;
 
-    # Carried over from home-manager's gh module, which wrote it into the
-    # config this replaces. gh's git_protocol is https, so without it every
-    # push to GitHub asks for credentials. The empty entry clears any helper
-    # inherited from a lower scope.
+    # without it https pushes to GitHub ask for credentials
+    # "" clears any helper set in a lower scope
     gh = ["" "${lib.getExe pkgs.gh} auth git-credential"];
   in {
     packages.git = wrappers.wrappers.git.wrap [

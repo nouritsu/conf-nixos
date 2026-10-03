@@ -7,9 +7,7 @@
     godot-lsp = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.godot-lsp;
     gdscript-formatter = lib.getExe pkgs.gdscript-formatter;
   in {
-    # helix's defaults are `ncat 127.0.0.1 6005`, which only answers while the
-    # editor is open, and gdformat; neither is installed. The bridge falls back
-    # to a headless editor, and gdscript-formatter reads stdin.
+    # helix's defaults (ncat, gdformat) aren't installed
     languages.language-server.godot.command = godot-lsp;
 
     languages.language = [

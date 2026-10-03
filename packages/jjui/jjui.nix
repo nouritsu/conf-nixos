@@ -16,9 +16,7 @@
   blue = c "base0D";
   mauve = c "base0E";
 
-  # catppuccin has no jjui port. These are the keys stylix's home-manager
-  # target used to write, with mauve taking every highlight role: titles,
-  # shortcuts, and the active menu and status titles.
+  # no catppuccin port; mauve for every highlight
   colors = {
     text = {
       fg = text;

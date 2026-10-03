@@ -7,8 +7,7 @@ in {
     self',
     ...
   }: let
-    # Claude spark from simple-icons (CC0), filled in Claude's orange and
-    # rasterised so any notification daemon can show it.
+    # Claude spark (simple-icons, CC0) in Claude's orange
     icon =
       pkgs.runCommand "claude-icon.png" {
         src = pkgs.fetchurl {
@@ -20,10 +19,7 @@ in {
         sed 's|<path |<path fill="#D97757" |' $src | rsvg-convert -w 256 -h 256 -o $out
       '';
 
-    # Desktop ping when claude blocks on input or finishes a turn; DMS shows it.
-    # Skipped while the terminal running this claude is the focused niri
-    # window, found by walking our own ancestry for the focused window's pid.
-    # niri comes from the session's PATH; without it (tty, ssh) always notify.
+    # notify on input or turn end, unless its terminal is the focused niri window
     notify = pkgs.writeShellApplication {
       name = "claude-notify";
       runtimeInputs = [pkgs.jq pkgs.libnotify pkgs.procps];
@@ -44,14 +40,12 @@ in {
           Stop) body="Finished" ;;
           *) body=$(jq -r '.message // "Needs your input"' <<<"$input") ;;
         esac
-        # --app-icon, not --icon: libnotify sends --icon as the image-path
-        # hint, which DMS draws twice (as the icon and as a content image).
+        # --app-icon, not --icon: DMS draws --icon twice
         notify-send --app-name="Claude Code" --app-icon=${icon} "Claude Code · $project" "$body"
       '';
     };
 
-    # alejandra over any .nix file claude edits; never blocks the edit, nil
-    # already reports syntax errors back to claude.
+    # alejandra on any .nix claude edits; never blocks the edit
     nix-format = pkgs.writeShellApplication {
       name = "claude-nix-format";
       runtimeInputs = [pkgs.jq pkgs.alejandra];
@@ -62,7 +56,7 @@ in {
       '';
     };
 
-    # the same for .gd files, with GDQuest's formatter (the official style guide)
+    # same for .gd, with GDQuest's formatter
     gdscript-format = pkgs.writeShellApplication {
       name = "claude-gdscript-format";
       runtimeInputs = [pkgs.jq pkgs.gdscript-formatter];
@@ -73,9 +67,8 @@ in {
       '';
     };
 
-    # Local plugin in place of the marketplace *-lsp ones, with servers at
-    # store paths instead of whatever is on PATH. Only one server may own an
-    # extension, so .nix gets nil (not nixd).
+    # LSP servers from the store, not PATH
+    # one server per extension, so .nix gets nil
     lsp-plugin = pkgs.writeTextDir ".claude-plugin/plugin.json" (builtins.toJSON {
       name = "nix-lsp";
       description = "Language servers pinned by the NixOS config";
@@ -101,8 +94,7 @@ in {
             ".hxx" = "cpp";
           };
         };
-        # Godot's server lives in the editor; the bridge starts a headless one
-        # when yours isn't open, and that first imports the whole project.
+        # with no editor open the bridge starts a headless one (slow first import)
         godot = {
           command = lib.getExe self'.packages.godot-lsp;
           extensionToLanguage.".gd" = "gdscript";
@@ -111,9 +103,8 @@ in {
       };
     });
   in {
-    # Everything here rides in on --settings, which outranks ~/.claude/settings.json.
-    # model, effortLevel, tui and enabledPlugins stay out so /model, /effort and
-    # /config keep sticking.
+    # --settings outranks ~/.claude/settings.json; model, effort, tui and
+    # plugins stay out so /model, /effort and /config still stick
     packages.claude-code = wrappers.wrappers.claude-code.wrap [
       {
         inherit pkgs;
