@@ -22,17 +22,13 @@
           pkgs.sfxr-qt
           pkgs.audacity
         ]
-        # Aseprite and Blender are the Steam installs, launched through
-        # steam-run, so only hosts with Steam get the launchers; Godot's
-        # settings pick them up from there (packages/godot/godot.nix).
+        # Steam installs, so only on hosts with Steam
         ++ lib.optionals config.programs.steam.enable [
           self'.packages.aseprite-steam
           self'.packages.blender-steam
         ];
 
-      # Godot reads export templates only from its data dir, one directory per
-      # version, so they can't come from the system profile. Re-linked on every
-      # switch and login.
+      # Godot only reads export templates from its data dir
       systemd.user.tmpfiles.rules = [
         "L+ %h/.local/share/godot/export_templates/${version} - - - - ${templates}/share/godot/export_templates/${version}"
       ];
@@ -43,8 +39,7 @@
       lib,
       ...
     }: {
-      # The extension would run `nc 127.0.0.1 6005` against an open editor;
-      # the bridge also covers a closed one.
+      # the bridge also works with no editor open
       programs.zed-editor = {
         extensions = ["gdscript"];
         userSettings.lsp.gdscript.binary = {

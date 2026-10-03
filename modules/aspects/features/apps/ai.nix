@@ -16,9 +16,7 @@
         pkgs.claude-mergetool
       ];
 
-      # what `claude-mergetool install git` would write, but the global config
-      # is the git wrapper's read-only store file; lands in /etc/gitconfig
-      # alongside the package instead. Use with `git mergetool --tool=claude`.
+      # claude-mergetool install git can't write the wrapped gitconfig
       programs.git = {
         enable = true;
         config.mergetool.claude = {

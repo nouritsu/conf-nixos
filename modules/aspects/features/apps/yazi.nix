@@ -6,7 +6,7 @@
 
     programs.fish.shellAliases.fm = "yazi";
 
-    # cd-on-quit wrapper, replaces the home-manager shell integration
+    # cd-on-quit wrapper
     programs.fish.interactiveShellInit = ''
       function yazi_wrapper
         set tmp (mktemp -t "yazi-cwd.XXXXXX")

@@ -1,15 +1,8 @@
 {
-  # Policies land in /etc/brave/policies/managed/ via programs.chromium, which
-  # nixpkgs also points at Brave. No theme colour is forced here: Brave's GTK
-  # theme follows the colours DMS writes for GTK.
   den.aspects.brave.nixos = {pkgs, ...}: let
-    # Force-installed add-ons; the Chrome Web Store update URL keeps them current.
     mkExtension = id: "${id};https://clients2.google.com/service/update2/crx";
 
-    # Chromium site search entries. `shortcut` must not lead with "@" (Chromium
-    # rejects it); typing it then Tab scopes the omnibox to that engine.
-    # `featured` would move entries behind the omnibox "@" menu, but Chromium
-    # caps that at three — leaving it off keeps all five reachable the same way.
+    # shortcuts can't start with "@"; featured caps at three
     mkEngine = name: shortcut: url: {inherit name shortcut url;};
 
     brave = "brave-browser.desktop";
@@ -27,9 +20,6 @@
       ];
 
       extraOpts = {
-        # Brave Search is already the built-in default, so no
-        # DefaultSearchProvider* policy — setting one would only lock the
-        # picker without changing which engine is used.
         SiteSearchSettings = [
           (mkEngine "Wikipedia" "wiki" "https://en.wikipedia.org/w/index.php?title=Special:Search&search={searchTerms}")
           (mkEngine "YouTube" "yt" "https://www.youtube.com/results?search_query={searchTerms}")
@@ -41,13 +31,13 @@
         PasswordManagerEnabled = false; # Proton Pass manages credentials
         BookmarkBarEnabled = true;
 
-        # Chromium metrics plus Brave's own reporting.
+        # Telemetry
         MetricsReportingEnabled = false;
         BraveP3AEnabled = false;
         BraveStatsPingEnabled = false;
         BraveWebDiscoveryEnabled = false;
 
-        # Drop the bundled crypto/VPN/AI surface.
+        # Crypto, VPN, AI
         BraveRewardsDisabled = true;
         BraveWalletDisabled = true;
         BraveVPNDisabled = true;
@@ -55,8 +45,7 @@
       };
     };
 
-    # Default browser. brave-browser.desktop, not com.brave.Browser.desktop —
-    # the latter is NoDisplay and exists only to match the portal app id.
+    # not com.brave.Browser.desktop, which is NoDisplay
     xdg.mime.defaultApplications = {
       "text/html" = brave;
       "application/xhtml+xml" = brave;

@@ -17,8 +17,7 @@
         pkgs.dsearch
         pkgs.wl-mirror
 
-        # Plugin runtime deps. The dms service runs on the session PATH, so
-        # plugins find these by bare name.
+        # Plugin deps
         pkgs.translate-shell # dankTranslate: trans
         (pkgs.tesseract.override {enableLanguages = ["eng" "deu"];}) # ocrScanner
         pkgs.file # ocrScanner: clipboard scans are gated on `file --mime-type`
@@ -37,10 +36,7 @@
         enable = true;
       };
 
-      # DMS's power-profile switcher talks to this daemon over D-Bus, and
-      # cpu.balanced Requires it. nixpkgs' dms-shell module enabled it by
-      # default until the 2026-09-26 nixpkgs; since then only hosts with the
-      # power aspect had it, and pc silently lost it.
+      # DMS's power-profile switcher and cpu.balanced need it
       services.power-profiles-daemon.enable = true;
 
       programs.dms-shell = {
@@ -75,12 +71,9 @@
           ocrScanner.enable = true;
           orbitBluetooth.enable = true;
 
-          # The two below assume a distro layout, so they get a patched src.
-          # The registry module sets `src` at normal priority, hence mkForce.
+          # these two assume a distro layout; mkForce over the registry's src
 
-          # The widget builds its script path from DMS's per-user plugin dir
-          # (~/.config/DankMaterialShell/plugins), which is empty when plugins
-          # come from /etc/xdg; ask PluginService where this one lives.
+          # script path assumed the per-user plugin dir
           claudeCodeUsage = {
             enable = true;
             src = lib.mkForce (pkgs.applyPatches {
@@ -94,8 +87,7 @@
             });
           };
 
-          # Sands: the alarm and tick defaults and the sound picker all look in
-          # /usr/share/sounds.
+          # sounds hardcoded to /usr/share/sounds
           smartTimer = {
             enable = true;
             src = lib.mkForce (pkgs.applyPatches {
@@ -107,24 +99,13 @@
               '';
             });
           };
-
-          # dankBatteryAlerts and powerOptions are gone from the registry, and
-          # enabling a name it no longer defines leaves `.src` undefined, which is
-          # an eval error rather than a no-op. Both were delisted because DMS
-          # absorbed them: low/critical battery notifications are now
-          # Settings -> Battery -> Alerts (batteryNotifyLow, batteryNotifyCritical),
-          # and the launcher grows a built-in `dms_power` provider covering lock,
-          # logout, suspend, hibernate, reboot, soft reboot and poweroff.
         };
       };
     };
 
-    # Charger plug/unplug and low-battery OSD, fed by UPower.
     provides.battery.nixos.programs.dms-shell.plugins.batteryOSD.enable = true;
 
-    # IdeaPad conservation mode, toggled through pkexec. It hard-codes
-    # /sys/bus/platform/devices/VPC2004:00 and toasts an error on every DMS
-    # start where that device is missing.
+    # hardcodes VPC2004:00 and errors on every start without it
     provides.ideapad.nixos.programs.dms-shell.plugins.dmsLenovoBatterySettings.enable = true;
   };
 }

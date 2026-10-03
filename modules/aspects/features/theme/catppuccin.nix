@@ -21,8 +21,7 @@
   in {
     imports = [inputs.catppuccin.nixosModules.catppuccin];
 
-    # The assets DMS chooses between. It picks the icon theme (Papirus-Dark)
-    # and the cursor, and hands both to GTK, Qt, niri and the portal.
+    # what DMS picks icons and cursor from
     environment.systemPackages = [
       (pkgs.catppuccin-papirus-folders.override {
         inherit (config.catppuccin) flavor accent;
@@ -32,9 +31,7 @@
 
     catppuccin = {
       enable = true;
-      # Enrol every port by default. Upstream is splitting the two knobs:
-      # `enable` becomes a global kill switch, `autoEnable` does the enrolling.
-      # Setting both keeps today's behaviour once that lands.
+      # upstream is splitting enable/autoEnable; set both
       autoEnable = true;
       cache.enable = true;
       flavor = "mocha";
@@ -56,9 +53,7 @@
       accent = "mauve";
 
       bat.enable = true;
-      # The browser here is Floorp (packages/floorp/floorp.nix), which carries
-      # Catppuccin Mocha/Mauve as a force-installed add-on. There is no
-      # `programs.firefox` profile for this port to attach to.
+      # Floorp carries its own catppuccin add-on
       firefox.enable = false;
       fish.enable = true;
       fzf.enable = true;

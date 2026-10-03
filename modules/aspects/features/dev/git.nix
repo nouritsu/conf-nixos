@@ -15,9 +15,6 @@
         pkgs.fishPlugins.forgit
       ];
 
-      # One git on PATH: the wrapper, carrying identity, the delta pagers and
-      # the gh credential helper. Aspects still add system-scope settings
-      # through programs.git.config (/etc/gitconfig), as ai does.
       programs.git = {
         enable = true;
         package = git;
@@ -26,9 +23,7 @@
       programs.fish.shellAliases.lazyjj = "jjui";
 
       programs.fish.interactiveShellInit = ''
-        # The wrapper sets GIT_CONFIG_GLOBAL only for what it runs; a devShell
-        # that brings its own git would otherwise go without identity, the
-        # credential helper and delta.
+        # for devShells that bring their own git
         set -gx GIT_CONFIG_GLOBAL ${git.configuration.constructFiles.gitconfig.outPath}
 
         # lazygit, then cd to wherever it was when it quit
@@ -43,8 +38,7 @@
       '';
     };
 
-    # gh keeps its auth token in its config dir and only finds extensions
-    # under $XDG_DATA_HOME, so neither wraps cleanly; they stay here.
+    # gh stays in HM: its token and extensions don't wrap
     homeManager = {pkgs, ...}: {
       programs.gh = {
         enable = true;

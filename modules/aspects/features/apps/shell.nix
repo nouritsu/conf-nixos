@@ -8,8 +8,6 @@
       self'.packages.btop
       self'.packages.tealdeer
 
-      # buildFishPlugin packages land in share/fish/vendor_*.d, which NixOS
-      # fish loads from the system profile; no plugin manager needed
       pkgs.fishPlugins.done
       pkgs.fishPlugins.autopair
       pkgs.fishPlugins.sponge
@@ -25,10 +23,7 @@
       generateCaches = true;
     };
 
-    # Holds no config, but must stay on. niri-session re-execs through the
-    # fish login shell, and the config.fish this generates is what sources
-    # hm-session-vars into the graphical session, which today means
-    # GLAMOUR_STYLE. There is no ~/.profile to fall back on.
+    # keep on: its config.fish sources hm-session-vars for the niri session
     programs.fish.enable = true;
   };
 }

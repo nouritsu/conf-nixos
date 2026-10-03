@@ -16,9 +16,7 @@
       };
     };
 
-    # GTK takes its font from these keys rather than from fontconfig. They sit
-    # in a system database, so they are only defaults: anything written to the
-    # user database (a settings app, DMS) still wins.
+    # GTK reads fonts from dconf, not fontconfig; user settings still win
     programs.dconf.profiles.user.databases = [
       {
         settings."org/gnome/desktop/interface" = {
