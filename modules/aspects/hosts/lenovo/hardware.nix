@@ -7,9 +7,7 @@
   }: {
     imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
-    # `thunderbolt`, `usb_storage` and `sd_mod` are not in the generated
-    # config — nothing was plugged in during the scan — but they are what
-    # makes booting or rescuing off a USB stick work.
+    # thunderbolt, usb_storage, sd_mod: for booting off USB, not in the scan
     boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "sdhci_pci"];
     boot.initrd.kernelModules = [];
     boot.kernelModules = ["kvm-intel"];

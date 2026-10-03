@@ -4,8 +4,6 @@
   ...
 }: {
   den.aspects.secrets = {host, ...}: let
-    # The age identity lives in the account's home, and that same account is
-    # what reads the decrypted secrets. Hosts here carry a single one.
     owner = lib.head (lib.attrNames host.users);
   in {
     nixos = {

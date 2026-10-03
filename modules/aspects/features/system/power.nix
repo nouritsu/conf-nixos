@@ -1,13 +1,10 @@
 {
   den.aspects.power = {
     nixos = {pkgs, ...}: {
-      # power-profiles-daemon, not TLP — DMS drives the profile switcher
-      # over its D-Bus interface, and the two conflict if both are on.
+      # ppd, not TLP: DMS needs ppd and the two conflict
       services.power-profiles-daemon.enable = true;
       services.upower.enable = true;
 
-      # Suspend on lid close whether or not it is plugged in; ignore it
-      # while docked, since an external monitor means lid-shut use.
       services.logind.settings.Login = {
         HandleLidSwitch = "suspend";
         HandleLidSwitchExternalPower = "suspend";
@@ -20,7 +17,7 @@
       ];
     };
 
-    # Intel-only thermal daemon; keeps the package off AMD hosts.
+    # Intel only
     provides.thermald.nixos = {
       services.thermald.enable = true;
     };

@@ -1,15 +1,8 @@
 {
-  # pc hands its compiles to the laptop whenever the laptop can take them. The
-  # laptop is the faster machine -- 7-Zip rates it 32,904 MIPS to pc's 22,035 --
-  # and what pc still compiles after an update is CPU-bound: the NVIDIA module,
-  # dms-shell, xwayland-satellite, any cachyos kernel lantian has not built yet.
-  # The other direction buys nothing: the laptop already gets pc's builds
-  # through nix.from-pc.
   den.aspects.nix = let
     user = "nix-ssh";
   in {
     builds-on-laptop.nixos = {config, ...}: {
-      # The public half is the one key builds-from-pc accepts.
       sops.secrets."nix-builder-key" = {};
 
       nix.distributedBuilds = true;
@@ -20,20 +13,16 @@
           sshUser = user;
           sshKey = config.sops.secrets."nix-builder-key".path;
 
-          # everything the laptop builds for itself, aarch64 through binfmt
+          # aarch64 through binfmt
           systems = ["x86_64-linux" "i686-linux" "aarch64-linux"];
           supportedFeatures = ["benchmark" "big-parallel" "kvm" "nixos-test"];
 
-          # 15 GiB of RAM; two builds at once is what it holds comfortably
+          # 15 GiB of RAM
           maxJobs = 2;
         }
       ];
 
-      # The daemon connects as root through plain ssh, so its host key and
-      # client options live here. pc ships the build inputs itself
-      # (builders-use-substitutes stays off): compressed, the LAN outruns the
-      # laptop's own internet. The timeout bounds what a sleeping or absent
-      # laptop costs before the build falls back to local.
+      # nix-daemon connects as root, so the host key and ssh options go here
       programs.ssh.knownHosts.lenovo.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICToP5L7BQWCQwDeejymjky0PiHz/TXWHbWxTyDE5vv6";
       programs.ssh.extraConfig = ''
         Host lenovo
@@ -47,8 +36,7 @@
       pkgs,
       ...
     }: let
-      # nix.sshServe forces nix-daemon unconditionally; this declines while on
-      # battery instead, and pc builds locally.
+      # like nix.sshServe, but refuses while on battery
       serve = pkgs.writeShellScript "nix-builds-from-pc" ''
         if ! ${config.systemd.package}/bin/systemd-ac-power; then
           echo "lenovo is on battery; not taking builds" >&2
@@ -57,8 +45,6 @@
         exec ${config.nix.package.out}/bin/nix-daemon --stdio
       '';
     in {
-      # Trusted, so pc's daemon can hand over whole derivations -- as much power
-      # over this store as root, which pc already has over ssh.
       users.users.${user} = {
         isSystemUser = true;
         group = user;

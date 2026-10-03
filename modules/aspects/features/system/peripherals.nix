@@ -68,10 +68,7 @@
         pkgs,
         ...
       }: let
-        # 3.12.4 predates the Viper V4 Pro (1532:00e5 wired, 00e6 wireless).
-        # Build driver and daemon from openrazer#2751's head -- master as of
-        # 2026-07 plus the V4 Pro -- until a release carries it; the PR does
-        # not rebase onto 3.12.4, master has reworked the driver since.
+        # 3.12.4 lacks the Viper V4 Pro; openrazer#2751 until a release has it
         src = pkgs.fetchFromGitHub {
           owner = "openrazer";
           repo = "openrazer";
