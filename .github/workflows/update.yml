@@ -1,10 +1,3 @@
-# Every one of the 21 inputs tracks a moving branch, so the lock only stays
-# current if something bumps it. Splitting by cadence keeps the two kinds of
-# risk apart: nixpkgs and the module frameworks move weekly because that is
-# where security fixes and option renames arrive, while the desktop flakes
-# move monthly because a helix or niri bump is a deliberate act, not
-# housekeeping. Bumping everything at once is what left helix two months
-# behind the rest of the lock.
 name: update
 
 on:
@@ -39,10 +32,7 @@ jobs:
           branch: flake-lock/core
           commit-msg: "chore(flake): bump core inputs"
           pr-title: "chore(flake): bump core inputs"
-          # A PR opened with the default GITHUB_TOKEN does not trigger other
-          # workflows, so a bump would arrive with no check run against it.
-          # Falls back to that token anyway, so this works before the PAT
-          # exists; it just means reviewing an unchecked PR until it does.
+          # PRs opened with GITHUB_TOKEN don't trigger check.yml, hence the PAT
           token: ${{ secrets.FLAKE_LOCK_TOKEN || github.token }}
 
   apps:

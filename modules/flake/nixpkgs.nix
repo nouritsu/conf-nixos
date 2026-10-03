@@ -4,12 +4,6 @@
       inherit system;
 
       overlays = import ../_overlays inputs;
-
-      # config, unlike overlays, is deliberately not shared with the host
-      # instance: there den.batteries.unfree writes the predicate per aspect,
-      # and a second definition here would collide with it. Named rather than
-      # blanket, mirroring that discipline -- spicetify wraps the unfree
-      # spotify client, and the claude-code wrapper wraps claude-code.
       config.allowUnfreePredicate = pkg:
         builtins.elem (inputs.nixpkgs.lib.getName pkg) ["spotify" "splashtop-business" "claude-code"];
     };
