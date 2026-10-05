@@ -3,5 +3,5 @@
 inputs: [
   (import ./r2modman.nix)
   (import ./xwayland-satellite.nix)
-  inputs.cachyos-kernel.overlays.default
+  inputs.cachyos-kernel.overlays.pinned
 ]
