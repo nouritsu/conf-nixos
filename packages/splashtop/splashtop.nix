@@ -60,7 +60,20 @@
         mkdir -p $out/opt $out/bin $out/share/applications $out/share/pixmaps
         cp -r opt/splashtop-business $out/opt/
 
-        ln -s $out/opt/splashtop-business/splashtop-business $out/bin/splashtop-business
+        # writes config/dump/log next to its own binary; bind state dirs over them
+        app=$out/opt/splashtop-business
+        mkdir -p $app/config $app/dump $app/log
+        cat > $out/bin/splashtop-business <<EOF
+        #!${pkgs.runtimeShell}
+        state="\''${XDG_STATE_HOME:-\$HOME/.local/state}/splashtop-business"
+        mkdir -p "\$state/config" "\$state/dump" "\$state/log"
+        exec ${pkgs.lib.getExe pkgs.bubblewrap} --dev-bind / / --die-with-parent \\
+          --bind "\$state/config" $app/config \\
+          --bind "\$state/dump" $app/dump \\
+          --bind "\$state/log" $app/log \\
+          $app/splashtop-business "\$@"
+        EOF
+        chmod +x $out/bin/splashtop-business
 
         cp usr/share/pixmaps/logo_about_biz.png $out/share/pixmaps/splashtop-business.png
 
@@ -74,6 +87,11 @@
           $out/share/bash-completion/completions/splashtop-business
 
         runHook postInstall
+      '';
+
+      # the qt5 hook only wraps ELFs in bin/
+      postFixup = ''
+        wrapQtApp $out/bin/splashtop-business
       '';
 
       meta = {
