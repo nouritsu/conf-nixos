@@ -33,8 +33,13 @@
     cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     lanzaboote.url = "github:nix-community/lanzaboote";
     helix.url = "github:helix-editor/helix/master";
-    niri.url = "github:sodiboo/niri-flake";
     yazi.url = "github:sxyazi/yazi";
+
+    # follows: niri dlopens the system GL drivers, so its glibc must match
+    niri = {
+      url = "github:niri-wm/niri";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     dms = {
       url = "github:AvengeMedia/DankMaterialShell";
