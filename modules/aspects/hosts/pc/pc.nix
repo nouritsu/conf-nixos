@@ -21,6 +21,9 @@
       nix.builds-on-laptop
 
       ssh.from-laptop
+
+      network.tailscale
+      dms.tailscale
     ];
   };
 }

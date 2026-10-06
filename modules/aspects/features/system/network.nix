@@ -15,6 +15,21 @@
       };
     };
 
+    provides.tailscale.nixos = {
+      host,
+      lib,
+      ...
+    }: {
+      services.tailscale = {
+        enable = true;
+        openFirewall = true;
+        useRoutingFeatures = "client";
+
+        # the dms widget runs up/down/set as this user
+        extraSetFlags = ["--operator=${lib.head (lib.attrNames host.users)}"];
+      };
+    };
+
     provides.dns-pihole.nixos = {lib, ...}: {
       networking.nameservers = lib.mkBefore ["192.168.178.128"];
     };

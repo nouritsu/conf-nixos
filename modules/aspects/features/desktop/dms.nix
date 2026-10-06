@@ -107,5 +107,32 @@
 
     # hardcodes VPC2004:00 and errors on every start without it
     provides.ideapad.nixos.programs.dms-shell.plugins.dmsLenovoBatterySettings.enable = true;
+
+    provides.tailscale.nixos = {
+      config,
+      pkgs,
+      lib,
+      inputs',
+      ...
+    }: let
+      tailscale = lib.getExe' config.services.tailscale.package "tailscale";
+    in {
+      programs.dms-shell.plugins.dankscale = {
+        enable = true;
+
+        # pkexec execs the resolved path on a bare PATH, which turns tailscale
+        # into tailscaled and breaks uutils' multicall env/timeout
+        src = lib.mkForce (pkgs.applyPatches {
+          name = "dms-plugin-dankscale";
+          src = inputs'.dms-plugin-registry.packages.dankscale;
+          postPatch = ''
+            substituteInPlace services/TailscaleService.qml \
+              --replace-fail '"pkexec", "tailscale"' '"pkexec", "${pkgs.coreutils}/bin/env", "${tailscale}"' \
+              --replace-fail '"pkexec", "timeout"' '"pkexec", "${pkgs.coreutils}/bin/timeout"' \
+              --replace-fail '"tailscale", "login"' '"${tailscale}", "login"'
+          '';
+        });
+      };
+    };
   };
 }
