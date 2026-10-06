@@ -7,13 +7,22 @@
       hash = "sha256-UJ2ICrp9LQBuuR/NpZvKsvFd/C1TRtTjK4ESNA6xh7k=";
     };
 
-    yatline = pkgs.fetchFromGitHub {
-      # https://github.com/carlosedp/yatline.yazi
-      owner = "carlosedp";
-      repo = "yatline.yazi";
-      rev = "61d3a3a3310c74dfcf636c76e53ba388a019a3b5";
-      hash = "sha256-XLnFRuvU4O5CbF7vO044iU6IXG8ojPyVjVR/8r7MGPc=";
-    }; # default does not work on yazi-nightly
+    yatline = pkgs.applyPatches {
+      name = "yatline.yazi";
+      src = pkgs.fetchFromGitHub {
+        # https://github.com/carlosedp/yatline.yazi
+        owner = "carlosedp";
+        repo = "yatline.yazi";
+        rev = "61d3a3a3310c74dfcf636c76e53ba388a019a3b5";
+        hash = "sha256-XLnFRuvU4O5CbF7vO044iU6IXG8ojPyVjVR/8r7MGPc=";
+      }; # default does not work on yazi-nightly
+      # File:icon() removed upstream, use th.icon:match
+      postPatch = ''
+        substituteInPlace main.lua --replace-fail \
+          'local icon = hovered:icon().text' \
+          'local icon = (th.icon:match(hovered, { hovered = true }) or {}).text or ""'
+      '';
+    };
 
     path-from-root = pkgs.fetchFromGitHub {
       # https://github.com/aresler/path-from-root.yazi

@@ -72,32 +72,7 @@
 
         prepend_preloaders = [
           {
-            url = "*.csv";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            url = "*.tsv";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            url = "*.json";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            url = "*.parquet";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            url = "*.txt";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            url = "*.xlsx";
+            url = "*.{csv,tsv,json,parquet,txt,xlsx}";
             run = "duckdb";
             multi = false;
           }
@@ -106,11 +81,7 @@
             run = "mediainfo";
           }
           {
-            mime = "application/subrip";
-            run = "mediainfo";
-          }
-          {
-            mime = "application/postscript";
+            mime = "application/{subrip,postscript}";
             run = "mediainfo";
           }
         ];
