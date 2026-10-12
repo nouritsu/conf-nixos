@@ -10,6 +10,7 @@
       name,
       dir,
       extraLibs ? [],
+      setup ? null,
     }:
       pkgs.writeShellApplication {
         inherit name;
@@ -31,6 +32,7 @@
           for library in "''${libraries[@]}"; do
             exe=$library/steamapps/common/${dir}/${name}
             if [[ -x $exe ]]; then
+              ${lib.optionalString (setup != null) "${lib.getExe setup} || true"}
               ${lib.optionalString (extraLibs != []) "export LD_LIBRARY_PATH=${lib.makeLibraryPath extraLibs}\${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"}
               exec steam-run "$exe" "$@"
             fi
@@ -39,10 +41,33 @@
           exit 127
         '';
       };
+
+    aseprite-themes = pkgs.fetchFromGitHub {
+      owner = "catppuccin";
+      repo = "aseprite";
+      rev = "c4c95e3a412526e7b8a94ed85df33b4a9e7cb0e9";
+      hash = "sha256-jI30YM2UDP5fAsiF+7iwaNdr2UyEQ+yx5wTEAi3BY04=";
+    };
+
+    aseprite-theme = pkgs.writeShellApplication {
+      name = "aseprite-theme";
+      runtimeInputs = [pkgs.coreutils pkgs.crudini];
+      text = ''
+        config=''${XDG_CONFIG_HOME:-$HOME/.config}/aseprite
+        mkdir -p "$config/extensions"
+        ln -sfnT ${aseprite-themes}/themes/mocha/catppuccin-theme-mocha "$config/extensions/catppuccin-theme-mocha"
+
+        if [[ -f $config/aseprite.ini ]]; then
+          crudini --ini-options=nospace --set "$config/aseprite.ini" \
+            theme selected "Catppuccin Theme Mocha"
+        fi
+      '';
+    };
   in {
     packages.aseprite-steam = steamApp {
       name = "aseprite";
       dir = "Aseprite";
+      setup = aseprite-theme;
     };
     packages.blender-steam = steamApp {
       name = "blender";
