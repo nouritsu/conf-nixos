@@ -9,7 +9,7 @@
       }: {
         environment.systemPackages = [
           pkgs.ffmpeg-full
-          pkgs.obs-studio
+          self'.packages.obs-studio
           pkgs.eog
           self'.packages.mpv
           self'.packages.spotify
