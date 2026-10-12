@@ -7,11 +7,7 @@
 in {
   perSystem = {pkgs, ...}: {
     packages.niri = wrappers.wrappers.niri.wrap [
-      ({config, ...}: {
-        inherit pkgs;
-
-        passthru.configPath = config."config.kdl".path;
-      })
+      {inherit pkgs;}
       self.nixosModules.wniri-core
       self.nixosModules.wniri-keybinds
       self.nixosModules.wniri-appearance
