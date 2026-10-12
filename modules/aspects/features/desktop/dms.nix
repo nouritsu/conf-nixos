@@ -44,7 +44,6 @@
         package = inputs'.dms.packages.default;
 
         plugins = {
-          homeAssistantMonitor.enable = true;
           dankKDEConnect.enable = true;
           calculator.enable = true;
           emojiLauncher.enable = true;
@@ -60,7 +59,6 @@
           wallpaperCarousel.enable = true;
           displayManager.enable = true;
           handMirror.enable = true;
-          ipIndicator.enable = true;
           hiddenBar.enable = true;
           recentFiles.enable = true;
           screenshotPlus.enable = true;
@@ -71,7 +69,7 @@
           ocrScanner.enable = true;
           orbitBluetooth.enable = true;
 
-          # these two assume a distro layout; mkForce over the registry's src
+          # patched: mkForce over the registry's src
 
           # script path assumed the per-user plugin dir
           claudeCodeUsage = {
@@ -87,6 +85,23 @@
             });
           };
 
+          # a failed connect ends in Error, never Closed, so reconnect() waits
+          # forever and the widget stays on REST; re-arm once nothing is pending
+          homeAssistantMonitor = {
+            enable = true;
+            src = lib.mkForce (pkgs.applyPatches {
+              name = "dms-plugin-homeAssistantMonitor";
+              src = inputs'.dms-plugin-registry.packages.homeAssistantMonitor;
+              postPatch = ''
+                substituteInPlace services/WebSocketClient.qml \
+                  --replace-fail '_reopenOnClosed = true;' '_reopenOnClosed = true; reopenFallback.restart();' \
+                  --replace-fail 'function sendTextMessage(msg) {' 'Timer { id: reopenFallback; interval: 3500; onTriggered: if (socket.status === WebSocket.Error) root._reopenIfPending() }
+
+                    function sendTextMessage(msg) {'
+              '';
+            });
+          };
+
           # sounds hardcoded to /usr/share/sounds
           smartTimer = {
             enable = true;
@@ -96,6 +111,21 @@
               postPatch = ''
                 substituteInPlace TimerDaemon.qml TimerSettings.qml \
                   --replace-fail /usr/share/sounds /run/current-system/sw/share/sounds
+              '';
+            });
+          };
+
+          # any interface named like a vpn counts, so an idle tailscale0 always
+          # shows; only count it when internet traffic is routed through it
+          ipIndicator = {
+            enable = true;
+            src = lib.mkForce (pkgs.applyPatches {
+              name = "dms-plugin-ipIndicator";
+              src = inputs'.dms-plugin-registry.packages.ipIndicator;
+              postPatch = ''
+                substituteInPlace IPIndicatorWidget.qml \
+                  --replace-fail "ls /sys/class/net | grep -E '^(" "ip route get 1.1.1.1 | grep -oE 'dev (" \
+                  --replace-fail "cscotun)' | head -1" "cscotun)[^ ]*' | cut -c5- | head -1"
               '';
             });
           };
