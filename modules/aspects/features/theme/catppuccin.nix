@@ -58,7 +58,6 @@
       fish.enable = true;
       fzf.enable = true;
       lsd.enable = true;
-      wezterm.enable = true;
       zed = {
         enable = true;
         icons.enable = true;

@@ -1,7 +1,11 @@
 {inputs, ...}: let
   inherit (inputs) wrappers;
 in {
-  perSystem = {pkgs, ...}: {
+  perSystem = {
+    pkgs,
+    inputs',
+    ...
+  }: {
     packages.wezterm = wrappers.wrappers.wezterm.wrap [
       {
         inherit pkgs;
@@ -15,9 +19,7 @@ in {
           ''
             local wezterm = require "wezterm"
 
-            return {
-              -- appearance
-              color_scheme = "Catppuccin Mocha",
+            local config = {
               font = wezterm.font "ZedMono Nerd Font",
               font_size = 14.0,
 
@@ -33,6 +35,14 @@ in {
                 'yazi',
               },
             }
+
+            -- appearance
+            dofile("${inputs'.catppuccin.packages.wezterm}/plugin/init.lua").apply_to_config(config, {
+              flavor = "mocha",
+              accent = "mauve",
+            })
+
+            return config
           '';
       }
     ];
