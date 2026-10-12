@@ -26,7 +26,7 @@ in {
             nixos = {
               enabled = true;
               type = "local";
-              command = ["nix" "run" "github:utensils/mcp-nixos" "--"];
+              command = [(lib.getExe pkgs.mcp-nixos)];
             };
 
             godot = {
