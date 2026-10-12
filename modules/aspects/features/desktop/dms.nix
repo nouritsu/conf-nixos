@@ -1,19 +1,38 @@
 {inputs, ...}: {
   den.aspects.dms = {
     nixos = {
+      config,
       pkgs,
       lib,
       inputs',
       self',
       ...
-    }: {
+    }: let
+      tabctlHost = pkgs.writeText "tabctl_mediator.json" (builtins.toJSON {
+        name = "tabctl_mediator";
+        description = "TabCtl native messaging host";
+        path = "/run/current-system/sw/bin/tabctl-mediator";
+        type = "stdio";
+        allowed_origins = ["chrome-extension://baomblllgemcgbignhpbipgiofmjdhpn/"];
+      });
+
+      settings = (pkgs.formats.json {}).generate "dms-settings.json" (
+        lib.pipe (lib.importJSON ./dms-settings.json) config.dms'.settingsOverrides
+      );
+    in {
       imports = [
         inputs.dms-plugin-registry.nixosModules.default
+        {
+          # per-host edits to the pinned settings, applied in order
+          options.dms'.settingsOverrides = lib.mkOption {
+            type = lib.types.listOf (lib.types.functionTo lib.types.attrs);
+            default = [];
+          };
+        }
       ];
 
       environment.systemPackages = [
         pkgs.wl-clipboard-rs
-        pkgs.qt6.qtwebsockets
         pkgs.xournalpp
         pkgs.dsearch
         pkgs.wl-mirror
@@ -23,7 +42,6 @@
         (pkgs.tesseract.override {enableLanguages = ["eng" "deu"];}) # ocrScanner
         pkgs.file # ocrScanner: clipboard scans are gated on `file --mime-type`
         pkgs.librsvg # ocrScanner: rsvg-convert for dropped SVGs
-        pkgs.ddcutil # displayManager: DDC/CI brightness and contrast
         pkgs.libnotify # notify-send: ipIndicator IP changes, gameControllerBattery, dankPomodoroTimer
         pkgs.glib # gdbus: dankKDEConnect image sharing
         self'.packages.tabctl # tabsLauncher
@@ -35,24 +53,28 @@
       # screenRecorderYS
       programs.gpu-screen-recorder.enable = true;
 
-      # virtualKeyboard types through ydotoold
-      programs.ydotool.enable = true;
-
       # tabsLauncher: brave reaches tabctl through its extension's native host
       programs.chromium.extensions = ["baomblllgemcgbignhpbipgiofmjdhpn;https://clients2.google.com/service/update2/crx"];
-      systemd.user.tmpfiles.rules = let
-        manifest = pkgs.writeText "tabctl_mediator.json" (builtins.toJSON {
-          name = "tabctl_mediator";
-          description = "TabCtl native messaging host";
-          path = "/run/current-system/sw/bin/tabctl-mediator";
-          type = "stdio";
-          allowed_origins = ["chrome-extension://baomblllgemcgbignhpbipgiofmjdhpn/"];
-        });
-      in ["L+ %h/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/tabctl_mediator.json - - - - ${manifest}"];
 
-      environment.sessionVariables = {
-        QML2_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
-        QML_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+      # settings.json is read-only; GUI changes come back through DMS's
+      # copy-JSON button into dms-settings.json
+      systemd.user.tmpfiles.rules = [
+        "L+ %h/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/tabctl_mediator.json - - - - ${tabctlHost}"
+        "L+ %h/.config/DankMaterialShell/settings.json - - - - ${settings}"
+        "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dms-plugin-registry}/themes/catppuccin/theme.json"
+      ];
+
+      # dms keeps watching the old link target; restart it when the pin changes
+      system.userActivationScripts.dms-settings = {
+        deps = ["tmpfiles"];
+        text = ''
+          stamp=''${XDG_STATE_HOME:-$HOME/.local/state}/dms-settings-pin
+          if [ "$(cat "$stamp" 2>/dev/null)" != "${settings}" ]; then
+            mkdir -p "$(dirname "$stamp")"
+            echo "${settings}" > "$stamp"
+            ${pkgs.systemd}/bin/systemctl --user --no-block try-restart dms.service || true
+          fi
+        '';
       };
 
       programs.kdeconnect = {
@@ -74,31 +96,25 @@
           displayMirror.enable = true;
           webSearch.enable = true;
           sshConnections.enable = true;
-          displayOutput.enable = true;
           airQuality.enable = true;
           dockerManager.enable = true;
-          dankActions.enable = true;
           dankLauncherKeys.enable = true;
           wallpaperCarousel.enable = true;
-          displayManager.enable = true;
           handMirror.enable = true;
-          hiddenBar.enable = true;
           recentFiles.enable = true;
           screenshotPlus.enable = true;
           dankTranslate.enable = true;
           systemMonitorPlus.enable = true;
           nixPackageRunner.enable = true;
-          formatColorPicker.enable = true;
           ocrScanner.enable = true;
-          worldClock.enable = true;
           dankPomodoroTimer.enable = true;
           takeABreak.enable = true;
           simpleAudioControl.enable = true;
           gameControllerBattery.enable = true;
           batteryPlus.enable = true;
           screenRecorderYS.enable = true;
-          virtualKeyboard.enable = true;
           tabsLauncher.enable = true;
+          windowFx.enable = true;
 
           # patched: mkForce over the registry's src
 
@@ -112,37 +128,6 @@
                 substituteInPlace ClaudeCodeUsageWidget.qml --replace-fail \
                   'PluginService.pluginDirectory + "/claudeCodeUsage/get-claude-usage"' \
                   'PluginService.getPluginPath("claudeCodeUsage") + "/get-claude-usage"'
-              '';
-            });
-          };
-
-          # a failed connect ends in Error, never Closed, so reconnect() waits
-          # forever and the widget stays on REST; re-arm once nothing is pending
-          homeAssistantMonitor = {
-            enable = true;
-            src = lib.mkForce (pkgs.applyPatches {
-              name = "dms-plugin-homeAssistantMonitor";
-              src = inputs'.dms-plugin-registry.packages.homeAssistantMonitor;
-              postPatch = ''
-                substituteInPlace services/WebSocketClient.qml \
-                  --replace-fail '_reopenOnClosed = true;' '_reopenOnClosed = true; reopenFallback.restart();' \
-                  --replace-fail 'function sendTextMessage(msg) {' 'Timer { id: reopenFallback; interval: 3500; onTriggered: if (socket.status === WebSocket.Error) root._reopenIfPending() }
-
-                    function sendTextMessage(msg) {'
-              '';
-            });
-          };
-
-          # dms folded NetworkWiredInfoModal into NetworkInfoModal { wired: true }
-          extendedNetworkToggle = {
-            enable = true;
-            src = lib.mkForce (pkgs.applyPatches {
-              name = "dms-plugin-extendedNetworkToggle";
-              src = inputs'.dms-plugin-registry.packages.extendedNetworkToggle;
-              postPatch = ''
-                substituteInPlace ExtendedNetworkDetail.qml --replace-fail \
-                  'sourceComponent: NetworkWiredInfoModal {}' \
-                  'sourceComponent: NetworkInfoModal { wired: true }'
               '';
             });
           };
@@ -165,8 +150,37 @@
       };
     };
 
-    # ydotoold's socket
-    user.extraGroups = ["ydotool"];
+    # the token is a pc-only sops secret
+    provides.home-assistant.nixos = {
+      pkgs,
+      lib,
+      inputs',
+      ...
+    }: {
+      environment.systemPackages = [pkgs.qt6.qtwebsockets];
+
+      environment.sessionVariables = {
+        QML2_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+        QML_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
+      };
+
+      # a failed connect ends in Error, never Closed, so reconnect() waits
+      # forever and the widget stays on REST; re-arm once nothing is pending
+      programs.dms-shell.plugins.homeAssistantMonitor = {
+        enable = true;
+        src = lib.mkForce (pkgs.applyPatches {
+          name = "dms-plugin-homeAssistantMonitor";
+          src = inputs'.dms-plugin-registry.packages.homeAssistantMonitor;
+          postPatch = ''
+            substituteInPlace services/WebSocketClient.qml \
+              --replace-fail '_reopenOnClosed = true;' '_reopenOnClosed = true; reopenFallback.restart();' \
+              --replace-fail 'function sendTextMessage(msg) {' 'Timer { id: reopenFallback; interval: 3500; onTriggered: if (socket.status === WebSocket.Error) root._reopenIfPending() }
+
+                function sendTextMessage(msg) {'
+          '';
+        });
+      };
+    };
 
     provides.battery.nixos.programs.dms-shell.plugins.batteryOSD.enable = true;
 
@@ -208,7 +222,30 @@
     };
 
     # hardcodes VPC2004:00 and errors on every start without it
-    provides.ideapad.nixos.programs.dms-shell.plugins.dmsLenovoBatterySettings.enable = true;
+    provides.ideapad.nixos = {lib, ...}: {
+      programs.dms-shell.plugins.dmsLenovoBatterySettings.enable = true;
+
+      # laptop only: Bar 2, right after batteryPlus
+      dms'.settingsOverrides = [
+        (settings: let
+          widget = {
+            id = "dmsLenovoBatterySettings";
+            enabled = true;
+          };
+          place = widgets:
+            lib.concatMap (w: [w] ++ lib.optional (w.id == "batteryPlus") widget)
+            (builtins.filter (w: w.id != widget.id) widgets);
+        in
+          settings
+          // {
+            barConfigs = map (bar:
+              if bar.id == "bar1791747327469"
+              then bar // {leftWidgets = place bar.leftWidgets;}
+              else bar)
+            settings.barConfigs;
+          })
+      ];
+    };
 
     provides.tailscale.nixos = {
       config,

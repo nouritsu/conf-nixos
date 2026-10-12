@@ -15,16 +15,13 @@
       peripherals.razer
       dms.razer
 
-      # the sops age key only exists on pc
       secrets
+      dms.home-assistant
       services.beszel
       nix.serve
       nix.builds-on-laptop
 
       ssh.from-laptop
-
-      network.tailscale
-      dms.tailscale
     ];
   };
 }

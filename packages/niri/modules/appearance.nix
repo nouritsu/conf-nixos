@@ -1,4 +1,6 @@
-{
+{inputs, ...}: let
+  inherit (inputs.nix-colors.colorSchemes.catppuccin-mocha) palette;
+in {
   # only what DMS has no setting for
   flake.nixosModules.wniri-appearance = {...}: {
     settings = {
@@ -10,6 +12,8 @@
         top = 5;
         bottom = 5;
       };
+
+      overview.backdrop-color = "#${palette.base00}";
     };
   };
 }

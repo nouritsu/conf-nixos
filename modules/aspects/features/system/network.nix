@@ -5,7 +5,14 @@
       networking.networkmanager.wifi.powersave = false;
       networking.firewall.enable = true;
 
+      # nm-connection-editor only; the tray applet is DMS's job
       environment.systemPackages = [pkgs.networkmanagerapplet];
+      environment.etc."xdg/autostart/nm-applet.desktop".text = ''
+        [Desktop Entry]
+        Type=Application
+        Name=NetworkManager Applet
+        Hidden=true
+      '';
     };
 
     provides.avahi.nixos = {

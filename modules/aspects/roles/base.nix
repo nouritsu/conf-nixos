@@ -6,6 +6,7 @@
     network.avahi
     network.dns-pihole
     network.dns-cloudflare
+    network.tailscale
     security
     security.keyring
     security.trust-homelab

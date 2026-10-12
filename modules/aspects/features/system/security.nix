@@ -1,8 +1,7 @@
 {
   den.aspects.security = {
-    nixos = {pkgs, ...}: {
+    nixos = {
       security.polkit.enable = true;
-      environment.systemPackages = [pkgs.polkit_gnome];
       security.sudo.enable = false;
       security.sudo-rs.enable = true;
 

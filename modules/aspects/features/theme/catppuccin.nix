@@ -57,7 +57,6 @@
       firefox.enable = false;
       fish.enable = true;
       fzf.enable = true;
-      hyprlock.enable = false;
       lsd.enable = true;
       wezterm.enable = true;
       zed = {

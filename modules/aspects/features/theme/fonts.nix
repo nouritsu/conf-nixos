@@ -3,7 +3,6 @@
     fonts = {
       packages = [
         pkgs.nerd-fonts.zed-mono
-        pkgs.nerd-fonts.jetbrains-mono # hyprlock
         pkgs.overpass
         pkgs.noto-fonts-color-emoji
       ];

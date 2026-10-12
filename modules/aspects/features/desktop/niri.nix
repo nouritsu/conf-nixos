@@ -17,7 +17,7 @@
       environment.variables.XDG_SESSION_TYPE = "wayland";
 
       # for tools that look in ~/.config/niri (DMS, niri validate)
-      systemd.user.tmpfiles.rules = ["L %h/.config/niri/config.kdl - - - - ${wniri}/niri-config.kdl"];
+      systemd.user.tmpfiles.rules = ["L+ %h/.config/niri/config.kdl - - - - ${wniri}/niri-config.kdl"];
 
       services.xserver.enable = lib.mkDefault true;
       services.xserver.excludePackages = [pkgs.xterm];

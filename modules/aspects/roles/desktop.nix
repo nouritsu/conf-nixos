@@ -10,8 +10,8 @@
     niri.portals
     niri.xwayland
     dms
+    dms.tailscale
     greeter
-    lock
     core
     brave
     catppuccin
