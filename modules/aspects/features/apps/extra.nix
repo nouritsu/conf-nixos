@@ -1,7 +1,6 @@
 {den, ...}: {
   den.aspects.extra.provides = {
     media = {
-      includes = [(den.batteries.unfree ["spotify"])];
       nixos = {
         self',
         pkgs,
@@ -158,10 +157,6 @@
           pkgs.mangohud
           pkgs.protonup-ng
         ];
-
-        environment.variables = {
-          STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";
-        };
 
         environment.sessionVariables.MANGOHUD_CONFIGFILE = "${inputs'.catppuccin.packages.mangohud}/mocha/MangoHud.conf";
       };

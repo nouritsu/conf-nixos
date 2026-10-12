@@ -159,11 +159,6 @@
     }: {
       environment.systemPackages = [pkgs.qt6.qtwebsockets];
 
-      environment.sessionVariables = {
-        QML2_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
-        QML_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
-      };
-
       # a failed connect ends in Error, never Closed, so reconnect() waits
       # forever and the widget stays on REST; re-arm once nothing is pending
       programs.dms-shell.plugins.homeAssistantMonitor = {
