@@ -28,12 +28,12 @@ jobs:
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
-          inputs: nixpkgs home-manager sops-nix den flake-parts import-tree treefmt-nix nix-index-database lanzaboote
+          inputs: nixpkgs home-manager sops-nix den flake-parts import-tree treefmt-nix nix-index-database lanzaboote cachyos-kernel
           branch: flake-lock/core
           commit-msg: "chore(flake): bump core inputs"
           pr-title: "chore(flake): bump core inputs"
           # PRs opened with GITHUB_TOKEN don't trigger check.yml, hence the PAT
-          token: ${{ secrets.FLAKE_LOCK_TOKEN || github.token }}
+          token: ${{ secrets.FLAKE_LOCK_TOKEN }}
 
   apps:
     name: app inputs
@@ -46,8 +46,8 @@ jobs:
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
-          inputs: helix niri dms dms-plugin-registry yazi spicetify-nix stylix catppuccin wrappers cachyos-kernel batfetch nix-colors
+          inputs: helix niri dms dms-plugin-registry yazi spicetify-nix catppuccin qtengine wrappers batfetch nix-colors
           branch: flake-lock/apps
           commit-msg: "chore(flake): bump app inputs"
           pr-title: "chore(flake): bump app inputs"
-          token: ${{ secrets.FLAKE_LOCK_TOKEN || github.token }}
+          token: ${{ secrets.FLAKE_LOCK_TOKEN }}
