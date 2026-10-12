@@ -6,7 +6,7 @@
     ];
 
     nixos = {pkgs, ...}: {
-      environment.systemPackages = [pkgs.libreoffice-fresh];
+      environment.systemPackages = [pkgs.libreoffice];
     };
   };
 }
