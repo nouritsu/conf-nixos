@@ -12,7 +12,9 @@
     dms
     dms.tailscale
     greeter
+    user-dirs
     core
+    nautilus
     brave
     catppuccin
     fonts
