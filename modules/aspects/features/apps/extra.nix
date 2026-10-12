@@ -142,7 +142,11 @@
 
     gaming = {
       includes = [(den.batteries.unfree ["steam" "steam-unwrapped" "steam-original" "steam-run"])];
-      nixos = {pkgs, ...}: {
+      nixos = {
+        pkgs,
+        inputs',
+        ...
+      }: {
         programs.steam = {
           enable = true;
           extest.enable = true;
@@ -158,6 +162,8 @@
         environment.variables = {
           STEAM_EXTRA_COMPAT_TOOLS_PATHS = "$HOME/.steam/root/compatibilitytools.d";
         };
+
+        environment.sessionVariables.MANGOHUD_CONFIGFILE = "${inputs'.catppuccin.packages.mangohud}/mocha/MangoHud.conf";
       };
     };
 
