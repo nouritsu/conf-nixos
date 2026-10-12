@@ -34,15 +34,5 @@
         };
       }
     ];
-
-    languages.grammar = [
-      {
-        name = "cooklang";
-        source = {
-          git = "https://github.com/addcninblue/tree-sitter-cooklang";
-          rev = "4ebe237c1cf64cf3826fc249e9ec0988fe07e58e";
-        };
-      }
-    ];
   };
 }
