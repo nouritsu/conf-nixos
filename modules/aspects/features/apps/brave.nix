@@ -17,6 +17,7 @@
         (mkExtension "eimadpbcbfnmbkopoojfekhnkhdbieeh") # Dark Reader
         (mkExtension "lnjaiaapbakfhlbjenjkhffcdpoompki") # Catppuccin file icons
         (mkExtension "ghmbeldphafepmbegfdlkpapadhbakde") # Proton Pass
+        (mkExtension "bkkmolkhemgaeaeggcmfbghljjjoofoh") # Catppuccin Mocha theme
       ];
 
       extraOpts = {
