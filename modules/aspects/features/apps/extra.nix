@@ -125,11 +125,15 @@
 
     chat = {
       includes = [(den.batteries.unfree ["slack"])];
-      nixos = {pkgs, ...}: {
+      nixos = {
+        self',
+        pkgs,
+        ...
+      }: {
         environment.systemPackages = [
           pkgs.telegram-desktop
           pkgs.whatsapp-electron
-          pkgs.vesktop
+          self'.packages.vesktop
           pkgs.teams-for-linux
           pkgs.slack
         ];
