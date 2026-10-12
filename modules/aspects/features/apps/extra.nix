@@ -161,12 +161,16 @@
       };
     };
 
-    game-mods.nixos = {pkgs, ...}: {
+    game-mods.nixos = {
+      self',
+      pkgs,
+      ...
+    }: {
       environment.systemPackages = [
         pkgs.lumafly
         pkgs.r2modman
         pkgs.satisfactorymodmanager
-        pkgs.prismlauncher
+        self'.packages.prismlauncher
         pkgs.deadlock-mod-manager
       ];
     };
