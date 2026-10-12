@@ -128,6 +128,18 @@ in {
 
         pluginDirs = [lsp-plugin];
 
+        # remote control rejects the wrapper's flags and needs nonessential traffic
+        runShell = [
+          ''
+            case ''${1-} in
+              remote-control | rc)
+                unset CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC
+                exec -a "$0" ${lib.getExe pkgs.claude-code} "$@"
+                ;;
+            esac
+          ''
+        ];
+
         settings = {
           attribution = {
             commit = "";
