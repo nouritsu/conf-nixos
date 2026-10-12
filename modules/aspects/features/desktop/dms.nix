@@ -4,6 +4,7 @@
       pkgs,
       lib,
       inputs',
+      self',
       ...
     }: {
       imports = [
@@ -23,9 +24,31 @@
         pkgs.file # ocrScanner: clipboard scans are gated on `file --mime-type`
         pkgs.librsvg # ocrScanner: rsvg-convert for dropped SVGs
         pkgs.ddcutil # displayManager: DDC/CI brightness and contrast
-        pkgs.libnotify # notify-send: smartTimer alarms, ipIndicator IP changes
-        pkgs.glib # gdbus: smartTimer closes its notifications; gio for About links
+        pkgs.libnotify # notify-send: ipIndicator IP changes, gameControllerBattery, dankPomodoroTimer
+        pkgs.glib # gdbus: dankKDEConnect image sharing
+        self'.packages.tabctl # tabsLauncher
       ];
+
+      # gameControllerBattery, batteryPlus
+      services.upower.enable = true;
+
+      # screenRecorderYS
+      programs.gpu-screen-recorder.enable = true;
+
+      # virtualKeyboard types through ydotoold
+      programs.ydotool.enable = true;
+
+      # tabsLauncher: brave reaches tabctl through its extension's native host
+      programs.chromium.extensions = ["baomblllgemcgbignhpbipgiofmjdhpn;https://clients2.google.com/service/update2/crx"];
+      systemd.user.tmpfiles.rules = let
+        manifest = pkgs.writeText "tabctl_mediator.json" (builtins.toJSON {
+          name = "tabctl_mediator";
+          description = "TabCtl native messaging host";
+          path = "/run/current-system/sw/bin/tabctl-mediator";
+          type = "stdio";
+          allowed_origins = ["chrome-extension://baomblllgemcgbignhpbipgiofmjdhpn/"];
+        });
+      in ["L+ %h/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/tabctl_mediator.json - - - - ${manifest}"];
 
       environment.sessionVariables = {
         QML2_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
@@ -67,7 +90,15 @@
           nixPackageRunner.enable = true;
           formatColorPicker.enable = true;
           ocrScanner.enable = true;
-          orbitBluetooth.enable = true;
+          worldClock.enable = true;
+          dankPomodoroTimer.enable = true;
+          takeABreak.enable = true;
+          simpleAudioControl.enable = true;
+          gameControllerBattery.enable = true;
+          batteryPlus.enable = true;
+          screenRecorderYS.enable = true;
+          virtualKeyboard.enable = true;
+          tabsLauncher.enable = true;
 
           # patched: mkForce over the registry's src
 
@@ -102,15 +133,16 @@
             });
           };
 
-          # sounds hardcoded to /usr/share/sounds
-          smartTimer = {
+          # dms folded NetworkWiredInfoModal into NetworkInfoModal { wired: true }
+          extendedNetworkToggle = {
             enable = true;
             src = lib.mkForce (pkgs.applyPatches {
-              name = "dms-plugin-smartTimer";
-              src = inputs'.dms-plugin-registry.packages.smartTimer;
+              name = "dms-plugin-extendedNetworkToggle";
+              src = inputs'.dms-plugin-registry.packages.extendedNetworkToggle;
               postPatch = ''
-                substituteInPlace TimerDaemon.qml TimerSettings.qml \
-                  --replace-fail /usr/share/sounds /run/current-system/sw/share/sounds
+                substituteInPlace ExtendedNetworkDetail.qml --replace-fail \
+                  'sourceComponent: NetworkWiredInfoModal {}' \
+                  'sourceComponent: NetworkInfoModal { wired: true }'
               '';
             });
           };
@@ -133,7 +165,47 @@
       };
     };
 
+    # ydotoold's socket
+    user.extraGroups = ["ydotool"];
+
     provides.battery.nixos.programs.dms-shell.plugins.batteryOSD.enable = true;
+
+    # expects its go cli hand-built inside the per-user plugin dir
+    provides.razer.nixos = {
+      pkgs,
+      lib,
+      inputs',
+      ...
+    }: let
+      src = inputs'.dms-plugin-registry.packages.dankRazer;
+      dankrazer = pkgs.buildGoModule {
+        pname = "dankrazer";
+        inherit (src) version;
+        src = "${src}/dankrazer-cli";
+        vendorHash = "sha256-+oHslT8yKWaToq2zmVJ+NVowPfRGR6R6ajapFywmgo8=";
+        subPackages = ["cmd/dankrazer"];
+        meta.mainProgram = "dankrazer";
+      };
+    in {
+      programs.dms-shell.plugins.dankRazer = {
+        enable = true;
+        src = lib.mkForce (pkgs.applyPatches {
+          name = "dms-plugin-dankRazer";
+          inherit src;
+          postPatch = ''
+            substituteInPlace DankRazerWidget.qml --replace-fail \
+              'pluginService.pluginDirectory + "/dankRazer/dankrazer-cli/dankrazer"' \
+              '"${lib.getExe dankrazer}"'
+            # string/toggle settings have no leftIcon, so the page fails to load
+            substituteInPlace DankRazerSettings.qml \
+              --replace-fail 'leftIcon: "palette"' "" \
+              --replace-fail 'leftIcon: "touch_app"' "" \
+              --replace-fail 'leftIcon: "sync"' "" \
+              --replace-fail 'leftIcon: "bedtime"' ""
+          '';
+        });
+      };
+    };
 
     # hardcodes VPC2004:00 and errors on every start without it
     provides.ideapad.nixos.programs.dms-shell.plugins.dmsLenovoBatterySettings.enable = true;

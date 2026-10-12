@@ -13,6 +13,7 @@
       peripherals.monitor
       peripherals.tablet
       peripherals.razer
+      dms.razer
 
       # the sops age key only exists on pc
       secrets
