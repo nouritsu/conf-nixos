@@ -4,15 +4,6 @@
       security.polkit.enable = true;
       security.sudo.enable = false;
       security.sudo-rs.enable = true;
-
-      security.pam.loginLimits = [
-        {
-          domain = "*";
-          type = "soft";
-          item = "nofile";
-          value = "1024";
-        }
-      ];
     };
 
     provides.keyring.nixos = {pkgs, ...}: {

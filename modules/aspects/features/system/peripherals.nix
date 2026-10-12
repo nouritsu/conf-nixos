@@ -91,7 +91,7 @@
         environment.systemPackages = [pkgs.polychromatic];
       };
 
-      user.extraGroups = ["openrazer" "plugdev"];
+      user.extraGroups = ["openrazer"];
     };
   };
 }

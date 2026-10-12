@@ -13,8 +13,6 @@
       };
     };
 
-    user.extraGroups = ["audio"];
-
     provides.rtkit.nixos = {
       security.rtkit.enable = true;
     };

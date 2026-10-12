@@ -23,7 +23,6 @@
       pkgs.fzf
       pkgs.ripgrep
       pkgs.ripgrep-all
-      pkgs.gnutar
       pkgs.ouch
       pkgs.unzip
       pkgs.eva

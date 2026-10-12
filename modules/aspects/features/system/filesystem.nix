@@ -8,15 +8,13 @@
     };
 
     provides = {
-      exfat.nixos = {pkgs, ...}: {
+      exfat.nixos = {
         boot.supportedFilesystems = ["exfat"];
-        environment.systemPackages = [pkgs.exfatprogs];
       };
 
       btrfs.nixos = {pkgs, ...}: {
         boot.supportedFilesystems = ["btrfs"];
         environment.systemPackages = [
-          pkgs.btrfs-progs
           pkgs.compsize
           pkgs.snapper
           pkgs.snapper-gui
@@ -25,10 +23,7 @@
 
       xfs.nixos = {pkgs, ...}: {
         boot.supportedFilesystems = ["xfs"];
-        environment.systemPackages = [
-          pkgs.xfsprogs
-          pkgs.xfsdump
-        ];
+        environment.systemPackages = [pkgs.xfsdump];
       };
 
       ntfs.nixos = {pkgs, ...}: {

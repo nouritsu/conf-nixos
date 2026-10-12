@@ -2,7 +2,6 @@
   den.aspects.dev = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = [
-        pkgs.bash
         pkgs.jq
         pkgs.gnumake
         pkgs.grex
