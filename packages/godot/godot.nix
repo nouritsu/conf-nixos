@@ -1,5 +1,7 @@
 {inputs, ...}: let
-  inherit (inputs) wrappers;
+  inherit (inputs) wrappers nix-colors;
+  inherit (nix-colors.colorSchemes.catppuccin-mocha) palette;
+  inherit (nix-colors.lib.conversions) hexToRGB;
 in {
   perSystem = {
     pkgs,
@@ -8,7 +10,23 @@ in {
   }: let
     bin = name: "/run/current-system/sw/bin/${name}";
 
-    # forced into editor_settings on launch, if the program exists
+    catppuccin = pkgs.fetchFromGitHub {
+      owner = "catppuccin";
+      repo = "godot";
+      rev = "d8b72b679078f0103a5e5c1ef793c1d698a563b1";
+      hash = "sha256-Og69rMEsygVYpWVGvJGsCydQzRC9BXBQxyrJ4kfdUEo=";
+    };
+
+    color = slot: {
+      raw = "Color(${lib.concatMapStringsSep ", " (c: toString (c / 255.0)) (hexToRGB palette.${slot})}, 1)";
+    };
+
+    render = value:
+      if builtins.isAttrs value
+      then value.raw
+      else builtins.toJSON value;
+
+    # forced into editor_settings on launch, if the programs in needs exist
     settings = [
       {
         # Godot only checks fixed FHS paths, and dismissing its prompt
@@ -57,6 +75,33 @@ in {
         value = "start --cwd {project} -- ${bin "hx"} {file}:{line}:{col}";
         needs = ["wezterm" "hx"];
       }
+
+      # Theme
+      {
+        key = "interface/theme/color_preset";
+        value = "Custom";
+      }
+      {
+        key = "interface/theme/base_color";
+        value = color "base00";
+      }
+      {
+        key = "interface/theme/accent_color";
+        value = color "base0E";
+      }
+      {
+        key = "interface/theme/contrast";
+        value = 0.2;
+      }
+      {
+        key = "interface/theme/icon_saturation";
+        value = 0.6;
+      }
+      {
+        # the .tet in text_editor_themes
+        key = "text_editor/theme/color_theme";
+        value = "Catppuccin Mocha";
+      }
     ];
 
     tres = "editor_settings-${lib.versions.majorMinor pkgs.godot.version}.tres";
@@ -69,11 +114,18 @@ in {
         mkdir -p "''${file%/*}"
         [[ -s $file ]] || printf '[gd_resource type="EditorSettings" format=3]\n\n[resource]\n' >"$file"
 
+        mkdir -p "''${file%/*}/text_editor_themes"
+        ln -sfn "${catppuccin}/themes/Catppuccin Mocha.tet" "''${file%/*}/text_editor_themes/Catppuccin Mocha.tet"
+
         # key<TAB>value, one per line, for the settings whose programs exist
         want=""
         ${lib.concatMapStrings (s: ''
-            if ${lib.concatMapStringsSep " && " (p: "[[ -x ${bin p} ]]") s.needs}; then
-              want+=${lib.escapeShellArg "${s.key}\t${builtins.toJSON s.value}"}$'\n'
+            if ${
+              if s ? needs
+              then lib.concatMapStringsSep " && " (p: "[[ -x ${bin p} ]]") s.needs
+              else "true"
+            }; then
+              want+=${lib.escapeShellArg "${s.key}\t${render s.value}"}$'\n'
             fi
           '')
           settings}
