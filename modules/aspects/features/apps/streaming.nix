@@ -2,6 +2,7 @@
   den.aspects.extra.provides.streaming = {
     includes = [(den.batteries.unfree ["cuda_cccl" "cuda_cudart" "cuda_nvcc"])];
     nixos = {
+      config,
       pkgs,
       lib,
       ...
@@ -17,6 +18,10 @@
               substituteInPlace packaging/linux/dev.lizardbyte.app.Sunshine.desktop \
                 --replace-fail 'Exec=sunshine' 'Exec=${lib.getExe' pkgs.xdg-utils "xdg-open"} https://localhost:47990' \
                 --replace-fail 'Actions=RunInTerminal;' ""
+
+              # tray/web ui restart re-execs through the wrapper; /proc/self/exe has no caps, so kms broke
+              substituteInPlace src/platform/linux/misc.cpp --replace-fail \
+                'execv(executable, lifetime::get_argv())' 'execv("${config.security.wrapperDir}/sunshine", lifetime::get_argv())'
             '';
 
           # web ui defaults to its built-in catppuccin mocha theme
