@@ -151,7 +151,7 @@
       "w": 4,
       "h": 1,
       "col": 4,
-      "row": 4
+      "row": 2
     },
     {
       "id": "audioInput",
@@ -167,7 +167,7 @@
       "w": 4,
       "h": 1,
       "col": 4,
-      "row": 2
+      "row": 3
     },
     {
       "id": "nightMode",
@@ -184,7 +184,7 @@
       "w": 4,
       "h": 1,
       "col": 4,
-      "row": 3
+      "row": 4
     },
     {
       "id": "runningApps",
@@ -247,6 +247,9 @@
   "centeringMode": "geometric",
   "clockDateFormat": "yyyy-MM-dd (dddd)",
   "appPickerViewMode": "list",
+  "spotlightSectionViewModes": {
+    "plugin_nixPackageRunner": "grid"
+  },
   "appDrawerSectionViewModes": {
     "apps": "list"
   },
