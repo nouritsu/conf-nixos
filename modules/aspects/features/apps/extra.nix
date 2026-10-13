@@ -157,6 +157,14 @@
         environment.systemPackages = [
           pkgs.mangohud
           pkgs.protonup-ng
+          (pkgs.makeDesktopItem {
+            name = "steam-bigpicture";
+            desktopName = "Steam Big Picture";
+            comment = "Steam in controller-friendly fullscreen mode";
+            exec = "steam steam://open/bigpicture";
+            icon = "steam";
+            categories = ["Game"];
+          })
         ];
 
         environment.sessionVariables.MANGOHUD_CONFIGFILE = "${inputs'.catppuccin.packages.mangohud}/mocha/MangoHud.conf";
