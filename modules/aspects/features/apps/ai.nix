@@ -3,12 +3,14 @@
     includes = [(den.batteries.unfree ["cursor"])];
     nixos = {
       self',
+      inputs',
       pkgs,
       ...
     }: {
       environment.systemPackages = [
         self'.packages.opencode
         self'.packages.claude-code
+        inputs'.claude-desktop.packages.claude-desktop
         pkgs.code-cursor
 
         pkgs.ccusage

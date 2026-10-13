@@ -58,6 +58,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # repackages anthropic's official .deb; upstream bumps it on every release
+    claude-desktop = {
+      url = "github:aaddrick/claude-desktop-debian";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+
     dms-plugin-registry = {
       url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";

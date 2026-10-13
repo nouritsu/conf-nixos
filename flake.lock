@@ -75,6 +75,29 @@
         "type": "github"
       }
     },
+    "claude-desktop": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791773094,
+        "narHash": "sha256-oraFGKDajmZpYYTkdeaTTaIMh4fRdoPoGyBcKqDFw+U=",
+        "owner": "aaddrick",
+        "repo": "claude-desktop-debian",
+        "rev": "4c988692763079e5d80aed0c1ec2523cf8ac63dc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aaddrick",
+        "repo": "claude-desktop-debian",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1789760033,
@@ -643,6 +666,7 @@
         "batfetch": "batfetch",
         "cachyos-kernel": "cachyos-kernel",
         "catppuccin": "catppuccin",
+        "claude-desktop": "claude-desktop",
         "den": "den",
         "dms": "dms",
         "dms-plugin-registry": "dms-plugin-registry",
