@@ -4,4 +4,5 @@ inputs: [
   (import ./r2modman.nix)
   inputs.cachyos-kernel.overlays.pinned
   inputs.niri.overlays.default
+  inputs.millennium.overlays.default
 ]

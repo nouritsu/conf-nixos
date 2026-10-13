@@ -51,6 +51,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # pinned: its nix packaging has broken on releases, bump by hand once a new one builds
+    # nixpkgs-bun stays its own: the bun deps hash depends on that exact bun
+    millennium = {
+      url = "github:SteamClientHomebrew/Millennium/0d22d4330995fff5a6dcb0b255dfb48f96f64972?dir=packages/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dms-plugin-registry = {
       url = "github:AvengeMedia/dms-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";

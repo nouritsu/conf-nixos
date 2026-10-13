@@ -1,7 +1,7 @@
 {den, ...}: {
   den.aspects.gaming.includes = with den.aspects; [
     extra.gaming
-    catppuccin.steam
+    extra.millennium
     peripherals.controller
   ];
 }
