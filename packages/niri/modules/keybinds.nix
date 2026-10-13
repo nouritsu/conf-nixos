@@ -67,6 +67,12 @@
       "Shift+Print".screenshot-screen = {};
       "Ctrl+Print".screenshot = {};
 
+      # Clipping
+      "Mod+G".spawn = ["gsr-ui-cli" "toggle-show"];
+      "Mod+Alt+G".spawn = ["gsr-ui-cli" "replay-save"];
+      "Mod+Shift+G".spawn = ["gsr-ui-cli" "toggle-replay"];
+      "Mod+Alt+R".spawn = ["gsr-ui-cli" "toggle-record"];
+
       # Window actions
       "Mod+Q".close-window = {};
       "Mod+Ctrl+C".center-visible-columns = {};

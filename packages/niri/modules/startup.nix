@@ -6,6 +6,7 @@
     settings.spawn-at-startup = [
       (afterTray ["steam" "-silent"])
       (afterTray ["vesktop" "--start-minimized"])
+      ["gsr-ui" "launch-daemon"]
     ];
   };
 }
