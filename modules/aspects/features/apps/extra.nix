@@ -12,6 +12,7 @@
           pkgs.eog
           self'.packages.mpv
           self'.packages.spotify
+          self'.packages.moonfin
         ];
       };
     };
