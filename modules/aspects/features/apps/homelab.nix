@@ -1,5 +1,5 @@
 {
-  # launcher entries for the homelab's caddy endpoints
+  # launcher entries for the homelab's caddy endpoints and the router
   den.aspects.homelab.nixos = {
     pkgs,
     lib,
@@ -78,6 +78,14 @@
         icon = "jellyfin";
         hash = "sha256-f1PPCD27MRnsjFrL2AScUDMidhfkYVQPcFkawQkSQwY=";
       };
+      router = {
+        name = "FRITZ!Box";
+        description = "Router admin for Wi-Fi, DHCP, port forwarding and the guest network";
+        icon = "fritzbox-light";
+        hash = "sha256-c67N8swA2nr/mN+Qaj9DV52K96viwCbmx2M2dcT9Iec=";
+        host = "fritz.box";
+        scheme = "http";
+      };
       share = {
         name = "Enclosed";
         description = "Encrypted note and file sharing with expiring links";
@@ -124,7 +132,7 @@
 
     entry = subdomain: e: let
       id = "homelab-${subdomain}";
-      host = "${subdomain}.${domain}";
+      host = e.host or "${subdomain}.${domain}";
 
       icon = pkgs.fetchurl {
         url = "${icons}/${e.icon}.svg";
@@ -137,7 +145,7 @@
         genericName = host;
         comment = e.description;
         keywords = ["homelab" subdomain];
-        exec = "${lib.getExe' pkgs.xdg-utils "xdg-open"} https://${host}${e.path or ""}";
+        exec = "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${e.scheme or "https"}://${host}${e.path or ""}";
         icon = id;
         categories = ["Network"];
       };
