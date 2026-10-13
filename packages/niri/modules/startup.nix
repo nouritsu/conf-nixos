@@ -1,11 +1,11 @@
-{
+{self, ...}: {
   flake.nixosModules.wniri-startup = {pkgs, ...}: let
-    delay = toString 5;
-    delayed = cmd: ["${pkgs.runtimeShell}" "-c" "sleep ${delay}; exec ${pkgs.lib.escapeShellArgs cmd}"];
+    inherit (pkgs.stdenv.hostPlatform) system;
+    afterTray = cmd: [(pkgs.lib.getExe self.packages.${system}.wait-for-tray)] ++ cmd;
   in {
     settings.spawn-at-startup = [
-      (delayed ["steam" "-silent"])
-      (delayed ["vesktop" "--start-minimized"])
+      (afterTray ["steam" "-silent"])
+      (afterTray ["vesktop" "--start-minimized"])
     ];
   };
 }

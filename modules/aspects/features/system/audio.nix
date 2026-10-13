@@ -22,11 +22,13 @@
     };
 
     provides.fx.nixos = {
+      self',
       pkgs,
       lib,
       ...
     }: let
       easyeffects = lib.getExe pkgs.easyeffects;
+      wait-for-tray = lib.getExe self'.packages.wait-for-tray;
     in {
       environment.systemPackages = [pkgs.easyeffects];
 
@@ -36,7 +38,8 @@
         partOf = ["graphical-session.target"];
         after = ["graphical-session.target" "pipewire.service"];
         serviceConfig = {
-          ExecStart = "${easyeffects} --service-mode";
+          # it checks for a tray only at launch
+          ExecStart = "${wait-for-tray} ${easyeffects} --service-mode --hide-window";
           Restart = "on-failure";
           Slice = "session.slice";
         };
