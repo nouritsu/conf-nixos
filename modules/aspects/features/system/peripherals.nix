@@ -13,10 +13,28 @@
     };
 
     monitor = {
-      nixos = {pkgs, ...}: {
+      nixos = {
+        pkgs,
+        lib,
+        ...
+      }: let
+        wl-mirror = lib.getExe pkgs.wl-mirror;
+      in {
         environment.systemPackages = [
           pkgs.ddcutil
           pkgs.i2c-tools
+          (pkgs.makeDesktopItem {
+            name = "mirror-main-monitor";
+            desktopName = "Mirror Main Monitor";
+            comment = "Mirror DP-3 into a window";
+            exec = "${wl-mirror} DP-3";
+            icon = "video-display";
+            categories = ["Utility"];
+            actions.tv = {
+              name = "Fullscreen on TV";
+              exec = "${wl-mirror} --fullscreen-output HDMI-A-1 DP-3";
+            };
+          })
         ];
 
         services.ddccontrol = {
