@@ -6,7 +6,7 @@
       lib,
       ...
     }: {
-      # moonlight host; cuda build for nvenc, cap_sys_admin for kms capture fallback
+      # moonlight host; cuda build for nvenc, cap_sys_admin for kms capture
       services.sunshine = {
         enable = true;
         package = (pkgs.sunshine.override {cudaSupport = true;}).overrideAttrs (old: {
@@ -32,6 +32,9 @@
         capSysAdmin = true;
         openFirewall = true;
       };
+
+      # sys_nice: high-priority egl context, so capture keeps up under game load
+      security.wrappers.sunshine.capabilities = lib.mkForce "cap_sys_admin,cap_sys_nice+p";
 
       # steam link
       programs.steam.remotePlay.openFirewall = true;
