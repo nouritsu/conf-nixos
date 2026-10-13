@@ -18,6 +18,7 @@
       secrets
       dms.home-assistant
       services.beszel
+      extra.streaming
       nix.serve
       nix.builds-on-laptop
 
