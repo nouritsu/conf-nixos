@@ -19,6 +19,47 @@
       settings = (pkgs.formats.json {}).generate "dms-settings.json" (
         lib.pipe (lib.importJSON ./dms-settings.json) config.dms'.settingsOverrides
       );
+
+      # every installed plugin is switched on, plus its pinned settings
+      pluginSettings = let
+        pinned = lib.importJSON ./dms-plugin-settings.json;
+        installed = lib.filterAttrs (_: p: p.enable) config.programs.dms-shell.plugins;
+      in
+        (pkgs.formats.json {}).generate "dms-plugin-settings.json"
+        (lib.mapAttrs (id: _: {enabled = true;} // pinned.${id} or {}) installed);
+
+      clipboard = (pkgs.formats.json {}).generate "dms-clipboard.json" {
+        maxHistory = -1;
+        maxEntrySize = 52428800;
+        maxPinned = 25;
+        autoClearDays = 90;
+        clearAtStartup = false;
+        disabled = false;
+      };
+
+      # pinned keys go over the live files; tokens, history and other state stay
+      pinSettings = pkgs.writeShellApplication {
+        name = "dms-pin-settings";
+        runtimeInputs = [pkgs.jq pkgs.coreutils];
+        text = ''
+          dir=''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell
+          mkdir -p "$dir"
+
+          merge() {
+            [ -f "$1" ] || echo '{}' > "$1"
+            jq -e --slurpfile pin "$2" '. * $pin[0] == .' "$1" > /dev/null && return
+            tmp=$(mktemp "$1.XXXXXX")
+            if jq --slurpfile pin "$2" '. * $pin[0]' "$1" > "$tmp"; then
+              mv "$tmp" "$1"
+            else
+              rm -f "$tmp"
+            fi
+          }
+
+          merge "$dir/plugin_settings.json" ${pluginSettings}
+          merge "$dir/clsettings.json" ${clipboard}
+        '';
+      };
     in {
       imports = [
         inputs.dms-plugin-registry.nixosModules.default
@@ -64,14 +105,17 @@
         "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dms-plugin-registry}/themes/catppuccin/theme.json"
       ];
 
-      # dms keeps watching the old link target; restart it when the pin changes
+      # dms only reads plugin settings at start and saves its own copy over later edits
+      systemd.user.services.dms.serviceConfig.ExecStartPre = "-${lib.getExe pinSettings}";
+
+      # dms keeps watching the old link target; restart it when a pin changes
       system.userActivationScripts.dms-settings = {
         deps = ["tmpfiles"];
         text = ''
           stamp=''${XDG_STATE_HOME:-$HOME/.local/state}/dms-settings-pin
-          if [ "$(cat "$stamp" 2>/dev/null)" != "${settings}" ]; then
+          if [ "$(cat "$stamp" 2>/dev/null)" != "${settings} ${pinSettings}" ]; then
             mkdir -p "$(dirname "$stamp")"
-            echo "${settings}" > "$stamp"
+            echo "${settings} ${pinSettings}" > "$stamp"
             ${pkgs.systemd}/bin/systemctl --user --no-block try-restart dms.service || true
           fi
         '';

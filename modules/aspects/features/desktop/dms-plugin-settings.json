@@ -1,0 +1,114 @@
+{
+  "batteryPlus": {
+    "timespanHours": 24
+  },
+  "calculator": {
+    "trigger": "",
+    "calcEngine": "default",
+    "noTrigger": true
+  },
+  "commandRunner": {
+    "terminal": "wezterm",
+    "execFlag": "start"
+  },
+  "dankKDEConnect": {
+    "scanSubdirectories": true
+  },
+  "dankPomodoroTimer": {
+    "autoSetDND": true
+  },
+  "dankscale": {
+    "pollSeconds": "5",
+    "downloadDir": "/home/aneesh/Downloads/Taildrop"
+  },
+  "dockerManager": {
+    "dockerBinary": "podman",
+    "terminalApp": "wezterm start",
+    "debounceDelay": 297,
+    "groupByCompose": false
+  },
+  "emojiLauncher": {
+    "pasteOnSelect": true
+  },
+  "gameControllerBattery": {
+    "displayMode": false,
+    "hideWhenNoControllersConnected": true,
+    "updateMethod": "both",
+    "refreshInterval": 30
+  },
+  "handMirror": {
+    "captureDelay": "10",
+    "screenFlash": false,
+    "popoutScale": 184,
+    "zoomFactor": 1
+  },
+  "homeAssistantMonitor": {
+    "hassTokenPath": "/run/secrets/home-assistant-token",
+    "showAttributes": false,
+    "showButtonsOnStatusBar": true
+  },
+  "ipIndicator": {
+    "pillShowLocal": false,
+    "displayMode": "country_ip",
+    "useFlagIcon": true,
+    "showHints": false,
+    "notifyOnIPChange": true
+  },
+  "ocrScanner": {
+    "showHints": false,
+    "ocrLanguage": "eng+deu"
+  },
+  "recentFiles": {
+    "trigger": "rf",
+    "noTrigger": false
+  },
+  "screenRecorderYS": {
+    "maxFps": "120",
+    "quality": "very_high",
+    "codec": "auto",
+    "fallbackCpuEncoding": false,
+    "recordMicrophone": true
+  },
+  "simpleAudioControl": {
+    "showMic": true,
+    "showMicValue": true,
+    "useCustomTabRadius": false
+  },
+  "sshConnections": {
+    "terminal": "wezterm",
+    "exec_flags": "start"
+  },
+  "systemMonitorPlus": {
+    "cpuTempEnabled": true,
+    "ramUsageEnabled": true,
+    "gpuTempEnabled": false,
+    "networkSpeedEnabled": true,
+    "cpuUsageVisualStyle": "gauge",
+    "cpuUsageShowIcon": true,
+    "cpuTempVisualStyle": "gauge",
+    "ramUsageVisualStyle": "gauge",
+    "ramUsageIconName": "",
+    "ramUsageShowIcon": true,
+    "networkSpeedVisualStyle": "default",
+    "diskPartitionUsageEnabled": true,
+    "cpuUsageColorizeText": false,
+    "networkSpeedShortUnits": true,
+    "networkSpeedColorizeText": false,
+    "diskPartitionUsageVisualStyle": "gauge",
+    "diskPartitionUsageColorizeText": false
+  },
+  "takeABreak": {
+    "pauseMusic": true,
+    "preWarningAlignment": "top-right"
+  },
+  "webSearch": {
+    "searchEngines": [],
+    "disabledEngines": []
+  },
+  "windowFx": {
+    "kind": "ember",
+    "duration": 150,
+    "openDuration": 150,
+    "openKind": "default"
+  }
+}
