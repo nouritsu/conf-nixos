@@ -16,6 +16,7 @@
     core
     nautilus
     brave
+    homelab
     catppuccin
     fonts
     dms.theming
