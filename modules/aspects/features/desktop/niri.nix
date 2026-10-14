@@ -54,7 +54,11 @@
 
         config = {
           common.default = ["gtk"];
-          niri.default = ["gnome" "gtk"];
+          niri = {
+            default = ["gnome" "gtk"];
+            # gnome's file chooser is nautilus
+            "org.freedesktop.impl.portal.FileChooser" = ["gtk"];
+          };
         };
       };
     };
