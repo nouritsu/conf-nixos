@@ -10,7 +10,7 @@
       lib.filter (r: r ? default-column-width) config.settings.window-rules
     );
 
-    # emits "<id> <width>": full width while alone, default once another column joins
+    # emits ids to maximise: a workspace's lone column; later columns leave it alone
     filter = pkgs.writeText "single-window.jq" ''
       def sized: (.app_id // "") as $a | any(${builtins.toJSON sized}[] as $re | $a | test($re); .);
 
@@ -30,9 +30,9 @@
         | reduce ([.windows[] | select(.layout.pos_in_scrolling_layout)] | group_by(.workspace_id))[] as $ws (.;
             [$ws[].id | tostring | select($s.maxed[.])] as $mine
             | if ($ws | map(.layout.pos_in_scrolling_layout[0]) | unique | length) > 1 then
-                reduce $mine[] as $id (.; del(.maxed[$id]) | .out += ["\($id) 50%"])
+                del(.maxed[$mine[]])
               elif $mine == [] and ($ws | any(.[]; sized) | not) then
-                .maxed[$ws[0].id | tostring] = true | .out += ["\($ws[0].id) 100%"]
+                .maxed[$ws[0].id | tostring] = true | .out += ["\($ws[0].id)"]
               end);
         .out[])
     '';
@@ -41,8 +41,8 @@
       name = "niri-single-window";
       runtimeInputs = [config.package pkgs.jq];
       text = ''
-        niri msg --json event-stream | jq -nr --unbuffered -f ${filter} | while read -r id width; do
-          niri msg action set-window-width --id "$id" "$width" || true
+        niri msg --json event-stream | jq -nr --unbuffered -f ${filter} | while read -r id; do
+          niri msg action set-window-width --id "$id" 100% || true
         done
       '';
     };
