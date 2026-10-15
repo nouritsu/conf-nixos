@@ -220,7 +220,7 @@
       "h": 1,
       "col": 2,
       "row": 4,
-      "small": true
+      "small": false
     },
     {
       "id": "plugin_takeABreak",
