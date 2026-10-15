@@ -23,6 +23,20 @@
       options = ["fmask=0077" "dmask=0077"];
     };
 
+    # windows ssd, mounted on first access
+    fileSystems."/mnt/windows" = {
+      device = "/dev/disk/by-uuid/1880CD6580CD49C8";
+      fsType = "ntfs3";
+      options = [
+        "uid=1000"
+        "gid=100"
+        "nofail"
+        "x-systemd.automount"
+        "x-gvfs-show"
+        "x-gvfs-name=Windows"
+      ];
+    };
+
     swapDevices = [
       {device = "/dev/disk/by-uuid/94a1a4b4-511b-4fa4-8caa-1ceb1929af0a";}
     ];
