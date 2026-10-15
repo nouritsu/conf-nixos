@@ -74,6 +74,8 @@
       nix.settings.trusted-users = ["root" "@wheel"];
       nix.settings.experimental-features = ["nix-command" "flakes"];
       nix.settings.always-allow-substitutes = true;
+      nix.settings.http-connections = 128;
+      nix.settings.max-substitution-jobs = 128;
 
       # no global registry; /etc/nix/registry.json still has nixpkgs
       nix.settings.flake-registry = "";
