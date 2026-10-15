@@ -4,6 +4,11 @@
       self'.packages.yazi
     ];
 
+    nix.settings = {
+      extra-substituters = ["https://yazi.cachix.org"];
+      trusted-public-keys = ["yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="];
+    };
+
     programs.fish.shellAliases.fm = "yazi";
 
     # cd-on-quit wrapper

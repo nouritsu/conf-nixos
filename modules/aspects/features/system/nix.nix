@@ -39,17 +39,8 @@
       nix.settings.flake-registry = "";
       nix.channel.enable = false;
 
-      # TODO: move to per app
-      nix.settings.extra-substituters = [
-        "https://attic.xuyh0120.win/lantian"
-        "https://nix-community.cachix.org"
-        "https://yazi.cachix.org"
-      ];
-      nix.settings.trusted-public-keys = [
-        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
-      ];
+      nix.settings.extra-substituters = ["https://nix-community.cachix.org"];
+      nix.settings.trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
     };
   };
 }
