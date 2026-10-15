@@ -6,9 +6,22 @@
   den.aspects.nix = {host, ...}: let
     primary = lib.head (lib.attrNames host.users);
   in {
-    nixos = {config, ...}: {
+    nixos = {
+      config,
+      pkgs,
+      ...
+    }: let
+      substituters = config.nh'.substituters;
+    in {
       imports = [
         inputs.nix-index-database.nixosModules.default
+        {
+          # caches only nh os uses, each added when it answers
+          options.nh'.substituters = lib.mkOption {
+            type = lib.types.listOf lib.types.str;
+            default = [];
+          };
+        }
       ];
 
       programs.nix-ld.enable = true;
@@ -20,7 +33,34 @@
 
         clean.enable = true;
         clean.extraArgs = "--keep 5 --keep-since 7d";
+
+        package = lib.mkIf (substituters != []) (pkgs.symlinkJoin {
+          inherit (pkgs.nh) name meta;
+          paths = [
+            (pkgs.writeShellApplication {
+              name = "nh";
+              text = ''
+                if [[ ''${1-} == os ]]; then
+                  urls=(${lib.escapeShellArgs substituters})
+                  for url in "''${urls[@]}"; do
+                    if ${lib.getExe pkgs.curl} -sf --connect-timeout 1 -m 3 -o /dev/null "$url/nix-cache-info"; then
+                      NIX_CONFIG=$(printf 'extra-substituters = %s\n%s' "$url" "''${NIX_CONFIG-}")
+                      export NIX_CONFIG
+                    fi
+                  done
+                fi
+                exec ${lib.getExe pkgs.nh} "$@"
+              '';
+            })
+
+            # completions and the manpage; bin/nh is already taken above
+            pkgs.nh
+          ];
+        });
       };
+
+      # not in substituters: devshells and every other nix command would query them
+      nix.settings.trusted-substituters = substituters;
 
       programs.fish.shellAliases.conf = "$EDITOR $NH_FLAKE";
       programs.fish.shellAbbrs = {
