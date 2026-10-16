@@ -22,6 +22,9 @@
         cp ${cargoLockFile} Cargo.lock
       '';
 
+      # no tests, the check phase only recompiles in test mode
+      doCheck = false;
+
       meta = {
         description = "memory-focused system info tool written in Rust for linux.";
         homepage = "https://github.com/xdearboy/mfetch";
