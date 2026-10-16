@@ -86,6 +86,33 @@
 
       nix.settings.extra-substituters = ["https://nix-community.cachix.org"];
       nix.settings.trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
+
+      # nix never repacks it, and every eval slows down with each fetch
+      # never git gc or repack -ad it: it has no refs, so git drops every object
+      systemd.user.services.nix-tarball-cache-repack = {
+        description = "Repack the Nix tarball cache";
+        path = [pkgs.git];
+        unitConfig.ConditionPathIsDirectory = "%C/nix/tarball-cache-v2";
+        serviceConfig = {
+          Type = "oneshot";
+          WorkingDirectory = "%C/nix/tarball-cache-v2";
+          Nice = 19;
+          IOSchedulingClass = "idle";
+        };
+        script = ''
+          git multi-pack-index write
+          git multi-pack-index repack --batch-size 1024m
+          git multi-pack-index expire
+        '';
+      };
+
+      systemd.user.timers.nix-tarball-cache-repack = {
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnCalendar = "daily";
+          Persistent = true;
+        };
+      };
     };
   };
 }
