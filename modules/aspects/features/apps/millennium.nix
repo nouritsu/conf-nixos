@@ -79,7 +79,7 @@
     };
 
     # folder = plugin.json name, file = <id>.star
-    plugins = pkgs.linkFarm "millennium-plugins" {
+    pluginSrcs = {
       inherit sortium;
       "me.tysmith.steam-native-notifications.star" = steam-native-notifications;
       achievement-groups = release "BossSloth/SteamHunter-plugin" "v2.1.0/Achievement-Groups-plugin-2.1.0.zip" {
@@ -107,6 +107,7 @@
         stripRoot = false;
       };
     };
+    plugins = pkgs.linkFarm "millennium-plugins" pluginSrcs;
 
     # folder = theme id in the config
     themes = pkgs.linkFarm "millennium-themes" {
@@ -118,13 +119,54 @@
       };
     };
 
-    # merged into Millennium's config; its Purple in Catppuccin Mocha is mauve
-    settings.themes = {
-      activeTheme = "Adwaita-for-Steam";
-      conditions.Adwaita-for-Steam = {
-        "Color theme" = "Catppuccin Mocha";
-        "Color scheme" = "Dark";
-        "Accent color" = "Purple";
+    # merged into Millennium's config on every start, GUI changes revert
+    settings = {
+      general = {
+        accentColor = "DEFAULT_ACCENT_COLOR";
+        checkForMillenniumUpdates = true;
+        checkForPluginAndThemeUpdates = true;
+        injectCSS = true;
+        injectJavascript = true;
+        millenniumUpdateChannel = "stable";
+        onMillenniumUpdate = 1;
+        shouldShowThemePluginUpdateNotifications = true;
+      };
+      notifications = {
+        showNotifications = true;
+        showPluginNotifications = true;
+        showUpdateNotifications = true;
+      };
+      plugins = {
+        # everything packaged above
+        enabledPlugins = map (lib.removeSuffix ".star") (builtins.attrNames pluginSrcs);
+        # desktop notifications only, DMS draws them over fullscreen games
+        "me.tysmith.steam-native-notifications".config = {
+          notifyOutsideGame = true;
+          notifyInGame = true;
+          showSteamOutsideGame = false;
+          showSteamInGame = false;
+        };
+      };
+      themes = {
+        activeTheme = "Adwaita-for-Steam";
+        allowedScripts = true;
+        allowedStyles = true;
+        conditions.Adwaita-for-Steam = {
+          "Color theme" = "Catppuccin Mocha";
+          "Color scheme" = "Dark";
+          # mauve in Catppuccin Mocha
+          "Accent color" = "Purple";
+          "Font" = "Adwaita";
+          "Hide games list" = "no";
+          "Login QR code" = "Show";
+          "Pointer cursor" = "no";
+          "Rounded corners" = "yes";
+          "Show URL" = "no";
+          "Square icons in game details" = "yes";
+          "What's New shelf" = "yes";
+          "Window controls layout" = "Adwaita";
+          "Window controls theme" = "Adwaita (GNOME)";
+        };
       };
     };
   in {
