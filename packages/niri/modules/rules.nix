@@ -11,6 +11,15 @@
         ];
         open-fullscreen = true;
       }
+
+      # undertale: fullscreen letterboxes 640x480 at an exact 3x; a maximised column scales it unevenly
+      {
+        matches = [
+          {app-id = "^steam_app_391540$";}
+          {title = "^UNDERTALE$";}
+        ];
+        open-fullscreen = true;
+      }
     ];
   };
 }
