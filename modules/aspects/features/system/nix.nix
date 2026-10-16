@@ -77,6 +77,9 @@
       nix.settings.http-connections = 128;
       nix.settings.max-substitution-jobs = 128;
 
+      # sources and build inputs survive nh clean, so rebuilds don't refetch them
+      nix.settings.keep-outputs = true;
+
       # no global registry; /etc/nix/registry.json still has nixpkgs
       nix.settings.flake-registry = "";
       nix.channel.enable = false;
