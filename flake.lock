@@ -75,6 +75,38 @@
         "type": "github"
       }
     },
+    "catppuccin-starship": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1754058577,
+        "narHash": "sha256-FLHjbClpTqaK4n2qmepCPkb8rocaAo3qeV4Zp1hia0g=",
+        "owner": "catppuccin",
+        "repo": "starship",
+        "rev": "5906cc369dd8207e063c0e6e2d27bd0c0b567cb8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "starship",
+        "type": "github"
+      }
+    },
+    "catppuccin-yazi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787236804,
+        "narHash": "sha256-bwzEO8exoBwa19q+jnYjHkaamGl2mhfukIEhDfUCRGI=",
+        "owner": "catppuccin",
+        "repo": "yazi",
+        "rev": "d62802be39210ea10e54b3e3b09735c6cb9e57c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "yazi",
+        "type": "github"
+      }
+    },
     "claude-desktop": {
       "inputs": {
         "flake-parts": [
@@ -666,6 +698,8 @@
         "batfetch": "batfetch",
         "cachyos-kernel": "cachyos-kernel",
         "catppuccin": "catppuccin",
+        "catppuccin-starship": "catppuccin-starship",
+        "catppuccin-yazi": "catppuccin-yazi",
         "claude-desktop": "claude-desktop",
         "den": "den",
         "dms": "dms",

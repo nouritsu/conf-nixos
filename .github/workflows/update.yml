@@ -46,7 +46,7 @@ jobs:
 
       - uses: DeterminateSystems/update-flake-lock@v29
         with:
-          inputs: helix niri dms dms-plugin-registry yazi spicetify-nix catppuccin qtengine wrappers batfetch nix-colors
+          inputs: helix niri dms dms-plugin-registry yazi spicetify-nix catppuccin catppuccin-yazi catppuccin-starship qtengine wrappers batfetch nix-colors
           branch: flake-lock/apps
           commit-msg: "chore(flake): bump app inputs"
           pr-title: "chore(flake): bump app inputs"

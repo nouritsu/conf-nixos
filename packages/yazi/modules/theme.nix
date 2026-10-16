@@ -6,7 +6,7 @@
     ...
   }: let
     sources = inputs.catppuccin.packages.${pkgs.stdenv.hostPlatform.system};
-    flavor = lib.importTOML "${sources.yazi}/mocha/catppuccin-mocha-mauve.toml";
+    flavor = lib.importTOML "${inputs.catppuccin-yazi}/themes/mocha/catppuccin-mocha-mauve.toml";
   in {
     settings.theme =
       flavor

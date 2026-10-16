@@ -22,6 +22,15 @@
 
     # Theming
     catppuccin.url = "github:catppuccin/nix";
+    # parsed at eval time; catppuccin's packages of these would be import-from-derivation
+    catppuccin-yazi = {
+      url = "github:catppuccin/yazi";
+      flake = false;
+    };
+    catppuccin-starship = {
+      url = "github:catppuccin/starship";
+      flake = false;
+    };
     nix-colors.url = "github:misterio77/nix-colors";
     qtengine = {
       url = "github:kossLAN/qtengine";
