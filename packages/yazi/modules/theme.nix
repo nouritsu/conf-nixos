@@ -13,6 +13,8 @@
       // {
         # the flavor expects its tmTheme in ~/.config/yazi; use the store's
         mgr = flavor.mgr // {syntect_theme = "${sources.bat}/Catppuccin Mocha.tmTheme";};
+        # generic rules only; files and exts recolour every file icon
+        icon = {inherit (flavor.icon) conds dirs;};
       };
   };
 }
