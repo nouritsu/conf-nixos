@@ -39,9 +39,49 @@
       '';
     });
 
-    # folder = plugin.json name
+    # plugin packer, prebuilt in the npm package
+    starlight = pkgs.stdenv.mkDerivation {
+      pname = "starlight";
+      version = "1.1.4";
+      src = pkgs.fetchurl {
+        url = "https://registry.npmjs.org/@steambrew/starlight/-/starlight-1.1.4.tgz";
+        hash = "sha512-shd8fd/p53RJIwg/i/6y2aueEQVuPW1u5oGKlJIm+aco2B2g0wObIoZxdfdp1t3dBRfZ/4GwH3LcfoaHLla+5Q==";
+      };
+      nativeBuildInputs = [pkgs.autoPatchelfHook];
+      buildInputs = [pkgs.stdenv.cc.cc.lib];
+      installPhase = "install -Dm755 binaries/starlight-linux-x64 $out/bin/starlight";
+    };
+
+    # not in the plugin store; its only release is a rolling `latest` asset
+    steam-native-notifications = pkgs.stdenvNoCC.mkDerivation {
+      pname = "steam-native-notifications";
+      version = "0.1.0-unstable-2026-09-10";
+      src = pkgs.fetchFromGitHub {
+        owner = "tyvsmith";
+        repo = "steam-native-notifications";
+        rev = "1ad10344ff163521b2190107fdda0c9199f2ffd1";
+        hash = "sha256-Tl4WdROZrYzISA39kvbkNEOdtsLjTRGGF1NjdYxQAZ8=";
+      };
+      nativeBuildInputs = [starlight];
+      buildPhase = ''
+        runHook preBuild
+        mkdir dist
+        starlight pack -o dist
+        runHook postBuild
+      '';
+      # single-file output
+      installPhase = ''
+        runHook preInstall
+        cp dist/*.star $out
+        runHook postInstall
+      '';
+      dontFixup = true;
+    };
+
+    # folder = plugin.json name, file = <id>.star
     plugins = pkgs.linkFarm "millennium-plugins" {
       inherit sortium;
+      "me.tysmith.steam-native-notifications.star" = steam-native-notifications;
       achievement-groups = release "BossSloth/SteamHunter-plugin" "v2.1.0/Achievement-Groups-plugin-2.1.0.zip" {
         hash = "sha256-Lu7ORsn9uRRb83FkbBOxH137ulJyohgwmqqvzJlqAx8=";
       };
@@ -96,6 +136,11 @@
             for link in "$1"/*; do
               src=$(readlink -f "$link")
               dst=$2/$(basename "$link")
+              # .star plugins are never unpacked or written to
+              if [ -f "$src" ]; then
+                ln -sf "$src" "$dst"
+                continue
+              fi
               [ "$(cat "$dst/.nix-source" 2>/dev/null)" = "$src" ] && continue
 
               # copied, not linked: plugins keep their cache and settings next to their code
@@ -125,6 +170,9 @@
         fi
       '';
     };
+
+    # steam-native-notifications shells out to these
+    programs.steam.extraPackages = [pkgs.curl pkgs.libnotify];
 
     environment.systemPackages = [
       (pkgs.makeDesktopItem {
