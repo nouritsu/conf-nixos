@@ -6,6 +6,8 @@
       sops.secrets."nix-builder-key" = {};
 
       nix.distributedBuilds = true;
+      # lenovo fetches inputs from the caches, not over wi-fi from here
+      nix.settings.builders-use-substitutes = true;
       nix.buildMachines = [
         {
           hostName = "lenovo";
