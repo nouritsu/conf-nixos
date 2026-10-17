@@ -13,10 +13,33 @@
       colorScheme = "mocha";
 
       enabledExtensions = with spicePkgs.extensions; [
-        adblock
         hidePodcasts
         shuffle
-        fullAppDisplay
+        fullScreen
+        sidebarCustomizer
+        coverAmbience
+        keyboardShortcut
+        simpleBeautifulLyrics
+        queueTime
+        fullAlbumDate
+        goToSong
+        sleepTimer
+      ];
+
+      enabledCustomApps = with spicePkgs.apps; [
+        lyricsPlus
+        newReleases
+      ];
+
+      enabledSnippets = with spicePkgs.snippets; [
+        removeGradient
+        removeTheArtistsAndCreditsSectionsFromTheSidebar
+        removeBrowse
+        hideScrollThroughPreviews
+        modernScrollbar
+        hideSidebarScrollbar
+        fixMainViewWidth
+        disableRecommendations
       ];
     };
   };
