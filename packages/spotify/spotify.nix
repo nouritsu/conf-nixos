@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs) wrappers;
+in {
   perSystem = {
     pkgs,
     lib,
@@ -47,8 +49,60 @@
         }
       })();
     '';
-  in {
-    packages.spotify = inputs.spicetify-nix.lib.mkSpicetify pkgs {
+
+    # null drops the key so spotify uses its default
+    prefs = {
+      global = {
+        "app.autostart-mode" = "off";
+      };
+      user = {
+        "app.player.autoplay" = null;
+        "audio.allow_downgrade" = false;
+        "audio.crossfade_v2" = null;
+        "audio.crossfade.time_v2" = null;
+        "audio.gapless_v2" = null;
+        "audio.loudness.environment" = null;
+        "audio.normalize_v2" = false;
+        "audio.play_bitrate_enumeration" = 4;
+        "audio.play_bitrate_non_metered_enumeration" = 4;
+        "audio.sync_bitrate_enumeration" = 4;
+        "ui.minimize_to_tray" = true;
+        "ui.track_os_notifications_enabled" = null;
+      };
+    };
+
+    render = value:
+      if builtins.isBool value
+      then lib.boolToString value
+      else if builtins.isString value
+      then ''"${value}"''
+      else toString value;
+
+    pin = file: attrs: let
+      drop = map (key: "-e ${lib.escapeShellArg "/^${lib.escapeRegex key}=/d"}") (lib.attrNames attrs);
+      set = lib.mapAttrsToList (key: value: lib.escapeShellArg "${key}=${render value}") (lib.filterAttrs (_: value: value != null) attrs);
+    in ''
+      if [[ -f ${file} ]]; then
+        sed -Ei ${toString drop} ${file}
+        printf '%s\n' ${toString set} >>${file}
+      fi
+    '';
+
+    enforce = pkgs.writeShellApplication {
+      name = "spotify-prefs";
+      runtimeInputs = [pkgs.gnused];
+      text = ''
+        config=''${XDG_CONFIG_HOME:-$HOME/.config}/spotify
+
+        # no prefs yet means spotify's first run
+        ${pin ''"$config/prefs"'' prefs.global}
+        for user in "$config"/Users/*-user/prefs; do
+          ${pin ''"$user"'' prefs.user}
+        done
+      '';
+    };
+
+    spotify = inputs.spicetify-nix.lib.mkSpicetify pkgs {
       enable = true;
 
       theme = spicePkgs.themes.catppuccin;
@@ -89,5 +143,15 @@
         disableRecommendations
       ];
     };
+  in {
+    packages.spotify = wrappers.lib.wrapPackage [
+      {
+        inherit pkgs;
+        package = spotify;
+      }
+      {
+        runShell = ["${lib.getExe enforce} || true"];
+      }
+    ];
   };
 }
