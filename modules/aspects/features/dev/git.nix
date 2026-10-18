@@ -6,14 +6,26 @@
       ...
     }: let
       git = self'.packages.git;
+
+      # gh only looks for extensions in its data dir; token stays in hosts.yml
+      ghExtensions = pkgs.linkFarm "gh-extensions" {
+        gh-dash = "${self'.packages.gh-dash}/bin";
+        gh-f = "${pkgs.gh-f}/bin";
+        gh-markdown-preview = "${pkgs.gh-markdown-preview}/bin";
+        gh-poi = "${pkgs.gh-poi}/bin";
+      };
     in {
       environment.systemPackages = [
         self'.packages.delta
         self'.packages.jujutsu
         self'.packages.lazygit
         self'.packages.jjui
+        self'.packages.gh-dash
+        pkgs.gh
         pkgs.fishPlugins.forgit
       ];
+
+      systemd.user.tmpfiles.rules = ["L+ %h/.local/share/gh/extensions - - - - ${ghExtensions}"];
 
       programs.git = {
         enable = true;
@@ -51,19 +63,6 @@
 
         bind ctrl-g 'lg; commandline -f repaint'
       '';
-    };
-
-    # gh stays in HM: its token and extensions don't wrap
-    homeManager = {pkgs, ...}: {
-      programs.gh = {
-        enable = true;
-        extensions = [
-          pkgs.gh-markdown-preview
-          pkgs.gh-poi
-          pkgs.gh-f
-        ];
-      };
-      programs.gh-dash.enable = true;
     };
   };
 }
