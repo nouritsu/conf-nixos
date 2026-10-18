@@ -22,7 +22,20 @@
 
       programs.fish.shellAliases.lazyjj = "jjui";
 
+      programs.fish.shellAbbrs = {
+        gp = "git push";
+        gpu = "git push -u origin HEAD";
+        gP = "git pull";
+        gsc = "git switch -c";
+        gcl = "git clone";
+        gst = "git status -sb";
+        glog = "git log --oneline --graph --decorate";
+        gundo = "git reset --soft HEAD~1";
+      };
+
       programs.fish.interactiveShellInit = ''
+        abbr -a gcm --set-cursor 'git commit -m "%"'
+
         # for devShells that bring their own git
         set -gx GIT_CONFIG_GLOBAL ${git.configuration.constructFiles.gitconfig.outPath}
 
@@ -35,6 +48,8 @@
             rm -f $LAZYGIT_NEW_DIR_FILE
           end
         end
+
+        bind ctrl-g 'lg; commandline -f repaint'
       '';
     };
 

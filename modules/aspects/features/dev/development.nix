@@ -36,6 +36,13 @@
           pkgs.pixelflasher
           self'.packages.scrcpy
         ];
+
+        programs.fish.shellAbbrs = {
+          ads = "adb shell";
+          adi = "adb install";
+          adp = "adb push";
+          adc = "adb connect";
+        };
       };
 
       embedded = {

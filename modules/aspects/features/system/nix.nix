@@ -69,7 +69,21 @@
         nhrt = "nh os test";
         nhca = "nh clean all";
         nhs = "nh search";
+
+        nd = "nix develop";
+        nb = "nix build";
+        nfu = "nix flake update";
+        nfs = "nix flake show";
       };
+
+      programs.fish.interactiveShellInit = ''
+        abbr -a nr --set-cursor 'nix run nixpkgs#%'
+
+        # nix-shell -p, but nix shell
+        function nsp
+          nix shell (string replace -r '^' 'nixpkgs#' -- $argv)
+        end
+      '';
 
       nix.settings.trusted-users = ["root" "@wheel"];
       nix.settings.experimental-features = ["nix-command" "flakes"];

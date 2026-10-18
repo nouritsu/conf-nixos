@@ -34,6 +34,19 @@
     programs.fish.interactiveShellInit = ''
       set fish_greeting
       nix-your-shell fish | source
+
+      function mkcd
+        mkdir -p $argv[1]; and cd $argv[1]
+      end
+
+      # builtin: keeps temp dirs out of zoxide
+      function mktempd
+        builtin cd (mktemp -d)
+      end
+
+      # ctrl-z back into the suspended job, alt-z for zoxide's picker
+      bind ctrl-z 'fg 2>/dev/null; commandline -f repaint'
+      bind alt-z 'zi; commandline -f repaint'
     '';
 
     programs.fish.shellAliases = {
@@ -75,6 +88,11 @@
       {
         compress = "ouch compress";
         decompress = "ouch decompress";
+
+        sc = "sudo systemctl";
+        scu = "systemctl --user";
+        jf = "journalctl -fu";
+        jfu = "journalctl --user -fu";
       }
       // lib.listToAttrs (
         map (n: {

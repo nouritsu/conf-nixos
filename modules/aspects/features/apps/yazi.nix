@@ -9,7 +9,7 @@
       trusted-public-keys = ["yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="];
     };
 
-    programs.fish.shellAliases.fm = "yazi";
+    programs.fish.shellAliases.fm = "yazi_wrapper";
 
     # cd-on-quit wrapper
     programs.fish.interactiveShellInit = ''
@@ -21,6 +21,8 @@
         end
         rm -f -- "$tmp"
       end
+
+      bind ctrl-o 'yazi_wrapper; commandline -f repaint'
     '';
   };
 }
