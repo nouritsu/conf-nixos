@@ -51,8 +51,6 @@
       flavor = "mocha";
       accent = "mauve";
 
-      # Floorp carries its own catppuccin add-on
-      firefox.enable = false;
       fish.enable = true;
       zed = {
         enable = true;
