@@ -70,6 +70,9 @@
     }: {
       environment.systemPackages = [pkgs.xwayland-satellite];
       services.xserver.enable = lib.mkForce false;
+
+      # defaults to xserver.enable; without caches gtk scans every icon on launch
+      gtk.iconCache.enable = true;
     };
   };
 }
