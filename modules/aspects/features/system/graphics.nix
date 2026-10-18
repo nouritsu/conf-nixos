@@ -28,6 +28,9 @@
           __GL_SHADER_DISK_CACHE = "1";
           __GL_SHADER_DISK_CACHE_SIZE = "10737418240"; # 10 GiB
           __GL_SHADER_DISK_CACHE_SKIP_CLEANUP = "1";
+
+          # gtk4's vulkan renderer is slow to start here
+          GSK_RENDERER = "gl";
         };
       };
     };
