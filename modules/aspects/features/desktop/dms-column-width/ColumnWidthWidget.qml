@@ -36,6 +36,13 @@ PluginComponent {
     onPercentChanged: setVisibilityOverride(percent >= 0)
     Component.onCompleted: setVisibilityOverride(percent >= 0)
 
+    // click cycles the preset widths, same as Mod+R
+    pillClickAction: () => NiriService.send({
+        "Action": {
+            "SwitchPresetColumnWidth": {}
+        }
+    })
+
     horizontalBarPill: Component {
         Row {
             spacing: Theme.spacingXS
