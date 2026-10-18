@@ -94,10 +94,6 @@ in {
           max_items = 1;
         }
         {
-          label = "Open in Zed";
-          command_line = "zeditor %F";
-        }
-        {
           label = "Open yazi here";
           command_line = "${wezterm} start -- ${yazi} %f";
           max_items = 1;

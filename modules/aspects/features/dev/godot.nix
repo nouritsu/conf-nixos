@@ -33,20 +33,5 @@
         "L+ %h/.local/share/godot/export_templates/${version} - - - - ${templates}/share/godot/export_templates/${version}"
       ];
     };
-
-    homeManager = {
-      self',
-      lib,
-      ...
-    }: {
-      # the bridge also works with no editor open
-      programs.zed-editor = {
-        extensions = ["gdscript"];
-        userSettings.lsp.gdscript.binary = {
-          path = lib.getExe self'.packages.godot-lsp;
-          arguments = [];
-        };
-      };
-    };
   };
 }

@@ -9,7 +9,6 @@
     dev.python
     git
     helix
-    zed
     virtualization.podman
     virtualization.emulate-aarch64
   ];
