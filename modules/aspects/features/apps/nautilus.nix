@@ -29,6 +29,21 @@
         pkgs.turtle
       ];
 
+      # warm instance, so windows open instantly
+      systemd.user.services.nautilus = {
+        description = "Nautilus file manager";
+        wantedBy = ["graphical-session.target"];
+        partOf = ["graphical-session.target"];
+        after = ["graphical-session.target"];
+        # apps opened from nautilus need the session PATH
+        enableDefaultPath = false;
+        serviceConfig = {
+          Type = "dbus";
+          BusName = "org.gnome.Nautilus";
+          ExecStart = "${lib.getExe self'.packages.nautilus} --gapplication-service";
+        };
+      };
+
       # trash, phones, network shares, removable drives
       services.gvfs.enable = true;
 

@@ -64,6 +64,13 @@ in {
       install = "install -Dm644 extension/folder-color.py -t $dir";
     };
 
+    # nautilus quits with its last window otherwise
+    keep-alive = pkgs.writeTextDir "share/nautilus-python/extensions/keep-alive.py" ''
+      from gi.repository import Gio
+
+      Gio.Application.get_default().hold()
+    '';
+
     # v2 interpolation quotes paths with spaces
     command = action:
       {
@@ -138,6 +145,7 @@ in {
         actions-for-nautilus
         media-columns
         folder-color
+        keep-alive
 
         # Thumbnailers
         pkgs.gst-thumbnailers
