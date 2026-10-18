@@ -41,6 +41,8 @@
       "Mod+I".spawn-sh = "dms ipc call settings focusOrToggle";
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
+      "Mod+Shift+Escape".spawn-sh = "dms ipc call lock lock";
+      "Ctrl+Shift+Escape".spawn-sh = "dms ipc call processlist focusOrToggle";
       "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
       "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";
       "Mod+C".spawn-sh = "dms color pick -a";
@@ -82,10 +84,28 @@
       "Mod+M".maximize-column = {};
       "Mod+Shift+M".expand-column-to-available-width = {};
       "Mod+Tab".toggle-overview = {};
+      "Mod+Shift+V".switch-focus-between-floating-and-tiling = {};
       "Mod+WheelScrollDown".focus-column-left = {};
       "Mod+WheelScrollUp".focus-column-right = {};
       "Mod+Shift+WheelScrollDown".focus-workspace-down = {};
       "Mod+Shift+WheelScrollUp".focus-workspace-up = {};
+
+      # Columns
+      "Mod+BracketLeft".consume-or-expel-window-left = {};
+      "Mod+BracketRight".consume-or-expel-window-right = {};
+      "Mod+Comma".consume-window-into-column = {};
+      "Mod+Period".expel-window-from-column = {};
+      "Mod+T".toggle-column-tabbed-display = {};
+      "Mod+Home".focus-column-first = {};
+      "Mod+End".focus-column-last = {};
+
+      # Sizing
+      "Mod+Minus".set-column-width = "-10%";
+      "Mod+Equal".set-column-width = "+10%";
+      "Mod+Shift+Minus".set-window-height = "-10%";
+      "Mod+Shift+Equal".set-window-height = "+10%";
+      "Mod+Shift+R".switch-preset-window-height = {};
+      "Mod+Ctrl+R".reset-window-height = {};
 
       "Mod+H".focus-column-or-monitor-left = {};
       "Mod+left".focus-column-or-monitor-left = {};
