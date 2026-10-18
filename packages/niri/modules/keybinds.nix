@@ -94,8 +94,8 @@
       # Columns
       "Mod+BracketLeft".consume-or-expel-window-left = {};
       "Mod+BracketRight".consume-or-expel-window-right = {};
-      "Mod+Comma".consume-window-into-column = {};
-      "Mod+Period".expel-window-from-column = {};
+      "Mod+Shift+BracketLeft".consume-window-into-column = {};
+      "Mod+Shift+BracketRight".expel-window-from-column = {};
       "Mod+T".toggle-column-tabbed-display = {};
       "Mod+Home".focus-column-first = {};
       "Mod+End".focus-column-last = {};
