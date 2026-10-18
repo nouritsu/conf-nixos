@@ -1,10 +1,15 @@
-{self, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   flake.nixosModules.wniri-keybinds = {
     pkgs,
     lib,
     ...
   }: let
     inherit (pkgs.stdenv.hostPlatform) system;
+    cwd = ''"$(${lib.getExe' inputs.niri-cwd.packages.${system}.niri-cwd "niri-cwd"} -d "$HOME")"'';
     woomer = lib.getExe pkgs.woomer;
     wezterm = lib.getExe self.packages.${system}.wezterm;
     scrcpy = lib.getExe self.packages.${system}.scrcpy;
@@ -25,10 +30,10 @@
 
     settings.binds = {
       # Applications
-      "Mod+Return".spawn = wezterm;
+      "Mod+Return".spawn-sh = "${wezterm} start --cwd ${cwd}";
       "Mod+W".spawn = brave;
-      "Mod+E".spawn = [nautilus "--new-window"];
-      "Mod+Shift+E".spawn = [wezterm "start" "--" yazi];
+      "Mod+E".spawn-sh = "${nautilus} --new-window ${cwd}";
+      "Mod+Shift+E".spawn-sh = "${wezterm} start --cwd ${cwd} -- ${yazi}";
 
       "Mod+D".spawn = "vesktop";
       "Mod+Z".spawn = woomer;

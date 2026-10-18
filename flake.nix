@@ -77,6 +77,11 @@
       url = "github:ashish-kus/batfetch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-cwd = {
+      url = "github:nouritsu/niri-cwd";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

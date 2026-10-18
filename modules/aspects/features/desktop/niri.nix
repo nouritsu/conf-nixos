@@ -2,6 +2,7 @@
   den.aspects.niri = {
     nixos = {
       self',
+      inputs',
       pkgs,
       lib,
       config,
@@ -13,6 +14,8 @@
         enable = true;
         package = wniri;
       };
+
+      environment.systemPackages = [inputs'.niri-cwd.packages.niri-cwd];
 
       # for tools that look in ~/.config/niri (DMS, niri validate)
       systemd.user.tmpfiles.rules = ["L+ %h/.config/niri/config.kdl - - - - ${wniri}/niri-config.kdl"];
