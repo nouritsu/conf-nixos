@@ -38,23 +38,6 @@
         ];
       };
 
-      c.nixos = {
-        pkgs,
-        lib,
-        ...
-      }: {
-        environment.systemPackages = [
-          pkgs.gcc
-          pkgs.lldb
-          pkgs.clang-tools # clangd, used by Zed and other editors
-          (pkgs.writeShellScriptBin "cling" ''
-            exec ${lib.getExe pkgs.cling} -Wno-unknown-attributes "$@"
-          '')
-        ];
-
-        programs.fish.shellAliases.repl-c = "cling";
-      };
-
       embedded = {
         includes = [
           (den.batteries.unfree ["stm32cubemx" "nrfconnect" "nrf-udev" "segger-jlink"])
@@ -100,25 +83,9 @@
       python.nixos = {pkgs, ...}: {
         environment.systemPackages = [
           pkgs.python3
-          pkgs.black
-          pkgs.ruff
         ];
 
         programs.fish.shellAliases.repl-py = "python3";
-      };
-
-      rust.nixos = {pkgs, ...}: {
-        environment.systemPackages = [
-          pkgs.rustup
-          pkgs.bacon
-          pkgs.evcxr
-        ];
-
-        programs.fish.shellAliases.repl-rs = "evcxr";
-
-        programs.fish.interactiveShellInit = ''
-          fish_add_path ~/.cargo/bin
-        '';
       };
     };
   };

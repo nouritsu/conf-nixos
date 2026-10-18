@@ -1,54 +1,59 @@
 {
   # theme from catppuccin-nix, not DMS: DMS's Zed colours aren't catppuccin
-  den.aspects.zed.homeManager.programs.zed-editor = {
-    enable = true;
+  den.aspects.zed.homeManager = {pkgs, ...}: {
+    programs.zed-editor = {
+      enable = true;
 
-    extensions = [
-      "nix"
-      "toml"
-      "cmake"
-      "make"
-      "dockerfile"
-      "html"
-      "doxygen"
-    ];
+      extensions = [
+        "nix"
+        "toml"
+        "cmake"
+        "make"
+        "dockerfile"
+        "html"
+        "doxygen"
+      ];
 
-    userSettings = {
-      buffer_font_family = "ZedMono Nerd Font";
-      ui_font_family = "ZedMono Nerd Font";
-      buffer_font_size = 15;
-      ui_font_size = 15;
+      userSettings = {
+        buffer_font_family = "ZedMono Nerd Font";
+        ui_font_family = "ZedMono Nerd Font";
+        buffer_font_size = 15;
+        ui_font_size = 15;
 
-      theme.mode = "system";
+        theme.mode = "system";
 
-      vim_mode = false;
-      format_on_save = "on";
-      tab_size = 4;
-      ensure_final_newline_on_save = true;
+        vim_mode = false;
+        format_on_save = "on";
+        tab_size = 4;
+        ensure_final_newline_on_save = true;
 
-      terminal.font_family = "ZedMono Nerd Font";
+        terminal.font_family = "ZedMono Nerd Font";
 
-      lsp = {
-        clangd.binary.path_lookup = true;
-        nil.binary.path_lookup = true;
-        nixd.binary.path_lookup = true;
-      };
-
-      languages = {
-        Nix = {
-          language_servers = ["nil" "!nixd"];
-          formatter.external = {
-            command = "alejandra";
-            arguments = ["-q" "-"];
+        lsp = {
+          clangd.binary = {
+            path = "${pkgs.clang-tools}/bin/clangd";
+            arguments = [];
           };
+          nil.binary.path_lookup = true;
+          nixd.binary.path_lookup = true;
         };
-        C = {
-          format_on_save = "on";
-          tab_size = 4;
-        };
-        "C++" = {
-          format_on_save = "on";
-          tab_size = 4;
+
+        languages = {
+          Nix = {
+            language_servers = ["nil" "!nixd"];
+            formatter.external = {
+              command = "alejandra";
+              arguments = ["-q" "-"];
+            };
+          };
+          C = {
+            format_on_save = "on";
+            tab_size = 4;
+          };
+          "C++" = {
+            format_on_save = "on";
+            tab_size = 4;
+          };
         };
       };
     };
