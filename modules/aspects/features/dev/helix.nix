@@ -1,8 +1,18 @@
 {
-  den.aspects.helix.nixos = {self', ...}: {
+  den.aspects.helix.nixos = {
+    self',
+    lib,
+    ...
+  }: {
     environment.systemPackages = [
       self'.packages.helix
     ];
+
+    xdg.mime.defaultApplications = lib.genAttrs [
+      "application/xml"
+      "application/toml"
+      "application/yaml"
+    ] (_: "Helix.desktop");
 
     nix.settings = {
       extra-substituters = ["https://helix.cachix.org"];
