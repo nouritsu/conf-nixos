@@ -65,6 +65,31 @@
         run = "plugin duckdb -ui";
         desc = "open with duckdb ui";
       }
+      {
+        on = ["c" "m"];
+        run = "plugin chmod";
+        desc = "Chmod on selected files";
+      }
+      {
+        on = "<A-d>";
+        run = "plugin diff";
+        desc = "Diff the selected with the hovered file";
+      }
+      {
+        on = "T";
+        run = "plugin toggle-pane max-preview";
+        desc = "Maximize or restore the preview pane";
+      }
+      {
+        on = "<C-p>";
+        run = "plugin toggle-pane min-preview";
+        desc = "Show or hide the preview pane";
+      }
+      {
+        on = "f";
+        run = "plugin jump-to-char";
+        desc = "Jump to char";
+      }
     ];
   };
 }

@@ -47,6 +47,10 @@
       smart-enter = "${bundle}/smart-enter.yazi";
       smart-paste = "${bundle}/smart-paste.yazi";
       mount = "${bundle}/mount.yazi";
+      chmod = "${bundle}/chmod.yazi";
+      diff = "${bundle}/diff.yazi";
+      toggle-pane = "${bundle}/toggle-pane.yazi";
+      jump-to-char = "${bundle}/jump-to-char.yazi";
     };
 
     # tools the previewers/preloaders shell out to
