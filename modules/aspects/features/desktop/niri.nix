@@ -47,6 +47,9 @@
         enable = true;
         configPackages = [niri];
 
+        # handlers start in the session env, not inside steam's or a wrapper's
+        xdgOpenUsePortal = true;
+
         extraPortals = [
           pkgs.xdg-desktop-portal-gtk
           pkgs.xdg-desktop-portal-gnome
