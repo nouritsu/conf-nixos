@@ -19,7 +19,7 @@ in {
 
     enforce = pkgs.writeShellApplication {
       name = "obs-theme";
-      runtimeInputs = [pkgs.coreutils pkgs.crudini];
+      runtimeInputs = [pkgs.coreutils pkgs.gnugrep pkgs.crudini];
       text = ''
         config=''${XDG_CONFIG_HOME:-$HOME/.config}/obs-studio
         mkdir -p "$config/themes"
@@ -28,7 +28,8 @@ in {
         done
 
         # no user.ini yet means OBS's first run, which migrates global.ini
-        if [[ -f $config/user.ini ]]; then
+        # crudini is slow, skip it when already set
+        if [[ -f $config/user.ini ]] && ! grep -qx 'Theme=com.obsproject.Catppuccin.Mocha' "$config/user.ini"; then
           crudini --ini-options=nospace --set "$config/user.ini" \
             Appearance Theme com.obsproject.Catppuccin.Mocha
         fi
