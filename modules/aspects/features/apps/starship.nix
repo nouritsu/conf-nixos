@@ -10,8 +10,7 @@
     environment.systemPackages = [starship];
 
     # starship init bakes in the unwrapped binary, so export its config here
-    # mkAfter: any-nix-shell would clobber fish_right_prompt
-    programs.fish.interactiveShellInit = lib.mkAfter ''
+    programs.fish.interactiveShellInit = ''
       if test "$TERM" != dumb
         set -gx STARSHIP_CONFIG ${settings}
         ${lib.getExe starship} init fish | source

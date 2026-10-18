@@ -10,7 +10,7 @@
 
       # fish comes from den battery
       pkgs.fish-lsp
-      pkgs.any-nix-shell
+      pkgs.nix-your-shell
 
       pkgs.uutils-coreutils-noprefix
       pkgs.killall
@@ -33,7 +33,7 @@
 
     programs.fish.interactiveShellInit = ''
       set fish_greeting
-      any-nix-shell fish --info-right | source
+      nix-your-shell fish | source
     '';
 
     programs.fish.shellAliases = {
