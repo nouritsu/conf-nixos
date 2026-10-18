@@ -21,6 +21,16 @@
       # electron doesn't know niri and falls back to plaintext
       environment.sessionVariables.CLAUDE_PASSWORD_STORE = "gnome-libsecret";
 
+      # desktop runs its own claude without the wrapper's --settings; managed
+      # settings reach every claude. statusLine is tui-only, desktop notifies itself
+      environment.etc."claude-code/managed-settings.json".text = let
+        inherit (self'.packages.claude-code.configuration) settings;
+      in
+        builtins.toJSON {
+          inherit (settings) attribution permissions;
+          hooks = {inherit (settings.hooks) PostToolUse;};
+        };
+
       # claude-mergetool install git can't write the wrapped gitconfig
       programs.git = {
         enable = true;
