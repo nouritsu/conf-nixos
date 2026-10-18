@@ -18,7 +18,8 @@ in {
     packages.btop = wrappers.wrappers.btop.wrap [
       {
         inherit pkgs;
-        package = pkgs.btop;
+        # finds libnvidia-ml in /run/opengl-driver; no-op without an nvidia gpu
+        package = pkgs.btop.override {cudaSupport = true;};
       }
       {
         themes.catppuccin_mocha_mauve = theme;
@@ -29,6 +30,9 @@ in {
           proc_tree = true;
           proc_gradient = false;
           update_ms = 1000;
+
+          # gpu0 is dropped when there's no gpu
+          shown_boxes = "cpu mem net proc gpu0";
 
           # config is in the store, nowhere to save
           save_config_on_exit = false;
