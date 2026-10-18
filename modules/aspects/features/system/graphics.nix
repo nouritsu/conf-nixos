@@ -23,6 +23,12 @@
           modesetting.enable = true;
         };
 
+        # cudaSupport builds; cache.nixos.org has none
+        nix.settings = {
+          extra-substituters = ["https://cache.nixos-cuda.org"];
+          trusted-public-keys = ["cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="];
+        };
+
         # DXVK has no state cache, so keep NVIDIA's shader cache big and uncleaned
         environment.sessionVariables = {
           __GL_SHADER_DISK_CACHE = "1";
