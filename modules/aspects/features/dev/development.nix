@@ -19,7 +19,10 @@
           silent = true;
         };
 
-        programs.fish.shellAbbrs."direnv-init" = "echo 'use flake' > .envrc && direnv allow";
+        programs.fish.shellAbbrs.direnv-init = "echo 'use flake' > .envrc && direnv allow";
+        programs.fish.interactiveShellInit = ''
+          abbr -a flake-init --set-cursor 'nix flake init -t $NH_FLAKE#%'
+        '';
       };
 
       android.nixos = {
