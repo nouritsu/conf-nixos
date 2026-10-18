@@ -14,7 +14,7 @@
     greeter
     user-dirs
     core
-    nemo
+    nautilus
     brave
     homelab
     catppuccin
