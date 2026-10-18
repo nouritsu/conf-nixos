@@ -31,6 +31,9 @@
 
           # gtk4's vulkan renderer is slow to start here
           GSK_RENDERER = "gl";
+
+          # skip probing every mesa icd; both arches so 32-bit proton keeps vulkan
+          VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.json";
         };
       };
     };
