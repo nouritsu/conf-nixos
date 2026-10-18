@@ -18,6 +18,9 @@
         pkgs.claude-mergetool
       ];
 
+      # electron doesn't know niri and falls back to plaintext
+      environment.sessionVariables.CLAUDE_PASSWORD_STORE = "gnome-libsecret";
+
       # claude-mergetool install git can't write the wrapped gitconfig
       programs.git = {
         enable = true;
