@@ -31,6 +31,12 @@
 
     programs.zoxide.enable = true;
 
+    # gio and the portal start Terminal=true apps like helix through it
+    xdg.terminal-exec = {
+      enable = true;
+      settings.default = ["org.wezfurlong.wezterm.desktop"];
+    };
+
     programs.fish.interactiveShellInit = ''
       set fish_greeting
       nix-your-shell fish | source
