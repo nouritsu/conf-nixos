@@ -38,20 +38,13 @@
           "90" = "󰂂";
         };
 
-        languages = {
-          c = " ";
-          python = " ";
-          nix = "󱄅 ";
-          go = " ";
-          rust = " ";
-          node = "󰎙 ";
-        };
-
-        package = " ";
-
         git_branch = " ";
 
+        cpu_usage = "󰻠 ";
+
         memory_usage = " ";
+
+        load = "󰓅 ";
 
         nix_shell = " ";
       };
@@ -101,17 +94,6 @@
           "90" = "bold bright-green";
         };
 
-        languages = {
-          c = "bold blue";
-          python = "bold yellow";
-          nix = "bold blue";
-          go = "bold cyan";
-          rust = "bold bright-red";
-          node = "bold green";
-        };
-
-        package = "bold bright-yellow";
-
         git_branch = "bold mauve";
 
         git_metrics = {
@@ -123,9 +105,19 @@
 
         jobs = "bold mauve";
 
+        cpu_usage = {
+          cpu = "bold peach";
+          percent = "bold black";
+        };
+
         memory_usage = {
           memory = "bold yellow";
           percent = "bold black";
+        };
+
+        load = {
+          load = "bold peach";
+          value = "bold black";
         };
 
         nix_shell = {
@@ -160,25 +152,19 @@
         "$git_metrics"
         "$git_branch"
         "$git_status"
-        "$fill$time$cmd_duration"
+        "$time$cmd_duration"
         "$battery"
         "$line_break"
         "[╰](${colors.separator})"
+        "\${custom.cpu}"
         "$memory_usage"
+        "\${custom.load}"
         "$nix_shell"
         "$jobs"
         "$status"
         "$sudo"
         "$character"
       ];
-
-      right_format = lib.concatStrings [
-        "$line_break"
-        "$c$python$nix$golang$rust$node"
-        "$package"
-      ];
-
-      fill.symbol = " ";
 
       character = {
         disabled = false;
@@ -187,7 +173,7 @@
       };
 
       battery = {
-        disabled = false;
+        disabled = true;
         format = "${styled.separator} [$symbol]($style) $percentage ";
 
         full_symbol = symbols.battery.full;
@@ -231,8 +217,8 @@
       time = {
         disabled = false;
         style = colors.time;
-        format = "[$time]($style) ";
-        time_format = "(%A) %R";
+        format = "${styled.separator} [$time]($style) ";
+        time_format = "%R";
       };
 
       username = {
@@ -262,42 +248,6 @@
         read_only_style = colors.directory.read_only;
       };
 
-      c = {
-        disabled = false;
-        format = "${symbols.languages.c}${surround_paren "[$name-$version]($style)" colors.separator 0} ";
-        style = colors.languages.c;
-      };
-
-      python = {
-        disabled = false;
-        format = "${symbols.languages.python}${surround_paren "[$version]($style)" colors.separator 0} ";
-        style = colors.languages.python;
-      };
-
-      golang = {
-        disabled = false;
-        format = "${symbols.languages.go}${surround_paren "[$version]($style)" colors.separator 0} ";
-        style = colors.languages.go;
-      };
-
-      rust = {
-        disabled = false;
-        format = "${symbols.languages.rust}${surround_paren "[$version]($style)" colors.separator 0} ";
-        style = colors.languages.rust;
-      };
-
-      nodejs = {
-        disabled = false;
-        format = "${symbols.languages.node}${surround_paren "[$version]($style)" colors.separator 0} ";
-        style = colors.languages.node;
-      };
-
-      package = {
-        disabled = false;
-        format = "${styled.separator} ${symbols.package}${surround_paren "[$version]($style)" colors.separator 0} ";
-        style = colors.package;
-      };
-
       cmd_duration = {
         disabled = false;
         min_time = 1000;
@@ -324,7 +274,7 @@
 
       git_status = {
         disabled = false;
-        format = "[$all_status$ahead_behind]($style)";
+        format = "([$all_status$ahead_behind]($style) )";
         style = colors.git_status;
       };
 
@@ -345,12 +295,39 @@
         symbol_threshold = number_threshold;
       };
 
+      custom.cpu = {
+        disabled = true;
+        when = true;
+        shell = ["sh"];
+        command = ''
+          read -r _ u n s i w q r t _ </proc/stat
+          a=$((u + n + s + i + w + q + r + t)) b=$((i + w))
+          sleep 0.1
+          read -r _ u n s i w q r t _ </proc/stat
+          a=$((u + n + s + i + w + q + r + t - a)) b=$((i + w - b))
+          echo "$((100 * (a - b) / a))%"
+        '';
+        format = "${styled.separator_bottom}${surround_paren "[$symbol](${colors.cpu_usage.cpu})[$output]($style)" colors.separator 0}";
+        symbol = symbols.cpu_usage;
+        style = colors.cpu_usage.percent;
+      };
+
       memory_usage = {
-        disabled = false;
+        disabled = true;
         format = "${styled.separator_bottom}${surround_paren "[$symbol](${colors.memory_usage.memory})[$ram_pct]($style)" colors.separator 0}";
         symbol = symbols.memory_usage;
         style = colors.memory_usage.percent;
-        threshold = 50;
+        threshold = -1;
+      };
+
+      custom.load = {
+        disabled = true;
+        when = true;
+        shell = ["sh"];
+        command = "read -r l _ </proc/loadavg; echo $l";
+        format = "${styled.separator_bottom}${surround_paren "[$symbol](${colors.load.load})[$output]($style)" colors.separator 0}";
+        symbol = symbols.load;
+        style = colors.load.value;
       };
 
       nix_shell = {

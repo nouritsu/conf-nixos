@@ -14,6 +14,24 @@ in {
 
       self.nixosModules.wstarship-settings
       self.nixosModules.wstarship-theme
+
+      # host stats and battery, picked by fish over ssh
+      ({
+        config,
+        lib,
+        ...
+      }: {
+        constructFiles."starship-ssh.toml" = {
+          relPath = "starship-ssh.toml";
+          content = builtins.toJSON (lib.recursiveUpdate config.settings {
+            custom.cpu.disabled = false;
+            memory_usage.disabled = false;
+            custom.load.disabled = false;
+            battery.disabled = false;
+          });
+          builder = ''${pkgs.remarshal}/bin/json2toml "$1" "$2"'';
+        };
+      })
     ];
   };
 }
