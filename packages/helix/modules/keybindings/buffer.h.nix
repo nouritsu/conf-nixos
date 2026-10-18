@@ -6,6 +6,7 @@
       */
       ''
         b = "buffer_picker"
+        x = ":buffer-close"
       '';
 
     settings.keys = rec {

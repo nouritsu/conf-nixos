@@ -29,6 +29,7 @@
         j = "jumplist_picker"
         "?" = "command_palette"
         space = "last_picker"
+        z = ":toggle soft-wrap.enable"
       '';
 
     settings.keys = rec {
@@ -45,10 +46,20 @@
           "ensure_selections_forward"
           "extend_to_line_end"
         ];
+
+        "C-s" = ":write";
+
+        # move lines
+        "A-j" = ["extend_to_line_bounds" "delete_selection" "paste_after"];
+        "A-k" = ["extend_to_line_bounds" "delete_selection" "move_line_up" "paste_before"];
       };
 
       select = {
-        inherit (normal) x X D;
+        inherit (normal) x X D "C-s";
+      };
+
+      insert = {
+        inherit (normal) "C-s";
       };
     };
   };

@@ -1,5 +1,12 @@
 {
   flake.nixosModules.whelix-keybinds-lsp = {...}: {
+    helix'.binds_space =
+      /*
+      toml
+      */
+      ''
+        l = ":toggle lsp.display-inlay-hints"
+      '';
     helix'.binds_g =
       /*
       toml
