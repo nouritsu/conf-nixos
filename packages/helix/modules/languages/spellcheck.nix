@@ -15,5 +15,12 @@
         };
       };
     };
+
+    languages.language = [
+      {
+        name = "git-commit";
+        language-servers = ["harper-ls"];
+      }
+    ];
   };
 }

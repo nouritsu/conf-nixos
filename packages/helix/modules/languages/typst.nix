@@ -20,7 +20,7 @@
     languages.language = [
       {
         name = "typst";
-        language-servers = ["tinymist"];
+        language-servers = ["tinymist" "harper-ls"];
         formatter = {
           command = typstyle;
         };
