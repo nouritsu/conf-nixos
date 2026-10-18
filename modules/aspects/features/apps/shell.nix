@@ -15,6 +15,9 @@
       pkgs.fishPlugins.colored-man-pages
       pkgs.fishPlugins.fzf-fish
     ];
+
+    # native fish instead of fenv spawning bash at every start
+    programs.fish.useBabelfish = true;
   };
 
   den.aspects.shell.homeManager = {
