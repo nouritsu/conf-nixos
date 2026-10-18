@@ -23,7 +23,7 @@ in {
 
     enforce = pkgs.writeShellApplication {
       name = "prismlauncher-theme";
-      runtimeInputs = [pkgs.coreutils pkgs.crudini];
+      runtimeInputs = [pkgs.coreutils pkgs.gnugrep pkgs.crudini];
       text = ''
         data=''${XDG_DATA_HOME:-$HOME/.local/share}/PrismLauncher
         mkdir -p "$data/themes"
@@ -31,7 +31,8 @@ in {
         ln -sfnT ${theme} "$data/themes/Catppuccin-Mocha"
 
         # no cfg yet means Prism's first-run setup
-        if [[ -f $data/prismlauncher.cfg ]]; then
+        # crudini is slow, skip it when already set
+        if [[ -f $data/prismlauncher.cfg ]] && ! grep -qx 'ApplicationTheme=Catppuccin-Mocha' "$data/prismlauncher.cfg"; then
           crudini --ini-options=nospace --set "$data/prismlauncher.cfg" \
             General ApplicationTheme Catppuccin-Mocha
         fi
