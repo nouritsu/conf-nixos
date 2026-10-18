@@ -7,9 +7,24 @@
     nixd = lib.getExe pkgs.nixd;
     nil = lib.getExe pkgs.nil;
     alejandra = lib.getExe pkgs.alejandra;
+
+    # option completion from this host's config
+    host = ''
+      let
+        flake = builtins.getFlake (builtins.getEnv "NH_FLAKE");
+        name = builtins.replaceStrings ["\n"] [""] (builtins.readFile /etc/hostname);
+      in
+        flake.nixosConfigurations.''${name}
+    '';
   in {
     languages.language-server = {
-      nixd.command = nixd;
+      nixd = {
+        command = nixd;
+        config.nixd.options = {
+          nixos.expr = "(${host}).options";
+          home-manager.expr = "(${host}).options.home-manager.users.type.getSubOptions []";
+        };
+      };
       nil.command = nil;
     };
 
