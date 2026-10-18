@@ -38,7 +38,9 @@ in {
     packages.obs-studio = wrappers.lib.wrapPackage [
       {
         inherit pkgs;
-        package = pkgs.obs-studio;
+        package = pkgs.wrapOBS {
+          plugins = [pkgs.obs-studio-plugins.obs-pipewire-audio-capture];
+        };
       }
       {
         runShell = ["${lib.getExe enforce} || true"];

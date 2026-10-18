@@ -14,6 +14,13 @@
           self'.packages.spotify
           self'.packages.moonfin
         ];
+
+        # v4l2loopback only; obs itself is installed above
+        programs.obs-studio = {
+          enable = true;
+          package = null;
+          enableVirtualCamera = true;
+        };
       };
     };
 
