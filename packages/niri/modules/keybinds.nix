@@ -27,8 +27,8 @@
       # Applications
       "Mod+Return".spawn = wezterm;
       "Mod+W".spawn = brave;
-      "Mod+E".spawn = [wezterm "start" "--" yazi];
-      "Mod+Shift+E".spawn = [nautilus "--new-window"];
+      "Mod+E".spawn = [nautilus "--new-window"];
+      "Mod+Shift+E".spawn = [wezterm "start" "--" yazi];
 
       "Mod+D".spawn = "vesktop";
       "Mod+Z".spawn = woomer;
