@@ -16,6 +16,9 @@
         allowed_origins = ["chrome-extension://baomblllgemcgbignhpbipgiofmjdhpn/"];
       });
 
+      # niri's struts, for columnWidth's working area
+      inherit (self'.packages.niri.configuration.settings.layout) struts;
+
       settings = (pkgs.formats.json {}).generate "dms-settings.json" (
         lib.pipe (lib.importJSON ./dms-settings.json) config.dms'.settingsOverrides
       );
@@ -159,6 +162,18 @@
           screenRecorderYS.enable = true;
           tabsLauncher.enable = true;
           windowFx.enable = true;
+
+          # local: the focused column's width as a % of the screen
+          columnWidth = {
+            enable = true;
+            src = pkgs.applyPatches {
+              name = "dms-plugin-columnWidth";
+              src = ./dms-column-width;
+              postPatch = ''
+                substituteInPlace ColumnWidthWidget.qml --replace-fail @struts@ ${toString (struts.left + struts.right)}
+              '';
+            };
+          };
 
           # patched: mkForce over the registry's src
 

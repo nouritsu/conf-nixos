@@ -1,0 +1,11 @@
+{
+  "id": "columnWidth",
+  "name": "Column Width",
+  "description": "Width of the focused niri column as a percentage of the screen",
+  "version": "1.0.0",
+  "author": "Aneesh Bhave",
+  "icon": "width",
+  "type": "widget",
+  "capabilities": ["dankbar-widget"],
+  "component": "./ColumnWidthWidget.qml"
+}

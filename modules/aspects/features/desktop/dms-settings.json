@@ -647,6 +647,10 @@
           "runningAppsGroupByApp": false
         },
         {
+          "id": "columnWidth",
+          "enabled": true
+        },
+        {
           "id": "focusedWindow",
           "enabled": true,
           "focusedWindowShowIcon": true,
