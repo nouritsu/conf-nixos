@@ -51,7 +51,8 @@
       flavor = "mocha";
       accent = "mauve";
 
-      fish.enable = true;
+      # the nixos module already themes /etc/fish
+      fish.enable = false;
       zed = {
         enable = true;
         icons.enable = true;
