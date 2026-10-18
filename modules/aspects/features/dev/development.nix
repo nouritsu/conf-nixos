@@ -75,9 +75,19 @@
           pkgs.nix-inspect
           pkgs.manix
           pkgs.nix-output-monitor
+          pkgs.nix-tree
+          pkgs.nix-diff
+          pkgs.nurl
+          pkgs.nix-update
+          pkgs.nixpkgs-review
+          pkgs.nix-search-tv
         ];
 
-        programs.fish.shellAliases.repl-nix = "nix repl";
+        programs.fish.shellAliases = {
+          repl-nix = "nix repl";
+          ns = "nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history";
+          closure = "nix-tree /run/current-system";
+        };
       };
 
       python.nixos = {pkgs, ...}: {
