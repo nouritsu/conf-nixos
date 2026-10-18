@@ -53,6 +53,8 @@
       # full text search
       services.gnome.localsearch.enable = true;
       services.gnome.tinysparql.enable = true;
+      # the indexer unit is conditioned on it, and the niri session never exports it
+      systemd.user.settings.Manager.DefaultEnvironment = "XDG_SESSION_CLASS=user";
 
       xdg.mime.defaultApplications."inode/directory" = "org.gnome.Nautilus.desktop";
 
