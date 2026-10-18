@@ -12,6 +12,9 @@
         "dockerfile"
         "html"
         "doxygen"
+        "typst"
+        "fish"
+        "lua"
       ];
 
       userSettings = {
