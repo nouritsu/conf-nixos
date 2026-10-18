@@ -102,6 +102,15 @@ in {
         };
       };
     });
+
+    # skill for handing edits to the local model
+    local-plugin = pkgs.runCommand "local-llm-plugin" {} ''
+      install -Dm644 ${pkgs.writeText "plugin.json" (builtins.toJSON {
+        name = "local-llm";
+        description = "Delegate edits to the local model through opencode";
+      })} $out/.claude-plugin/plugin.json
+      install -Dm644 ${./skills/delegate-local/SKILL.md} $out/skills/delegate-local/SKILL.md
+    '';
   in {
     # --settings outranks ~/.claude/settings.json; model, effort, tui and
     # plugins stay out so /model, /effort and /config still stick
@@ -126,7 +135,7 @@ in {
           };
         };
 
-        pluginDirs = [lsp-plugin];
+        pluginDirs = [lsp-plugin local-plugin];
 
         # remote control rejects the wrapper's flags and needs nonessential traffic
         runShell = [
@@ -165,6 +174,9 @@ in {
             "mcp__godot__list_projects"
             "mcp__godot__get_project_info"
             "mcp__godot__get_debug_output"
+
+            # not read-only, but the local agent can only edit inside --dir
+            "Bash(opencode run --agent local *)"
           ];
 
           hooks = {
