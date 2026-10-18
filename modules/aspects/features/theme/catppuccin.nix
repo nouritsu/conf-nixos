@@ -40,19 +40,8 @@
       gtk.icon.enable = true;
       grub.enable = true;
     };
-  };
 
-  den.aspects.catppuccin.homeManager = {
-    imports = [inputs.catppuccin.homeModules.catppuccin];
-
-    catppuccin = {
-      enable = true;
-      autoEnable = true;
-      flavor = "mocha";
-      accent = "mauve";
-
-      # the nixos module already themes /etc/fish
-      fish.enable = false;
-    };
+    # glow and other glamour tuis
+    environment.sessionVariables.GLAMOUR_STYLE = "${config.catppuccin.sources.glamour}/catppuccin-${config.catppuccin.flavor}.json";
   };
 }

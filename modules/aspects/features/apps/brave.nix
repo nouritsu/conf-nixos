@@ -28,7 +28,6 @@
           (mkEngine "YouTube" "yt" "https://www.youtube.com/results?search_query={searchTerms}")
           (mkEngine "NixOS Options" "no" "https://search.nixos.org/options?channel=unstable&query={searchTerms}")
           (mkEngine "Nix Packages" "np" "https://search.nixos.org/packages?channel=unstable&query={searchTerms}")
-          (mkEngine "Home Manager Options" "hm" "https://home-manager-options.extranix.com/?query={searchTerms}&release=master")
         ];
 
         PasswordManagerEnabled = false; # Proton Pass manages credentials

@@ -14,12 +14,6 @@
     # Den framework
     den.url = "github:denful/den";
 
-    # Core
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Theming
     catppuccin.url = "github:catppuccin/nix";
     # parsed at eval time; catppuccin's packages of these would be import-from-derivation

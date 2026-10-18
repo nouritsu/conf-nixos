@@ -22,7 +22,6 @@
         command = nixd;
         config.nixd.options = {
           nixos.expr = "(${host}).options";
-          home-manager.expr = "(${host}).options.home-manager.users.type.getSubOptions []";
         };
       };
       nil.command = nil;
