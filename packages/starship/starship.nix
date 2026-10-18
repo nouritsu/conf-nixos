@@ -15,7 +15,7 @@ in {
       self.nixosModules.wstarship-settings
       self.nixosModules.wstarship-theme
 
-      # host stats and battery, picked by fish over ssh
+      # host stats, time and battery, picked by fish over ssh
       ({
         config,
         lib,
@@ -27,6 +27,7 @@ in {
             custom.cpu.disabled = false;
             memory_usage.disabled = false;
             custom.load.disabled = false;
+            time.disabled = false;
             battery.disabled = false;
           });
           builder = ''${pkgs.remarshal}/bin/json2toml "$1" "$2"'';

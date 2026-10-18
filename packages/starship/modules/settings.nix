@@ -148,11 +148,12 @@
       format = lib.concatStrings [
         "[╭](${colors.separator})"
         "${surround_bracket "$username@$hostname" colors.separator 0} "
+        "$time"
         "$directory"
         "$git_metrics"
         "$git_branch"
         "$git_status"
-        "$time$cmd_duration"
+        "$cmd_duration"
         "$battery"
         "$line_break"
         "[╰](${colors.separator})"
@@ -215,7 +216,7 @@
       };
 
       time = {
-        disabled = false;
+        disabled = true;
         style = colors.time;
         format = "${styled.separator} [$time]($style) ";
         time_format = "%R";
