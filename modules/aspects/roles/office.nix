@@ -5,8 +5,11 @@
       services.printing
     ];
 
-    nixos = {pkgs, ...}: {
-      environment.systemPackages = [pkgs.libreoffice];
+    nixos = {self', ...}: {
+      programs.onlyoffice = {
+        enable = true;
+        package = self'.packages.onlyoffice;
+      };
     };
   };
 }

@@ -72,7 +72,7 @@
         pkgs.papers
       ];
 
-      # brave, xournalpp and libreoffice draw claim it otherwise
+      # brave, xournalpp and onlyoffice claim it otherwise
       xdg.mime.defaultApplications."application/pdf" = "org.gnome.Papers.desktop";
     };
 
