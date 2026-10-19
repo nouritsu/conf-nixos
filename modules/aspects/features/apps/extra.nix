@@ -16,7 +16,7 @@
           self'.packages.moonfin
         ];
 
-        # brave and okular claim some of these otherwise
+        # brave and papers claim some of these otherwise
         xdg.mime.defaultApplications = lib.genAttrs [
           "image/jpeg"
           "image/pjpeg"
@@ -41,18 +41,16 @@
       };
     };
 
-    pdf.nixos = {
-      self',
-      pkgs,
-      ...
-    }: {
+    pdf.nixos = {pkgs, ...}: {
       environment.systemPackages = [
         pkgs.pdftk
         pkgs.poppler-utils
         pkgs.pdfchain
-        pkgs.kdePackages.okular
-        self'.packages.zathura
+        pkgs.papers
       ];
+
+      # brave, xournalpp and libreoffice draw claim it otherwise
+      xdg.mime.defaultApplications."application/pdf" = "org.gnome.Papers.desktop";
     };
 
     download.nixos = {pkgs, ...}: {
