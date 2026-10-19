@@ -2,7 +2,7 @@
   den.aspects.pc = {
     includes = with den.aspects; [
       workstation
-      bootloader.lanzaboote
+      bootloader.limine
       kernel.cachyos-bore-lto
       firmware.amd
       graphics.nvidia

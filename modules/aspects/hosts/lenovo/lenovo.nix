@@ -3,7 +3,7 @@
   den.aspects.lenovo = {
     includes = with den.aspects; [
       laptop
-      bootloader.grub
+      bootloader.limine
       firmware.intel
       firmware.updates
       graphics.intel
