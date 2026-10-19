@@ -27,7 +27,55 @@
         # their menu entries run these from PATH; turtle's emblems need its D-Bus service
         pkgs.collision
         pkgs.turtle
+
+        # Drag and drop
+        pkgs.ripdrag
+        pkgs.wl-clipboard
       ];
+
+      programs.fish.interactiveShellInit = ''
+        function drag --description 'drag files out of the terminal'
+          if isatty stdin
+            ripdrag --all --and-exit $argv
+          else
+            ripdrag --all --and-exit --from-stdin $argv
+          end
+        end
+
+        function o --description 'open with the default app'
+          set -q argv[1]; or set argv .
+          open $argv
+        end
+
+        function reveal --description 'select in nautilus'
+          set -q argv[1]; or set argv .
+          nautilus --select $argv
+        end
+
+        # pastes in nautilus
+        function fcopy --description 'copy files to the clipboard'
+          isatty stdin; or set -a argv (cat)
+          set -q argv[1]; or return 1
+          for f in (path resolve -- $argv)
+            printf 'file://%s\r\n' (string escape --style=url -- $f)
+          end | wl-copy --type text/uri-list
+        end
+
+        # nautilus marks a cut on the first line
+        function fpaste --description 'paste copied files here, or into a dir'
+          set -l uris (wl-paste --no-newline --type x-special/gnome-copied-files 2>/dev/null)
+          or set uris copy (wl-paste --no-newline --type text/uri-list 2>/dev/null)
+          or return 1
+          set -l files (string trim --right --chars \r -- $uris[2..] | string match 'file://*' | string replace file:// "" | string unescape --style=url)
+          set -q files[1]; or return 1
+          set -q argv[1]; or set argv .
+          if test $uris[1] = cut
+            mv -i $files $argv[1]; and wl-copy --clear
+          else
+            command cp -ri $files $argv[1]
+          end
+        end
+      '';
 
       # warm instance, so windows open instantly
       systemd.user.services.nautilus = {

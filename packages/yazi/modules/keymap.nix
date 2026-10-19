@@ -1,5 +1,9 @@
 {
-  flake.nixosModules.wyazi-keymap = {...}: {
+  flake.nixosModules.wyazi-keymap = {
+    pkgs,
+    lib,
+    ...
+  }: {
     settings.keymap.mgr.prepend_keymap = [
       {
         on = "M";
@@ -44,6 +48,11 @@
       {
         on = "<C-y>";
         run = ["plugin wl-clipboard"];
+      }
+      {
+        on = "<C-g>";
+        run = ''shell --orphan -- ${lib.getExe pkgs.ripdrag} --all --and-exit "$@"'';
+        desc = "Drag the selected files out";
       }
       {
         on = "H";

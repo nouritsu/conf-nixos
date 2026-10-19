@@ -33,6 +33,9 @@ in {
               -- never confirm close
               window_close_confirmation = "NeverPrompt",
 
+              -- the default only escapes spaces
+              quote_dropped_files = "Posix",
+
               -- keybinds, defaults off
               disable_default_key_bindings = true,
               keys = {
