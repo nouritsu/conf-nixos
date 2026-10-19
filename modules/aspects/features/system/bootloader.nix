@@ -56,6 +56,15 @@
         environment.systemPackages = [pkgs.sbctl];
       };
 
+      # Limine only; reboots into the firmware's entry, so no hash to pin
+      windows.nixos = {
+        boot.loader.limine.extraEntries = ''
+          /Windows
+            protocol: efi_boot_entry
+            entry: Windows Boot Manager
+        '';
+      };
+
       grub.nixos = {
         boot.loader.grub = {
           enable = true;
