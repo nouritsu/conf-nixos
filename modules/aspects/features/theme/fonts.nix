@@ -1,16 +1,21 @@
 {
-  den.aspects.fonts.nixos = {pkgs, ...}: {
+  den.aspects.fonts.nixos = {
+    self',
+    pkgs,
+    ...
+  }: {
     fonts = {
       packages = [
-        pkgs.nerd-fonts.zed-mono
-        pkgs.overpass
+        self'.packages.maple-mono-nf
+        pkgs.nunito
+        pkgs.fraunces
         pkgs.noto-fonts-color-emoji
       ];
 
       fontconfig.defaultFonts = {
-        monospace = ["ZedMono Nerd Font"];
-        sansSerif = ["Overpass"];
-        serif = ["Overpass"];
+        monospace = ["Maple Mono NF"];
+        sansSerif = ["Nunito"];
+        serif = ["Fraunces 9pt"];
         emoji = ["Noto Color Emoji"];
       };
     };
@@ -19,9 +24,9 @@
     programs.dconf.profiles.user.databases = [
       {
         settings."org/gnome/desktop/interface" = {
-          font-name = "Overpass 14";
-          document-font-name = "Overpass 13";
-          monospace-font-name = "ZedMono Nerd Font 14";
+          font-name = "Nunito 14";
+          document-font-name = "Fraunces 9pt 13";
+          monospace-font-name = "Maple Mono NF 14";
         };
       }
     ];
