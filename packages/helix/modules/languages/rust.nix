@@ -32,7 +32,7 @@
         file-types = ["rs"];
         roots = ["Cargo.toml" "Cargo.lock"];
         shebangs = ["rust-script" "cargo"];
-        language-servers = ["rust-analyzer"];
+        language-servers = ["rust-analyzer" "scls"];
         persistent-diagnostic-sources = ["rustc" "clippy"];
         auto-format = true;
 

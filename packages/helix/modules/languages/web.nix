@@ -11,5 +11,20 @@
       vscode-css-language-server.command = extracted "css";
       vscode-html-language-server.command = extracted "html";
     };
+
+    languages.language = [
+      {
+        name = "html";
+        language-servers = ["vscode-html-language-server" "scls"];
+      }
+      {
+        name = "css";
+        language-servers = ["vscode-css-language-server" "scls"];
+      }
+      {
+        name = "scss";
+        language-servers = ["vscode-css-language-server" "scls"];
+      }
+    ];
   };
 }

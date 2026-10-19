@@ -19,7 +19,7 @@
     languages.language = [
       {
         name = "git-commit";
-        language-servers = ["harper-ls"];
+        language-servers = ["harper-ls" "scls"];
       }
     ];
   };

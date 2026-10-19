@@ -16,7 +16,7 @@
     languages.language = [
       {
         name = "bash";
-        language-servers = ["bash-language-server"];
+        language-servers = ["bash-language-server" "scls"];
         auto-format = true;
       }
     ];

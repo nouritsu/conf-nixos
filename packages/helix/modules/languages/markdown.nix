@@ -11,7 +11,7 @@
     languages.language = [
       {
         name = "markdown";
-        language-servers = ["marksman" "harper-ls"];
+        language-servers = ["marksman" "harper-ls" "scls"];
       }
     ];
   };

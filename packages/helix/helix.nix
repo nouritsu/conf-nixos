@@ -36,6 +36,7 @@ in {
   in {
     packages.helix = wrappers.wrappers.helix.wrap (min
       ++ [
+        self.nixosModules.whelix-snippets
         self.nixosModules.whelix-spellcheck
 
         self.nixosModules.whelix-integrations-lazygit

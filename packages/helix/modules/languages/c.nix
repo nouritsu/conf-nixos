@@ -81,7 +81,7 @@
         scope = "source.c";
         injection-regex = "c";
         file-types = ["c" "h"];
-        language-servers = ["clangd"];
+        language-servers = ["clangd" "scls"];
         auto-format = true;
 
         comment-token = "//";
@@ -99,7 +99,7 @@
       }
       {
         name = "cpp";
-        language-servers = ["clangd"];
+        language-servers = ["clangd" "scls"];
         auto-format = true;
         inherit debugger;
       }

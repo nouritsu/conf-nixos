@@ -50,6 +50,7 @@
             name = "ruff";
             except-features = ["format"];
           }
+          "scls"
         ];
         formatter = {
           command = ruff;

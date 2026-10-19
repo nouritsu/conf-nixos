@@ -18,7 +18,7 @@
         file-types = ["gd"];
         roots = ["project.godot"];
         comment-tokens = ["#" "##"];
-        language-servers = ["godot"];
+        language-servers = ["godot" "scls"];
         formatter.command = gdscript-formatter;
         indent = {
           tab-width = 4;

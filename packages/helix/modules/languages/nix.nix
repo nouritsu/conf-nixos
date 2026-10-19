@@ -40,6 +40,7 @@
             name = "nil";
             except-features = ["completion"];
           }
+          "scls"
         ];
 
         formatter.command = alejandra;
