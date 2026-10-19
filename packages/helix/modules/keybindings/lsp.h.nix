@@ -23,11 +23,7 @@
         e = "goto_next_entry"
         E = "goto_prev_entry"
 
-        r = "symbol_picker"
         R = "workspace_symbol_picker"
-
-        d = "diagnostics_picker"
-        D = "workspace_diagnostics_picker"
       '';
 
     settings.keys = rec {
