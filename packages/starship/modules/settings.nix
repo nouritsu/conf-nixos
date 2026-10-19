@@ -108,7 +108,7 @@
         jobs = "bold mauve";
 
         cpu_usage = {
-          cpu = "bold peach";
+          cpu = "bold sapphire";
           percent = "bold black";
         };
 
