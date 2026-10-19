@@ -36,6 +36,7 @@
           "70" = "󰂀";
           "80" = "󰂁";
           "90" = "󰂂";
+          "100" = symbols.battery.full;
         };
 
         git_branch = " ";
@@ -92,6 +93,7 @@
           "70" = "bold green";
           "80" = "bold green";
           "90" = "bold bright-green";
+          "100" = "bold bright-green";
         };
 
         git_branch = "bold mauve";
@@ -194,6 +196,7 @@
             70
             80
             90
+            100
           ];
       };
 
