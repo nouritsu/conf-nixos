@@ -16,12 +16,15 @@
           "nvidia-persistenced"
         ])
       ];
-      nixos = {
+      nixos = {lib, ...}: {
         services.xserver.videoDrivers = ["nvidia"];
         hardware.nvidia = {
           open = true;
           modesetting.enable = true;
         };
+
+        # by license: cuda redists get renamed between releases
+        nixpkgs.config.allowlistedLicenses = lib.attrValues (lib.filterAttrs (name: _: lib.hasPrefix "nvidia" name) lib.licenses);
 
         # nvidia isn't in the initrd; plymouth ignores the firmware framebuffer unless told
         boot.kernelParams = ["plymouth.use-simpledrm"];

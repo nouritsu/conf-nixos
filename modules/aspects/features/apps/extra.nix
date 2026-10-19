@@ -108,16 +108,6 @@
     };
 
     fetchers = {
-      includes = [
-        (den.batteries.unfree [
-          "cccl"
-          "cuda_crt"
-          "cuda_cudart"
-          "cuda_nvcc"
-          "cuda_nvml_dev"
-          "libnvvm"
-        ])
-      ];
       nixos = {
         self',
         inputs',
