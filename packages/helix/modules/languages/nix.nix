@@ -34,7 +34,13 @@
         scope = "source.nix";
         injection-regex = "nix";
         file-types = ["nix"];
-        language-servers = ["nixd" "nil"];
+        language-servers = [
+          "nixd"
+          {
+            name = "nil";
+            except-features = ["completion"];
+          }
+        ];
 
         formatter.command = alejandra;
         auto-format = true;
