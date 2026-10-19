@@ -1,6 +1,6 @@
 {den, ...}: {
   den.aspects.extra.provides.streaming = {
-    includes = [(den.batteries.unfree ["cuda_cccl" "cuda_cudart" "cuda_nvcc"])];
+    includes = [(den.batteries.unfree ["cccl" "cuda_crt" "cuda_cudart" "cuda_nvcc" "libnvvm"])];
     nixos = {
       config,
       pkgs,
