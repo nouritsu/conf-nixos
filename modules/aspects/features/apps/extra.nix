@@ -133,7 +133,19 @@
           pkgs.fastfetch
           pkgs.onefetch
           pkgs.cpufetch
-          (pkgs.gpufetch.override {cudaSupport = is_nvidia;})
+          # cuda 13 removed the clock fields from cudaDeviceProp
+          # https://github.com/Dr-Noob/gpufetch/issues/66
+          ((pkgs.gpufetch.override {cudaSupport = is_nvidia;}).overrideAttrs (old: {
+            postPatch =
+              (old.postPatch or "")
+              + ''
+                substituteInPlace src/cuda/cuda.cpp \
+                  --replace-fail 'mem->freq = prop.memoryClockRate * 0.001f;' \
+                    'int clk = 0; cudaDeviceGetAttribute(&clk, cudaDevAttrMemoryClockRate, gpu->idx); mem->freq = clk * 0.001f;' \
+                  --replace-fail 'gpu->freq = deviceProp.clockRate * 1e-3f;' \
+                    'int clk = 0; cudaDeviceGetAttribute(&clk, cudaDevAttrClockRate, gpu->idx); gpu->freq = clk * 1e-3f;'
+              '';
+          }))
           self'.packages.ifetch
           self'.packages.mfetch
           inputs'.batfetch.packages.default
