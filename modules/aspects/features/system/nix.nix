@@ -118,6 +118,20 @@
 
         # comma in front of the line, or of the last command if empty
         bind alt-comma 'fish_commandline_prepend ,'
+
+        # packages for the libs a foreign binary can't find, for programs.nix-ld.libraries
+        function nix-ld-missing
+          set -l libs (LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH ldd $argv | string match -rg '^\s*(\S+) => not found$' | sort -u)
+          set -q libs[1]; or return 0
+
+          # one full-db scan for all of them
+          set -l found (nix-locate --no-group --whole-name --at-root --regex '/lib/('(string escape --style=regex -- $libs | string join '|')')' \
+            | string replace -r '^(\S+?)(\.out)?\s.*/(\S+)$' '$3 $1')
+          for lib in $libs
+            set -l attrs (string match -- "$lib *" $found | string split -f2 ' ' | sort -u)
+            echo $lib: (set -q attrs[1]; and echo $attrs; or echo not in nixpkgs)
+          end
+        end
       '';
 
       nix.settings.trusted-users = ["root" "@wheel"];
