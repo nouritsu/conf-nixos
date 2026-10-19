@@ -1,0 +1,29 @@
+Window.SetBackgroundTopColor(@base@);
+Window.SetBackgroundBottomColor(@base@);
+
+flake.source = Image("snowflake.png");
+flake.sprite = Sprite();
+flake.height = 0;
+
+frame = 0;
+
+# called 50 times a second
+fun refresh_callback ()
+  {
+    # rescale when the screen changes, e.g. simpledrm to nvidia
+    if (Window.GetHeight() != flake.height)
+      {
+        flake.height = Window.GetHeight();
+        flake.size = Math.Int(flake.height * 0.178);
+        flake.sprite.SetImage(flake.source.Scale(flake.size, flake.size));
+      }
+
+    flake.sprite.SetX(Window.GetX() + Window.GetWidth() / 2 - flake.size / 2);
+    flake.sprite.SetY(Window.GetY() + Window.GetHeight() / 2 - flake.size / 2);
+
+    # 55-100% opacity, one breath every 1.8 s
+    frame++;
+    flake.sprite.SetOpacity(0.775 + 0.225 * Math.Cos(2 * Math.Pi * frame / 90));
+  }
+
+Plymouth.SetRefreshFunction(refresh_callback);

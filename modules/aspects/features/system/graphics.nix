@@ -23,6 +23,9 @@
           modesetting.enable = true;
         };
 
+        # nvidia isn't in the initrd; plymouth ignores the firmware framebuffer unless told
+        boot.kernelParams = ["plymouth.use-simpledrm"];
+
         # cudaSupport builds; cache.nixos.org has none
         nix.settings = {
           extra-substituters = ["https://cache.nixos-cuda.org"];
@@ -45,6 +48,9 @@
     };
 
     provides.intel.nixos = {pkgs, ...}: {
+      # early KMS for the boot splash; udev loads whichever matches the gpu
+      boot.initrd.availableKernelModules = ["i915" "xe"];
+
       environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
       hardware.graphics.extraPackages = [
