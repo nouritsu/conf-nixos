@@ -43,6 +43,13 @@ PluginComponent {
         }
     })
 
+    // right click toggles maximize, same as Mod+M
+    pillRightClickAction: () => NiriService.send({
+        "Action": {
+            "MaximizeColumn": {}
+        }
+    })
+
     horizontalBarPill: Component {
         Row {
             spacing: Theme.spacingXS
