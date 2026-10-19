@@ -23,6 +23,7 @@
       extra.streaming
       nix.serve
       nix.builds-on-laptop
+      nix.update
 
       ssh.from-laptop
       ssh.from-pixel
