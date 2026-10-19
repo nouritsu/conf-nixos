@@ -16,46 +16,6 @@ in {
         settings = {
           theme = "catppuccin";
 
-          # llama-swap on pc; ids match its model names
-          provider.llama-swap = {
-            npm = "@ai-sdk/openai-compatible";
-            name = "llama-swap (local)";
-            options.baseURL = "http://127.0.0.1:8080/v1";
-            models = {
-              "qwen3.6-35b-a3b" = {
-                name = "Qwen3.6 35B-A3B (local)";
-                limit = {
-                  context = 65536;
-                  output = 16384;
-                };
-              };
-              "qwen3.5-9b" = {
-                name = "Qwen3.5 9B (local)";
-                limit = {
-                  context = 32768;
-                  output = 8192;
-                };
-              };
-            };
-          };
-
-          # claude delegates edits here; read and edit only, inside the project
-          agent.local = {
-            description = "Local model for well-scoped edits";
-            mode = "primary";
-            model = "llama-swap/qwen3.6-35b-a3b";
-            permission = {
-              "*" = "deny";
-              read = "allow";
-              edit = "allow";
-              glob = "allow";
-              grep = "allow";
-              list = "allow";
-              lsp = "allow";
-              todowrite = "allow";
-            };
-          };
-
           mcp = {
             context7 = {
               enabled = true;
