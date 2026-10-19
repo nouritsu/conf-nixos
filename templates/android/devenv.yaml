@@ -1,0 +1,23 @@
+inputs:
+  nixpkgs:
+    url: github:cachix/devenv-nixpkgs/rolling
+  git-hooks:
+    url: github:cachix/git-hooks.nix
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+  treefmt-nix:
+    url: github:numtide/treefmt-nix
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+  # house style: treefmt, git hooks, dotenv, claude
+  conf-nixos:
+    url: github:nouritsu/conf-nixos
+    flake: false
+imports:
+  - conf-nixos/templates/base
+nixpkgs:
+  allow_unfree: true
+  android_sdk:
+    accept_license: true
