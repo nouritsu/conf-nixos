@@ -209,7 +209,7 @@ else
 end
 
 # Backups
-set -l run $state/runs/(date +%Y%m%d-%H%M%S)
+set -l run (mktemp -d /tmp/balatro-sync.XXXXXX)
 mkdir -p $run/pc $run/base $run/src $run/decoded/{base,pc,phone}/1 $run/out/{pc,phone}/1
 
 cp -a (path filter $pc_save/{1,config,settings.jkr,steam_autocloud.vdf} $remotecache) $run/pc/
