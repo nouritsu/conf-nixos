@@ -156,7 +156,7 @@
           "Color scheme" = "Dark";
           # mauve in Catppuccin Mocha
           "Accent color" = "Purple";
-          "Font" = "Adwaita";
+          "Font" = "System";
           "Hide games list" = "no";
           "Login QR code" = "Show";
           "Pointer cursor" = "no";
