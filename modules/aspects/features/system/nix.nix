@@ -15,11 +15,6 @@
 
       # /bin only, so not-found lookups take ms instead of seconds
       nix-index-small = (import inputs.nix-index-database {inherit pkgs;}).nix-index-with-small-db;
-      command-not-found = "${nix-index-small}/etc/profile.d/command-not-found.sh";
-      fish-command-not-found = pkgs.writeShellScript "command-not-found" ''
-        source ${command-not-found}
-        command_not_found_handle "$@"
-      '';
     in {
       imports = [
         inputs.nix-index-database.nixosModules.default
@@ -38,7 +33,7 @@
       # full db stays for nix-locate
       programs.nix-index.enableFishIntegration = false;
       programs.nix-index.enableBashIntegration = false;
-      programs.bash.interactiveShellInit = "source ${command-not-found}";
+      programs.bash.interactiveShellInit = "source ${nix-index-small}/etc/profile.d/command-not-found.sh";
 
       programs.nh = {
         enable = true;
@@ -98,7 +93,27 @@
         end
 
         function fish_command_not_found
-          ${fish-command-not-found} $argv
+          set -l attrs (${lib.getExe nix-index-small} --minimal --no-group --type x --type s --whole-name --at-root /bin/$argv[1] | string replace -r '\.out$' "")
+          if not set -q attrs[1]
+            __fish_default_command_not_found_handler $argv
+            return
+          end
+
+          # exact name, then prefixed, then shortest
+          set attrs (for a in $attrs
+              set -l rank 2
+              string match -q -- "$argv[1]*" $a; and set rank 1
+              test $a = $argv[1]; and set rank 0
+              echo $rank (string length -- $a) $a
+            end | sort -k1,1n -k2,2n | string split -f3 ' ')
+
+          set -l lines (string pad -r -- ", "(string escape -- $argv | string join ' ') "nsp "$attrs[1..5])
+          set -l notes "run once, alt-, adds the comma" "shell with it"
+          echo "$argv[1] is not installed, but nixpkgs has it" >&2
+          for i in (seq (count $lines))
+            echo "  $lines[$i]" (set -q notes[$i]; and echo (set_color brblack)"# $notes[$i]"(set_color normal)) >&2
+          end
+          set -q attrs[6]; and echo "  "(set_color brblack)"# "(math (count $attrs) - 5)" more, comma lists them all"(set_color normal) >&2
         end
       '';
 
