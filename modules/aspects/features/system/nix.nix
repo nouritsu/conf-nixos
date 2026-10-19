@@ -12,6 +12,14 @@
       ...
     }: let
       substituters = config.nh'.substituters;
+
+      # /bin only, so not-found lookups take ms instead of seconds
+      nix-index-small = (import inputs.nix-index-database {inherit pkgs;}).nix-index-with-small-db;
+      command-not-found = "${nix-index-small}/etc/profile.d/command-not-found.sh";
+      fish-command-not-found = pkgs.writeShellScript "command-not-found" ''
+        source ${command-not-found}
+        command_not_found_handle "$@"
+      '';
     in {
       imports = [
         inputs.nix-index-database.nixosModules.default
@@ -26,6 +34,11 @@
 
       programs.nix-ld.enable = true;
       programs.nix-index-database.comma.enable = true;
+
+      # full db stays for nix-locate
+      programs.nix-index.enableFishIntegration = false;
+      programs.nix-index.enableBashIntegration = false;
+      programs.bash.interactiveShellInit = "source ${command-not-found}";
 
       programs.nh = {
         enable = true;
@@ -82,6 +95,10 @@
         # nix-shell -p, but nix shell
         function nsp
           nix shell (string replace -r '^' 'nixpkgs#' -- $argv)
+        end
+
+        function fish_command_not_found
+          ${fish-command-not-found} $argv
         end
       '';
 
