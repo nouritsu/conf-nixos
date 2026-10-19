@@ -67,6 +67,25 @@ in {
       '';
     };
 
+    # outside a project devenv would put .devenv in whatever dir claude started in
+    devenv-mcp = pkgs.writeShellApplication {
+      name = "devenv-mcp";
+      runtimeInputs = [pkgs.devenv];
+      text = ''
+        dir=$PWD
+        while [[ $dir != / && ! -e $dir/devenv.nix ]]; do
+          dir=$(dirname "$dir")
+        done
+        if [[ ! -e $dir/devenv.nix ]]; then
+          dir=''${XDG_CACHE_HOME:-$HOME/.cache}/devenv-mcp
+          mkdir -p "$dir"
+          [[ -e $dir/devenv.nix ]] || echo '{}' >"$dir/devenv.nix"
+        fi
+        cd "$dir"
+        exec devenv mcp
+      '';
+    };
+
     # LSP servers from the store, not PATH
     # one server per extension, so .nix gets nil
     lsp-plugin = pkgs.writeTextDir ".claude-plugin/plugin.json" (builtins.toJSON {
@@ -124,6 +143,10 @@ in {
             type = "stdio";
             command = lib.getExe self'.packages.godot-mcp;
           };
+          devenv = {
+            type = "stdio";
+            command = lib.getExe devenv-mcp;
+          };
         };
 
         pluginDirs = [lsp-plugin];
@@ -165,6 +188,11 @@ in {
             "mcp__godot__list_projects"
             "mcp__godot__get_project_info"
             "mcp__godot__get_debug_output"
+            "mcp__devenv__search_packages"
+            "mcp__devenv__search_options"
+            "mcp__devenv__list_processes"
+            "mcp__devenv__get_process_status"
+            "mcp__devenv__get_process_logs"
           ];
 
           hooks = {
