@@ -17,8 +17,12 @@
 
       environment.systemPackages = [inputs'.niri-cwd.packages.niri-cwd];
 
-      # for tools that look in ~/.config/niri (DMS, niri validate)
-      systemd.user.tmpfiles.rules = ["L+ %h/.config/niri/config.kdl - - - - ${wniri}/niri-config.kdl"];
+      systemd.user.tmpfiles.rules = [
+        # for tools that look in ~/.config/niri (DMS, niri validate)
+        "L+ %h/.config/niri/config.kdl - - - - ${wniri}/niri-config.kdl"
+        # repo mime defaults win over the mimeapps.list apps write to
+        "L+ %h/.config/niri-mimeapps.list - - - - /etc/xdg/mimeapps.list"
+      ];
 
       # restart niri with new settings on rebuild
       system.userActivationScripts.niri-reload-config = {

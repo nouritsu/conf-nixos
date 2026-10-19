@@ -16,21 +16,44 @@
           self'.packages.moonfin
         ];
 
-        # brave and papers claim some of these otherwise
-        xdg.mime.defaultApplications = lib.genAttrs [
-          "image/jpeg"
-          "image/pjpeg"
-          "image/png"
-          "image/gif"
-          "image/webp"
-          "image/avif"
-          "image/heic"
-          "image/jxl"
-          "image/bmp"
-          "image/x-bmp"
-          "image/tiff"
-          "image/svg+xml"
-        ] (_: "org.gnome.eog.desktop");
+        xdg.mime.defaultApplications =
+          # brave and papers claim some of these otherwise
+          lib.genAttrs [
+            "image/jpeg"
+            "image/pjpeg"
+            "image/png"
+            "image/gif"
+            "image/webp"
+            "image/avif"
+            "image/heic"
+            "image/jxl"
+            "image/bmp"
+            "image/x-bmp"
+            "image/tiff"
+            "image/svg+xml"
+          ] (_: "org.gnome.eog.desktop")
+          # umpv claims these too
+          // lib.genAttrs [
+            "video/mp4"
+            "video/x-matroska"
+            "video/webm"
+            "video/quicktime"
+            "video/x-msvideo"
+            "video/mpeg"
+            "video/ogg"
+            "video/x-flv"
+            "video/3gpp"
+            "video/mp2t"
+            "audio/mpeg"
+            "audio/flac"
+            "audio/ogg"
+            "audio/opus"
+            "audio/wav"
+            "audio/x-wav"
+            "audio/mp4"
+            "audio/aac"
+            "audio/x-m4a"
+          ] (_: "mpv.desktop");
 
         # v4l2loopback only; obs itself is installed above
         programs.obs-studio = {

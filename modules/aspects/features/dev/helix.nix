@@ -9,9 +9,17 @@
     ];
 
     xdg.mime.defaultApplications = lib.genAttrs [
+      "text/plain"
+      "text/markdown"
+      "text/x-csrc"
+      "text/x-c++src"
+      "text/x-python"
+      "text/x-shellscript"
+      "application/json"
       "application/xml"
       "application/toml"
       "application/yaml"
+      "application/x-zerosize"
     ] (_: "Helix.desktop");
 
     nix.settings = {

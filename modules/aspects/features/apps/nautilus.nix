@@ -56,7 +56,11 @@
       # the indexer unit is conditioned on it, and the niri session never exports it
       systemd.user.settings.Manager.DefaultEnvironment = "XDG_SESSION_CLASS=user";
 
-      xdg.mime.defaultApplications."inode/directory" = "org.gnome.Nautilus.desktop";
+      xdg.mime.defaultApplications = lib.genAttrs [
+        "inode/directory"
+        "x-scheme-handler/file"
+        "x-scheme-handler/sftp"
+      ] (_: "org.gnome.Nautilus.desktop");
 
       programs.dconf.profiles.user.databases = [
         {
