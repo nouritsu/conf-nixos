@@ -19,10 +19,25 @@
           silent = true;
         };
 
-        programs.fish.shellAbbrs.direnv-init = "echo 'use flake' > .envrc && direnv allow";
+        programs.fish.shellAbbrs.direnv-init = "printf '%s\\n' 'eval \"$(devenv direnvrc)\"' 'use devenv' > .envrc && direnv allow";
         programs.fish.interactiveShellInit = ''
           abbr -a flake-init --set-cursor 'nix flake init -t $NH_FLAKE#%'
         '';
+      };
+
+      devenv.nixos = {pkgs, ...}: {
+        environment.systemPackages = [pkgs.devenv];
+
+        nix.settings.extra-substituters = ["https://devenv.cachix.org"];
+        nix.settings.trusted-public-keys = ["devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="];
+
+        programs.fish.shellAbbrs = {
+          ds = "devenv shell";
+          dvup = "devenv up";
+          dvt = "devenv tasks run";
+          dvu = "devenv update";
+          dvs = "devenv search";
+        };
       };
 
       android.nixos = {
