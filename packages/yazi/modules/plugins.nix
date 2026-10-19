@@ -24,6 +24,18 @@
       '';
     };
 
+    # run_query returns nil when duckdb fails (e.g. a .txt that isn't csv)
+    duckdb = pkgs.applyPatches {
+      name = "duckdb.yazi";
+      src = pkgs.yaziPlugins.duckdb;
+      postPatch = ''
+        substituteInPlace main.lua \
+          --replace-fail 'tostring(output.stdout)' 'tostring(output and output.stdout)' \
+          --replace-fail 'tostring(output.stderr)' 'tostring(output and output.stderr)' \
+          --replace-fail 'local cleaned = output.stdout and' 'local cleaned = output and output.stdout and'
+      '';
+    };
+
     path-from-root = pkgs.fetchFromGitHub {
       # https://github.com/aresler/path-from-root.yazi
       owner = "aresler";
@@ -33,13 +45,12 @@
     };
   in {
     plugins = {
-      inherit yatline path-from-root;
+      inherit yatline path-from-root duckdb;
       yatline-catppuccin = pkgs.yaziPlugins.yatline-catppuccin;
       piper = pkgs.yaziPlugins.piper;
       ouch = pkgs.yaziPlugins.ouch;
       mediainfo = pkgs.yaziPlugins.mediainfo;
       wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
-      duckdb = pkgs.yaziPlugins.duckdb;
       full-border = pkgs.yaziPlugins.full-border;
       git = pkgs.yaziPlugins.git;
       zoom = "${bundle}/zoom.yazi";
