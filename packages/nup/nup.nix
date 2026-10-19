@@ -180,14 +180,30 @@ in {
         git add -A
         git commit --quiet --no-verify --file "$work/commit"
 
+        # what was built must be what lands, so replay onto a moved HEAD and build again
+        while head=$(git -C "$flake" rev-parse HEAD) && [[ $head != "$base" ]]; do
+          log warn "HEAD moved to ''${head:0:7} while nup ran, rebuilding on it"
+          update=$(git rev-parse HEAD)
+          git reset --quiet --hard "$head"
+          if ! git cherry-pick "$update" >/dev/null 2>&1; then
+            git cherry-pick --abort 2>/dev/null || true
+            git -C "$flake" branch --force nup "$update"
+            reported=1
+            log error "The update conflicts with ''${head:0:7}, it's on branch nup"
+            exit 1
+          fi
+          base=$head
+          build_review
+          stage 5 "Committing"
+          write_commit
+          git commit --quiet --no-verify --amend --file "$work/commit"
+        done
+
         update=$(git rev-parse HEAD)
-        git -C "$flake" branch --quiet --force nup "$update"
-        if git -C "$flake" merge --quiet --ff-only nup 2>/dev/null || git -C "$flake" cherry-pick nup >/dev/null; then
-          git -C "$flake" branch --quiet --delete --force nup
-        else
-          git -C "$flake" cherry-pick --abort 2>/dev/null || true
+        if ! git -C "$flake" merge --quiet --ff-only "$update"; then
+          git -C "$flake" branch --force nup "$update"
           reported=1
-          log error "Couldn't land the update on $(git -C "$flake" branch --show-current), it's on branch nup"
+          log error "Couldn't fast-forward $(git -C "$flake" branch --show-current), the update is on branch nup"
           exit 1
         fi
         log info "Landed $(git -C "$flake" rev-parse --short HEAD) on $(git -C "$flake" branch --show-current), switch when ready"
