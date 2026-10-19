@@ -15,8 +15,7 @@
           sshUser = user;
           sshKey = config.sops.secrets."nix-builder-key".path;
 
-          # aarch64 through binfmt
-          systems = ["x86_64-linux" "i686-linux" "aarch64-linux"];
+          systems = ["x86_64-linux" "i686-linux"];
           supportedFeatures = ["benchmark" "big-parallel" "kvm" "nixos-test"];
 
           # 15 GiB of RAM

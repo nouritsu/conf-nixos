@@ -10,6 +10,5 @@
     git
     helix
     virtualization.podman
-    virtualization.emulate-aarch64
   ];
 }
