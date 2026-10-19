@@ -115,6 +115,9 @@
           end
           set -q attrs[6]; and echo "  "(set_color brblack)"# "(math (count $attrs) - 5)" more, comma lists them all"(set_color normal) >&2
         end
+
+        # comma in front of the line, or of the last command if empty
+        bind alt-comma 'fish_commandline_prepend ,'
       '';
 
       nix.settings.trusted-users = ["root" "@wheel"];
