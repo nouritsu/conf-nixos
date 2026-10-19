@@ -219,11 +219,31 @@ in {
         fi
       '';
     };
+
+    # editors inject custom theme colours as .<id>, which loses to :root .theme-type-dark
+    # stdenv only builds the unpacked app inside the fhs env
+    themable = pkgs.onlyoffice-desktopeditors.override {
+      stdenv =
+        pkgs.stdenvAdapters.addAttrsToDerivation {
+          postInstall = ''
+            cd $out/share/desktopeditors/editors/web-apps/apps
+            for f in $(grep -rlF 'inject_style_tag("."+objtheme.id+"{"' .); do
+              substituteInPlace "$f" --replace-fail \
+                'inject_style_tag("."+objtheme.id+"{"' 'inject_style_tag(":root body."+objtheme.id+"{"'
+            done
+            for f in $(grep -rlF '[":root .",' --include=app.js .); do
+              substituteInPlace "$f" --replace-fail '[":root .",' '[":root body.",'
+            done
+            cd -
+          '';
+        }
+        pkgs.stdenv;
+    };
   in {
     packages.onlyoffice = wrappers.lib.wrapPackage [
       {
         inherit pkgs;
-        package = pkgs.onlyoffice-desktopeditors;
+        package = themable;
       }
       {
         runShell = ["${lib.getExe enforce} || true"];
