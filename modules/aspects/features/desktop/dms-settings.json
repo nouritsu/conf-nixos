@@ -13,8 +13,8 @@
         "transparency": 0,
         "weight": 0,
         "twoTone": true,
-        "showDate": false,
-        "showDigitalSeconds": false,
+        "showDate": true,
+        "showDigitalSeconds": true,
         "showAnalogNumbers": false,
         "showAnalogSeconds": true,
         "autoPosition": true,
@@ -25,7 +25,7 @@
     {
       "id": "lock_date",
       "widgetType": "lockDate",
-      "enabled": false,
+      "enabled": true,
       "config": {
         "displayPreferences": [
           "all"
@@ -46,7 +46,7 @@
         ],
         "syncPositionAcrossScreens": true,
         "style": "expressive",
-        "profileVisibility": "always",
+        "profileVisibility": "never",
         "passwordVisibility": "always"
       }
     },
@@ -73,7 +73,7 @@
         "syncPositionAcrossScreens": true,
         "showMediaPlayer": true,
         "showWeather": true,
-        "background": false
+        "background": true
       }
     },
     {
@@ -85,7 +85,7 @@
           "all"
         ],
         "syncPositionAcrossScreens": true,
-        "shape": "round"
+        "shape": "cookie9"
       }
     }
   ],
