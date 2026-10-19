@@ -43,7 +43,7 @@
 
         cpu_usage = "󰻠 ";
 
-        memory_usage = " ";
+        memory_usage = "  ";
 
         load = "󰓅 ";
 
