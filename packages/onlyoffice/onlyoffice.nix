@@ -12,7 +12,7 @@ in {
     editors = ["document" "spreadsheet" "presentation" "pdf" "visio"];
     perEditor = key: colour: lib.genAttrs (map (editor: "${key}-${editor}") editors) (_: colour);
 
-    # catppuccin colour names, name/alpha for translucent ones
+    # catppuccin colour names, name/alpha for translucent ones, other values as is
     # keys without a value here fall back to the built-in dark theme
     colors =
       perEditor "toolbar-header" "crust"
@@ -155,6 +155,28 @@ in {
         download-progressbar-background = "surface1";
         download-progressbar-background-item-hover = "surface2";
         download-scrollbar-handle = "overlay1";
+
+        # Start page, its dark values only exist for the built-in themes
+        background-action-panel = "base";
+        background-normal-element = "mantle";
+        background-normal-element-light = "mantle";
+        background-tabbar = "mantle";
+        background-icon-normal = "surface0";
+        background-primary-button = "mauve";
+        background-scroll-thumb = "surface1";
+        highlight-primary-button-hover = "mauve/85";
+        highlight-primary-button-pressed = "mauve/70";
+        highlight-accent-button-hover = "mauve/85";
+        highlight-accent-button-pressed = "mauve/70";
+        highlight-scroll-thumb-hover = "surface2";
+        highlight-scroll-track-hover = "text/3";
+        highlight-sidebar-item-pressed = "surface0";
+        border-tabbar = "surface0";
+        border-sidebar = "surface0";
+        border-sidebar-icon = "surface1";
+        text-negative = "red";
+        disabled-element-opacity = ".3";
+        theme-inverted-image-filter = "invert(1)";
       };
 
     named = pkgs.writeText "${id}.json" (builtins.toJSON {
@@ -167,12 +189,16 @@ in {
       jq --slurpfile palette ${inputs'.catppuccin.packages.palette}/palette.json '
         $palette[0].mocha.colors as $mocha
         | .colors |= map_values(
-          split("/") as [$name, $alpha]
-          | ($mocha[$name] // error("unknown colour \($name)")) as $c
-          | if $alpha
-            then "rgba(\($c.rgb.r), \($c.rgb.g), \($c.rgb.b), \(($alpha | tonumber) / 100))"
-            else $c.hex
-            end
+          if test("^[a-z0-9]+(/[0-9]+)?$") | not
+          then .
+          else
+            split("/") as [$name, $alpha]
+            | ($mocha[$name] // error("unknown colour \($name)")) as $c
+            | if $alpha
+              then "rgba(\($c.rgb.r), \($c.rgb.g), \($c.rgb.b), \(($alpha | tonumber) / 100))"
+              else $c.hex
+              end
+          end
         )
       ' ${named} > $out
     '';
