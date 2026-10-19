@@ -25,6 +25,7 @@
       nix.builds-on-laptop
 
       ssh.from-laptop
+      ssh.from-pixel
     ];
   };
 }
