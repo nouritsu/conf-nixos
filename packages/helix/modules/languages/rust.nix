@@ -10,6 +10,7 @@
       rust-analyzer = {
         command = "rust-analyzer";
         config = {
+          check.command = "clippy";
           inlayHints = {
             bindingModeHints.enable = false;
             closingBraceHints.minLines = 10;
