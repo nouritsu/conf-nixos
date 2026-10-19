@@ -46,12 +46,15 @@ in {
         self.nixosModules.whelix-lsp-c
         self.nixosModules.whelix-lsp-cook-cli
         self.nixosModules.whelix-lsp-gdscript
+        self.nixosModules.whelix-lsp-lua
         self.nixosModules.whelix-lsp-markdown
         self.nixosModules.whelix-lsp-nix
         self.nixosModules.whelix-lsp-python
+        self.nixosModules.whelix-lsp-qml
         self.nixosModules.whelix-lsp-rust
         self.nixosModules.whelix-lsp-slint
         self.nixosModules.whelix-lsp-toml
+        self.nixosModules.whelix-lsp-typescript
         self.nixosModules.whelix-lsp-typst
         self.nixosModules.whelix-lsp-web
         self.nixosModules.whelix-lsp-yaml
