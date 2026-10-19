@@ -29,6 +29,10 @@
       bufferline = "multiple";
       cursorline = true;
       clipboard-provider = "wayland";
+      rainbow-brackets = true;
+
+      # hint takes the first spacer's column
+      gutters = ["diagnostics" "code-action-hint" "line-numbers" "spacer" "diff"];
 
       # LSP
       completion-timeout = 5; # instant
@@ -36,6 +40,7 @@
       lsp = {
         display-messages = true;
         display-inlay-hints = true;
+        auto-document-highlight = true;
       };
       end-of-line-diagnostics = "hint";
     };
