@@ -1,9 +1,13 @@
 # 3.2.18 can't install lovely 0.10.0 (version.dll became winmm.dll)
-# drop once nixpkgs is past 3.2.18
 # https://github.com/NixOS/nixpkgs/pull/556060
 final: prev: {
   r2modman = prev.r2modman.overrideAttrs (finalAttrs: old: {
-    version = "3.2.20";
+    version = let
+      pin = "3.2.20";
+    in
+      final.lib.warnIf (final.lib.versionAtLeast old.version pin)
+      "nixpkgs has r2modman ${old.version}, drop its overlay"
+      pin;
 
     src = final.fetchFromGitHub {
       owner = "ebkr";
