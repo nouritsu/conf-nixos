@@ -10,7 +10,7 @@
   in {
     environment.systemPackages = [starship];
 
-    # starship init bakes in the unwrapped binary, so export its config here
+    # the prompt runs the wrapper, which only defaults STARSHIP_CONFIG
     programs.fish.interactiveShellInit = ''
       if test "$TERM" != dumb
         if set -q SSH_CONNECTION

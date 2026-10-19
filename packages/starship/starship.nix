@@ -21,6 +21,10 @@ in {
         lib,
         ...
       }: {
+        # default only, so the STARSHIP_CONFIG fish exports wins
+        env.STARSHIP_CONFIG = lib.mkForce null;
+        envDefault.STARSHIP_CONFIG = config.constructFiles."starship.toml".path;
+
         constructFiles."starship-ssh.toml" = {
           relPath = "starship-ssh.toml";
           content = builtins.toJSON (lib.recursiveUpdate config.settings {
