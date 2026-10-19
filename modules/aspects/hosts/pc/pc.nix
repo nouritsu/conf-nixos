@@ -20,7 +20,6 @@
       dms.home-assistant
       services.beszel
       extra.streaming
-      ai.local
       nix.serve
       nix.builds-on-laptop
 
