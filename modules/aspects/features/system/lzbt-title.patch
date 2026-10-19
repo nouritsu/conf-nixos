@@ -1,0 +1,40 @@
+--- a/shared/src/generation.rs
++++ b/shared/src/generation.rs
+@@ -25,12 +25,15 @@
+ #[derive(Debug, Clone, Deserialize)]
+ pub struct LanzabooteExtension {
+     pub sort_key: String,
++    #[serde(default)]
++    pub title: Option<String>,
+ }
+ 
+ impl Default for LanzabooteExtension {
+     fn default() -> Self {
+         Self {
+             sort_key: String::from("lanzaboote"),
++            title: None,
+         }
+     }
+ }
+--- a/shared/src/os_release.rs
++++ b/shared/src/os_release.rs
+@@ -37,11 +37,14 @@
+         // See #220.
+         map.insert(
+             "PRETTY_NAME".into(),
+-            format!(
+-                "{} ({})",
+-                generation.spec.bootspec.bootspec.label,
+-                generation.describe()
+-            ),
++            match &generation.spec.lanzaboote_extension.title {
++                Some(title) => title.replace("@generation@", &generation.version_tag()),
++                None => format!(
++                    "{} ({})",
++                    generation.spec.bootspec.bootspec.label,
++                    generation.describe()
++                ),
++            },
+         );
+ 
+         map.insert("VERSION_ID".into(), generation.describe());
