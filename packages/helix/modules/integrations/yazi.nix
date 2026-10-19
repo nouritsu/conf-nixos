@@ -14,7 +14,24 @@
         target=$(dirname -- "$target")
         [ -d "$target" ] || target=.
       fi
-      exec ${yazi} "$target" --chooser-file=/tmp/yazi-path
+      ${yazi} "$target" --chooser-file=/tmp/yazi-path
+      [ -f /tmp/yazi-path ] || exit 0
+
+      # binary picks go to their default app, the rest to helix
+      texts=
+      while IFS= read -r f || [ -n "$f" ]; do
+        case $(${pkgs.file}/bin/file -bL --mime -- "$f") in
+          inode/x-empty*) texts+="$f"$'\n' ;;
+          *charset=binary*) ${pkgs.util-linux}/bin/setsid -f ${pkgs.xdg-utils}/bin/xdg-open "$f" >/dev/null 2>&1 ;;
+          *) texts+="$f"$'\n' ;;
+        esac
+      done < /tmp/yazi-path
+
+      if [ -n "$texts" ]; then
+        printf '%s' "$texts" > /tmp/yazi-path
+      else
+        rm -f /tmp/yazi-path
+      fi
     '';
   in {
     helix'.binds_space =
