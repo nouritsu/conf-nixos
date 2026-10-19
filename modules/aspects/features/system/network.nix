@@ -5,6 +5,9 @@
       networking.networkmanager.wifi.powersave = false;
       networking.firewall.enable = true;
 
+      # boot and the greeter don't wait for a connection
+      systemd.services.NetworkManager-wait-online.enable = false;
+
       # nm-connection-editor only; the tray applet is DMS's job
       environment.systemPackages = [pkgs.networkmanagerapplet];
       environment.etc."xdg/autostart/nm-applet.desktop".text = ''
