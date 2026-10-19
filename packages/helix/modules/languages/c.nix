@@ -63,7 +63,16 @@
     };
   in {
     languages.language-server = {
-      clangd.command = clangd;
+      clangd = {
+        command = clangd;
+        args = [
+          "--background-index"
+          "--clang-tidy"
+          "--header-insertion=never"
+          # system headers of store compilers, e.g. arm-none-eabi-gcc
+          "--query-driver=/nix/store/*/bin/*"
+        ];
+      };
     };
 
     languages.language = [
