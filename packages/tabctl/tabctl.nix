@@ -17,6 +17,8 @@
 
       ldflags = ["-X github.com/tabctl/tabctl/internal/config.Version=${version}"];
 
+      passthru.nup = [];
+
       meta = {
         description = "Control browser tabs from the command line";
         homepage = "https://github.com/slastra/tabctl";

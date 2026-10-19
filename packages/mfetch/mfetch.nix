@@ -25,6 +25,9 @@
       # no tests, the check phase only recompiles in test mode
       doCheck = false;
 
+      # upstream ships no Cargo.lock
+      passthru.nup = ["--generate-lockfile"];
+
       meta = {
         description = "memory-focused system info tool written in Rust for linux.";
         homepage = "https://github.com/xdearboy/mfetch";

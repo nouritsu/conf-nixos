@@ -1,14 +1,23 @@
-{
-  flake.nixosModules.wyazi-plugins = {pkgs, ...}: let
-    bundle = pkgs.fetchFromGitHub {
-      owner = "yazi-rs";
-      repo = "plugins";
-      rev = "05234ed15876ea80e1f4f05695e8e90c1fd5ab60";
-      hash = "sha256-UJ2ICrp9LQBuuR/NpZvKsvFd/C1TRtTjK4ESNA6xh7k=";
+{self, ...}: {
+  # flake outputs so nup can bump them
+  perSystem = {pkgs, ...}: {
+    packages.yazi-rs-plugins = pkgs.srcOnly {
+      stdenv = pkgs.stdenvNoCC;
+      pname = "yazi-rs-plugins";
+      version = "0-unstable-2025-12-23";
+      src = pkgs.fetchFromGitHub {
+        owner = "yazi-rs";
+        repo = "plugins";
+        rev = "05234ed15876ea80e1f4f05695e8e90c1fd5ab60";
+        hash = "sha256-UJ2ICrp9LQBuuR/NpZvKsvFd/C1TRtTjK4ESNA6xh7k=";
+      };
+      passthru.nup = ["--version=branch"];
     };
 
-    yatline = pkgs.applyPatches {
-      name = "yatline.yazi";
+    packages.yatline-yazi = pkgs.srcOnly {
+      stdenv = pkgs.stdenvNoCC;
+      pname = "yatline-yazi";
+      version = "0-unstable-2025-11-06";
       src = pkgs.fetchFromGitHub {
         # https://github.com/carlosedp/yatline.yazi
         owner = "carlosedp";
@@ -22,7 +31,29 @@
           'local icon = hovered:icon().text' \
           'local icon = (th.icon:match(hovered, { hovered = true }) or {}).text or ""'
       '';
+      passthru.nup = ["--version=branch"];
     };
+
+    packages.path-from-root-yazi = pkgs.srcOnly {
+      stdenv = pkgs.stdenvNoCC;
+      pname = "path-from-root-yazi";
+      version = "0-unstable-2025-07-24";
+      src = pkgs.fetchFromGitHub {
+        # https://github.com/aresler/path-from-root.yazi
+        owner = "aresler";
+        repo = "path-from-root.yazi";
+        rev = "c4f03df864f09f9d2c4d585411f61c64de5954de";
+        hash = "sha256-dQjZwRT1aMo3u0YuR+g036iQANTXnndaDQ3AoJ1yb1k=";
+      };
+      passthru.nup = ["--version=branch"];
+    };
+  };
+
+  flake.nixosModules.wyazi-plugins = {pkgs, ...}: let
+    pins = self.packages.${pkgs.stdenv.hostPlatform.system};
+    bundle = pins.yazi-rs-plugins;
+    yatline = pins.yatline-yazi;
+    path-from-root = pins.path-from-root-yazi;
 
     # run_query returns nil when duckdb fails (e.g. a .txt that isn't csv)
     duckdb = pkgs.applyPatches {
@@ -34,14 +65,6 @@
           --replace-fail 'tostring(output.stderr)' 'tostring(output and output.stderr)' \
           --replace-fail 'local cleaned = output.stdout and' 'local cleaned = output and output.stdout and'
       '';
-    };
-
-    path-from-root = pkgs.fetchFromGitHub {
-      # https://github.com/aresler/path-from-root.yazi
-      owner = "aresler";
-      repo = "path-from-root.yazi";
-      rev = "c4f03df864f09f9d2c4d585411f61c64de5954de";
-      hash = "sha256-dQjZwRT1aMo3u0YuR+g036iQANTXnndaDQ3AoJ1yb1k=";
     };
   in {
     plugins = {

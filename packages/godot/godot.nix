@@ -10,11 +10,17 @@ in {
   }: let
     bin = name: "/run/current-system/sw/bin/${name}";
 
-    catppuccin = pkgs.fetchFromGitHub {
-      owner = "catppuccin";
-      repo = "godot";
-      rev = "d8b72b679078f0103a5e5c1ef793c1d698a563b1";
-      hash = "sha256-Og69rMEsygVYpWVGvJGsCydQzRC9BXBQxyrJ4kfdUEo=";
+    catppuccin = pkgs.srcOnly {
+      stdenv = pkgs.stdenvNoCC;
+      pname = "catppuccin-godot";
+      version = "0-unstable-2024-09-02";
+      src = pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "godot";
+        rev = "d8b72b679078f0103a5e5c1ef793c1d698a563b1";
+        hash = "sha256-Og69rMEsygVYpWVGvJGsCydQzRC9BXBQxyrJ4kfdUEo=";
+      };
+      passthru.nup = ["--version=branch"];
     };
 
     color = slot: {
@@ -150,6 +156,8 @@ in {
       '';
     };
   in {
+    packages.catppuccin-godot = catppuccin;
+
     packages.godot = wrappers.lib.wrapPackage [
       {
         inherit pkgs;

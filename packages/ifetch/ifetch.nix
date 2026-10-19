@@ -17,6 +17,8 @@
         "ETC_CONFIG_DIR=/etc/ifetch"
       ];
 
+      passthru.nup = ["--version=branch"];
+
       meta = {
         description = "Fetch tool for Linux systems to display network interface information";
         homepage = "https://github.com/deivshon/ifetch";

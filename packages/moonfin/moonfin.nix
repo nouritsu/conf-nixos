@@ -21,6 +21,8 @@
         install -Dm444 ${finalAttrs.contents}/org.moonfin.linux.png -t $out/share/icons/hicolor/512x512/apps
       '';
 
+      passthru.nup = [];
+
       meta = {
         description = "Jellyfin and Emby media client";
         homepage = "https://moonfin.io";

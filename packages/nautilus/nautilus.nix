@@ -38,6 +38,7 @@ in {
         install -Dm644 nautilus_copy_path.py translation.py config.json -t $dir/nautilus-copy-path
         cp -r translations $dir/nautilus-copy-path
       '';
+      passthru.nup = [];
     };
 
     media-columns = mkExtension rec {
@@ -50,6 +51,7 @@ in {
         hash = "sha256-M3J7nM4f8F5KxPJxBA0/yC6FizyPKy6Ek6fTRJsnyWk=";
       };
       install = "install -Dm644 nautilus-media-columns.py -t $dir";
+      passthru.nup = [];
     };
 
     folder-color = mkExtension {
@@ -62,6 +64,7 @@ in {
         hash = "sha256-0dXcp7/Js6Hk/QfbqLXRnZ8wdbA542e6gj08TqPez34=";
       };
       install = "install -Dm644 extension/folder-color.py -t $dir";
+      passthru.nup = ["--version=branch"];
     };
 
     # nautilus quits with its last window otherwise
@@ -123,6 +126,7 @@ in {
         install -Dm644 extensions/actions-for-nautilus.py -t $dir
         install -Dm644 extensions/actions-for-nautilus/*.py -t $dir/actions-for-nautilus
       '';
+      passthru.nup = [];
     };
 
     extensions = pkgs.buildEnv {
@@ -156,6 +160,12 @@ in {
       ];
     };
   in {
+    # flake outputs so nup can bump them
+    packages.nautilus-copy-path = copy-path;
+    packages.nautilus-media-columns = media-columns;
+    packages.nautilus-folder-color = folder-color;
+    packages.actions-for-nautilus = actions-for-nautilus;
+
     packages.nautilus = wrappers.lib.wrapPackage [
       {
         inherit pkgs;

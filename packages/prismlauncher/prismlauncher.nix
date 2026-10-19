@@ -7,11 +7,17 @@ in {
     lib,
     ...
   }: let
-    themes = pkgs.fetchFromGitHub {
-      owner = "PrismLauncher";
-      repo = "Themes";
-      rev = "4b2556c54fe7e89b4ec82bc270d3c56644a79d94";
-      hash = "sha256-YZxym0sPCjwAmXEnuDL9jUbaTNRCqxiQze1FAMLLp2w=";
+    themes = pkgs.srcOnly {
+      stdenv = pkgs.stdenvNoCC;
+      pname = "prismlauncher-themes";
+      version = "0-unstable-2026-10-05";
+      src = pkgs.fetchFromGitHub {
+        owner = "PrismLauncher";
+        repo = "Themes";
+        rev = "4b2556c54fe7e89b4ec82bc270d3c56644a79d94";
+        hash = "sha256-YZxym0sPCjwAmXEnuDL9jUbaTNRCqxiQze1FAMLLp2w=";
+      };
+      passthru.nup = ["--version=branch"];
     };
 
     # mocha highlights in lavender; swap in mauve
@@ -39,6 +45,8 @@ in {
       '';
     };
   in {
+    packages.prismlauncher-themes = themes;
+
     packages.prismlauncher = wrappers.lib.wrapPackage [
       {
         inherit pkgs;

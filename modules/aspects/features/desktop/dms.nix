@@ -234,17 +234,11 @@
       pkgs,
       lib,
       inputs',
+      self',
       ...
     }: let
       src = inputs'.dms-plugin-registry.packages.dankRazer;
-      dankrazer = pkgs.buildGoModule {
-        pname = "dankrazer";
-        inherit (src) version;
-        src = "${src}/dankrazer-cli";
-        vendorHash = "sha256-+oHslT8yKWaToq2zmVJ+NVowPfRGR6R6ajapFywmgo8=";
-        subPackages = ["cmd/dankrazer"];
-        meta.mainProgram = "dankrazer";
-      };
+      dankrazer = self'.packages.dankrazer;
     in {
       programs.dms-shell.plugins.dankRazer = {
         enable = true;
