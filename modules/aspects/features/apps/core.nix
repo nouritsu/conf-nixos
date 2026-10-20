@@ -19,7 +19,6 @@
       pkgs.rip2
       pkgs.bat
       pkgs.fd
-      pkgs.fzf
       pkgs.ripgrep
       pkgs.ripgrep-all
       pkgs.ouch
@@ -84,7 +83,7 @@
       cp = "xcp";
       rm = "rip";
       cd = "z";
-      fz = "fzf";
+      fz = "tv";
       du = "dust";
     };
 

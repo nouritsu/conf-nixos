@@ -107,7 +107,7 @@
 
         programs.fish.shellAliases = {
           repl-nix = "nix repl";
-          ns = "nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history";
+          ns = "tv nix";
           closure = "nix-tree /run/current-system";
         };
       };
