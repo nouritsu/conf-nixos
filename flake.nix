@@ -25,6 +25,10 @@
       url = "github:catppuccin/starship";
       flake = false;
     };
+    catppuccin-television = {
+      url = "github:catppuccin/television";
+      flake = false;
+    };
     nix-colors.url = "github:misterio77/nix-colors";
     qtengine = {
       url = "github:kossLAN/qtengine";
