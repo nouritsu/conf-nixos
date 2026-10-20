@@ -99,6 +99,17 @@
         run = "plugin jump-to-char";
         desc = "Jump to char";
       }
+      # stock z and Z need fzf
+      {
+        on = "z";
+        run = ''shell --block -- d=$(tv zoxide --keybindings 'enter="confirm_selection"') && [ -n "$d" ] && ya emit cd "$d"'';
+        desc = "Jump to a zoxide dir with tv";
+      }
+      {
+        on = "Z";
+        run = ''shell --block -- f=$(tv files) && [ -n "$f" ] && ya emit reveal "$PWD/$f"'';
+        desc = "Find a file with tv";
+      }
     ];
   };
 }
