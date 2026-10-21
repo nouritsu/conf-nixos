@@ -40,6 +40,8 @@
     swapDevices = [
       {device = "/dev/disk/by-uuid/94a1a4b4-511b-4fa4-8caa-1ceb1929af0a";}
     ];
+    # cachyos defaults to 0 for zram; this swap is on disk behind zswap
+    boot.kernel.sysctl."vm.page-cluster" = 3;
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode =
