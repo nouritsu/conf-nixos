@@ -130,9 +130,13 @@
       };
     };
 
+    host = subdomain: endpoints.${subdomain}.host or "${subdomain}.${domain}";
+    open = subdomain: let
+      e = endpoints.${subdomain};
+    in "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${e.scheme or "https"}://${host subdomain}${e.path or ""}";
+
     entry = subdomain: e: let
       id = "homelab-${subdomain}";
-      host = e.host or "${subdomain}.${domain}";
 
       icon = pkgs.fetchurl {
         url = "${icons}/${e.icon}.svg";
@@ -142,10 +146,10 @@
       desktop = pkgs.makeDesktopItem {
         name = id;
         desktopName = e.name;
-        genericName = host;
+        genericName = host subdomain;
         comment = e.description;
         keywords = ["homelab" subdomain];
-        exec = "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${e.scheme or "https"}://${host}${e.path or ""}";
+        exec = open subdomain;
         icon = id;
         categories = ["Network"];
       };
@@ -154,7 +158,41 @@
         install -Dm444 ${icon} $out/share/icons/hicolor/scalable/apps/${id}.svg
         install -Dm444 ${desktop}/share/applications/${id}.desktop -t $out/share/applications
       '';
+
+    link = subdomain: icon: {
+      desc = endpoints.${subdomain}.name;
+      inherit icon;
+      cmd = open subdomain;
+    };
   in {
     environment.systemPackages = lib.mapAttrsToList entry endpoints;
+
+    which-key'.menu.h.submenu = {
+      h = link "home" "f07d0";
+      j = link "player" "f0230";
+      p = link "pihole" "f0df1";
+      r = link "router" "f0469";
+      f = link "files" "f0870";
+      d = link "docs" "f0219";
+      s = link "sync" "f04e6";
+      m = link "monitor" "f012a";
+      k = link "disks" "f02ca";
+      e = link "share" "f0497";
+      g = link "sign" "f0dfc";
+      a = {
+        desc = "Arr stack";
+        icon = "f01da";
+        submenu = {
+          r = link "movies" "f0381";
+          s = link "shows" "f07f4";
+          b = link "books" "f14f7";
+          z = link "subs" "f0a16";
+          p = link "indexes" "f0349";
+          q = link "torrent" "f0347";
+          n = link "usenet" "f0395";
+          o = link "mam" "f1327";
+        };
+      };
+    };
   };
 }

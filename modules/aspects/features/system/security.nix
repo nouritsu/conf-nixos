@@ -6,7 +6,11 @@
       security.sudo-rs.enable = true;
     };
 
-    provides.keyring.nixos = {pkgs, ...}: {
+    provides.keyring.nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       services.gnome.gnome-keyring.enable = true;
       security.pam.services.greetd.enableGnomeKeyring = true;
       security.pam.services.login.enableGnomeKeyring = true;
@@ -15,6 +19,13 @@
         pkgs.gcr_4
         pkgs.seahorse
       ];
+
+      which-key'.menu.s.submenu.k = {
+        desc = "Seahorse";
+        icon = "f0306";
+        cmd = lib.getExe pkgs.seahorse;
+        app-id = "seahorse";
+      };
     };
 
     provides.trust-homelab.nixos = {

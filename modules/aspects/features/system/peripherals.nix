@@ -2,13 +2,24 @@
   den.aspects.peripherals.provides = {
     keyboard = {
       includes = [(den.batteries.unfree ["wootility"])];
-      nixos = {pkgs, ...}: {
+      nixos = {
+        pkgs,
+        lib,
+        ...
+      }: {
         console.keyMap = "us";
         services.xserver.xkb.layout = "eu";
 
         # Wooting 60HE configuration software
         environment.systemPackages = [pkgs.wootility];
         services.udev.packages = [pkgs.wooting-udev-rules];
+
+        which-key'.menu.s.submenu.w = {
+          desc = "Wootility";
+          icon = "f030c";
+          cmd = lib.getExe pkgs.wootility;
+          app-id = "wootility";
+        };
       };
     };
 
@@ -57,6 +68,13 @@
           SUBSYSTEM=="hidraw", ATTRS{idVendor}=="28bd", ATTRS{idProduct}=="0928", MODE="0660", GROUP="input"
           SUBSYSTEM=="usb", ATTRS{idVendor}=="28bd", ATTRS{idProduct}=="0928", MODE="0660", GROUP="input"
         '';
+
+        which-key'.menu.s.submenu.t = {
+          desc = "OpenTabletDriver";
+          icon = "f19b9";
+          cmd = "otd-gui";
+          app-id = "opentabletdriver";
+        };
       };
 
       user.extraGroups = ["input"];
@@ -64,7 +82,11 @@
 
     controller = {
       includes = [(den.batteries.unfree ["xone-dongle-firmware"])];
-      nixos = {pkgs, ...}: {
+      nixos = {
+        pkgs,
+        lib,
+        ...
+      }: {
         hardware.xpadneo.enable = true; # Xbox One/Series over Bluetooth
         hardware.xone.enable = true; # Xbox One/Series over dongle + USB
         hardware.steam-hardware.enable = true; # Steam controller + generic gamepad
@@ -75,6 +97,13 @@
         ];
 
         services.udev.packages = [pkgs.game-devices-udev-rules];
+
+        which-key'.menu.g.submenu.c = {
+          desc = "AntiMicroX";
+          icon = "f0b82";
+          cmd = lib.getExe pkgs.antimicrox;
+          app-id = "antimicrox";
+        };
       };
 
       user.extraGroups = ["input"];
@@ -111,6 +140,13 @@
         };
 
         environment.systemPackages = [pkgs.polychromatic];
+
+        which-key'.menu.s.submenu.r = {
+          desc = "Polychromatic";
+          icon = "f037f";
+          cmd = lib.getExe pkgs.polychromatic;
+          app-id = "polychromatic";
+        };
       };
 
       user.extraGroups = ["openrazer"];

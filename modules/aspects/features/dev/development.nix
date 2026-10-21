@@ -43,6 +43,7 @@
       android.nixos = {
         self',
         pkgs,
+        lib,
         ...
       }: {
         environment.systemPackages = [
@@ -51,6 +52,13 @@
           pkgs.pixelflasher
           self'.packages.scrcpy
         ];
+
+        which-key'.menu.t.submenu.p = {
+          desc = "scrcpy";
+          icon = "f0121";
+          cmd = lib.getExe self'.packages.scrcpy;
+          app-id = "scrcpy";
+        };
 
         programs.fish.shellAbbrs = {
           ads = "adb shell";

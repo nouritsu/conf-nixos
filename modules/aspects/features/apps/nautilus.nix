@@ -33,6 +33,13 @@
         pkgs.wl-clipboard
       ];
 
+      which-key'.menu.t.submenu.h = {
+        desc = "Collision";
+        icon = "f0423";
+        cmd = lib.getExe pkgs.collision;
+        app-id = "collision";
+      };
+
       programs.fish.interactiveShellInit = ''
         function drag --description 'drag files out of the terminal'
           if isatty stdin

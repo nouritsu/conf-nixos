@@ -28,6 +28,13 @@
           self'.packages.blender-steam
         ];
 
+      which-key'.menu.m.submenu.a = {
+        desc = "Audacity";
+        icon = "f147d";
+        cmd = lib.getExe pkgs.audacity;
+        app-id = "audacity";
+      };
+
       # Godot only reads export templates from its data dir
       systemd.user.tmpfiles.rules = [
         "L+ %h/.local/share/godot/export_templates/${version} - - - - ${templates}/share/godot/export_templates/${version}"

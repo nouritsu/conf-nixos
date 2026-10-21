@@ -17,6 +17,12 @@
 
       environment.systemPackages = [inputs'.niri-cwd.packages.niri-cwd];
 
+      which-key'.menu.t.submenu.z = {
+        desc = "woomer";
+        icon = "f034b";
+        cmd = lib.getExe pkgs.woomer;
+      };
+
       systemd.user.tmpfiles.rules = [
         # for tools that look in ~/.config/niri (DMS, niri validate)
         "L+ %h/.config/niri/config.kdl - - - - ${wniri}/niri-config.kdl"

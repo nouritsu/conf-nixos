@@ -17,8 +17,19 @@
       security.rtkit.enable = true;
     };
 
-    provides.mixer.nixos = {pkgs, ...}: {
+    provides.mixer.nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       environment.systemPackages = [pkgs.pavucontrol];
+
+      which-key'.menu.s.submenu.a = {
+        desc = "pavucontrol";
+        icon = "f057e";
+        cmd = lib.getExe pkgs.pavucontrol;
+        app-id = "pavucontrol";
+      };
     };
 
     provides.fx.nixos = {
@@ -31,6 +42,13 @@
       wait-for-tray = lib.getExe self'.packages.wait-for-tray;
     in {
       environment.systemPackages = [pkgs.easyeffects];
+
+      which-key'.menu.s.submenu.e = {
+        desc = "EasyEffects";
+        icon = "f0ea2";
+        cmd = easyeffects;
+        app-id = "easyeffects";
+      };
 
       systemd.user.services.easyeffects = {
         description = "EasyEffects audio service";

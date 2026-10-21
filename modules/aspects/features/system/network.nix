@@ -1,6 +1,10 @@
 {
   den.aspects.network = {
-    nixos = {pkgs, ...}: {
+    nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       networking.networkmanager.enable = true;
       networking.networkmanager.wifi.powersave = false;
       networking.firewall.enable = true;
@@ -16,6 +20,13 @@
         Name=NetworkManager Applet
         Hidden=true
       '';
+
+      which-key'.menu.s.submenu.n = {
+        desc = "Network editor";
+        icon = "f0317";
+        cmd = lib.getExe' pkgs.networkmanagerapplet "nm-connection-editor";
+        app-id = "nm-connection-editor";
+      };
     };
 
     provides.avahi.nixos = {

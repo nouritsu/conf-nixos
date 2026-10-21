@@ -16,6 +16,27 @@
           self'.packages.moonfin
         ];
 
+        which-key'.menu.m.submenu = {
+          s = {
+            desc = "Spotify";
+            icon = "f04c7";
+            cmd = lib.getExe self'.packages.spotify;
+            app-id = "^spotify$";
+          };
+          j = {
+            desc = "Moonfin";
+            icon = "f0ecf";
+            cmd = lib.getExe self'.packages.moonfin;
+            app-id = "moonfin";
+          };
+          o = {
+            desc = "OBS";
+            icon = "f044b";
+            cmd = lib.getExe self'.packages.obs-studio;
+            app-id = "obsproject|^obs$";
+          };
+        };
+
         xdg.mime.defaultApplications =
           # brave and papers claim some of these otherwise
           lib.genAttrs [
@@ -177,6 +198,7 @@
       nixos = {
         self',
         pkgs,
+        lib,
         ...
       }: {
         environment.systemPackages = [
@@ -186,6 +208,39 @@
           pkgs.teams-for-linux
           pkgs.slack
         ];
+
+        which-key'.menu.c.submenu = {
+          d = {
+            desc = "Vesktop";
+            icon = "f066f";
+            cmd = lib.getExe self'.packages.vesktop;
+            app-id = "vesktop";
+          };
+          t = {
+            desc = "Telegram";
+            icon = "f2c6";
+            cmd = lib.getExe pkgs.telegram-desktop;
+            app-id = "telegram";
+          };
+          w = {
+            desc = "WhatsApp";
+            icon = "f05a3";
+            cmd = lib.getExe pkgs.whatsapp-electron;
+            app-id = "whatsapp";
+          };
+          s = {
+            desc = "Slack";
+            icon = "f04b1";
+            cmd = lib.getExe pkgs.slack;
+            app-id = "^slack$";
+          };
+          m = {
+            desc = "Teams";
+            icon = "f02bb";
+            cmd = lib.getExe pkgs.teams-for-linux;
+            app-id = "teams-for-linux";
+          };
+        };
       };
     };
 
@@ -218,6 +273,20 @@
           })
         ];
 
+        which-key'.menu.g.submenu = {
+          s = {
+            desc = "Steam";
+            icon = "f04d3";
+            cmd = "steam";
+            app-id = "^steam$";
+          };
+          b = {
+            desc = "Big Picture";
+            icon = "f0502";
+            cmd = "steam steam://open/bigpicture";
+          };
+        };
+
         environment.sessionVariables.MANGOHUD_CONFIGFILE = "${inputs'.catppuccin.packages.mangohud}/mocha/MangoHud.conf";
       };
     };
@@ -225,6 +294,7 @@
     game-mods.nixos = {
       self',
       pkgs,
+      lib,
       ...
     }: {
       environment.systemPackages = [
@@ -234,21 +304,78 @@
         self'.packages.prismlauncher
         pkgs.deadlock-mod-manager
       ];
+
+      which-key'.menu.g.submenu = {
+        p = {
+          desc = "Prism Launcher";
+          icon = "f0373";
+          cmd = lib.getExe self'.packages.prismlauncher;
+          app-id = "prismlauncher";
+        };
+        r = {
+          desc = "r2modman";
+          icon = "f0431";
+          cmd = lib.getExe pkgs.r2modman;
+          app-id = "r2modman";
+        };
+      };
     };
 
-    emulation.nixos = {pkgs, ...}: {
+    emulation.nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       environment.systemPackages = [pkgs.eden];
+
+      which-key'.menu.g.submenu.e = {
+        desc = "Eden";
+        icon = "f07e1";
+        cmd = lib.getExe pkgs.eden;
+        app-id = "eden_emu|^eden$";
+      };
     };
 
     proton = {
       includes = [(den.batteries.unfree ["proton-authenticator"])];
-      nixos = {pkgs, ...}: {
+      nixos = {
+        pkgs,
+        lib,
+        ...
+      }: {
         environment.systemPackages = [
           pkgs.proton-authenticator
           pkgs.protonmail-desktop
           pkgs.proton-pass
           pkgs.proton-vpn
         ];
+
+        which-key'.menu.p.submenu = {
+          m = {
+            desc = "Mail";
+            icon = "f01ee";
+            cmd = lib.getExe pkgs.protonmail-desktop;
+            app-id = "proton.?mail";
+          };
+          p = {
+            desc = "Pass";
+            icon = "f030b";
+            cmd = lib.getExe pkgs.proton-pass;
+            app-id = "proton.?pass";
+          };
+          v = {
+            desc = "VPN";
+            icon = "f0582";
+            cmd = lib.getExe pkgs.proton-vpn;
+            app-id = "protonvpn|proton.vpn";
+          };
+          a = {
+            desc = "Authenticator";
+            icon = "f09af";
+            cmd = lib.getExe pkgs.proton-authenticator;
+            app-id = "proton.?authenticator";
+          };
+        };
       };
     };
   };

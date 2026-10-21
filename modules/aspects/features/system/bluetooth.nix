@@ -18,5 +18,12 @@
       Name=Blueman Applet
       Hidden=true
     '';
+
+    which-key'.menu.s.submenu.b = {
+      desc = "Blueman";
+      icon = "f00af";
+      cmd = "blueman-manager";
+      app-id = "blueman";
+    };
   };
 }

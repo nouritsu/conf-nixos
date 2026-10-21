@@ -125,6 +125,30 @@
         enable = true;
       };
 
+      which-key'.menu.t.submenu = {
+        c = {
+          desc = "Colour picker";
+          icon = "f020a";
+          cmd = "dms color pick -a";
+        };
+        W = {
+          desc = "Wallpaper carousel";
+          icon = "f0e09";
+          cmd = "dms ipc call wallpaperCarousel toggle";
+        };
+        k = {
+          desc = "KDE Connect";
+          icon = "f373";
+          cmd = "kdeconnect-app";
+          app-id = "kdeconnect";
+        };
+        n = {
+          desc = "DMS notepad";
+          icon = "f039e";
+          cmd = "dms ipc call notepad open";
+        };
+      };
+
       # DMS's power-profile switcher and cpu.balanced need it
       services.power-profiles-daemon.enable = true;
 
