@@ -85,26 +85,6 @@ in {
       '';
     };
 
-    # outside a project devenv would put .devenv in whatever dir claude started in
-    # $1 is the project dir, plugin servers don't start there
-    devenv-mcp = pkgs.writeShellApplication {
-      name = "devenv-mcp";
-      runtimeInputs = [pkgs.devenv];
-      text = ''
-        dir=''${1:-$PWD}
-        while [[ $dir != / && ! -e $dir/devenv.nix ]]; do
-          dir=$(dirname "$dir")
-        done
-        if [[ ! -e $dir/devenv.nix ]]; then
-          dir=''${XDG_CACHE_HOME:-$HOME/.cache}/devenv-mcp
-          mkdir -p "$dir"
-          [[ -e $dir/devenv.nix ]] || echo '{}' >"$dir/devenv.nix"
-        fi
-        cd "$dir"
-        exec devenv mcp
-      '';
-    };
-
     # sops token as a bearer; home assistant's mcp server takes long-lived tokens
     ha-headers = pkgs.writeShellApplication {
       name = "claude-ha-headers";
@@ -217,9 +197,8 @@ in {
           command = lib.getExe self'.packages.godot-mcp;
         };
         devenv = {
-          type = "stdio";
-          command = lib.getExe devenv-mcp;
-          args = ["\${CLAUDE_PROJECT_DIR}"];
+          type = "http";
+          url = "https://mcp.devenv.sh";
         };
         home-assistant = {
           type = "http";
@@ -359,15 +338,11 @@ in {
             "Bash(gdscript-formatter --check *)"
             "mcp__plugin_nix_nixos"
             "mcp__plugin_nix_context7"
+            "mcp__plugin_nix_devenv"
             "mcp__plugin_nix_godot__get_godot_version"
             "mcp__plugin_nix_godot__list_projects"
             "mcp__plugin_nix_godot__get_project_info"
             "mcp__plugin_nix_godot__get_debug_output"
-            "mcp__plugin_nix_devenv__search_packages"
-            "mcp__plugin_nix_devenv__search_options"
-            "mcp__plugin_nix_devenv__list_processes"
-            "mcp__plugin_nix_devenv__get_process_status"
-            "mcp__plugin_nix_devenv__get_process_logs"
           ];
 
           hooks = {
