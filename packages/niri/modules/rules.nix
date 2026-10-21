@@ -21,5 +21,13 @@
         open-fullscreen = true;
       }
     ];
+
+    settings.layer-rules = [
+      {
+        matches = [{namespace = "^wlr_which_key$";}];
+        shadow.on = _: {};
+        geometry-corner-radius = 12;
+      }
+    ];
   };
 }

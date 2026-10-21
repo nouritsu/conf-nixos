@@ -9,6 +9,7 @@
     niri
     niri.portals
     niri.xwayland
+    which-key
     dms
     dms.tailscale
     greeter
