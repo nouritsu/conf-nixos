@@ -3,6 +3,7 @@
     bootloader
     nix
     nix.gc
+    nix.abbrs
     network
     network.avahi
     network.dns-pihole
