@@ -39,12 +39,10 @@
         environment.systemPackages = [pkgs.sbctl];
       };
 
-      # needs sbctl keys first; enroll-keys -m -f in Setup Mode
-      limine.nixos = {pkgs, ...}: {
+      limine.nixos = {
         boot.loader.limine = {
           enable = true;
           maxGenerations = 10;
-          secureBoot.enable = true;
           # any key within the timeout shows the menu
           extraConfig = "quiet: yes";
           # no title
@@ -52,6 +50,11 @@
         };
 
         boot.loader.timeout = 1;
+      };
+
+      # Limine only; needs sbctl keys first; enroll-keys -m -f in Setup Mode
+      secure-boot.nixos = {pkgs, ...}: {
+        boot.loader.limine.secureBoot.enable = true;
 
         environment.systemPackages = [pkgs.sbctl];
       };

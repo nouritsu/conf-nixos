@@ -3,6 +3,7 @@
     includes = with den.aspects; [
       workstation
       bootloader.limine
+      bootloader.secure-boot
       bootloader.windows
       kernel.cachyos-bore-lto
       firmware.amd
