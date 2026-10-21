@@ -17,6 +17,7 @@
     nautilus = lib.getExe self.packages.${system}.nautilus;
     brave = lib.getExe pkgs.brave;
 
+    pkill = lib.getExe' pkgs.procps "pkill";
     wpctl = lib.getExe' pkgs.wireplumber "wpctl";
     brightnessctl = lib.getExe pkgs.brightnessctl;
     playerctl = lib.getExe pkgs.playerctl;
@@ -35,13 +36,13 @@
       "Mod+E".spawn-sh = "${nautilus} --new-window ${cwd}";
       "Mod+Shift+E".spawn-sh = "${wezterm} start --cwd ${cwd} -- ${yazi}";
 
-      "Mod+D".spawn = "vesktop";
       "Mod+Z".spawn = woomer;
       "Mod+P".spawn = scrcpy;
 
-      "Mod+S".spawn = "pavucontrol";
-      "Mod+B".spawn = "blueman-manager";
-      "Mod+N".spawn = "nm-connection-editor";
+      "Mod+Space".spawn = "wlr-which-key";
+      "Mod+Shift+Space".spawn = [pkill "-x" "wlr-which-key"];
+      "Mod+S".spawn = ["wlr-which-key" "--initial-keys" "s"];
+      "Mod+D".spawn = ["wlr-which-key" "--initial-keys" "c"];
 
       "Mod+A".spawn-sh = "dms ipc call spotlight toggle";
       "Mod+I".spawn-sh = "dms ipc call settings focusOrToggle";
@@ -49,10 +50,9 @@
       "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
       "Mod+Shift+Escape".spawn-sh = "dms ipc call lock lock";
       "Ctrl+Shift+Escape".spawn-sh = "dms ipc call processlist focusOrToggle";
-      "Mod+Alt+W".spawn-sh = "dms ipc call dankdash wallpaper";
       "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";
       "Mod+C".spawn-sh = "dms color pick -a";
-      "Mod+Space".spawn-sh = "dms ipc call notifications toggle";
+      "Mod+N".spawn-sh = "dms ipc call notifications toggle";
 
       # Audio
       "XF86AudioRaiseVolume".spawn = [wpctl "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"];
