@@ -2,6 +2,7 @@
   den.aspects.base.includes = with den.aspects; [
     bootloader
     nix
+    nix.gc
     network
     network.avahi
     network.dns-pihole

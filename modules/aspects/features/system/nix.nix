@@ -39,9 +39,6 @@
         enable = true;
         flake = "${config.users.users.${primary}.home}/.config/nixos";
 
-        clean.enable = true;
-        clean.extraArgs = "--keep 5 --keep-since 7d";
-
         package = lib.mkIf (substituters != []) (pkgs.symlinkJoin {
           inherit (pkgs.nh) name meta;
           paths = [
