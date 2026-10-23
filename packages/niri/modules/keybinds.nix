@@ -53,6 +53,7 @@
       "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";
       "Mod+C".spawn-sh = "dms color pick -a";
       "Mod+N".spawn-sh = "dms ipc call notifications toggle";
+      "Mod+Shift+N".spawn-sh = "dms ipc call notifications clearAll";
 
       # Audio
       "XF86AudioRaiseVolume".spawn = [wpctl "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"];
