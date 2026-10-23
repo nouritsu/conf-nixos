@@ -21,7 +21,11 @@
         age.keyFile = "${config.users.users.${owner}.home}/.config/sops/age/keys.txt";
       };
 
-      sops.secrets."home-assistant-token" = {
+      sops.secrets."ha-pc-token" = {
+        inherit owner;
+      };
+
+      sops.secrets."ha-claude-token" = {
         inherit owner;
       };
     };

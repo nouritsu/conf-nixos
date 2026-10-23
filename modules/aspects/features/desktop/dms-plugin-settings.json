@@ -43,7 +43,7 @@
     "zoomFactor": 1
   },
   "homeAssistantMonitor": {
-    "hassTokenPath": "/run/secrets/home-assistant-token",
+    "hassTokenPath": "/run/secrets/ha-pc-token",
     "showAttributes": false,
     "showButtonsOnStatusBar": true
   },
