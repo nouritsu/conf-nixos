@@ -52,7 +52,8 @@
         rev = "c4c95e3a412526e7b8a94ed85df33b4a9e7cb0e9";
         hash = "sha256-jI30YM2UDP5fAsiF+7iwaNdr2UyEQ+yx5wTEAi3BY04=";
       };
-      passthru.nup = ["--version=branch"];
+      # skip the rolling `release` tag
+      passthru.nup = ["--version=branch" "--version-regex=(0-unstable-.*)"];
     };
 
     aseprite-theme = pkgs.writeShellApplication {
