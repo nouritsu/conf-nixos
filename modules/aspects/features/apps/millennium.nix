@@ -16,7 +16,7 @@
       global_launch_options = self'.packages.millennium-global-launch-options;
       hltb-for-millennium = self'.packages.millennium-hltb;
       protondb-library-badges = self'.packages.millennium-protondb-library-badges;
-      size-on-disk = self'.packages.millennium-size-on-disk;
+      "size-on-disk.star" = self'.packages.millennium-size-on-disk;
       steam-easygrid = self'.packages.millennium-steam-easygrid;
     };
     plugins = pkgs.linkFarm "millennium-plugins" pluginSrcs;
@@ -87,6 +87,8 @@
               dst=$2/$(basename "$link")
               # .star plugins are never unpacked or written to
               if [ -f "$src" ]; then
+                # drop our copy from before it became a .star
+                [ -f "''${dst%.star}/.nix-source" ] && rm -rf "''${dst%.star}"
                 ln -sf "$src" "$dst"
                 continue
               fi

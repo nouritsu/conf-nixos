@@ -125,12 +125,17 @@
       passthru.nup = [];
     };
 
-    packages.millennium-size-on-disk = release rec {
+    # releases are a single .star since 1.3.0
+    packages.millennium-size-on-disk = pkgs.stdenvNoCC.mkDerivation rec {
       pname = "size-on-disk";
-      version = "1.2.0";
-      url = "https://github.com/k0d13/steam-size-on-disk/releases/download/v${version}/size-on-disk-${version}.zip";
-      hash = "sha256-uEoNS5rYUblax0+eCG8B6zHt3XIoDdQFqzt3PxhamCc=";
-      stripRoot = false;
+      version = "1.3.1";
+      src = pkgs.fetchurl {
+        url = "https://github.com/k0d13/steam-size-on-disk/releases/download/v${version}/size-on-disk-${version}.star";
+        hash = "sha256-VJohLQSYLCj71zBlTM5yqS8iuER2lCYDPdkfj2YtTAo=";
+      };
+      dontUnpack = true;
+      installPhase = "cp $src $out";
+      dontFixup = true;
       passthru.nup = [];
     };
 
