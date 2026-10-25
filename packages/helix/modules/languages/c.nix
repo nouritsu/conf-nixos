@@ -1,11 +1,7 @@
 {
-  flake.nixosModules.whelix-lsp-c = {
-    lib,
-    pkgs,
-    ...
-  }: let
-    clangd = lib.getExe' pkgs.clang-tools "clangd";
-    lldb-dap = lib.getExe' pkgs.lldb "lldb-dap";
+  flake.nixosModules.whelix-lsp-c = {onDemand, ...}: let
+    clangd = onDemand "clang-tools" "clangd";
+    lldb-dap = onDemand "lldb" "lldb-dap";
 
     debugger = {
       name = "lldb-dap";

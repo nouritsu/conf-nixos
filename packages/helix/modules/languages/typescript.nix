@@ -2,11 +2,12 @@
   flake.nixosModules.whelix-lsp-typescript = {
     lib,
     pkgs,
+    onDemand,
     ...
   }: {
     languages.language-server = {
       typescript-language-server.command = lib.getExe pkgs.typescript-language-server;
-      svelteserver.command = lib.getExe pkgs.svelte-language-server;
+      svelteserver.command = onDemand "svelte-language-server" "svelteserver";
     };
 
     languages.language =

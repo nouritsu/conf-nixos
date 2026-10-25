@@ -1,4 +1,8 @@
-{inputs, ...}: let
+{
+  self,
+  inputs,
+  ...
+}: let
   inherit (inputs) wrappers nix-colors;
   inherit (nix-colors.colorSchemes.catppuccin-mocha) palette;
 
@@ -217,7 +221,7 @@ in {
           extensionToLanguage.".rs" = "rust";
         };
         clangd = {
-          command = "${pkgs.clang-tools}/bin/clangd";
+          command = self.lib.onDemand pkgs "clang-tools" "clangd";
           args = ["--background-index"];
           extensionToLanguage = {
             ".c" = "c";
@@ -258,7 +262,7 @@ in {
           };
         };
         svelte = {
-          command = lib.getExe pkgs.svelte-language-server;
+          command = self.lib.onDemand pkgs "svelte-language-server" "svelteserver";
           args = ["--stdio"];
           extensionToLanguage.".svelte" = "svelte";
         };
@@ -267,7 +271,7 @@ in {
           extensionToLanguage.".lua" = "lua";
         };
         qmlls = {
-          command = lib.getExe' pkgs.kdePackages.qtdeclarative "qmlls";
+          command = self.lib.onDemand pkgs "kdePackages.qtdeclarative" "qmlls";
           extensionToLanguage.".qml" = "qml";
         };
       };

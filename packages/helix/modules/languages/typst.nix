@@ -2,9 +2,10 @@
   flake.nixosModules.whelix-lsp-typst = {
     lib,
     pkgs,
+    onDemand,
     ...
   }: let
-    tinymist = lib.getExe pkgs.tinymist;
+    tinymist = onDemand "tinymist" "tinymist";
     typstyle = lib.getExe pkgs.typstyle;
   in {
     languages.language-server = {

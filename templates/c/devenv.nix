@@ -2,8 +2,8 @@
   # gcc, make, clang-tools, gdb, valgrind
   languages.c = {
     enable = true;
-    # helix brings clangd
-    lsp.enable = false;
+    # helix runs clangd
+    lsp.package = pkgs.clang-tools;
     debugger = pkgs.lldb;
   };
 

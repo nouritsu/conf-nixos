@@ -1,10 +1,6 @@
 {
-  flake.nixosModules.whelix-lsp-slint = {
-    lib,
-    pkgs,
-    ...
-  }: let
-    slint-lsp = lib.getExe pkgs.slint-lsp;
+  flake.nixosModules.whelix-lsp-slint = {onDemand, ...}: let
+    slint-lsp = onDemand "slint-lsp" "slint-lsp";
   in {
     languages.language-server = {
       slint-lsp.command = slint-lsp;

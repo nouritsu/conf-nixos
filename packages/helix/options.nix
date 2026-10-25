@@ -1,9 +1,12 @@
-{
+{self, ...}: {
   flake.nixosModules.whelix-options = {
     lib,
+    pkgs,
     config,
     ...
   }: {
+    config._module.args.onDemand = self.lib.onDemand pkgs;
+
     options.helix' = {
       binds_g = lib.mkOption {
         type = lib.types.lines;

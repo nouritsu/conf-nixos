@@ -1,9 +1,5 @@
 {
-  flake.nixosModules.whelix-lsp-qml = {
-    lib,
-    pkgs,
-    ...
-  }: {
-    languages.language-server.qmlls.command = lib.getExe' pkgs.kdePackages.qtdeclarative "qmlls";
+  flake.nixosModules.whelix-lsp-qml = {onDemand, ...}: {
+    languages.language-server.qmlls.command = onDemand "kdePackages.qtdeclarative" "qmlls";
   };
 }
