@@ -52,6 +52,7 @@
       # allowed while locked, relocks if the locker dies
       "Mod+Shift+Escape" = _: {
         props.allow-when-locked = true;
+        props.allow-inhibiting = false;
         content.spawn = [shatterlock "lock"];
       };
       "Ctrl+Shift+Escape".spawn-sh = "dms ipc call processlist focusOrToggle";

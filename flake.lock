@@ -851,11 +851,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792938484,
-        "narHash": "sha256-DxpBkQB4TQwkCMgIwkXYSypONwZgzPlA5G/Wy54MBtA=",
+        "lastModified": 1792939204,
+        "narHash": "sha256-EPTmNvEiKEJnHgoovvRakHbGFHdcpG7DQwHLNKfomEM=",
         "owner": "nouritsu",
         "repo": "shatterlock",
-        "rev": "3f287799474a621f4441c3a9e1b2920b3c929df2",
+        "rev": "88b13991b96f6d5590d9e2c31b63198f943f063d",
         "type": "github"
       },
       "original": {
