@@ -151,7 +151,6 @@ in {
         pkgs.gst-thumbnailers
         pkgs.glycin-thumbnailer
         pkgs.papers
-        pkgs.f3d
       ];
       pathsToLink = [
         "/lib/nautilus/extensions-4"

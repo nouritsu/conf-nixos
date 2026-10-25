@@ -12,7 +12,6 @@
         (den.batteries.unfree [
           "nvidia-x11"
           "nvidia-kernel-modules"
-          "nvidia-settings"
           "nvidia-persistenced"
         ])
       ];
@@ -21,6 +20,7 @@
         hardware.nvidia = {
           open = true;
           modesetting.enable = true;
+          nvidiaSettings = false;
         };
 
         # by license: cuda redists get renamed between releases
@@ -31,13 +31,6 @@
 
         # usb-c controller on the card; its probe times out every boot
         boot.blacklistedKernelModules = ["i2c_nvidia_gpu"];
-
-        which-key'.menu.s.submenu.v = {
-          desc = "NVIDIA settings";
-          icon = "f08ae";
-          cmd = "nvidia-settings";
-          app-id = "nvidia-settings";
-        };
 
         # cudaSupport builds; cache.nixos.org has none
         nix.settings = {

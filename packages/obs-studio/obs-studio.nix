@@ -39,7 +39,8 @@ in {
     packages.obs-studio = wrappers.lib.wrapPackage [
       {
         inherit pkgs;
-        package = pkgs.wrapOBS {
+        # no browser source: cef alone is 2 GB
+        package = pkgs.wrapOBS.override {obs-studio = pkgs.obs-studio.override {browserSupport = false;};} {
           plugins = [pkgs.obs-studio-plugins.obs-pipewire-audio-capture];
         };
       }

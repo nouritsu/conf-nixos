@@ -50,7 +50,8 @@ in {
     packages.prismlauncher = wrappers.lib.wrapPackage [
       {
         inherit pkgs;
-        package = pkgs.prismlauncher;
+        # every instance is 1.12.2
+        package = pkgs.prismlauncher.override {jdks = [pkgs.jdk8];};
       }
       {
         runShell = ["${lib.getExe enforce} || true"];

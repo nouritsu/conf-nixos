@@ -15,6 +15,9 @@
         package = wniri;
       };
 
+      # graphical-desktop turns it on; 700 MB of voices nothing here uses
+      services.speechd.enable = false;
+
       environment.systemPackages = [inputs'.niri-cwd.packages.niri-cwd];
 
       which-key'.menu.t.submenu.z = {

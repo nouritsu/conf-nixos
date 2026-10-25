@@ -6,15 +6,10 @@
       lib,
       config,
       ...
-    }: let
-      godot = self'.packages.godot;
-      templates = godot.configuration.package.export-templates-bin;
-      # the directory Godot looks for: 4.7.2-stable -> 4.7.2.stable
-      version = lib.replaceStrings ["-"] ["."] godot.configuration.package.version;
-    in {
+    }: {
       environment.systemPackages =
         [
-          godot
+          self'.packages.godot
           self'.packages.godot-lsp
           pkgs.gdscript-formatter
         ]
@@ -23,11 +18,6 @@
           self'.packages.aseprite-steam
           self'.packages.blender-steam
         ];
-
-      # Godot only reads export templates from its data dir
-      systemd.user.tmpfiles.rules = [
-        "L+ %h/.local/share/godot/export_templates/${version} - - - - ${templates}/share/godot/export_templates/${version}"
-      ];
     };
   };
 }

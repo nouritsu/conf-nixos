@@ -63,5 +63,9 @@
       enable = true;
       generateAtRuntime = true;
     };
+
+    # man pages only: no /share/doc outputs or nixos html manual
+    documentation.doc.enable = false;
+    documentation.nixos.enable = false;
   };
 }

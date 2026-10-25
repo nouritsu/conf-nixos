@@ -125,15 +125,24 @@
         };
         version = "3.12.4-unstable-2026-07-12";
         nixpkgsVersion = pkgs.python3Packages.openrazer-daemon.version;
+        inherit (config.boot.kernelPackages) kernel;
       in {
         warnings = lib.optional (lib.versionOlder "3.12.4" nixpkgsVersion) "nixpkgs has openrazer ${nixpkgsVersion}; drop the git pin if it supports the Viper V4 Pro";
 
         hardware.openrazer = {
           enable = true;
-          packages.kernel = config.boot.kernelPackages.openrazer.overrideAttrs {
+          packages.kernel = config.boot.kernelPackages.openrazer.overrideAttrs (old: {
             inherit src;
-            version = "${version}-${config.boot.kernelPackages.kernel.version}";
-          };
+            version = "${version}-${kernel.version}";
+
+            # a WARN path from hid.h kept the 1.3 GB kernel dev tree alive
+            nativeBuildInputs = old.nativeBuildInputs ++ [pkgs.removeReferencesTo];
+            postInstall =
+              (old.postInstall or "")
+              + ''
+                remove-references-to -t ${kernel.dev} $out/lib/modules/*/kernel/drivers/hid/*.ko
+              '';
+          });
           packages.daemon = pkgs.python3Packages.openrazer-daemon.overridePythonAttrs {
             inherit src version;
           };
