@@ -3,7 +3,6 @@
     nixos = {pkgs, ...}: {
       environment.systemPackages = [
         pkgs.jq
-        pkgs.gnumake
         pkgs.grex
         pkgs.lazydocker
         pkgs.tokei
@@ -48,8 +47,6 @@
       }: {
         environment.systemPackages = [
           pkgs.android-tools
-          pkgs.slint-viewer
-          pkgs.pixelflasher
           self'.packages.scrcpy
         ];
 
@@ -118,14 +115,6 @@
           ns = "tv nix";
           closure = "nix-tree /run/current-system";
         };
-      };
-
-      python.nixos = {pkgs, ...}: {
-        environment.systemPackages = [
-          pkgs.python3
-        ];
-
-        programs.fish.shellAliases.repl-py = "python3";
       };
     };
   };

@@ -138,15 +138,6 @@
             inherit src version;
           };
         };
-
-        environment.systemPackages = [pkgs.polychromatic];
-
-        which-key'.menu.s.submenu.r = {
-          desc = "Polychromatic";
-          icon = "f037f";
-          cmd = lib.getExe pkgs.polychromatic;
-          app-id = "polychromatic";
-        };
       };
 
       user.extraGroups = ["openrazer"];

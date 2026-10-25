@@ -13,7 +13,6 @@
           pkgs.eog
           self'.packages.mpv
           self'.packages.spotify
-          self'.packages.moonfin
         ];
 
         which-key'.menu.m.submenu = {
@@ -22,12 +21,6 @@
             icon = "f04c7";
             cmd = lib.getExe self'.packages.spotify;
             app-id = "^spotify$";
-          };
-          j = {
-            desc = "Moonfin";
-            icon = "f0ecf";
-            cmd = lib.getExe self'.packages.moonfin;
-            app-id = "moonfin";
           };
           o = {
             desc = "OBS";
@@ -298,9 +291,7 @@
       ...
     }: {
       environment.systemPackages = [
-        pkgs.lumafly
         pkgs.r2modman
-        pkgs.satisfactorymodmanager
         self'.packages.prismlauncher
         pkgs.deadlock-mod-manager
       ];

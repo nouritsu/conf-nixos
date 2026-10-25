@@ -17,23 +17,12 @@
           godot
           self'.packages.godot-lsp
           pkgs.gdscript-formatter
-          pkgs.ldtk
-          pkgs.tiled
-          pkgs.sfxr-qt
-          pkgs.audacity
         ]
         # Steam installs, so only on hosts with Steam
         ++ lib.optionals config.programs.steam.enable [
           self'.packages.aseprite-steam
           self'.packages.blender-steam
         ];
-
-      which-key'.menu.m.submenu.a = {
-        desc = "Audacity";
-        icon = "f147d";
-        cmd = lib.getExe pkgs.audacity;
-        app-id = "audacity";
-      };
 
       # Godot only reads export templates from its data dir
       systemd.user.tmpfiles.rules = [
