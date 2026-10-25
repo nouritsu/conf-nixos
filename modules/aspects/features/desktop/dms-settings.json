@@ -426,9 +426,10 @@
     }
   },
   "acMonitorTimeout": 3600,
-  "acLockTimeout": 3600,
+  "acLockTimeout": 0,
   "batteryCriticalNotificationType": 0,
   "loginctlLockIntegration": false,
+  "lockBeforeSuspend": false,
   "fadeToLockGracePeriod": 15,
   "fadeToDpmsGracePeriod": 15,
   "notificationOverlayEnabled": true,
@@ -803,7 +804,7 @@
   "matugenTemplateAlacritty": false,
   "matugenTemplateEmacs": false,
   "batteryMonitorTimeout": 300,
-  "batteryLockTimeout": 600,
+  "batteryLockTimeout": 0,
   "batterySuspendTimeout": 900,
   "configVersion": 38
 }

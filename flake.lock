@@ -752,6 +752,7 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_6",
         "qtengine": "qtengine",
+        "shatterlock": "shatterlock",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "treefmt-nix": "treefmt-nix",
@@ -837,6 +838,29 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "shatterlock": {
+      "inputs": {
+        "niri": [
+          "niri"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792938484,
+        "narHash": "sha256-DxpBkQB4TQwkCMgIwkXYSypONwZgzPlA5G/Wy54MBtA=",
+        "owner": "nouritsu",
+        "repo": "shatterlock",
+        "rev": "3f287799474a621f4441c3a9e1b2920b3c929df2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nouritsu",
+        "repo": "shatterlock",
         "type": "github"
       }
     },

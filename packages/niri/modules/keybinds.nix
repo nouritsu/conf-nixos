@@ -15,6 +15,7 @@
     scrcpy = lib.getExe self.packages.${system}.scrcpy;
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
+    shatterlock = lib.getExe self.packages.${system}.shatterlock;
     brave = lib.getExe pkgs.brave;
 
     pkill = lib.getExe' pkgs.procps "pkill";
@@ -47,8 +48,12 @@
       "Mod+A".spawn-sh = "dms ipc call spotlight toggle";
       "Mod+I".spawn-sh = "dms ipc call settings focusOrToggle";
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
-      "Mod+Escape".spawn-sh = "dms ipc call powermenu toggle";
-      "Mod+Shift+Escape".spawn-sh = "dms ipc call lock lock";
+      "Mod+Escape".spawn = [shatterlock "toggle"];
+      # allowed while locked, relocks if the locker dies
+      "Mod+Shift+Escape" = _: {
+        props.allow-when-locked = true;
+        content.spawn = [shatterlock "lock"];
+      };
       "Ctrl+Shift+Escape".spawn-sh = "dms ipc call processlist focusOrToggle";
       "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";
       "Mod+C".spawn-sh = "dms color pick -a";

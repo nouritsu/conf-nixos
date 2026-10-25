@@ -12,6 +12,7 @@
     which-key
     dms
     dms.tailscale
+    shatterlock
     greeter
     user-dirs
     core

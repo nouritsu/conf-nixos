@@ -7,6 +7,7 @@
       (afterTray ["steam" "-silent"])
       (afterTray ["vesktop" "--start-minimized"])
       ["gsr-ui" "launch-daemon"]
+      [(pkgs.lib.getExe self.packages.${system}.shatterlock) "daemon"]
     ];
   };
 }

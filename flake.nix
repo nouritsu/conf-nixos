@@ -53,6 +53,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    shatterlock = {
+      url = "github:nouritsu/shatterlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # its niri patch has to apply to this niri
+      inputs.niri.follows = "niri";
+    };
+
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
