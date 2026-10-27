@@ -37,6 +37,19 @@
         openFirewall = true;
       };
 
+      # sunshine still sets the obsolete avahi.publish options; same effect via settings
+      services.avahi = {
+        publish = {
+          enable = null;
+          userServices = null;
+        };
+        settings.publish = {
+          disable-publishing = false;
+          disable-user-service-publishing = false;
+          publish-addresses = true;
+        };
+      };
+
       # sys_nice: high-priority egl context, so capture keeps up under game load
       security.wrappers.sunshine.capabilities = lib.mkForce "cap_sys_admin,cap_sys_nice+p";
 
