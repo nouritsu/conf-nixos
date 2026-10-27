@@ -184,7 +184,7 @@
           tabsLauncher.enable = true;
           windowFx.enable = true;
 
-          # local: the focused column's width as a % of the screen
+          # local: the focused window's width and height as a % of the screen
           columnWidth = {
             enable = true;
             src = self'.packages.dms-column-width;

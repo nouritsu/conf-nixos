@@ -1,7 +1,7 @@
 {
   "id": "columnWidth",
   "name": "Column Width",
-  "description": "Width of the focused niri column as a percentage of the screen",
+  "description": "Width and height of the focused niri window as a percentage of the screen",
   "version": "1.0.0",
   "author": "Aneesh Bhave",
   "icon": "width",
