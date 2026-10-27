@@ -43,6 +43,24 @@
         gst = "git status -sb";
         glog = "git log --oneline --graph --decorate";
         gundo = "git reset --soft HEAD~1";
+        gpf = "git push --force-with-lease";
+        gpF = "git push --force";
+        gaa = "git add --all";
+        gc = "git commit";
+        gca = "git commit --amend";
+        gcan = "git commit --amend --no-edit";
+        gdf = "git diff";
+        gds = "git diff --staged";
+        gsw = "git switch";
+        gb = "git branch";
+        gf = "git fetch --all --prune";
+        gm = "git merge";
+        grbc = "git rebase --continue";
+        grba = "git rebase --abort";
+        grs = "git restore";
+        grss = "git restore --staged";
+        gsh = "git stash";
+        gshp = "git stash pop";
       };
 
       programs.fish.interactiveShellInit = ''
