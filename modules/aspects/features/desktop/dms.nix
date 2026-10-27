@@ -23,7 +23,7 @@
       # every installed plugin is switched on, plus its pinned settings
       pluginSettings = let
         pinned = lib.importJSON ./dms-plugin-settings.json;
-        installed = lib.filterAttrs (_: p: p.enable) config.programs.dms-shell.plugins;
+        installed = lib.filterAttrs (_: p: p.enable) config.programs.dux-shell.plugins;
       in
         (pkgs.formats.json {}).generate "dms-plugin-settings.json"
         (lib.mapAttrs (id: _: {enabled = true;} // pinned.${id} or {}) installed);
@@ -75,7 +75,7 @@
       environment.systemPackages = [
         pkgs.wl-clipboard-rs
         pkgs.xournalpp
-        pkgs.dsearch
+        pkgs.dux-search
         pkgs.wl-mirror
 
         # Plugin deps
@@ -152,7 +152,7 @@
       # DMS's power-profile switcher and cpu.balanced need it
       services.power-profiles-daemon.enable = true;
 
-      programs.dms-shell = {
+      programs.dux-shell = {
         enable = true;
         package = inputs'.dms.packages.default;
 
@@ -235,7 +235,7 @@
 
       # a failed connect ends in Error, never Closed, so reconnect() waits
       # forever and the widget stays on REST; re-arm once nothing is pending
-      programs.dms-shell.plugins.homeAssistantMonitor = {
+      programs.dux-shell.plugins.homeAssistantMonitor = {
         enable = true;
         src = lib.mkForce (pkgs.applyPatches {
           name = "dms-plugin-homeAssistantMonitor";
@@ -251,7 +251,7 @@
       };
     };
 
-    provides.battery.nixos.programs.dms-shell.plugins.batteryOSD.enable = true;
+    provides.battery.nixos.programs.dux-shell.plugins.batteryOSD.enable = true;
 
     # expects its go cli hand-built inside the per-user plugin dir
     provides.razer.nixos = {
@@ -264,7 +264,7 @@
       src = inputs'.dms-plugin-registry.packages.dankRazer;
       dankrazer = self'.packages.dankrazer;
     in {
-      programs.dms-shell.plugins.dankRazer = {
+      programs.dux-shell.plugins.dankRazer = {
         enable = true;
         src = lib.mkForce (pkgs.applyPatches {
           name = "dms-plugin-dankRazer";
@@ -286,7 +286,7 @@
 
     # hardcodes VPC2004:00 and errors on every start without it
     provides.ideapad.nixos = {lib, ...}: {
-      programs.dms-shell.plugins.dmsLenovoBatterySettings.enable = true;
+      programs.dux-shell.plugins.dmsLenovoBatterySettings.enable = true;
 
       # laptop only: Bar 2, right after batteryPlus
       dms'.settingsOverrides = [
@@ -319,7 +319,7 @@
     }: let
       tailscale = lib.getExe' config.services.tailscale.package "tailscale";
     in {
-      programs.dms-shell.plugins.dankscale = {
+      programs.dux-shell.plugins.dankscale = {
         enable = true;
 
         # pkexec execs the resolved path on a bare PATH, which turns tailscale
