@@ -7,6 +7,8 @@
     settings = {
       xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
+      hotkey-overlay.skip-at-startup = _: {};
+
       # mouse/touchpad come from DMS; a block here would be replaced anyway
 
       layout = {
