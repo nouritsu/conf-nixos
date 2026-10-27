@@ -31,7 +31,24 @@
         ];
 
         PasswordManagerEnabled = false; # Proton Pass manages credentials
-        BookmarkBarEnabled = true;
+
+        # Chrome
+        BookmarkBarEnabled = false;
+        ShowHomeButton = false;
+        NewTabPageLocation = "about:blank";
+        BrowserLabsEnabled = false;
+        SideSearchEnabled = false;
+        BrowserAddPersonEnabled = false;
+        BrowserGuestModeEnabled = false;
+
+        # Nags
+        BrowserSignin = 0;
+        DefaultBrowserSettingEnabled = false;
+        PromotionsEnabled = false;
+        ShoppingListEnabled = false;
+        TranslateEnabled = false;
+        AutofillAddressEnabled = false;
+        AutofillCreditCardEnabled = false;
 
         # Telemetry
         MetricsReportingEnabled = false;
