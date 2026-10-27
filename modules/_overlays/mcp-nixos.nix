@@ -6,7 +6,7 @@ final: prev: {
         packageOverrides = pyFinal: pyPrev: {
           mcp = pyPrev.mcp.overridePythonAttrs (old: {
             version =
-              final.lib.warnIf (!pyPrev.fastmcp-slim.meta.broken)
+              final.lib.warnIf (!prev.python3Packages.fastmcp-slim.meta.broken)
               "fastmcp-slim works with mcp ${old.version} again, drop the mcp-nixos overlay"
               "1.29.0";
 
