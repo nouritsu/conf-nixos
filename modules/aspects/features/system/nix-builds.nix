@@ -24,9 +24,14 @@
       ];
 
       # nix-daemon connects as root, so the host key and ssh options go here
-      programs.ssh.knownHosts.lenovo.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICToP5L7BQWCQwDeejymjky0PiHz/TXWHbWxTyDE5vv6";
+      programs.ssh.knownHosts.lenovo = {
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICToP5L7BQWCQwDeejymjky0PiHz/TXWHbWxTyDE5vv6";
+        extraHostNames = ["lenovo.local"];
+      };
+      # lan only; bare lenovo resolves into the work tailnet
       programs.ssh.extraConfig = ''
         Host lenovo
+          HostName lenovo.local
           Compression yes
           ConnectTimeout 3
       '';
