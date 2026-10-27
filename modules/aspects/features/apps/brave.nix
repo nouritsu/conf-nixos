@@ -5,9 +5,9 @@
     # shortcuts can't start with "@"; featured caps at three
     mkEngine = name: shortcut: url: {inherit name shortcut url;};
 
-    brave = "brave-browser.desktop";
+    brave = "brave-origin.desktop";
   in {
-    environment.systemPackages = [pkgs.brave];
+    environment.systemPackages = [pkgs.brave-origin];
 
     programs.chromium = {
       enable = true;
@@ -38,16 +38,10 @@
         BraveP3AEnabled = false;
         BraveStatsPingEnabled = false;
         BraveWebDiscoveryEnabled = false;
-
-        # Crypto, VPN, AI
-        BraveRewardsDisabled = true;
-        BraveWalletDisabled = true;
-        BraveVPNDisabled = true;
-        BraveAIChatEnabled = false;
       };
     };
 
-    # not com.brave.Browser.desktop, which is NoDisplay
+    # not com.brave.Origin.desktop, which is NoDisplay
     xdg.mime.defaultApplications = {
       "text/html" = brave;
       "application/xhtml+xml" = brave;
@@ -57,6 +51,6 @@
       "x-scheme-handler/unknown" = brave;
     };
 
-    environment.sessionVariables.BROWSER = "brave";
+    environment.sessionVariables.BROWSER = "brave-origin";
   };
 }

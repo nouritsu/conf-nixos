@@ -94,13 +94,13 @@
       # screenRecorderYS
       programs.gpu-screen-recorder.enable = true;
 
-      # tabsLauncher: brave reaches tabctl through its extension's native host
+      # tabsLauncher: brave-origin reaches tabctl through its extension's native host
       programs.chromium.extensions = ["baomblllgemcgbignhpbipgiofmjdhpn;https://clients2.google.com/service/update2/crx"];
 
       # settings.json is read-only; GUI changes come back through DMS's
       # copy-JSON button into dms-settings.json
       systemd.user.tmpfiles.rules = [
-        "L+ %h/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/tabctl_mediator.json - - - - ${tabctlHost}"
+        "L+ %h/.config/BraveSoftware/Brave-Origin/NativeMessagingHosts/tabctl_mediator.json - - - - ${tabctlHost}"
         "L+ %h/.config/DankMaterialShell/settings.json - - - - ${settings}"
         "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dms-plugin-registry}/themes/catppuccin/theme.json"
       ];

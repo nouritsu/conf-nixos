@@ -16,7 +16,7 @@
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
-    brave = lib.getExe pkgs.brave;
+    brave = lib.getExe pkgs.brave-origin;
 
     pkill = lib.getExe' pkgs.procps "pkill";
     wpctl = lib.getExe' pkgs.wireplumber "wpctl";
