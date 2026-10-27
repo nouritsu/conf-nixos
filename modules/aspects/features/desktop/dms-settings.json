@@ -803,8 +803,8 @@
   "matugenTemplateFoot": false,
   "matugenTemplateAlacritty": false,
   "matugenTemplateEmacs": false,
-  "batteryMonitorTimeout": 300,
+  "batteryMonitorTimeout": 600,
   "batteryLockTimeout": 0,
-  "batterySuspendTimeout": 900,
+  "batterySuspendTimeout": 1200,
   "configVersion": 38
 }
