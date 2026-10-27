@@ -4,6 +4,7 @@
     includes = with den.aspects; [
       laptop
       bootloader.limine
+      kernel.cachyos-bore-lto
       firmware.intel
       firmware.updates
       graphics.intel
