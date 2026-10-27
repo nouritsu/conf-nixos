@@ -37,13 +37,21 @@
         disabled = false;
       };
 
+      # theme schedule off, night light on its schedule
+      session = (pkgs.formats.json {}).generate "dms-session.json" {
+        themeModeAutoEnabled = false;
+        nightModeEnabled = true;
+        nightModeAutoEnabled = true;
+      };
+
       # pinned keys go over the live files; tokens, history and other state stay
       pinSettings = pkgs.writeShellApplication {
         name = "dms-pin-settings";
         runtimeInputs = [pkgs.jq pkgs.coreutils];
         text = ''
           dir=''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell
-          mkdir -p "$dir"
+          state=''${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell
+          mkdir -p "$dir" "$state"
 
           merge() {
             [ -f "$1" ] || echo '{}' > "$1"
@@ -58,6 +66,7 @@
 
           merge "$dir/plugin_settings.json" ${pluginSettings}
           merge "$dir/clsettings.json" ${clipboard}
+          merge "$state/session.json" ${session}
         '';
       };
     in {
@@ -105,7 +114,7 @@
         "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dms-plugin-registry}/themes/catppuccin/theme.json"
       ];
 
-      # dms only reads plugin settings at start and saves its own copy over later edits
+      # dms only reads plugin settings and session at start and saves its own copy over later edits
       systemd.user.services.dms.serviceConfig.ExecStartPre = "-${lib.getExe pinSettings}";
 
       # dms keeps watching the old link target; restart it when a pin changes
