@@ -28,6 +28,12 @@
             cmd = lib.getExe self'.packages.obs-studio;
             app-id = "obsproject|^obs$";
           };
+          v = {
+            desc = "mpv";
+            icon = "f1705";
+            cmd = "${lib.getExe self'.packages.mpv} --player-operation-mode=pseudo-gui";
+            app-id = "^mpv$";
+          };
         };
 
         xdg.mime.defaultApplications =

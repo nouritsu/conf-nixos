@@ -25,6 +25,13 @@
       pkgs.fishPlugins.colored-man-pages
     ];
 
+    which-key'.menu.s.submenu.r = {
+      desc = "btop";
+      icon = "f0a07";
+      cmd = "${lib.getExe self'.packages.wezterm} start --class btop -- ${lib.getExe self'.packages.btop}";
+      app-id = "^btop$";
+    };
+
     # after zoxide's init, which defines its own zi
     programs.fish.interactiveShellInit = lib.mkOrder 1600 ''
       # ctrl-t completes from a channel picked by the command, ctrl-r history

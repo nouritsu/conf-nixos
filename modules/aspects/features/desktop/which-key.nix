@@ -153,6 +153,10 @@ in {
         desc = "Proton";
         icon = "f099d";
       };
+      o = {
+        desc = "Office";
+        icon = "f00d6";
+      };
       h = {
         desc = "Homelab";
         icon = "f048b";

@@ -48,6 +48,13 @@
           })
         ];
 
+        which-key'.menu.m.submenu.r = {
+          desc = "Mirror main monitor";
+          icon = "f1483";
+          cmd = "${wl-mirror} DP-3";
+          app-id = "wl_mirror";
+        };
+
         services.ddccontrol = {
           enable = true;
           package = pkgs.ddcutil-service;

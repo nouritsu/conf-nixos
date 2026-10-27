@@ -134,5 +134,11 @@
         categories = ["Game"];
       })
     ];
+
+    which-key'.menu.g.submenu.n = {
+      desc = "Steam (no Millennium)";
+      icon = "f04d3";
+      cmd = "env STEAM_NO_MILLENNIUM=1 steam";
+    };
   };
 }

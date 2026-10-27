@@ -92,5 +92,11 @@
           });
       };
     };
+
+    which-key'.menu.m.submenu.g = {
+      desc = "GSR UI";
+      icon = "f0ec2";
+      cmd = "gsr-ui-cli toggle-show";
+    };
   };
 }

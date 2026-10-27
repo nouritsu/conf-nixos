@@ -5,7 +5,9 @@
       pkgs,
       lib,
       ...
-    }: {
+    }: let
+      webui = "${lib.getExe' pkgs.xdg-utils "xdg-open"} https://localhost:47990";
+    in {
       # moonlight host; cuda build for nvenc, cap_sys_admin for kms capture
       services.sunshine = {
         enable = true;
@@ -15,7 +17,7 @@
             + ''
               # launcher opens the web ui; the service already runs sunshine
               substituteInPlace packaging/linux/dev.lizardbyte.app.Sunshine.desktop \
-                --replace-fail 'Exec=sunshine' 'Exec=${lib.getExe' pkgs.xdg-utils "xdg-open"} https://localhost:47990' \
+                --replace-fail 'Exec=sunshine' 'Exec=${webui}' \
                 --replace-fail 'Actions=RunInTerminal;' ""
 
               # tray/web ui restart re-execs through the wrapper; /proc/self/exe has no caps, so kms broke
@@ -55,6 +57,12 @@
 
       # steam link
       programs.steam.remotePlay.openFirewall = true;
+
+      which-key'.menu.m.submenu.u = {
+        desc = "Sunshine";
+        icon = "f17fe";
+        cmd = webui;
+      };
     };
   };
 }
