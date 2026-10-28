@@ -22,7 +22,6 @@
       pkgs.fishPlugins.autopair
       pkgs.fishPlugins.sponge
       pkgs.fishPlugins.humantime-fish
-      pkgs.fishPlugins.colored-man-pages
     ];
 
     which-key'.menu.s.submenu.r = {
@@ -70,6 +69,9 @@
       enable = true;
       generateAtRuntime = true;
     };
+
+    # bat leaves man's own escapes in unless told to strip them
+    environment.variables.MANPAGER = "${lib.getExe pkgs.bat} -plman --theme=ansi --strip-ansi=always";
 
     # man pages only: no /share/doc outputs or nixos html manual
     documentation.doc.enable = false;

@@ -52,6 +52,8 @@
       # ctrl-z back into the suspended job, alt-z for zoxide's picker
       bind ctrl-z 'fg 2>/dev/null; commandline -f repaint'
       bind alt-z 'zi; commandline -f repaint'
+
+      abbr -a --position anywhere -- --help '--help &| bat -plhelp --theme=ansi'
     '';
 
     programs.fish.shellAliases = {

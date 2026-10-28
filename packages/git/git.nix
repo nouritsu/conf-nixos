@@ -30,12 +30,9 @@ in {
           credential."https://github.com".helper = gh;
           credential."https://gist.github.com".helper = gh;
 
-          pager = {
-            diff = delta;
-            log = delta;
-            show = delta;
-            blame = delta;
-          };
+          core.pager = delta;
+          # status doesn't page by default
+          pager.status = true;
           interactive.diffFilter = "${delta} --color-only";
         };
       }
