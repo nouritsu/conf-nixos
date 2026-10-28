@@ -49,6 +49,16 @@ PluginComponent {
         }
     ]
     readonly property bool shown: indicators.some(indicator => indicator.shown)
+    // nothing left but the open popout: a cross, the pill click closes it
+    readonly property var pillIcons: shown || !interactionActive ? indicators : [
+        {
+            "icon": "close",
+            "shown": true,
+            "active": false,
+            "color": Theme.surfaceText,
+            "dot": false
+        }
+    ]
 
     readonly property var kindNames: ({
             "mic": "microphone",
@@ -71,8 +81,11 @@ PluginComponent {
     // the popout's header toggle, kept while dms runs
     property bool showHidden: false
 
-    onShownChanged: setVisibilityOverride(shown)
-    Component.onCompleted: setVisibilityOverride(shown)
+    // held while the popout is open; a hidden pill closes it, e.g. on the last unblock
+    readonly property bool pillShown: shown || interactionActive
+
+    onPillShownChanged: setVisibilityOverride(pillShown)
+    Component.onCompleted: setVisibilityOverride(pillShown)
 
     Ref {
         service: PrivacyService
@@ -120,7 +133,7 @@ PluginComponent {
             spacing: Theme.spacingXS
 
             Repeater {
-                model: root.indicators
+                model: root.pillIcons
 
                 Indicator {
                     dpr: root.dpr
@@ -135,7 +148,7 @@ PluginComponent {
             spacing: Theme.spacingXS
 
             Repeater {
-                model: root.indicators
+                model: root.pillIcons
 
                 Indicator {
                     dpr: root.dpr
