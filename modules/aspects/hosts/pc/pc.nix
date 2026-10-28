@@ -22,6 +22,7 @@
       dms.home-assistant
       services.beszel
       extra.streaming
+      extra.clipping.always-on
       nix.serve
       nix.builds-on-laptop
       nix.update

@@ -10,6 +10,7 @@
       graphics.intel
       power.thermald
       dms.ideapad
+      extra.clipping.in-game
 
       ssh.from-pc
       ssh.from-pixel
