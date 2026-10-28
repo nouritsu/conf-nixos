@@ -113,6 +113,9 @@
         };
       };
 
+      # the replay holds the mic and desktop audio open
+      privacyApps'.ignore = ["gpu-screen-recorder"];
+
       programs.gpu-screen-recorder = {
         enable = true;
         package = gsr;
