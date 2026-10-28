@@ -2,7 +2,6 @@
   den.aspects.catppuccin.nixos = {
     config,
     pkgs,
-    self',
     ...
   }: {
     imports = [inputs.catppuccin.nixosModules.catppuccin];
@@ -12,7 +11,7 @@
       (pkgs.catppuccin-papirus-folders.override {
         inherit (config.catppuccin) flavor accent;
       })
-      self'.packages.catppuccin-mocha-dark-cursors
+      pkgs.catppuccin-cursors.mochaDark
     ];
 
     catppuccin = {
