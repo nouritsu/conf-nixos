@@ -9,7 +9,6 @@
 
     # folder = plugin.json name, file = <id>.star
     pluginSrcs = {
-      sortium = self'.packages.millennium-sortium;
       "me.tysmith.steam-native-notifications.star" = self'.packages.millennium-steam-native-notifications;
       achievement-groups = self'.packages.millennium-achievement-groups;
       extendium = self'.packages.millennium-extendium;
@@ -17,7 +16,6 @@
       hltb-for-millennium = self'.packages.millennium-hltb;
       protondb-library-badges = self'.packages.millennium-protondb-library-badges;
       "size-on-disk.star" = self'.packages.millennium-size-on-disk;
-      steam-easygrid = self'.packages.millennium-steam-easygrid;
     };
     plugins = pkgs.linkFarm "millennium-plugins" pluginSrcs;
 

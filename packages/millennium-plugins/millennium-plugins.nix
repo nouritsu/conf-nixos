@@ -3,13 +3,12 @@
     release = {
       url,
       hash,
-      stripRoot ? true,
       ...
     } @ args:
-      pkgs.srcOnly (removeAttrs args ["url" "hash" "stripRoot"]
+      pkgs.srcOnly (removeAttrs args ["url" "hash"]
         // {
           stdenv = pkgs.stdenvNoCC;
-          src = pkgs.fetchzip {inherit url hash stripRoot;};
+          src = pkgs.fetchzip {inherit url hash;};
         });
 
     # plugin packer, prebuilt in the npm package
@@ -27,36 +26,6 @@
     };
   in {
     packages.starlight = starlight;
-
-    # no releases; built the way the plugin store builds it, at the commit the store pins
-    packages.millennium-sortium = pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
-      pname = "sortium";
-      version = "1.0.1";
-      src = pkgs.fetchFromGitHub {
-        owner = "SalvadorCorreia";
-        repo = "Sortium";
-        rev = "d6a286c51cdbb10765606d0e92fb35b3e14216fa";
-        hash = "sha256-E2xj0LWE9YowMquJx47aCAjxBj0cdUrYf9r0nfbvBCA=";
-      };
-      pnpmDeps = pkgs.fetchPnpmDeps {
-        inherit (finalAttrs) pname version src;
-        pnpm = pkgs.pnpm_10;
-        fetcherVersion = 4;
-        hash = "sha256-JX8Xfzr28e5Vm4bvWIwaZKAgVWOzjvtBH54eHx6mUk8=";
-      };
-      nativeBuildInputs = [pkgs.nodejs pkgs.pnpmConfigHook pkgs.pnpm_10];
-      buildPhase = ''
-        runHook preBuild
-        pnpm run build
-        runHook postBuild
-      '';
-      installPhase = ''
-        runHook preInstall
-        mkdir -p $out
-        cp -r .millennium backend plugin.json $out
-        runHook postInstall
-      '';
-    });
 
     # not in the plugin store; its only release is a rolling `latest` asset
     packages.millennium-steam-native-notifications = pkgs.stdenvNoCC.mkDerivation {
@@ -137,15 +106,6 @@
       installPhase = "cp $src $out";
       dontFixup = true;
       passthru.nup = [];
-    };
-
-    # no releases; the dev build of the commit the plugin store pins
-    packages.millennium-steam-easygrid = release {
-      pname = "steam-easygrid";
-      version = "0-unstable-2026-08-23";
-      url = "https://github.com/luthor112/steam-easygrid/releases/download/dev-3be3c47ec244d722393be79a6868c35688672c22/steam-easygrid.zip";
-      hash = "sha256-SyPQhmNKYp0jEEMdEID5pfFuO0kQZtrWnF1Zvf/Hnfg=";
-      stripRoot = false;
     };
 
     packages.adwaita-for-steam = pkgs.srcOnly rec {
