@@ -17,9 +17,9 @@ PluginComponent {
     readonly property var daemon: PluginService.pluginDaemonInstances[pluginId] ?? null
     readonly property var apps: daemon?.apps ?? []
     readonly property var blockedKinds: daemon?.blockedKinds ?? ({})
-    readonly property bool micActive: daemon?.micActive ?? false
     // hidden and config-ignored apps never light the pill
-    readonly property bool cameraActive: PrivacyService.cameraActive && !daemon?.ignoredOnly.camera
+    readonly property bool micActive: daemon?.micActive ?? false
+    readonly property bool cameraActive: daemon?.cameraActive ?? false
     readonly property bool screenActive: PrivacyService.screensharingActive && !daemon?.ignoredOnly.screen
 
     readonly property real dpr: parentScreen ? CompositorService.getScreenScale(parentScreen) : 1
@@ -179,7 +179,9 @@ PluginComponent {
         }
     }
 
-    popoutWidth: 340
+    // widest row, set from the popout; past the cap names elide
+    property real rowsWidth: 0
+    popoutWidth: Math.min(600, Math.max(340, Math.ceil(rowsWidth) + PopoutMetrics.contentPadding * 2))
 
     popoutContent: Component {
         Column {
@@ -192,6 +194,14 @@ PluginComponent {
             readonly property var shownApps: root.showHidden ? root.apps : root.apps.filter(app => !app.ignore)
 
             spacing: Theme.groupedListGap
+
+            // kept on close so the popout doesn't shrink mid-animation
+            Binding {
+                target: root
+                property: "rowsWidth"
+                value: Math.max(0, ...Array.from(popout.children, child => child.naturalWidth ?? 0))
+                restoreMode: Binding.RestoreNone
+            }
 
             // at the cursor, in the popout's screen coordinates
             function openMenu(app, item, x, y) {
@@ -270,6 +280,8 @@ PluginComponent {
                     required property int index
                     readonly property var app: modelData
                     readonly property var block: root.daemon?.blocks[app.key] ?? null
+                    // the row with the name unelided
+                    readonly property real naturalWidth: Theme.spacingM + Theme.iconSizeMedium + Theme.spacingS + nameText.implicitWidth + (app.pid > 0 ? Theme.spacingXS + pidText.implicitWidth : 0) + Theme.spacingS + toggles.width + Theme.spacingS
 
                     width: popout.width
                     implicitHeight: BarMetrics.menuRowHeight

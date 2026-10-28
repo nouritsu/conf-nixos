@@ -102,6 +102,9 @@
       # gameControllerBattery, batteryPlus
       services.upower.enable = true;
 
+      # the bar's media visualiser records desktop audio
+      privacyApps'.ignore = ["cava"];
+
       # screenRecorderYS
       programs.gpu-screen-recorder.enable = true;
 

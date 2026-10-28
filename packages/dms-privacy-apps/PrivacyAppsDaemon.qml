@@ -30,9 +30,9 @@ PluginComponent {
     property var _cutting: ({})
     property var _stopping: ({})
 
-    // dms only binds audio nodes; video streams need binding for their app props
+    // quickshell only types audio streams; video streams are untracked nodes, bound here for their props
     PwObjectTracker {
-        objects: Pipewire.nodes.values.filter(node => node && node.isStream)
+        objects: Pipewire.nodes.values.filter(node => node && (node.isStream || node.type === PwNodeType.Untracked))
     }
 
     // every stream behind the indicator, one entry per stream or screencopy cast
@@ -67,7 +67,7 @@ PluginComponent {
             const pid = parseInt(props["application.process.id"] ?? "") || 0;
             const owner = pid ? owners[pid] : null;
             const resolving = pid > 0 && owner === undefined;
-            const key = resolving ? "" : owner?.exe || props["application.process.binary"] || props["application.name"] || "";
+            const key = resolving ? "" : owner?.exe || props["application.process.binary"] || props["application.name"] || props["node.name"] || "";
             const canBlock = kind === "mic" ? !!node?.audio : kind === "camera" ? !!node : cast ? cast.kind === "PipeWire" : !!node;
             out.push({
                 kind,
@@ -85,10 +85,10 @@ PluginComponent {
         };
 
         for (const node of nodes) {
-            if (!node || !node.isStream)
-                continue;
-            const props = node.properties ?? {};
+            const props = node?.properties ?? {};
             const mediaClass = props["media.class"] ?? "";
+            if (!mediaClass.startsWith("Stream/"))
+                continue;
             if (mediaClass === "Stream/Input/Audio" && !PrivacyService.looksLikeSystemVirtualMic(node))
                 add("mic", node, null, props);
             else if (node.id in consumers)
@@ -109,6 +109,8 @@ PluginComponent {
     }
 
     readonly property bool micActive: uses.some(use => use.kind === "mic" && !use.muted && !use.ignore)
+    // camera only; dms's own check counts screen captures too
+    readonly property bool cameraActive: uses.some(use => use.kind === "camera" && !use.ignore)
 
     // kinds whose every stream is ignored; the pill stays dark for them
     readonly property var ignoredOnly: {
@@ -180,7 +182,7 @@ PluginComponent {
     function describe(id, use, top) {
         const props = use.props;
         const window = top ? NiriService.windows.find(w => w.pid === top) : null;
-        const candidates = [window?.app_id, props["pipewire.access.portal.app_id"], props["application.icon-name"], use.owner?.exe, props["application.process.binary"], props["application.name"]].filter(candidate => !!candidate);
+        const candidates = [window?.app_id, props["pipewire.access.portal.app_id"], props["application.icon-name"], use.owner?.exe, props["application.process.binary"], props["application.name"], props["node.name"]].filter(candidate => !!candidate);
         let appId = candidates[0] ?? "";
         let entry = null;
         for (const candidate of candidates) {
