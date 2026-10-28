@@ -1,59 +1,15 @@
-{self, ...}: {
-  # flake outputs so nup can bump them
-  perSystem = {pkgs, ...}: {
-    packages.yazi-rs-plugins = pkgs.srcOnly {
-      stdenv = pkgs.stdenvNoCC;
-      pname = "yazi-rs-plugins";
-      version = "0-unstable-2025-12-23";
-      src = pkgs.fetchFromGitHub {
-        owner = "yazi-rs";
-        repo = "plugins";
-        rev = "05234ed15876ea80e1f4f05695e8e90c1fd5ab60";
-        hash = "sha256-UJ2ICrp9LQBuuR/NpZvKsvFd/C1TRtTjK4ESNA6xh7k=";
-      };
-      passthru.nup = ["--version=branch"];
-    };
-
-    packages.yatline-yazi = pkgs.srcOnly {
-      stdenv = pkgs.stdenvNoCC;
-      pname = "yatline-yazi";
-      version = "0-unstable-2025-11-06";
-      src = pkgs.fetchFromGitHub {
-        # https://github.com/carlosedp/yatline.yazi
-        owner = "carlosedp";
-        repo = "yatline.yazi";
-        rev = "61d3a3a3310c74dfcf636c76e53ba388a019a3b5";
-        hash = "sha256-XLnFRuvU4O5CbF7vO044iU6IXG8ojPyVjVR/8r7MGPc=";
-      }; # default does not work on yazi-nightly
-      # File:icon() removed upstream, use th.icon:match
+{
+  flake.nixosModules.wyazi-plugins = {pkgs, ...}: let
+    # File:icon() removed on nightly, use th.icon:match
+    yatline = pkgs.applyPatches {
+      name = "yatline.yazi";
+      src = pkgs.yaziPlugins.yatline;
       postPatch = ''
         substituteInPlace main.lua --replace-fail \
           'local icon = hovered:icon().text' \
           'local icon = (th.icon:match(hovered, { hovered = true }) or {}).text or ""'
       '';
-      passthru.nup = ["--version=branch"];
     };
-
-    packages.path-from-root-yazi = pkgs.srcOnly {
-      stdenv = pkgs.stdenvNoCC;
-      pname = "path-from-root-yazi";
-      version = "0-unstable-2025-07-24";
-      src = pkgs.fetchFromGitHub {
-        # https://github.com/aresler/path-from-root.yazi
-        owner = "aresler";
-        repo = "path-from-root.yazi";
-        rev = "c4f03df864f09f9d2c4d585411f61c64de5954de";
-        hash = "sha256-dQjZwRT1aMo3u0YuR+g036iQANTXnndaDQ3AoJ1yb1k=";
-      };
-      passthru.nup = ["--version=branch"];
-    };
-  };
-
-  flake.nixosModules.wyazi-plugins = {pkgs, ...}: let
-    pins = self.packages.${pkgs.stdenv.hostPlatform.system};
-    bundle = pins.yazi-rs-plugins;
-    yatline = pins.yatline-yazi;
-    path-from-root = pins.path-from-root-yazi;
 
     # run_query returns nil when duckdb fails (e.g. a .txt that isn't csv)
     duckdb = pkgs.applyPatches {
@@ -68,7 +24,7 @@
     };
   in {
     plugins = {
-      inherit yatline path-from-root duckdb;
+      inherit yatline duckdb;
       yatline-catppuccin = pkgs.yaziPlugins.yatline-catppuccin;
       piper = pkgs.yaziPlugins.piper;
       ouch = pkgs.yaziPlugins.ouch;
@@ -76,15 +32,15 @@
       wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
       full-border = pkgs.yaziPlugins.full-border;
       git = pkgs.yaziPlugins.git;
-      zoom = "${bundle}/zoom.yazi";
-      smart-filter = "${bundle}/smart-filter.yazi";
-      smart-enter = "${bundle}/smart-enter.yazi";
-      smart-paste = "${bundle}/smart-paste.yazi";
-      mount = "${bundle}/mount.yazi";
-      chmod = "${bundle}/chmod.yazi";
-      diff = "${bundle}/diff.yazi";
-      toggle-pane = "${bundle}/toggle-pane.yazi";
-      jump-to-char = "${bundle}/jump-to-char.yazi";
+      zoom = pkgs.yaziPlugins.zoom;
+      smart-filter = pkgs.yaziPlugins.smart-filter;
+      smart-enter = pkgs.yaziPlugins.smart-enter;
+      smart-paste = pkgs.yaziPlugins.smart-paste;
+      mount = pkgs.yaziPlugins.mount;
+      chmod = pkgs.yaziPlugins.chmod;
+      diff = pkgs.yaziPlugins.diff;
+      toggle-pane = pkgs.yaziPlugins.toggle-pane;
+      jump-to-char = pkgs.yaziPlugins.jump-to-char;
     };
 
     # tools the previewers/preloaders shell out to

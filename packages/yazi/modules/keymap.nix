@@ -26,11 +26,6 @@
         desc = "Smart filter";
       }
       {
-        on = ["c" "r"];
-        run = "plugin path-from-root";
-        desc = "Copies path from git root";
-      }
-      {
         on = "+";
         run = "plugin zoom 1";
         desc = "Zoom in hovered file";
