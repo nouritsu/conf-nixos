@@ -27,19 +27,11 @@ in {
     pkgs,
     lib,
     self',
+    inputs',
     ...
   }: let
-    # Claude spark (simple-icons, CC0) in Claude's orange
-    icon =
-      pkgs.runCommand "claude-icon.png" {
-        src = pkgs.fetchurl {
-          url = "https://cdn.jsdelivr.net/npm/simple-icons@16.33.0/icons/claude.svg";
-          hash = "sha256-LW/aeesY3czKNbeZ7rPOzg36vCJSDOOxCr0lZo35+pM=";
-        };
-        nativeBuildInputs = [pkgs.librsvg];
-      } ''
-        sed 's|<path |<path fill="#D97757" |' $src | rsvg-convert -w 256 -h 256 -o $out
-      '';
+    # claude desktop's, installed alongside in the ai aspect
+    icon = "${inputs'.claude-desktop.packages.claude-desktop}/share/icons/hicolor/256x256/apps/claude-desktop.png";
 
     # notify on input or turn end, unless its terminal is the focused niri window
     notify = pkgs.writeShellApplication {
