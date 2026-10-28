@@ -10,19 +10,6 @@ in {
   }: let
     bin = name: "/run/current-system/sw/bin/${name}";
 
-    catppuccin = pkgs.srcOnly {
-      stdenv = pkgs.stdenvNoCC;
-      pname = "catppuccin-godot";
-      version = "0-unstable-2024-09-02";
-      src = pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "godot";
-        rev = "d8b72b679078f0103a5e5c1ef793c1d698a563b1";
-        hash = "sha256-Og69rMEsygVYpWVGvJGsCydQzRC9BXBQxyrJ4kfdUEo=";
-      };
-      passthru.nup = ["--version=branch"];
-    };
-
     color = slot: {
       raw = "Color(${lib.concatMapStringsSep ", " (c: toString (c / 255.0)) (hexToRGB palette.${slot})}, 1)";
     };
@@ -103,11 +90,6 @@ in {
         key = "interface/theme/icon_saturation";
         value = 0.6;
       }
-      {
-        # the .tet in text_editor_themes
-        key = "text_editor/theme/color_theme";
-        value = "Catppuccin Mocha";
-      }
     ];
 
     tres = "editor_settings-${lib.versions.majorMinor pkgs.godot.version}.tres";
@@ -119,9 +101,6 @@ in {
         file=''${XDG_CONFIG_HOME:-$HOME/.config}/godot/${tres}
         mkdir -p "''${file%/*}"
         [[ -s $file ]] || printf '[gd_resource type="EditorSettings" format=3]\n\n[resource]\n' >"$file"
-
-        mkdir -p "''${file%/*}/text_editor_themes"
-        ln -sfn "${catppuccin}/themes/Catppuccin Mocha.tet" "''${file%/*}/text_editor_themes/Catppuccin Mocha.tet"
 
         # key<TAB>value, one per line, for the settings whose programs exist
         want=""
@@ -156,8 +135,6 @@ in {
       '';
     };
   in {
-    packages.catppuccin-godot = catppuccin;
-
     packages.godot = wrappers.lib.wrapPackage [
       {
         inherit pkgs;
