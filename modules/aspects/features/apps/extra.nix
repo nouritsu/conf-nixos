@@ -156,7 +156,6 @@
                     'int clk = 0; cudaDeviceGetAttribute(&clk, cudaDevAttrClockRate, gpu->idx); gpu->freq = clk * 1e-3f;'
               '';
           }))
-          self'.packages.ifetch
           self'.packages.mfetch
           inputs'.batfetch.packages.default
         ];
@@ -168,7 +167,6 @@
           fetch-cpu = "cpufetch";
           fetch-gpu = "gpufetch";
           fetch-mem = "mfetch";
-          fetch-net = "ifetch";
           fetch-bat = "batfetch";
         };
       };
