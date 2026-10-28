@@ -185,6 +185,12 @@
             src = self'.packages.dms-column-width;
           };
 
+          # local: the privacy indicator, plus a popout of the apps behind it
+          privacyApps = {
+            enable = true;
+            src = self'.packages.dms-privacy-apps;
+          };
+
           # patched: mkForce over the registry's src
 
           # script path assumed the per-user plugin dir

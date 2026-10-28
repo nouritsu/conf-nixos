@@ -1,0 +1,14 @@
+{
+  "id": "privacyApps",
+  "name": "Privacy Apps",
+  "description": "Privacy indicator that lists the apps using the mic, camera or screen, with block and kill",
+  "version": "1.0.0",
+  "author": "Aneesh Bhave",
+  "icon": "privacy_tip",
+  "type": "composite",
+  "capabilities": ["dankbar-widget", "daemon"],
+  "components": {
+    "widget": "./PrivacyAppsWidget.qml",
+    "daemon": "./PrivacyAppsDaemon.qml"
+  }
+}

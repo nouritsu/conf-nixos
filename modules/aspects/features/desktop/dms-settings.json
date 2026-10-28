@@ -503,7 +503,7 @@
           "audioScrollMode": "volume"
         },
         {
-          "id": "privacyIndicator",
+          "id": "privacyApps",
           "enabled": true
         },
         {
