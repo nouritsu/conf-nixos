@@ -9,6 +9,7 @@
     languages.language = [
       {
         name = "yaml";
+        auto-format = false;
         language-servers = ["yaml-language-server" "scls"];
       }
     ];
