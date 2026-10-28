@@ -3,6 +3,8 @@
     # ~/.config/shatterlock/config.json layers on top
     packages.shatterlock = inputs'.shatterlock.packages.default.override {
       settings = {
+        # material preset, under the keys below
+        style = "material";
         # fallback lock; dms ignores loginctl lock-session with logind integration off
         actionDefs.lock.command = ["dms" "ipc" "call" "lock" "lock"];
         # seconds; dms lock timeouts stay 0
