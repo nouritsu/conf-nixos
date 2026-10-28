@@ -8,14 +8,6 @@
       self',
       ...
     }: let
-      tabctlHost = pkgs.writeText "tabctl_mediator.json" (builtins.toJSON {
-        name = "tabctl_mediator";
-        description = "TabCtl native messaging host";
-        path = "/run/current-system/sw/bin/tabctl-mediator";
-        type = "stdio";
-        allowed_origins = ["chrome-extension://baomblllgemcgbignhpbipgiofmjdhpn/"];
-      });
-
       settings = (pkgs.formats.json {}).generate "dms-settings.json" (
         lib.pipe (lib.importJSON ./dms-settings.json) config.dms'.settingsOverrides
       );
@@ -94,7 +86,6 @@
         pkgs.librsvg # ocrScanner: rsvg-convert for dropped SVGs
         pkgs.libnotify # notify-send: ipIndicator IP changes, gameControllerBattery, dankPomodoroTimer
         pkgs.glib # gdbus: dankKDEConnect image sharing
-        self'.packages.tabctl # tabsLauncher
       ];
 
       # gameControllerBattery, batteryPlus
@@ -103,13 +94,9 @@
       # screenRecorderYS
       programs.gpu-screen-recorder.enable = true;
 
-      # tabsLauncher: brave-origin reaches tabctl through its extension's native host
-      programs.chromium.extensions = ["baomblllgemcgbignhpbipgiofmjdhpn;https://clients2.google.com/service/update2/crx"];
-
       # settings.json is read-only; GUI changes come back through DMS's
       # copy-JSON button into dms-settings.json
       systemd.user.tmpfiles.rules = [
-        "L+ %h/.config/BraveSoftware/Brave-Origin/NativeMessagingHosts/tabctl_mediator.json - - - - ${tabctlHost}"
         "L+ %h/.config/DankMaterialShell/settings.json - - - - ${settings}"
         "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dms-plugin-registry}/themes/catppuccin/theme.json"
       ];
@@ -190,7 +177,6 @@
           gameControllerBattery.enable = true;
           batteryPlus.enable = true;
           screenRecorderYS.enable = true;
-          tabsLauncher.enable = true;
           windowFx.enable = true;
 
           # local: the focused window's width and height as a % of the screen
