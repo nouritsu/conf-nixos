@@ -1,6 +1,10 @@
 {
   den.aspects.audio = {
     nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       services.pipewire = {
         enable = true;
         pulse.enable = true;
@@ -11,6 +15,22 @@
           support32Bit = true;
         };
       };
+
+      # sinks mirror their monitor; -d undoes
+      programs.fish.interactiveShellInit = ''
+        function mirror-audio --description 'play an audio device through a sink too'
+          pw-link $argv
+        end
+
+        function __mirror_audio_nodes --argument-names class
+          pw-dump | ${lib.getExe pkgs.jq} -r --arg class $class '.[].info.props? | select(."media.class"? // "" | test($class)) | "\(."node.name")\t\(."node.description")"'
+        end
+
+        complete -c mirror-audio -f
+        complete -c mirror-audio -s d -l disconnect -d 'stop mirroring'
+        complete -c mirror-audio -n '__fish_is_nth_token 1' -a '(__mirror_audio_nodes "^Audio/(Sink|Source)")'
+        complete -c mirror-audio -n '__fish_is_nth_token 2' -a '(__mirror_audio_nodes "^Audio/Sink")'
+      '';
     };
 
     provides.rtkit.nixos = {
