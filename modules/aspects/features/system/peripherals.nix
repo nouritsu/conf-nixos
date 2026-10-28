@@ -143,11 +143,12 @@
             version = "${version}-${kernel.version}";
 
             # a WARN path from hid.h kept the 1.3 GB kernel dev tree alive
+            # .ko.xz from compressing kernels can't hold the plain path
             nativeBuildInputs = old.nativeBuildInputs ++ [pkgs.removeReferencesTo];
             postInstall =
               (old.postInstall or "")
               + ''
-                remove-references-to -t ${kernel.dev} $out/lib/modules/*/kernel/drivers/hid/*.ko
+                find $out/lib/modules -name '*.ko' -exec remove-references-to -t ${kernel.dev} {} +
               '';
           });
           packages.daemon = pkgs.python3Packages.openrazer-daemon.overridePythonAttrs {
