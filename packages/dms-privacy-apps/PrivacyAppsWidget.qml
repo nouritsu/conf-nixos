@@ -8,6 +8,7 @@ import qs.Modules.DBar
 import qs.Modules.Plugins
 import qs.Services
 import qs.DCommon.Widgets
+import qs.Widgets
 
 PluginComponent {
     id: root
@@ -17,6 +18,9 @@ PluginComponent {
     readonly property var apps: daemon?.apps ?? []
     readonly property var blockedKinds: daemon?.blockedKinds ?? ({})
     readonly property bool micActive: daemon?.micActive ?? false
+    // hidden and config-ignored apps never light the pill
+    readonly property bool cameraActive: PrivacyService.cameraActive && !daemon?.ignoredOnly.camera
+    readonly property bool screenActive: PrivacyService.screensharingActive && !daemon?.ignoredOnly.screen
 
     readonly property real dpr: parentScreen ? CompositorService.getScreenScale(parentScreen) : 1
 
@@ -31,15 +35,15 @@ PluginComponent {
         },
         {
             "icon": "camera_video",
-            "shown": PrivacyService.cameraActive || !!blockedKinds.camera,
-            "active": PrivacyService.cameraActive,
+            "shown": cameraActive || !!blockedKinds.camera,
+            "active": cameraActive,
             "color": Theme.error,
             "dot": true
         },
         {
             "icon": "screen_share",
-            "shown": PrivacyService.screensharingActive || !!blockedKinds.screen,
-            "active": PrivacyService.screensharingActive,
+            "shown": screenActive || !!blockedKinds.screen,
+            "active": screenActive,
             "color": Theme.warning,
             "dot": false
         }
@@ -53,9 +57,19 @@ PluginComponent {
         })
     readonly property var kindIcons: ({
             "mic": "mic",
-            "camera": "camera_video",
+            "camera": "videocam",
             "screen": "screen_share"
         })
+    readonly property var blockedIcons: ({
+            "mic": "mic_off",
+            "camera": "videocam_off",
+            "screen": "stop_screen_share"
+        })
+    // popout column order
+    readonly property var accessKinds: ["camera", "mic", "screen"]
+
+    // the popout's header toggle, kept while dms runs
+    property bool showHidden: false
 
     onShownChanged: setVisibilityOverride(shown)
     Component.onCompleted: setVisibilityOverride(shown)
@@ -131,42 +145,37 @@ PluginComponent {
         }
     }
 
-    // a menu row, as in the focused window popout
-    component ActionRow: Item {
-        id: actionRow
+    // a small icon button; unclickable ones still show their state
+    component SmallButton: Item {
+        id: button
 
         property string icon
-        property string text
-        property bool danger: false
+        property color color: Theme.surfaceVariantText
+        property bool filled: false
+        property color stateColor: Theme.surfaceText
+        property bool clickable: true
+        property string tooltip
 
         signal triggered
 
-        height: BarMetrics.menuRowHeight
+        width: Theme.iconSizeSmall + Theme.spacingM
+        height: width
 
-        Row {
-            anchors.fill: parent
-            anchors.leftMargin: Theme.spacingS
-            spacing: Theme.spacingS
-
-            DIcon {
-                name: actionRow.icon
-                size: Theme.iconSizeSmall
-                color: actionRow.danger ? Theme.error : Theme.surfaceText
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            StyledText {
-                text: actionRow.text
-                color: actionRow.danger ? Theme.error : Theme.surfaceText
-                font.pixelSize: Theme.fontSizeSmall
-                anchors.verticalCenter: parent.verticalCenter
-            }
+        DIcon {
+            name: button.icon
+            size: Theme.iconSizeSmall
+            color: button.color
+            filled: button.filled
+            anchors.centerIn: parent
         }
 
         StateLayer {
-            cornerRadius: BarMetrics.menuItemRadius
-            stateColor: actionRow.danger ? Theme.error : Theme.surfaceText
-            onClicked: actionRow.triggered()
+            cornerRadius: Theme.cornerRadiusFull
+            stateColor: button.stateColor
+            enabled: button.clickable
+            disabled: !button.clickable
+            tooltipText: button.tooltip
+            onClicked: button.triggered()
         }
     }
 
@@ -176,10 +185,73 @@ PluginComponent {
         Column {
             id: popout
 
-            spacing: Theme.spacingL
+            // set by the plugin popout; its tracker closes the menu with it
+            property var parentPopout: null
+            property var menuApp: null
+            readonly property int hiddenCount: root.apps.filter(app => app.ignore).length
+            readonly property var shownApps: root.showHidden ? root.apps : root.apps.filter(app => !app.ignore)
+
+            spacing: Theme.groupedListGap
+
+            // at the cursor, in the popout's screen coordinates
+            function openMenu(app, item, x, y) {
+                const window = popout.QsWindow.window;
+                const screen = window?.screen;
+                if (!screen)
+                    return;
+                const pos = item.mapToGlobal(x, y);
+                const originX = window.anchors.left ? window.margins.left : window.anchors.right ? screen.width - window.margins.right - window.width : 0;
+                const originY = window.anchors.top ? window.margins.top : window.anchors.bottom ? screen.height - window.margins.bottom - window.height : 0;
+                menuApp = app;
+                killMenu.open(screen, pos.x - screen.x + originX, pos.y - screen.y + originY, false);
+            }
+
+            function kill(signal) {
+                root.daemon.kill(menuApp, signal);
+                root.closePopout();
+            }
+
+            // only when something is hidden
+            Item {
+                visible: popout.hiddenCount > 0
+                width: popout.width
+                height: Theme.iconSizeSmall + Theme.spacingM
+
+                Row {
+                    id: showHiddenToggle
+
+                    anchors.right: parent.right
+                    anchors.rightMargin: Theme.spacingS
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: Theme.spacingXS
+
+                    StyledText {
+                        text: `Show hidden (${popout.hiddenCount})`
+                        color: root.showHidden ? Theme.primary : Theme.surfaceVariantText
+                        font.pixelSize: Theme.fontSizeSmall
+                        wrapMode: Text.NoWrap
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    DIcon {
+                        name: root.showHidden ? "visibility" : "visibility_off"
+                        size: Theme.iconSizeSmall
+                        color: root.showHidden ? Theme.primary : Theme.surfaceVariantText
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                StateLayer {
+                    anchors.fill: showHiddenToggle
+                    anchors.margins: -Theme.spacingXS
+                    cornerRadius: Theme.cornerRadiusS
+                    stateColor: Theme.primary
+                    onClicked: root.showHidden = !root.showHidden
+                }
+            }
 
             StyledText {
-                visible: root.apps.length === 0
+                visible: popout.shownApps.length === 0
                 width: popout.width
                 text: "Can't tell which app is using it"
                 color: Theme.surfaceVariantText
@@ -188,36 +260,39 @@ PluginComponent {
             }
 
             Repeater {
-                model: root.apps
+                model: popout.shownApps
 
-                // one app: icon and name, what it uses and its pid, then block and kill
-                Column {
-                    id: section
+                // one app: icon, name and pid, then its access toggles and hide; right-click to kill
+                DListRow {
+                    id: appRow
 
                     required property var modelData
+                    required property int index
                     readonly property var app: modelData
                     readonly property var block: root.daemon?.blocks[app.key] ?? null
-                    readonly property var inUse: ["mic", "camera", "screen"].filter(kind => app.kinds[kind])
-                    readonly property var blockKinds: ["mic", "camera", "screen"].filter(kind => (app.kinds[kind] && app.blockable[kind]) || block?.[kind])
-                    readonly property var details: [
-                        {
-                            "label": "Using",
-                            "value": inUse.map(kind => root.kindNames[kind].charAt(0).toUpperCase() + root.kindNames[kind].slice(1)).join(", "),
-                            "copyable": false
-                        },
-                        {
-                            "label": "PID",
-                            "value": app.pid > 0 ? app.pid.toString() : "Unavailable",
-                            "copyable": app.pid > 0
-                        }
-                    ]
 
                     width: popout.width
-                    spacing: Theme.spacingXXS
+                    implicitHeight: BarMetrics.menuRowHeight
+                    firstInGroup: index === 0
+                    lastInGroup: index === popout.shownApps.length - 1
+
+                    MouseArea {
+                        id: rowMouse
+
+                        anchors.fill: parent
+                        acceptedButtons: Qt.RightButton
+                        enabled: appRow.app.pid > 0
+                        onClicked: mouse => popout.openMenu(appRow.app, rowMouse, mouse.x, mouse.y)
+                    }
 
                     Row {
-                        width: parent.width
-                        height: BarMetrics.menuRowHeight
+                        id: identity
+
+                        anchors.left: parent.left
+                        anchors.right: toggles.left
+                        anchors.leftMargin: Theme.spacingM
+                        anchors.rightMargin: Theme.spacingS
+                        anchors.verticalCenter: parent.verticalCenter
                         spacing: Theme.spacingS
 
                         Item {
@@ -228,7 +303,7 @@ PluginComponent {
                             IconImage {
                                 id: appIcon
                                 anchors.fill: parent
-                                source: section.app.icon
+                                source: appRow.app.icon
                                 asynchronous: true
                                 mipmap: true
                                 smooth: true
@@ -237,124 +312,115 @@ PluginComponent {
                             StyledText {
                                 anchors.centerIn: parent
                                 visible: appIcon.status !== Image.Ready
-                                text: section.app.name.charAt(0).toUpperCase()
+                                text: appRow.app.name.charAt(0).toUpperCase()
                                 color: Theme.surfaceText
-                                font.pixelSize: Theme.fontSizeMedium
+                                font.pixelSize: Theme.fontSizeSmall
                             }
                         }
 
-                        StyledText {
-                            width: parent.width - Theme.iconSizeMedium - Theme.spacingS
-                            text: section.app.name
-                            color: Theme.surfaceText
-                            font.pixelSize: Theme.fontSizeMedium
-                            font.weight: Theme.fontWeightMedium
-                            elide: Text.ElideRight
-                            maximumLineCount: 2
-                            wrapMode: Text.Wrap
-                            clip: true
+                        // one line, "Name (PID)"; a long name elides before the pid
+                        Row {
+                            spacing: Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
 
-                    // nothing to show for a blocked app that has nothing open
-                    Repeater {
-                        model: section.inUse.length > 0 ? section.details : []
+                            StyledText {
+                                id: nameText
 
-                        delegate: DListRow {
-                            id: detailRow
-
-                            required property var modelData
-                            required property int index
-                            readonly property real labelWidth: Theme.iconButtonSize + Theme.iconSizeLarge
-
-                            width: section.width
-                            implicitHeight: Theme.listItemHeight
-                            firstInGroup: index === 0
-                            lastInGroup: index === section.details.length - 1
-
-                            Row {
-                                anchors.fill: parent
-                                anchors.leftMargin: Theme.spacingL
-                                anchors.rightMargin: Theme.spacingL
-                                spacing: Theme.spacingS
-
-                                StyledText {
-                                    width: detailRow.labelWidth
-                                    text: detailRow.modelData.label
-                                    color: detailRow.supportingContentColor
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                StyledText {
-                                    width: parent.width - detailRow.labelWidth - Theme.spacingS
-                                    text: detailRow.modelData.value
-                                    color: detailRow.contentColor
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    font.family: SettingsData.monoFontFamily
-                                    elide: Text.ElideRight
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
+                                width: Math.min(implicitWidth, identity.width - Theme.iconSizeMedium - identity.spacing - (pidText.visible ? pidText.implicitWidth + Theme.spacingXS : 0))
+                                text: appRow.app.name
+                                color: Theme.surfaceText
+                                font.pixelSize: Theme.fontSizeSmall
+                                font.weight: Theme.fontWeightMedium
+                                wrapMode: Text.NoWrap
+                                elide: Text.ElideRight
+                                anchors.verticalCenter: parent.verticalCenter
                             }
 
-                            StateLayer {
-                                topLeftRadius: detailRow.firstInGroup ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
-                                topRightRadius: topLeftRadius
-                                bottomLeftRadius: detailRow.lastInGroup ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
-                                bottomRightRadius: bottomLeftRadius
-                                enabled: detailRow.modelData.copyable
-                                disabled: !detailRow.modelData.copyable
-                                onClicked: root.copyValue(detailRow.modelData.value)
+                            StyledText {
+                                id: pidText
+
+                                visible: appRow.app.pid > 0
+                                text: `(${appRow.app.pid})`
+                                color: Theme.surfaceVariantText
+                                font.pixelSize: Theme.fontSizeSmall
+                                wrapMode: Text.NoWrap
+                                anchors.baseline: nameText.baseline
+
+                                StateLayer {
+                                    cornerRadius: Theme.cornerRadiusS
+                                    tooltipText: "Copy PID"
+                                    onClicked: root.copyValue(appRow.app.pid)
+                                }
                             }
                         }
                     }
 
-                    Rectangle {
-                        visible: section.inUse.length > 0
-                        width: parent.width
-                        height: Theme.dividerWidth
-                        color: Theme.outlineVariant
-                    }
+                    Row {
+                        id: toggles
 
-                    Repeater {
-                        model: section.blockKinds
+                        anchors.right: parent.right
+                        anchors.rightMargin: Theme.spacingS
+                        anchors.verticalCenter: parent.verticalCenter
 
-                        ActionRow {
-                            required property string modelData
-                            readonly property bool blocked: !!section.block?.[modelData]
+                        Repeater {
+                            model: root.accessKinds
 
-                            width: section.width
-                            icon: blocked ? root.kindIcons[modelData] : "block"
-                            text: (blocked ? "Unblock " : "Block ") + root.kindNames[modelData]
-                            onTriggered: root.daemon.setBlocked(section.app, modelData, !blocked)
+                            // greyed unused, mauve in use, slashed red blocked; in use or blocked toggles the block
+                            SmallButton {
+                                required property string modelData
+                                readonly property bool inUse: !!appRow.app.kinds[modelData]
+                                readonly property bool blocked: !!appRow.block?.[modelData]
+
+                                icon: blocked ? root.blockedIcons[modelData] : root.kindIcons[modelData]
+                                color: blocked ? Theme.error : inUse ? Theme.primary : Theme.onSurface_38
+                                filled: inUse && !blocked
+                                stateColor: blocked ? Theme.error : Theme.primary
+                                clickable: blocked || (inUse && !!appRow.app.blockable[modelData])
+                                tooltip: (blocked ? "Unblock " : "Block ") + root.kindNames[modelData]
+                                onTriggered: root.daemon.setBlocked(appRow.app, modelData, !blocked)
+                            }
                         }
-                    }
 
-                    ActionRow {
-                        visible: section.app.pid > 0
-                        width: section.width
-                        icon: "close"
-                        text: "Kill"
-                        danger: true
-                        onTriggered: {
-                            root.daemon.kill(section.app, "TERM");
-                            root.closePopout();
+                        Item {
+                            width: Theme.spacingXS
+                            height: 1
                         }
-                    }
 
-                    ActionRow {
-                        visible: section.app.pid > 0
-                        width: section.width
-                        icon: "skull"
-                        text: "Force kill"
-                        danger: true
-                        onTriggered: {
-                            root.daemon.kill(section.app, "KILL");
-                            root.closePopout();
+                        // config-ignored apps get a lock; only the config shows them again
+                        SmallButton {
+                            readonly property string ignore: appRow.app.ignore ?? ""
+
+                            icon: ignore === "config" ? "lock" : ignore ? "visibility_off" : "visibility"
+                            color: ignore === "config" ? Theme.onSurface_38 : Theme.surfaceVariantText
+                            clickable: ignore !== "config" && !!appRow.app.key
+                            tooltip: ignore ? "Show" : "Hide"
+                            onTriggered: root.daemon.setHidden(appRow.app, !ignore)
                         }
                     }
                 }
+            }
+
+            DContextMenu {
+                id: killMenu
+
+                layerNamespace: "dms:plugins:privacyApps:menu"
+                transientSurfaceTracker: popout.parentPopout?.transientSurfaceTracker ?? null
+                menuItems: [
+                    {
+                        "type": "item",
+                        "icon": "close",
+                        "text": "Kill",
+                        "isDestructive": true,
+                        "action": () => popout.kill("TERM")
+                    },
+                    {
+                        "type": "item",
+                        "icon": "skull",
+                        "text": "Force kill",
+                        "isDestructive": true,
+                        "action": () => popout.kill("KILL")
+                    }
+                ]
             }
         }
     }

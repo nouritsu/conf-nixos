@@ -13,6 +13,12 @@ PluginComponent {
     // app key -> {name, icon, mic, camera, screen}; held until unblocked or dms restarts
     property var blocks: ({})
 
+    // app key -> {name, icon}; kept in plugin state until shown again
+    property var hidden: ({})
+
+    // binaries ignored in config, never shown
+    readonly property var ignored: pluginData.ignore ?? []
+
     // stream pid -> {top, exe}; null once the /proc lookup failed
     property var owners: ({})
 
@@ -72,7 +78,9 @@ PluginComponent {
                 owner,
                 key,
                 canBlock: canBlock && key !== "",
-                muted: node?.audio?.muted ?? false
+                muted: node?.audio?.muted ?? false,
+                // the binary covers the moment the owner is still resolving
+                ignore: ignoreOf(key) || ignoreOf(props["application.process.binary"] ?? "")
             });
         };
 
@@ -100,7 +108,17 @@ PluginComponent {
         return out;
     }
 
-    readonly property bool micActive: uses.some(use => use.kind === "mic" && !use.muted)
+    readonly property bool micActive: uses.some(use => use.kind === "mic" && !use.muted && !use.ignore)
+
+    // kinds whose every stream is ignored; the pill stays dark for them
+    readonly property var ignoredOnly: {
+        const kinds = {};
+        for (const kind of ["mic", "camera", "screen"]) {
+            const streams = uses.filter(use => use.kind === kind);
+            kinds[kind] = streams.length > 0 && streams.every(use => use.ignore);
+        }
+        return kinds;
+    }
 
     readonly property var blockedKinds: {
         const kinds = {
@@ -109,13 +127,15 @@ PluginComponent {
             "screen": false
         };
         for (const key in blocks) {
+            if (ignoreOf(key))
+                continue;
             for (const kind in kinds)
                 kinds[kind] = kinds[kind] || blocks[key][kind];
         }
         return kinds;
     }
 
-    // uses grouped per app, plus blocked apps with nothing open so they can be unblocked
+    // uses grouped per app, plus blocked or hidden apps with nothing open so they can be undone
     readonly property var apps: {
         const groups = {};
         for (const use of uses) {
@@ -128,22 +148,32 @@ PluginComponent {
         }
 
         const present = new Set(Object.values(groups).map(app => app.key));
-        for (const key in blocks) {
+        for (const [key, entry] of Object.entries(blocks).concat(Object.entries(hidden))) {
             if (present.has(key))
                 continue;
-            const block = blocks[key];
-            groups[`block:${key}`] = {
-                id: `block:${key}`,
+            present.add(key);
+            groups[`absent:${key}`] = {
+                id: `absent:${key}`,
                 key,
                 pid: 0,
-                name: block.name,
-                icon: block.icon,
+                name: entry.name,
+                icon: entry.icon,
+                ignore: ignoreOf(key),
                 kinds: {},
                 blockable: {}
             };
         }
 
         return Object.values(groups).sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    // "config", "hidden" or ""
+    function ignoreOf(key) {
+        if (!key)
+            return "";
+        if (ignored.includes(key))
+            return "config";
+        return hidden[key] ? "hidden" : "";
     }
 
     // name and icon: the app's window first, then the stream's own props
@@ -166,9 +196,25 @@ PluginComponent {
             pid: top,
             name: entry ? Paths.getAppName(appId, entry) : props["application.name"] || appId || (top ? `PID ${top}` : "Unknown app"),
             icon: appId ? Paths.getAppIcon(appId, entry) : "",
+            ignore: use.ignore,
             kinds: {},
             blockable: {}
         };
+    }
+
+    function setHidden(app, on) {
+        if (!app.key)
+            return;
+        const next = Object.assign({}, hidden);
+        if (on)
+            next[app.key] = {
+                "name": app.name,
+                "icon": app.icon
+            };
+        else
+            delete next[app.key];
+        hidden = next;
+        PluginService.savePluginState(pluginId, "hidden", next);
     }
 
     function setBlocked(app, kind, on) {
@@ -304,6 +350,8 @@ PluginComponent {
         Qt.callLater(prune);
     }
     onBlocksChanged: Qt.callLater(enforce)
+
+    Component.onCompleted: hidden = PluginService.loadPluginState(pluginId, "hidden", {})
 
     // blocks die with dms; don't leave their streams muted
     Component.onDestruction: {

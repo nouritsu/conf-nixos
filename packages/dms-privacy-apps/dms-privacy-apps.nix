@@ -30,6 +30,7 @@
       mkdir $out
       cp ${./plugin.json} $out/plugin.json
       cp ${./PrivacyAppsWidget.qml} $out/PrivacyAppsWidget.qml
+      cp ${./PrivacyAppsSettings.qml} $out/PrivacyAppsSettings.qml
       substitute ${./PrivacyAppsDaemon.qml} $out/PrivacyAppsDaemon.qml \
         --replace-fail @owner@ ${pkgs.lib.getExe owner}
     '';

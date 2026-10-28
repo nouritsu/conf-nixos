@@ -1,7 +1,7 @@
 {
   "id": "privacyApps",
   "name": "Privacy Apps",
-  "description": "Privacy indicator that lists the apps using the mic, camera or screen, with block and kill",
+  "description": "Privacy indicator that lists the apps using the mic, camera or screen, with block, hide and kill",
   "version": "1.0.0",
   "author": "Aneesh Bhave",
   "icon": "privacy_tip",
@@ -10,5 +10,7 @@
   "components": {
     "widget": "./PrivacyAppsWidget.qml",
     "daemon": "./PrivacyAppsDaemon.qml"
-  }
+  },
+  "settings": "./PrivacyAppsSettings.qml",
+  "permissions": ["settings_read", "settings_write"]
 }
