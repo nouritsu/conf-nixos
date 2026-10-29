@@ -5,6 +5,7 @@
       bootloader.limine
       bootloader.secure-boot
       bootloader.windows
+      filesystem.snapshots
       kernel.cachyos-bore-lto
       firmware.amd
       graphics.nvidia
