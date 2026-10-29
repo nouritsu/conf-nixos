@@ -28,7 +28,8 @@
               settings = {
                 allowDiscards = true;
                 bypassWorkqueues = true;
-                crypttabExtraOpts = ["tpm2-device=auto"];
+                # a security key every boot; systemd-cryptenroll by hand
+                crypttabExtraOpts = ["fido2-device=auto"];
               };
               content = {
                 type = "btrfs";
@@ -65,7 +66,7 @@
               passwordFile = "/tmp/luks.key";
               settings = {
                 allowDiscards = true;
-                crypttabExtraOpts = ["tpm2-device=auto"];
+                crypttabExtraOpts = ["fido2-device=auto"];
               };
               content = {
                 type = "swap";

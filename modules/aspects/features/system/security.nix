@@ -28,6 +28,72 @@
       };
     };
 
+    # two security keys: a touch instead of the password, typing it still works
+    provides.yubikey.nixos = {
+      config,
+      pkgs,
+      ...
+    }: let
+      ssh = config.programs.ssh.package;
+
+      # stubs from ssh-keygen -K, no passphrase; the key itself is the guard
+      loadKeys = pkgs.writeShellScript "ssh-agent-sk-load" ''
+        shopt -s nullglob
+        keys=()
+        for k in "$HOME"/.ssh/id_*_sk_rk_*; do
+          [[ $k == *.pub ]] || keys+=("$k")
+        done
+        (( ''${#keys[@]} )) || exit 0
+        SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-sk.sock" ${ssh}/bin/ssh-add "''${keys[@]}"
+      '';
+    in {
+      environment.systemPackages = [
+        pkgs.yubikey-manager
+        pkgs.libfido2
+        pkgs.pam_u2f
+      ];
+
+      # one origin, so a key registered once works on both hosts
+      security.pam.u2f.settings = {
+        origin = "pam://aneesh";
+        authfile = ./u2f-keys;
+        cue = true;
+      };
+
+      # greetd and login stay password only: the keyring unlocks from it
+      security.pam.services = {
+        sudo.u2f.enable = true;
+        sudo-i.u2f.enable = true;
+        # run0 asks through polkit too
+        polkit-1.u2f.enable = true;
+        # shatterlock runs it beside the password field, retrying until a touch
+        shatterlock-key = {
+          u2f.enable = true;
+          unixAuth = false;
+        };
+      };
+      shatterlock'.settings.lock.fingerprintService = "shatterlock-key";
+
+      # only the security keys, forwarded so sudo on the servers takes a touch
+      environment.variables.SSH_SK_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/ssh-sk.sock";
+      systemd.user.services.ssh-agent-sk = {
+        description = "ssh-agent with only the security keys";
+        wantedBy = ["default.target"];
+        serviceConfig = {
+          Type = "forking";
+          ExecStartPre = "${pkgs.coreutils}/bin/rm -f %t/ssh-sk.sock";
+          ExecStart = "${ssh}/bin/ssh-agent -a %t/ssh-sk.sock";
+          ExecStartPost = "-${loadKeys}";
+          StandardOutput = "null";
+          SuccessExitStatus = "0 2";
+        };
+      };
+      programs.ssh.extraConfig = ''
+        Match originalhost homelab,192.168.178.128,nouritsu.com user aneesh
+          ForwardAgent $SSH_SK_AUTH_SOCK
+      '';
+    };
+
     provides.trust-homelab.nixos = {
       security.pki.certificates = [
         ''

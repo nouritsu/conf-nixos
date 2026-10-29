@@ -13,6 +13,7 @@
     dux
     dux.tailscale
     shatterlock
+    security.yubikey
     greeter
     user-dirs
     core
