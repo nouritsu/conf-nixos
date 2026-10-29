@@ -1,0 +1,17 @@
+--- a/ScreenshotPlusDaemon.qml
++++ b/ScreenshotPlusDaemon.qml
+@@ -564,12 +564,8 @@
+                 root._pinFiles = Object.assign({}, root._pinFiles, { [pinId]: png })
+             else   // the clipboard and the notification daemon read the file asynchronously
+                 Quickshell.execDetached(["sh", "-c", 'sleep 10; rm -f -- "$1"', "sh", png])
+-            if (copy) {
+-                DMSService.sendRequest("clipboard.copyFile", { "filePath": png }, resp => {
+-                    if (resp && resp.error)
+-                        console.warn("screenshotPlus: clipboard:", resp.error)
+-                })
+-            }
++            if (copy)
++                Quickshell.execDetached(["sh", "-c", 'wl-copy --type image/png < "$1"', "sh", png])
+         }, 0, 30000)
+     }
+ 

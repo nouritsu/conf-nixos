@@ -180,7 +180,6 @@
           wallpaperCarousel.enable = true;
           handMirror.enable = true;
           recentFiles.enable = true;
-          screenshotPlus.enable = true;
           dankTranslate.enable = true;
           systemMonitorPlus.enable = true;
           nixPackageRunner.enable = true;
@@ -233,6 +232,17 @@
                   --replace-fail "ls /sys/class/net | grep -E '^(" "ip route get 1.1.1.1 | grep -oE 'dev (" \
                   --replace-fail "cscotun)' | head -1" "cscotun)[^ ]*' | cut -c5- | head -1"
               '';
+            });
+          };
+
+          # dux's clipboard dies with a dux restart and offers the png path,
+          # deleted 10 s later; wl-copy holds the image bytes in its own process
+          screenshotPlus = {
+            enable = true;
+            src = lib.mkForce (pkgs.applyPatches {
+              name = "dux-plugin-screenshotPlus";
+              src = inputs'.dux-plugin-registry.packages.screenshotPlus;
+              patches = [./screenshot-plus-wl-copy.patch];
             });
           };
         };
