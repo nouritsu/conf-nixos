@@ -13,6 +13,7 @@
           pkgs.eog
           self'.packages.mpv
           self'.packages.spotify
+          self'.packages.jellyfin-mpv-shim
         ];
 
         which-key'.menu.m.submenu = {
@@ -21,6 +22,12 @@
             icon = "f04c7";
             cmd = lib.getExe self'.packages.spotify;
             app-id = "^spotify$";
+          };
+          j = {
+            desc = "Jellyfin MPV Shim";
+            icon = "f0ecf";
+            cmd = lib.getExe self'.packages.jellyfin-mpv-shim;
+            app-id = "jellyfin-mpv-shim$";
           };
           o = {
             desc = "OBS";
