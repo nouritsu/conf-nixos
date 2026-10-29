@@ -335,6 +335,7 @@
       includes = [(den.batteries.unfree ["proton-authenticator"])];
       nixos = {
         self',
+        host,
         pkgs,
         lib,
         ...
@@ -384,16 +385,75 @@
             merge "$dir/app-config.json" ${vpnAppConfig}
           '';
         };
+
+        # Split tunneling
+        split-tunnel = self'.packages.proton-vpn-split-tunnel;
+        mark = toString split-tunnel.fwmark;
+        # after tailscale's rules, so tailnet addresses still go through table 52
+        bypassTable = "5300";
+
+        # steam and anything launched through novpn
+        bypassApps = json "proton-vpn-bypass-apps.json" (lib.genAttrs (lib.attrNames host.users) (_: [
+          "~/.local/share/Steam/"
+          "~/.steam/"
+          "${self'.packages.novpn}/"
+        ]));
+
+        # marked sockets get the physical routes, never the tunnel's or the kill switch's
+        bypassRoutes = pkgs.writeShellApplication {
+          name = "proton-vpn-bypass-routes";
+          runtimeInputs = [pkgs.iproute2 pkgs.gnugrep pkgs.gnused];
+          text = ''
+            ip -4 rule list table ${bypassTable} | grep -q . \
+              || ip -4 rule add priority ${bypassTable} fwmark ${mark} lookup ${bypassTable}
+
+            routes=$(ip -4 route show table main | grep -v -E 'dev (proton|pvpn|ipv6leak|tailscale)' | sed 's/ linkdown//' || true)
+            ip -4 route flush table ${bypassTable} 2> /dev/null || true
+            while read -r route; do
+              # shellcheck disable=SC2086
+              [ -z "$route" ] || ip -4 route add $route table ${bypassTable} || echo "skipped: $route" >&2
+            done <<< "$routes"
+          '';
+        };
       in {
         environment.systemPackages = [
           pkgs.proton-authenticator
           pkgs.protonmail-desktop
           pkgs.proton-pass
           pkgs.proton-vpn
+          self'.packages.novpn
         ];
 
         # pi-hole is unreachable away from home; fall through to the next server fast
         networking.resolvconf.extraOptions = ["timeout:1"];
+
+        systemd.services.proton-vpn-split-tunneling = {
+          description = "Proton VPN split tunneling";
+          wantedBy = ["multi-user.target"];
+          # bcc builds its bpf against the running kernel's kheaders module
+          path = [pkgs.kmod pkgs.gnutar pkgs.xz];
+          # a kernel bcc can't build against fails every start; stop retrying
+          startLimitBurst = 3;
+          startLimitIntervalSec = 120;
+          serviceConfig = {
+            ExecStartPre = "-${lib.getExe bypassRoutes}";
+            ExecStart = "${lib.getExe split-tunnel} ${mark} ${bypassApps}";
+            Restart = "on-failure";
+            RestartSec = 5;
+          };
+        };
+
+        networking.networkmanager.dispatcherScripts = [
+          {
+            source = lib.getExe bypassRoutes;
+            type = "basic";
+          }
+        ];
+
+        # novpn in front of the line, or of the last command if empty
+        programs.fish.interactiveShellInit = ''
+          bind alt-v 'fish_commandline_prepend novpn'
+        '';
 
         systemd.user.services.proton-vpn = {
           description = "Proton VPN";
