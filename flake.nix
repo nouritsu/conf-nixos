@@ -48,8 +48,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell";
+    dux = {
+      url = "github:duxlabs-dev/dux-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -79,8 +79,8 @@
       inputs.flake-parts.follows = "flake-parts";
     };
 
-    dms-plugin-registry = {
-      url = "github:AvengeMedia/dms-plugin-registry";
+    dux-plugin-registry = {
+      url = "github:duxlabs-dev/dux-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

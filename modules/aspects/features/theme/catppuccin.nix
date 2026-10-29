@@ -6,7 +6,7 @@
   }: {
     imports = [inputs.catppuccin.nixosModules.catppuccin];
 
-    # what DMS picks icons and cursor from
+    # what Dux picks icons and cursor from
     environment.systemPackages = [
       (pkgs.catppuccin-papirus-folders.override {
         inherit (config.catppuccin) flavor accent;

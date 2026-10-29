@@ -7,8 +7,8 @@
     # niri's struts, for the widget's working area
     inherit (self'.packages.niri.configuration.settings.layout) struts;
   in {
-    # dms widget: the focused window's width and height as a % of the screen
-    packages.dms-column-width = pkgs.runCommand "dms-column-width" {} ''
+    # dux widget: the focused window's width and height as a % of the screen
+    packages.dux-column-width = pkgs.runCommand "dux-column-width" {} ''
       mkdir $out
       cp ${./plugin.json} $out/plugin.json
       substitute ${./ColumnWidthWidget.qml} $out/ColumnWidthWidget.qml \

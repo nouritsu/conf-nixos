@@ -78,7 +78,7 @@ PluginComponent {
     // popout column order
     readonly property var accessKinds: ["camera", "mic", "screen"]
 
-    // the popout's header toggle, kept while dms runs
+    // the popout's header toggle, kept while dux runs
     property bool showHidden: false
 
     // held while the popout is open; a hidden pill closes it, e.g. on the last unblock

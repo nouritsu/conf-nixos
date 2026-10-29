@@ -1,7 +1,7 @@
 {inputs, ...}: let
   inherit (inputs.nix-colors.colorSchemes.catppuccin-mocha) palette;
 in {
-  # only what DMS has no setting for
+  # only what Dux has no setting for
   flake.nixosModules.wniri-appearance = {...}: {
     settings = {
       prefer-no-csd = _: {};

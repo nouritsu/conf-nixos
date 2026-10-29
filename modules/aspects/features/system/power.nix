@@ -1,7 +1,7 @@
 {
   den.aspects.power = {
     nixos = {pkgs, ...}: {
-      # ppd, not TLP: DMS needs ppd and the two conflict
+      # ppd, not TLP: Dux needs ppd and the two conflict
       services.power-profiles-daemon.enable = true;
       services.upower.enable = true;
 

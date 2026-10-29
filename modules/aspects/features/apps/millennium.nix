@@ -44,7 +44,7 @@
       plugins = {
         # everything packaged above
         enabledPlugins = map (lib.removeSuffix ".star") (builtins.attrNames pluginSrcs);
-        # desktop notifications only, DMS draws them over fullscreen games
+        # desktop notifications only, Dux draws them over fullscreen games
         "me.tysmith.steam-native-notifications".config = {
           notifyOutsideGame = true;
           notifyInGame = true;

@@ -9,7 +9,7 @@
       firmware.updates
       graphics.intel
       power.thermald
-      dms.ideapad
+      dux.ideapad
       extra.clipping.in-game
 
       ssh.from-pc

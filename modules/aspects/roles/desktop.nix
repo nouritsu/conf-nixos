@@ -10,8 +10,8 @@
     niri.portals
     niri.xwayland
     which-key
-    dms
-    dms.tailscale
+    dux
+    dux.tailscale
     shatterlock
     greeter
     user-dirs
@@ -21,7 +21,7 @@
     homelab
     catppuccin
     fonts
-    dms.theming
+    dux.theming
     plymouth
     extra.fetchers
     extra.tui-viewers

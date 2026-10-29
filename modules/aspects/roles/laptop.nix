@@ -7,7 +7,7 @@
     office
     ai
     power
-    dms.battery
+    dux.battery
     extra.media
     extra.download
     extra.productivity

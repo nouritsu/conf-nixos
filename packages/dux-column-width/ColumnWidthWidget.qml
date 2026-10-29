@@ -11,7 +11,7 @@ PluginComponent {
     readonly property int strutsX: @strutsX@
     readonly property int strutsY: @strutsY@
 
-    // the gaps DMS writes into niri's layout; -2 leaves niri's default
+    // the gaps Dux writes into niri's layout; -2 leaves niri's default
     readonly property int gaps: {
         const override = SettingsData.niriLayoutGapsOverride;
         if (override >= 0)
@@ -27,7 +27,7 @@ PluginComponent {
     readonly property var window: workspace ? NiriService.windows.find(w => w.id === workspace.active_window_id) ?? null : null
     readonly property var tileSize: window && !window.is_floating ? window.layout?.tile_size ?? null : null
 
-    // niri's working area: the screen minus DMS's bars/frame and the struts
+    // niri's working area: the screen minus Dux's bars/frame and the struts
     readonly property var layout: ShellLayout.forScreen(screenName)
     readonly property real workingWidth: (layout?.screen.width ?? 0) - (layout?.edges.left.reservation ?? 0) - (layout?.edges.right.reservation ?? 0) - strutsX
     readonly property real workingHeight: (layout?.screen.height ?? 0) - (layout?.edges.top.reservation ?? 0) - (layout?.edges.bottom.reservation ?? 0) - strutsY

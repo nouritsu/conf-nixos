@@ -12,7 +12,7 @@
       # boot and the greeter don't wait for a connection
       systemd.services.NetworkManager-wait-online.enable = false;
 
-      # nm-connection-editor only; the tray applet is DMS's job
+      # nm-connection-editor only; the tray applet is Dux's job
       environment.systemPackages = [pkgs.networkmanagerapplet];
       environment.etc."xdg/autostart/nm-applet.desktop".text = ''
         [Desktop Entry]
@@ -46,7 +46,7 @@
         openFirewall = true;
         useRoutingFeatures = "client";
 
-        # the dms widget runs up/down/set as this user
+        # the dux widget runs up/down/set as this user
         extraSetFlags = ["--operator=${lib.head (lib.attrNames host.users)}"];
       };
     };

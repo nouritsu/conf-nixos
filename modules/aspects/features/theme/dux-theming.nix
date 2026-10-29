@@ -1,5 +1,5 @@
 {
-  den.aspects.dms.provides.theming.nixos = {
+  den.aspects.dux.provides.theming.nixos = {
     pkgs,
     inputs',
     ...
@@ -9,7 +9,7 @@
     # puts qt plugins on QT_PLUGIN_PATH, or no app finds qtengine
     qt.enable = true;
 
-    # qt.platformTheme has no qtengine option, and the dms service
+    # qt.platformTheme has no qtengine option, and the dux service
     # only syncs qtengine's config when it sees this variable
     environment.sessionVariables.QT_QPA_PLATFORMTHEME = "qtengine";
 
@@ -17,19 +17,19 @@
       qtengine
       qtengine.qt5
 
-      # DMS's "Apply GTK colors" copies and patches this
+      # Dux's "Apply GTK colors" copies and patches this
       pkgs.adw-gtk3
     ];
 
-    # GTK 3 reads the cursor from dconf, which DMS never writes;
-    # copy DMS's cursor.kdl choice there
-    systemd.user.paths.dms-cursor-sync = {
+    # GTK 3 reads the cursor from dconf, which Dux never writes;
+    # copy Dux's cursor.kdl choice there
+    systemd.user.paths.dux-cursor-sync = {
       wantedBy = ["graphical-session.target"];
       pathConfig.PathChanged = "%h/.config/niri/dms/cursor.kdl";
     };
 
-    systemd.user.services.dms-cursor-sync = {
-      description = "Copy the DMS cursor into dconf for GTK 3";
+    systemd.user.services.dux-cursor-sync = {
+      description = "Copy the Dux cursor into dconf for GTK 3";
       wantedBy = ["graphical-session.target"];
       serviceConfig.Type = "oneshot";
       path = [pkgs.dconf pkgs.gnused pkgs.coreutils];

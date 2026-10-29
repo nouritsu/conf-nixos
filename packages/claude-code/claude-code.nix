@@ -54,7 +54,7 @@ in {
           Stop) body="Finished" ;;
           *) body=$(jq -r '.message // "Needs your input"' <<<"$input") ;;
         esac
-        # --app-icon, not --icon: DMS draws --icon twice
+        # --app-icon, not --icon: Dux draws --icon twice
         notify-send --app-name="Claude Code" --app-icon=${icon} "Claude Code · $project" "$body"
       '';
     };

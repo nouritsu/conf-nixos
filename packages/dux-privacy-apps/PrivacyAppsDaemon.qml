@@ -10,7 +10,7 @@ import qs.Modules.Plugins
 PluginComponent {
     id: root
 
-    // app key -> {name, icon, mic, camera, screen}; held until unblocked or dms restarts
+    // app key -> {name, icon, mic, camera, screen}; held until unblocked or dux restarts
     property var blocks: ({})
 
     // app key -> {name, icon}; kept in plugin state until shown again
@@ -109,7 +109,7 @@ PluginComponent {
     }
 
     readonly property bool micActive: uses.some(use => use.kind === "mic" && !use.muted && !use.ignore)
-    // camera only; dms's own check counts screen captures too
+    // camera only; dux's own check counts screen captures too
     readonly property bool cameraActive: uses.some(use => use.kind === "camera" && !use.ignore)
 
     // kinds whose every stream is ignored; the pill stays dark for them
@@ -355,7 +355,7 @@ PluginComponent {
 
     Component.onCompleted: hidden = PluginService.loadPluginState(pluginId, "hidden", {})
 
-    // blocks die with dms; don't leave their streams muted
+    // blocks die with dux; don't leave their streams muted
     Component.onDestruction: {
         for (const use of uses) {
             if (use.node?.audio && _mutedByUs[use.node.id] !== undefined)

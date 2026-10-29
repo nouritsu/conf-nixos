@@ -8,7 +8,7 @@
     };
   };
 
-  den.aspects.dms = {
+  den.aspects.dux = {
     nixos = {
       config,
       pkgs,
@@ -17,21 +17,21 @@
       self',
       ...
     }: let
-      settings = (pkgs.formats.json {}).generate "dms-settings.json" (
-        lib.pipe (lib.importJSON ./dms-settings.json) config.dms'.settingsOverrides
+      settings = (pkgs.formats.json {}).generate "dux-settings.json" (
+        lib.pipe (lib.importJSON ./dux-settings.json) config.dux'.settingsOverrides
       );
 
       # every installed plugin is switched on, plus its pinned settings
       pluginSettings = let
-        pinned = lib.importJSON ./dms-plugin-settings.json;
+        pinned = lib.importJSON ./dux-plugin-settings.json;
         installed = lib.filterAttrs (_: p: p.enable) config.programs.dux-shell.plugins;
       in
-        (pkgs.formats.json {}).generate "dms-plugin-settings.json"
+        (pkgs.formats.json {}).generate "dux-plugin-settings.json"
         (lib.recursiveUpdate
           (lib.mapAttrs (id: _: {enabled = true;} // pinned.${id} or {}) installed)
           {privacyApps.ignore = config.privacyApps'.ignore;});
 
-      clipboard = (pkgs.formats.json {}).generate "dms-clipboard.json" {
+      clipboard = (pkgs.formats.json {}).generate "dux-clipboard.json" {
         maxHistory = -1;
         maxEntrySize = 52428800;
         maxPinned = 25;
@@ -41,7 +41,7 @@
       };
 
       # theme schedule off, night light on its schedule
-      session = (pkgs.formats.json {}).generate "dms-session.json" {
+      session = (pkgs.formats.json {}).generate "dux-session.json" {
         themeModeAutoEnabled = false;
         nightModeEnabled = true;
         nightModeAutoEnabled = true;
@@ -49,7 +49,7 @@
 
       # pinned keys go over the live files; tokens, history and other state stay
       pinSettings = pkgs.writeShellApplication {
-        name = "dms-pin-settings";
+        name = "dux-pin-settings";
         runtimeInputs = [pkgs.jq pkgs.coreutils];
         text = ''
           dir=''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell
@@ -74,10 +74,10 @@
       };
     in {
       imports = [
-        inputs.dms-plugin-registry.nixosModules.default
+        inputs.dux-plugin-registry.nixosModules.default
         {
           # per-host edits to the pinned settings, applied in order
-          options.dms'.settingsOverrides = lib.mkOption {
+          options.dux'.settingsOverrides = lib.mkOption {
             type = lib.types.listOf (lib.types.functionTo lib.types.attrs);
             default = [];
           };
@@ -108,21 +108,21 @@
       # screenRecorderYS
       programs.gpu-screen-recorder.enable = true;
 
-      # settings.json is read-only; GUI changes come back through DMS's
-      # copy-JSON button into dms-settings.json
+      # settings.json is read-only; GUI changes come back through Dux's
+      # copy-JSON button into dux-settings.json
       systemd.user.tmpfiles.rules = [
         "L+ %h/.config/DankMaterialShell/settings.json - - - - ${settings}"
-        "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dms-plugin-registry}/themes/catppuccin/theme.json"
+        "L+ %h/.config/DankMaterialShell/themes/catppuccin/theme.json - - - - ${inputs.dux-plugin-registry}/themes/catppuccin/theme.json"
       ];
 
-      # dms only reads plugin settings and session at start and saves its own copy over later edits
+      # dux only reads plugin settings and session at start and saves its own copy over later edits
       systemd.user.services.dms.serviceConfig.ExecStartPre = "-${lib.getExe pinSettings}";
 
-      # dms keeps watching the old link target; restart it when a pin changes
-      system.userActivationScripts.dms-settings = {
+      # dux keeps watching the old link target; restart it when a pin changes
+      system.userActivationScripts.dux-settings = {
         deps = ["tmpfiles"];
         text = ''
-          stamp=''${XDG_STATE_HOME:-$HOME/.local/state}/dms-settings-pin
+          stamp=''${XDG_STATE_HOME:-$HOME/.local/state}/dux-settings-pin
           if [ "$(cat "$stamp" 2>/dev/null)" != "${settings} ${pinSettings}" ]; then
             mkdir -p "$(dirname "$stamp")"
             echo "${settings} ${pinSettings}" > "$stamp"
@@ -153,18 +153,18 @@
           app-id = "kdeconnect";
         };
         n = {
-          desc = "DMS notepad";
+          desc = "Dux notepad";
           icon = "f039e";
           cmd = "dms ipc call notepad open";
         };
       };
 
-      # DMS's power-profile switcher and cpu.balanced need it
+      # Dux's power-profile switcher and cpu.balanced need it
       services.power-profiles-daemon.enable = true;
 
       programs.dux-shell = {
         enable = true;
-        package = inputs'.dms.packages.default;
+        package = inputs'.dux.packages.default;
 
         plugins = {
           dankKDEConnect.enable = true;
@@ -196,13 +196,13 @@
           # local: the focused window's width and height as a % of the screen
           columnWidth = {
             enable = true;
-            src = self'.packages.dms-column-width;
+            src = self'.packages.dux-column-width;
           };
 
           # local: the privacy indicator, plus a popout of the apps behind it
           privacyApps = {
             enable = true;
-            src = self'.packages.dms-privacy-apps;
+            src = self'.packages.dux-privacy-apps;
           };
 
           # patched: mkForce over the registry's src
@@ -211,8 +211,8 @@
           claudeCodeUsage = {
             enable = true;
             src = lib.mkForce (pkgs.applyPatches {
-              name = "dms-plugin-claudeCodeUsage";
-              src = inputs'.dms-plugin-registry.packages.claudeCodeUsage;
+              name = "dux-plugin-claudeCodeUsage";
+              src = inputs'.dux-plugin-registry.packages.claudeCodeUsage;
               postPatch = ''
                 substituteInPlace ClaudeCodeUsageWidget.qml --replace-fail \
                   'PluginService.pluginDirectory + "/claudeCodeUsage/get-claude-usage"' \
@@ -226,8 +226,8 @@
           ipIndicator = {
             enable = true;
             src = lib.mkForce (pkgs.applyPatches {
-              name = "dms-plugin-ipIndicator";
-              src = inputs'.dms-plugin-registry.packages.ipIndicator;
+              name = "dux-plugin-ipIndicator";
+              src = inputs'.dux-plugin-registry.packages.ipIndicator;
               postPatch = ''
                 substituteInPlace IPIndicatorWidget.qml \
                   --replace-fail "ls /sys/class/net | grep -E '^(" "ip route get 1.1.1.1 | grep -oE 'dev (" \
@@ -253,8 +253,8 @@
       programs.dux-shell.plugins.homeAssistantMonitor = {
         enable = true;
         src = lib.mkForce (pkgs.applyPatches {
-          name = "dms-plugin-homeAssistantMonitor";
-          src = inputs'.dms-plugin-registry.packages.homeAssistantMonitor;
+          name = "dux-plugin-homeAssistantMonitor";
+          src = inputs'.dux-plugin-registry.packages.homeAssistantMonitor;
           postPatch = ''
             substituteInPlace services/WebSocketClient.qml \
               --replace-fail '_reopenOnClosed = true;' '_reopenOnClosed = true; reopenFallback.restart();' \
@@ -276,13 +276,13 @@
       self',
       ...
     }: let
-      src = inputs'.dms-plugin-registry.packages.dankRazer;
+      src = inputs'.dux-plugin-registry.packages.dankRazer;
       dankrazer = self'.packages.dankrazer;
     in {
       programs.dux-shell.plugins.dankRazer = {
         enable = true;
         src = lib.mkForce (pkgs.applyPatches {
-          name = "dms-plugin-dankRazer";
+          name = "dux-plugin-dankRazer";
           inherit src;
           postPatch = ''
             substituteInPlace DankRazerWidget.qml --replace-fail \
@@ -304,7 +304,7 @@
       programs.dux-shell.plugins.dmsLenovoBatterySettings.enable = true;
 
       # laptop only: Bar 2, right after batteryPlus
-      dms'.settingsOverrides = [
+      dux'.settingsOverrides = [
         (settings: let
           widget = {
             id = "dmsLenovoBatterySettings";
@@ -340,8 +340,8 @@
         # pkexec execs the resolved path on a bare PATH, which turns tailscale
         # into tailscaled and breaks uutils' multicall env/timeout
         src = lib.mkForce (pkgs.applyPatches {
-          name = "dms-plugin-dankscale";
-          src = inputs'.dms-plugin-registry.packages.dankscale;
+          name = "dux-plugin-dankscale";
+          src = inputs'.dux-plugin-registry.packages.dankscale;
           postPatch = ''
             substituteInPlace services/TailscaleService.qml \
               --replace-fail '"pkexec", "tailscale"' '"pkexec", "${pkgs.coreutils}/bin/env", "${tailscale}"' \

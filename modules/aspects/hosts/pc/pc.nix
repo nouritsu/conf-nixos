@@ -15,11 +15,11 @@
       peripherals.monitor
       peripherals.tablet
       peripherals.razer
-      dms.razer
+      dux.razer
       audio.presets
 
       secrets
-      dms.home-assistant
+      dux.home-assistant
       services.beszel
       extra.streaming
       extra.clipping.always-on

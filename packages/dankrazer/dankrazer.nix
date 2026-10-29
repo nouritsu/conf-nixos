@@ -4,7 +4,7 @@
     inputs',
     ...
   }: let
-    src = inputs'.dms-plugin-registry.packages.dankRazer;
+    src = inputs'.dux-plugin-registry.packages.dankRazer;
   in {
     packages.dankrazer = pkgs.buildGoModule {
       pname = "dankrazer";

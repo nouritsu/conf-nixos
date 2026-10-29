@@ -14,7 +14,7 @@ in {
       self.nixosModules.wniri-startup
       self.nixosModules.wniri-rules
       self.nixosModules.wniri-single-window
-      self.nixosModules.wniri-dms
+      self.nixosModules.wniri-dux
     ];
   };
 }

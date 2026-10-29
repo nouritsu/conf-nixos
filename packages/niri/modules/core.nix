@@ -9,7 +9,7 @@
 
       hotkey-overlay.skip-at-startup = _: {};
 
-      # mouse/touchpad come from DMS; a block here would be replaced anyway
+      # mouse/touchpad come from Dux; a block here would be replaced anyway
 
       layout = {
         empty-workspace-above-first = _: {};
