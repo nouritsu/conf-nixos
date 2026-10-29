@@ -28,9 +28,13 @@ fun refresh_callback ()
 
 Plymouth.SetRefreshFunction(refresh_callback);
 
-# Passphrase prompt, under the flake
+# Disk unlock, under the flake: a key until typing starts, then dots; no text.
+# The key turns mauve once a security key opens the disk.
 
-prompt.sprite = Sprite();
+key.idle = Image("key.png");
+key.done = Image("key-done.png");
+key.sprite = Sprite();
+key.unlocked = 0;
 bullets.sprite = Sprite();
 
 fun centre_x (image)
@@ -38,36 +42,63 @@ fun centre_x (image)
     return Window.GetX() + Window.GetWidth() / 2 - image.GetWidth() / 2;
   }
 
+# middle of the row the key and the dots share
+fun row_y ()
+  {
+    return Window.GetY() + Window.GetHeight() / 2 + flake.size * 0.8;
+  }
+
+fun show_key (source, opacity)
+  {
+    size = Math.Int(flake.size * 0.28);
+    key.image = source.Scale(size, size);
+    key.sprite.SetImage(key.image);
+    key.sprite.SetPosition(centre_x(key.image), row_y() - size / 2, 1);
+    key.sprite.SetOpacity(opacity);
+  }
+
 fun display_password_callback (text, count)
   {
-    font = "Sans " + Math.Int(Window.GetHeight() / 60);
-    y = Window.GetY() + Window.GetHeight() / 2 + flake.size;
-
-    prompt.image = Image.Text(text, @text@, 0.7, font);
-    prompt.sprite.SetImage(prompt.image);
-    prompt.sprite.SetPosition(centre_x(prompt.image), y, 1);
-    prompt.sprite.SetOpacity(1);
+    if (key.unlocked)
+      return;
 
     # an empty Image.Text has no size
     if (count > 0)
       {
+        key.sprite.SetOpacity(0);
         dots = "";
         for (i = 0; i < count; i++)
           dots = dots + "●";
-        bullets.image = Image.Text(dots, @mauve@, 1, font);
+        bullets.image = Image.Text(dots, @mauve@, 1, "Sans " + Math.Int(Window.GetHeight() / 60));
         bullets.sprite.SetImage(bullets.image);
-        bullets.sprite.SetPosition(centre_x(bullets.image), y + prompt.image.GetHeight() * 2, 1);
+        bullets.sprite.SetPosition(centre_x(bullets.image), row_y() - bullets.image.GetHeight() / 2, 1);
         bullets.sprite.SetOpacity(1);
       }
     else
-      bullets.sprite.SetOpacity(0);
+      {
+        bullets.sprite.SetOpacity(0);
+        show_key(key.idle, 0.7);
+      }
   }
 
 fun display_normal_callback ()
   {
-    prompt.sprite.SetOpacity(0);
     bullets.sprite.SetOpacity(0);
+    if (!key.unlocked)
+      key.sprite.SetOpacity(0);
+  }
+
+# the unlock step's signal; other messages, like systemd's touch prompt, stay hidden
+fun display_message_callback (text)
+  {
+    if (text == "snowflake:unlocked")
+      {
+        key.unlocked = 1;
+        bullets.sprite.SetOpacity(0);
+        show_key(key.done, 1);
+      }
   }
 
 Plymouth.SetDisplayPasswordFunction(display_password_callback);
 Plymouth.SetDisplayNormalFunction(display_normal_callback);
+Plymouth.SetDisplayMessageFunction(display_message_callback);
