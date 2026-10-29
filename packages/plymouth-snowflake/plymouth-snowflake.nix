@@ -7,7 +7,7 @@ in {
     lib,
     ...
   }: let
-    base = lib.concatMapStringsSep ", " (c: toString (c / 255.0)) (hexToRGB palette.base00);
+    rgb = hex: lib.concatMapStringsSep ", " (c: toString (c / 255.0)) (hexToRGB hex);
   in {
     # nixos snowflake pulsing on mocha
     packages.plymouth-snowflake = pkgs.runCommand "plymouth-snowflake" {nativeBuildInputs = [pkgs.librsvg];} ''
@@ -21,7 +21,10 @@ in {
         ${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg > snowflake.svg
       rsvg-convert -w 512 snowflake.svg -o $dir/snowflake.png
 
-      substitute ${./snowflake.script} $dir/snowflake.script --subst-var-by base "${base}"
+      substitute ${./snowflake.script} $dir/snowflake.script \
+        --subst-var-by base "${rgb palette.base00}" \
+        --subst-var-by text "${rgb palette.base05}" \
+        --subst-var-by mauve "${rgb palette.base0E}"
 
       cat > $dir/snowflake.plymouth <<EOF
       [Plymouth Theme]

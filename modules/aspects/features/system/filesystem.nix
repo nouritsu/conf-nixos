@@ -1,10 +1,12 @@
-{
+{inputs, ...}: {
   den.aspects.filesystem = {
     nixos = {
       pkgs,
       lib,
       ...
     }: {
+      imports = [inputs.disko.nixosModules.disko];
+
       environment.systemPackages = [
         pkgs.parted
         pkgs.gparted-full
@@ -41,6 +43,52 @@
           cmd = lib.getExe pkgs.snapper-gui;
           app-id = "snapper";
         };
+      };
+
+      # snapper timelines for /home and the folders split out of it
+      snapshots.nixos = {
+        host,
+        config,
+        lib,
+        ...
+      }: let
+        owner = lib.head (lib.attrNames host.users);
+        user = config.users.users.${owner};
+
+        # own subvolume and snapper config each
+        folders = ["Assignments" "Documents" "Music" "Pictures" "Projects" "Videos"];
+        # own subvolume, never snapshotted
+        skipped = ["Games" ".cache"];
+
+        timeline = {
+          ALLOW_USERS = [owner];
+          SYNC_ACL = true;
+          TIMELINE_CREATE = true;
+          TIMELINE_CLEANUP = true;
+          TIMELINE_LIMIT_HOURLY = 12;
+          TIMELINE_LIMIT_DAILY = 7;
+          TIMELINE_LIMIT_WEEKLY = 4;
+          TIMELINE_LIMIT_MONTHLY = 3;
+          TIMELINE_LIMIT_YEARLY = 0;
+        };
+
+        subvol = dir: "v ${user.home}/${dir} 0755 ${owner} ${user.group} -";
+        # snapper needs a root-owned .snapshots subvolume in each
+        snapshots = dir: "v ${dir}/.snapshots 0750 root root -";
+      in {
+        services.snapper = {
+          # catch up after sleep or shutdown
+          persistentTimer = true;
+          configs =
+            {home = timeline // {SUBVOLUME = "/home";};}
+            // lib.genAttrs' folders (dir: lib.nameValuePair (lib.toLower dir) (timeline // {SUBVOLUME = "${user.home}/${dir}";}));
+        };
+
+        # v turns missing paths into subvolumes; nested ones stay out of /home snapshots
+        systemd.tmpfiles.rules =
+          [(snapshots "/home")]
+          ++ lib.concatMap (dir: [(subvol dir) (snapshots "${user.home}/${dir}")]) folders
+          ++ map subvol skipped;
       };
 
       xfs.nixos = {pkgs, ...}: {

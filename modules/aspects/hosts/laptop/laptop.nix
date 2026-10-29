@@ -1,9 +1,11 @@
 {den, ...}: {
   # Lenovo IdeaPad Slim 5 (Intel)
-  den.aspects.lenovo = {
+  den.aspects.laptop = {
     includes = with den.aspects; [
-      laptop
+      portable
       bootloader.limine
+      bootloader.secure-boot
+      filesystem.snapshots
       kernel.cachyos-bore-lto
       firmware.intel
       firmware.updates
@@ -22,6 +24,11 @@
       nix.builds-from-pc
     ];
 
-    nixos.sops.defaultSopsFile = ./secrets.yaml;
+    nixos = {
+      sops.defaultSopsFile = ./secrets.yaml;
+
+      # made on install; enroll-keys -m -f in Setup Mode after the first boot
+      boot.loader.limine.secureBoot.autoGenerateKeys = true;
+    };
   };
 }

@@ -8,7 +8,7 @@ creation_rules:
       - age:
           - *pc
           - *laptop
-  - path_regex: hosts/lenovo/secrets.yaml$
+  - path_regex: hosts/laptop/secrets.yaml$
     key_groups:
       - age:
           - *laptop
