@@ -13,10 +13,14 @@
       extra.clipping.in-game
       shatterlock.laptop
 
+      secrets
+
       ssh.from-pc
       ssh.from-pixel
       nix.from-pc
       nix.builds-from-pc
     ];
+
+    nixos.sops.defaultSopsFile = ./secrets.yaml;
   };
 }

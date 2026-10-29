@@ -2,8 +2,19 @@ keys:
   - &pc age1wygzuq7267u5mmrlc482fsfrdfd77jc0y3gs53v0jz04069gmesqq6waee
   - &laptop age1q6pjxqhkml9kvxunkgramqm9mpz6274v880qfsrqvyy78naradaqtlzcc4
 creation_rules:
-  # modules/aspects/features/secrets/secrets.yaml
-  - path_regex: secrets/secrets.yaml$
+  # suffix matches against modules/aspects/
+  - path_regex: hosts/pc/secrets.yaml$
+    key_groups:
+      - age:
+          - *pc
+          - *laptop
+  - path_regex: hosts/lenovo/secrets.yaml$
+    key_groups:
+      - age:
+          - *laptop
+          - *pc
+  # what both hosts read
+  - path_regex: features/secrets/shared.yaml$
     key_groups:
       - age:
           - *pc

@@ -32,5 +32,19 @@
       ssh.from-pixel
       backup.from-homelab
     ];
+
+    nixos = {
+      host,
+      lib,
+      ...
+    }: let
+      owner = lib.head (lib.attrNames host.users);
+    in {
+      sops.defaultSopsFile = ./secrets.yaml;
+
+      # home assistant: the dux widget and claude's mcp
+      sops.secrets."ha-pc-token" = {inherit owner;};
+      sops.secrets."ha-claude-token" = {inherit owner;};
+    };
   };
 }
