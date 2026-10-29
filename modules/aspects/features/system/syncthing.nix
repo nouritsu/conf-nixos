@@ -26,6 +26,8 @@
         "*.part"
         "*.crdownload"
       ];
+      # mediastore's half-written and trashed files
+      phoneIgnores = ["(?d).pending-*" "(?d).trashed-*" "(?d).thumbnails"];
 
       folders =
         lib.mapAttrsToList (id: f: {
@@ -141,11 +143,20 @@
           path = "Music";
           devices = ["pc" "laptop" "pixel"];
         };
-        phone-screenshots = {
-          label = "Phone screenshots";
+        phone-camera = {
+          label = "Phone camera";
           path = "Pictures/Phone";
           type = "receiveonly";
           devices = ["pixel" "pc" "laptop" "homelab"];
+          # phone-screenshots
+          ignores = phoneIgnores ++ ["/Screenshots"];
+        };
+        phone-screenshots = {
+          label = "Phone screenshots";
+          path = "Pictures/Phone/Screenshots";
+          type = "receiveonly";
+          devices = ["pixel" "pc" "laptop" "homelab"];
+          ignores = phoneIgnores;
         };
       };
 
