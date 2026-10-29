@@ -57,7 +57,7 @@
         # sshd runs ForceCommand through the login shell
         shell = pkgs.bashInteractive;
         openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMiobx5pv1m0BYAw3/N/7MCpSQlCrTbS20m2XUsarry3 nix-builder@pc"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFPux9iXDNlT5LTXPxmmQO+92lNyyL/YVfr5FxERsAjn nix-builder@pc"
         ];
       };
       users.groups.${user} = {};
