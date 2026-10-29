@@ -356,6 +356,22 @@
         "type": "github"
       }
     },
+    "hypr-kdeconnect-fix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792180940,
+        "narHash": "sha256-B48HclHpqfHjKbLDBkv8wUPJJWzf7gBAz5o/6YWUk3g=",
+        "owner": "gfhdhytghd",
+        "repo": "hypr-kdeconnect-fix",
+        "rev": "809c1ea83ca71f94df929ccea04043f0c47c0c32",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gfhdhytghd",
+        "repo": "hypr-kdeconnect-fix",
+        "type": "github"
+      }
+    },
     "import-tree": {
       "locked": {
         "lastModified": 1788467110,
@@ -743,6 +759,7 @@
         "dux-plugin-registry": "dux-plugin-registry",
         "flake-parts": "flake-parts_2",
         "helix": "helix",
+        "hypr-kdeconnect-fix": "hypr-kdeconnect-fix",
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "millennium": "millennium",

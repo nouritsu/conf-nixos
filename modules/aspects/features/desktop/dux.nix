@@ -133,6 +133,18 @@
 
       programs.kdeconnect = {
         enable = true;
+        package = self'.packages.kdeconnect;
+      };
+
+      # gnome's RemoteDesktop needs mutter, which niri lacks;
+      # the backend allow-lists kdeconnect as a caller
+      xdg.portal = {
+        extraPortals = [
+          self'.packages.hypr-kdeconnect-fix
+        ];
+        config.niri = {
+          "org.freedesktop.impl.portal.RemoteDesktop" = ["hypr-kdeconnect"];
+        };
       };
 
       which-key'.menu.t.submenu = {

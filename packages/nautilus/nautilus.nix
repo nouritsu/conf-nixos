@@ -138,7 +138,7 @@ in {
 
         pkgs.wezterm
         pkgs.nautilus-open-any-terminal
-        pkgs.kdePackages.kdeconnect-kde
+        self'.packages.kdeconnect
         pkgs.collision
         pkgs.turtle
         copy-path
