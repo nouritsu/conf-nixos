@@ -23,6 +23,7 @@
       services.beszel
       extra.streaming
       extra.clipping.always-on
+      shatterlock.desktop
       nix.serve
       nix.builds-on-laptop
       nix.update

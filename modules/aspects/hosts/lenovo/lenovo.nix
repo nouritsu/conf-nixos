@@ -11,6 +11,7 @@
       power.thermald
       dux.ideapad
       extra.clipping.in-game
+      shatterlock.laptop
 
       ssh.from-pc
       ssh.from-pixel
