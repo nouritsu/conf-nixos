@@ -23,6 +23,8 @@
       dux.home-assistant
       dux.calendar
       services.beszel
+      syncthing
+      syncthing.desktop
       extra.streaming
       extra.clipping.always-on
       shatterlock.desktop

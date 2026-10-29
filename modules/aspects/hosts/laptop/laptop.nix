@@ -17,6 +17,8 @@
 
       secrets
       dux.calendar
+      syncthing
+      syncthing.laptop
 
       ssh.from-pc
       ssh.from-pixel
