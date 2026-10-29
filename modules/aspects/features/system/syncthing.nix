@@ -105,6 +105,8 @@
           label = "Documents";
           path = "Documents";
           devices = ["pc" "laptop" "homelab"];
+          # books
+          ignores = ["/Books"];
         };
         assignments = {
           label = "Assignments";
@@ -130,8 +132,17 @@
         };
         books = {
           label = "Books";
-          path = "Books";
+          path = "Documents/Books";
           devices = ["pc" "laptop" "homelab" "pixel"];
+          # library
+          ignores = ["/Library"];
+        };
+        # bindery's downloads, sent by the homelab
+        library = {
+          label = "Library";
+          path = "Documents/Books/Library";
+          type = "receiveonly";
+          devices = ["homelab" "pc" "laptop" "pixel"];
         };
         wallpaper = {
           label = "Wallpaper";
