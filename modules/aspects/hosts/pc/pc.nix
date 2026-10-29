@@ -20,6 +20,7 @@
 
       secrets
       dux.home-assistant
+      dux.calendar
       services.beszel
       extra.streaming
       extra.clipping.always-on

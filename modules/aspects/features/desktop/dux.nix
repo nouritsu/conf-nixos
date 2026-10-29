@@ -276,6 +276,150 @@
       };
     };
 
+    # dcal colours a single-file calendar from its VCALENDAR and names it after
+    # the file, so the feeds are mirrored with our colour written in
+    provides.calendar.nixos = {
+      config,
+      host,
+      pkgs,
+      lib,
+      ...
+    }: let
+      owner = lib.head (lib.attrNames host.users);
+
+      # .ics on the server, calendar name, catppuccin mocha colour, token
+      feeds = [
+        {
+          feed = "lectures";
+          name = "CampusNet · Lectures";
+          color = "#cba6f7";
+          token = "vps";
+        }
+        {
+          feed = "tutorials";
+          name = "CampusNet · Tutorials";
+          color = "#a6e3a1";
+          token = "vps";
+        }
+        {
+          feed = "exams";
+          name = "CampusNet · Exams";
+          color = "#f38ba8";
+          token = "vps";
+        }
+        {
+          feed = "other";
+          name = "CampusNet · Other";
+          color = "#89b4fa";
+          token = "vps";
+        }
+        {
+          feed = "birthdays";
+          name = "Birthdays";
+          color = "#fab387";
+          token = "homelab";
+        }
+      ];
+
+      # calendar-level colours out, ours in; folded lines go with their property
+      recolour = pkgs.writeText "calsync-recolour.awk" ''
+        {
+          line = $0
+          sub(/\r$/, "", line)
+        }
+        drop && line ~ /^[ \t]/ { next }
+        { drop = 0 }
+        line == "BEGIN:VCALENDAR" {
+          print
+          printf "X-APPLE-CALENDAR-COLOR:%s\r\n", color
+          header = 1
+          next
+        }
+        header && line ~ /^BEGIN:/ { header = 0 }
+        header && toupper(line) ~ /^(COLOR|X-APPLE-CALENDAR-COLOR)[;:]/ {
+          drop = 1
+          next
+        }
+        { print }
+      '';
+
+      calsync = pkgs.writeShellApplication {
+        name = "calsync";
+        runtimeInputs = [pkgs.curl pkgs.gawk pkgs.jq pkgs.coreutils pkgs.dux-calendar];
+        text = ''
+          shopt -s nullglob
+          dir=''${XDG_DATA_HOME:-$HOME/.local/share}/calsync
+          mkdir -p "$dir"
+
+          # temp names without .ics, or dcal lists them as calendars
+          fetch() {
+            local feed=$1 name=$2 color=$3 tmp
+            tmp=$(mktemp "$dir/.$feed.XXXXXX")
+            if curl -fsSL --max-time 60 -o "$tmp" "https://cal.nouritsu.com/$(< "$4")/$feed.ics" \
+              && [ "$(head -c 15 "$tmp")" = BEGIN:VCALENDAR ]; then
+              awk -v color="$color" -f ${recolour} "$tmp" > "$tmp.new"
+              mv "$tmp.new" "$dir/$name.ics"
+            else
+              echo "$feed: fetch failed, keeping the last copy" >&2
+            fi
+            rm -f "$tmp" "$tmp.new"
+          }
+
+          ${lib.concatMapStrings (f: ''
+              fetch ${lib.escapeShellArgs [f.feed f.name f.color config.sops.secrets."calsync/${f.token}-token".path]}
+            '')
+            feeds}
+          # feeds dropped from the list
+          for f in "$dir"/*.ics; do
+            case ''${f##*/} in
+              ${lib.concatMapStringsSep " | " (f: lib.escapeShellArg "${f.name}.ics") feeds}) ;;
+              *) rm -f "$f" ;;
+            esac
+          done
+
+          # dcal seeds a default calendar into an empty dir, so wait for a feed
+          files=("$dir"/*.ics)
+          if [ ''${#files[@]} -gt 0 ]; then
+            if ! dcal account list --json | jq -e 'any(.[]; .id == "local:calsync")' > /dev/null; then
+              dcal account add local "$dir" --name Subscriptions > /dev/null
+            fi
+            dcal sync local:calsync > /dev/null
+          fi
+        '';
+      };
+    in {
+      sops.secrets = lib.genAttrs ["calsync/vps-token" "calsync/homelab-token"] (_: {
+        sopsFile = ../secrets/shared.yaml;
+        inherit owner;
+      });
+
+      environment.systemPackages = [pkgs.dux-calendar];
+
+      # dux's calendar reads events from the dcal daemon
+      systemd.packages = [pkgs.dux-calendar];
+      systemd.user.services.dcal = {
+        wantedBy = ["graphical-session.target"];
+        # quickshell for its window comes from the session PATH
+        path = lib.mkForce [];
+      };
+
+      systemd.user.services.calsync = {
+        description = "Mirror the calendar feeds for dcal";
+        after = ["dcal.service"];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = lib.getExe calsync;
+        };
+      };
+      systemd.user.timers.calsync = {
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnStartupSec = "1min";
+          OnUnitActiveSec = "30min";
+        };
+      };
+    };
+
     provides.battery.nixos.programs.dux-shell.plugins.batteryOSD.enable = true;
 
     # expects its go cli hand-built inside the per-user plugin dir

@@ -14,6 +14,7 @@
       shatterlock.laptop
 
       secrets
+      dux.calendar
 
       ssh.from-pc
       ssh.from-pixel
