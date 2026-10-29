@@ -77,6 +77,9 @@
       };
     };
 
+    # sops reads the age key from ~ during activation
+    fileSystems."/home".neededForBoot = true;
+
     services.btrfs.autoScrub.enable = true;
   };
 }

@@ -21,6 +21,13 @@
         defaultSopsFormat = "yaml";
         age.keyFile = "${config.users.users.${owner}.home}/.config/sops/age/keys.txt";
       };
+
+      # mutable users: only applied when the user is first created
+      sops.secrets."${owner}/password" = {
+        sopsFile = ./shared.yaml;
+        neededForUsers = true;
+      };
+      users.users.${owner}.hashedPasswordFile = config.sops.secrets."${owner}/password".path;
     };
   };
 }
