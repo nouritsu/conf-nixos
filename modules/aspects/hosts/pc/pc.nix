@@ -47,6 +47,24 @@
       # home assistant: the dux widget and claude's mcp
       sops.secrets."ha-pc-token" = {inherit owner;};
       sops.secrets."ha-claude-token" = {inherit owner;};
+
+      # no battery: weather grows up into its slot, level with the clock
+      dux'.settingsOverrides = [
+        (settings:
+          settings
+          // {
+            dashCards = map (card:
+              if card.id == "weather"
+              then
+                card
+                // {
+                  row = 0;
+                  h = 2;
+                }
+              else card)
+            (builtins.filter (card: card.id != "battery") settings.dashCards);
+          })
+      ];
     };
   };
 }

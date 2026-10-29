@@ -262,45 +262,45 @@
   "dashCards": [
     {
       "id": "clock",
-      "w": 2,
-      "h": 1,
-      "col": 0,
+      "w": 1,
+      "h": 2,
+      "col": 4,
       "row": 0
     },
     {
       "id": "weather",
-      "w": 2,
+      "w": 1,
       "h": 1,
-      "col": 2,
-      "row": 0
-    },
-    {
-      "id": "notifications",
-      "w": 3,
-      "h": 4,
-      "col": 3,
+      "col": 5,
       "row": 1
     },
     {
       "id": "calendar",
-      "w": 3,
-      "h": 3,
+      "w": 4,
+      "h": 5,
       "col": 0,
-      "row": 1
-    },
-    {
-      "id": "media",
-      "w": 3,
-      "h": 1,
-      "col": 0,
-      "row": 4
+      "row": 0
     },
     {
       "id": "wellbeing",
       "w": 2,
+      "h": 2,
+      "col": 4,
+      "row": 3
+    },
+    {
+      "id": "battery",
+      "w": 1,
+      "h": 1,
+      "col": 5,
+      "row": 0
+    },
+    {
+      "id": "user",
+      "w": 2,
       "h": 1,
       "col": 4,
-      "row": 0
+      "row": 2
     }
   ],
   "dashOptions": {
