@@ -197,11 +197,13 @@
         pkgs,
         lib,
         ...
-      }: {
+      }: let
+        vesktop = self'.packages.novpn.wrap self'.packages.vesktop;
+      in {
         environment.systemPackages = [
           pkgs.telegram-desktop
           pkgs.whatsapp-electron
-          self'.packages.vesktop
+          vesktop
           pkgs.teams-for-linux
           pkgs.slack
         ];
@@ -210,7 +212,7 @@
           d = {
             desc = "Vesktop";
             icon = "f066f";
-            cmd = lib.getExe self'.packages.vesktop;
+            cmd = lib.getExe vesktop;
             app-id = "vesktop";
           };
           t = {
@@ -293,10 +295,12 @@
       pkgs,
       lib,
       ...
-    }: {
+    }: let
+      prismlauncher = self'.packages.novpn.wrap self'.packages.prismlauncher;
+    in {
       environment.systemPackages = [
         pkgs.r2modman
-        self'.packages.prismlauncher
+        prismlauncher
         pkgs.deadlock-mod-manager
       ];
 
@@ -304,7 +308,7 @@
         p = {
           desc = "Prism Launcher";
           icon = "f0373";
-          cmd = lib.getExe self'.packages.prismlauncher;
+          cmd = lib.getExe prismlauncher;
           app-id = "prismlauncher";
         };
         r = {
@@ -317,16 +321,19 @@
     };
 
     emulation.nixos = {
+      self',
       pkgs,
       lib,
       ...
-    }: {
-      environment.systemPackages = [pkgs.eden];
+    }: let
+      eden = self'.packages.novpn.wrap pkgs.eden;
+    in {
+      environment.systemPackages = [eden];
 
       which-key'.menu.g.submenu.e = {
         desc = "Eden";
         icon = "f07e1";
-        cmd = lib.getExe pkgs.eden;
+        cmd = lib.getExe eden;
         app-id = "eden_emu|^eden$";
       };
     };
