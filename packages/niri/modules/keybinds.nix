@@ -16,6 +16,7 @@
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
+    layercapture = lib.getExe self.packages.${system}.xdg-desktop-portal-layercapture;
     brave = lib.getExe pkgs.brave-origin;
 
     pkill = lib.getExe' pkgs.procps "pkill";
@@ -54,6 +55,11 @@
         props.allow-when-locked = true;
         props.allow-inhibiting = false;
         content.spawn = [shatterlock "lock"];
+      };
+      # hands a stuck kdeconnect input share back
+      "Mod+Ctrl+Escape" = _: {
+        props.allow-inhibiting = false;
+        content.spawn = [layercapture "release"];
       };
       "Ctrl+Shift+Escape".spawn-sh = "dms ipc call processlist focusOrToggle";
       "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";

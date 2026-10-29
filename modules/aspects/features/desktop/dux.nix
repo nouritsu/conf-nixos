@@ -136,14 +136,16 @@
         package = self'.packages.kdeconnect;
       };
 
-      # gnome's RemoteDesktop needs mutter, which niri lacks;
-      # the backend allow-lists kdeconnect as a caller
+      # gnome's RemoteDesktop and InputCapture need mutter, which niri lacks;
+      # both backends allow-list kdeconnect as a caller
       xdg.portal = {
         extraPortals = [
           self'.packages.hypr-kdeconnect-fix
+          self'.packages.xdg-desktop-portal-layercapture
         ];
         config.niri = {
           "org.freedesktop.impl.portal.RemoteDesktop" = ["hypr-kdeconnect"];
+          "org.freedesktop.impl.portal.InputCapture" = ["layercapture"];
         };
       };
 

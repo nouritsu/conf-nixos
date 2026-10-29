@@ -32,5 +32,8 @@
 
       meta.mainProgram = "hypr-kdeconnect-portal";
     };
+
+    # InputCapture portal for share input devices: edge strip, pointer lock, EIS
+    packages.xdg-desktop-portal-layercapture = pkgs.callPackage "${inputs.layercapture}/nix/package.nix" {};
   };
 }

@@ -408,6 +408,22 @@
         "type": "github"
       }
     },
+    "layercapture": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790630288,
+        "narHash": "sha256-4b+Twig0sMQzMq0ebOWc94d/KSdSpll1rR8gqnRDwdI=",
+        "owner": "iNViTiON",
+        "repo": "xdg-desktop-portal-layercapture",
+        "rev": "a041d93cb4428cecac55ecd7ab5e43a29b95d7ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "iNViTiON",
+        "repo": "xdg-desktop-portal-layercapture",
+        "type": "github"
+      }
+    },
     "millennium": {
       "inputs": {
         "millennium-src": "millennium-src",
@@ -762,6 +778,7 @@
         "hypr-kdeconnect-fix": "hypr-kdeconnect-fix",
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
+        "layercapture": "layercapture",
         "millennium": "millennium",
         "niri": "niri",
         "niri-cwd": "niri-cwd",
