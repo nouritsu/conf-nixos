@@ -90,7 +90,7 @@
       };
       programs.ssh.extraConfig = ''
         Match originalhost homelab,192.168.178.128,nouritsu.com user aneesh
-          ForwardAgent $SSH_SK_AUTH_SOCK
+          ForwardAgent ''${SSH_SK_AUTH_SOCK}
       '';
     };
 
