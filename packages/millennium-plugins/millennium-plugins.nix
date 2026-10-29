@@ -14,10 +14,10 @@
     # plugin packer, prebuilt in the npm package
     starlight = pkgs.stdenv.mkDerivation rec {
       pname = "starlight";
-      version = "1.1.4";
+      version = "1.1.6";
       src = pkgs.fetchurl {
         url = "https://registry.npmjs.org/@steambrew/starlight/-/starlight-${version}.tgz";
-        hash = "sha512-shd8fd/p53RJIwg/i/6y2aueEQVuPW1u5oGKlJIm+aco2B2g0wObIoZxdfdp1t3dBRfZ/4GwH3LcfoaHLla+5Q==";
+        hash = "sha256-55wg5EKbDLZkoBPZ7x3SyHS7tdiN6JaVuLh9OPQKMy0=";
       };
       nativeBuildInputs = [pkgs.autoPatchelfHook];
       buildInputs = [pkgs.stdenv.cc.cc.lib];
@@ -30,12 +30,12 @@
     # not in the plugin store; its only release is a rolling `latest` asset
     packages.millennium-steam-native-notifications = pkgs.stdenvNoCC.mkDerivation {
       pname = "steam-native-notifications";
-      version = "0.1.0-unstable-2026-09-10";
+      version = "latest-unstable-2026-10-27";
       src = pkgs.fetchFromGitHub {
         owner = "tyvsmith";
         repo = "steam-native-notifications";
-        rev = "1ad10344ff163521b2190107fdda0c9199f2ffd1";
-        hash = "sha256-Tl4WdROZrYzISA39kvbkNEOdtsLjTRGGF1NjdYxQAZ8=";
+        rev = "3dac4312b0df9c8e2fcb8ad083f8bda409d9a68f";
+        hash = "sha256-5MP9dwlVUXg3Hw6Gbv2Q8GCYWWgIWOnZJOIR5SbuFOM=";
       };
       nativeBuildInputs = [starlight];
       buildPhase = ''
@@ -56,17 +56,17 @@
 
     packages.millennium-achievement-groups = release rec {
       pname = "achievement-groups";
-      version = "2.1.0";
+      version = "2.1.1";
       url = "https://github.com/BossSloth/SteamHunter-plugin/releases/download/v${version}/Achievement-Groups-plugin-${version}.zip";
-      hash = "sha256-Lu7ORsn9uRRb83FkbBOxH137ulJyohgwmqqvzJlqAx8=";
+      hash = "sha256-TuX8tnR/lxhJ+UObctObHndtztMPWhkytfIKbAisn6g=";
       passthru.nup = [];
     };
 
     packages.millennium-extendium = release rec {
       pname = "extendium";
-      version = "2.0.4";
+      version = "2.0.5";
       url = "https://github.com/BossSloth/Extendium/releases/download/v${version}/extendium-${version}.zip";
-      hash = "sha256-ecchVQE6Syk+WJt+jMs1ZHk254Z/Gl2JArajsnyB26Q=";
+      hash = "sha256-xLgXWSU06onhi5JACcxbTh3qrgVqtkNRco1dbvcWLtk=";
       passthru.nup = [];
     };
 
