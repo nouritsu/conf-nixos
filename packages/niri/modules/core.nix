@@ -11,8 +11,8 @@
 
       # mouse/touchpad come from Dux; a block here would be replaced anyway
 
-      # drag to an edge: left/right scrolls (default 1500), top/bottom switches workspaces
-      gestures.dnd-edge-view-scroll.max-speed = 3000;
+      # drag to the left/right edge scrolls (default 1500)
+      gestures.dnd-edge-view-scroll.max-speed = 2250;
 
       layout = {
         empty-workspace-above-first = _: {};
