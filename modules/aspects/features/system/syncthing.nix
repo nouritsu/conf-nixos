@@ -154,6 +154,14 @@
           path = "Music";
           devices = ["pc" "laptop" "pixel"];
         };
+        # proton prefix, steam library at ~/Games/steam on both
+        balatro = {
+          label = "Balatro";
+          path = "Games/steam/steamapps/compatdata/2379780/pfx/drive_c/users/steamuser/AppData/Roaming/Balatro";
+          devices = ["pc" "laptop"];
+          # per-machine video settings, steam cloud's marker, lovely logs
+          ignores = ["/settings.jkr" "/steam_autocloud.vdf" "/Mods"];
+        };
         phone-camera = {
           label = "Phone camera";
           path = "Pictures/Phone";
