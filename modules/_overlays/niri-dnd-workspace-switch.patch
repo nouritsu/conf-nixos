@@ -1,0 +1,14 @@
+--- a/src/layout/monitor.rs
++++ b/src/layout/monitor.rs
+@@ -1875,11 +1875,6 @@
+             return;
+         }
+
+-        if !self.overview_open {
+-            // This gesture is only for the overview.
+-            return;
+-        }
+-
+         let center_idx = self.active_workspace_idx;
+         let current_idx = self.workspace_render_idx();
+
