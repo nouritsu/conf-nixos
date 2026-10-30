@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.Pipewire
 import qs.Common
 import qs.Services
@@ -246,6 +247,33 @@ PluginComponent {
             unmute(app.key);
     }
 
+    // the focused window's app, keyed like its streams; kind is mic, camera, screen or all
+    function setFocusedBlocked(kind, on) {
+        const kinds = kind === "all" ? ["mic", "camera", "screen"] : [kind];
+        if (!["mic", "camera", "screen"].includes(kinds[0]))
+            return `unknown kind: ${kind}`;
+        const window = NiriService.windows.find(w => w.is_focused);
+        if (!window?.pid)
+            return "no focused window";
+
+        Proc.runCommand(null, ["@owner@", String(window.pid)], (output, exitCode) => {
+            const exe = output.trim().split(" ")[1];
+            if (exitCode !== 0 || !exe)
+                return;
+            const appId = window.app_id ?? "";
+            const entry = appId ? DesktopEntries.heuristicLookup(Paths.moddedAppId(appId)) : null;
+            const app = {
+                "key": exe,
+                "name": entry ? Paths.getAppName(appId, entry) : appId || exe,
+                "icon": appId ? Paths.getAppIcon(appId, entry) : ""
+            };
+            // a mic unblock with nothing blocked would still unmute its next stream
+            for (const k of kinds.filter(k => on || blocks[exe]?.[k]))
+                setBlocked(app, k, on);
+        }, 0);
+        return "ok";
+    }
+
     function kill(app, signal) {
         if (app.pid > 0)
             Quickshell.execDetached(["kill", "-" + signal, String(app.pid)]);
@@ -352,6 +380,19 @@ PluginComponent {
         Qt.callLater(prune);
     }
     onBlocksChanged: Qt.callLater(enforce)
+
+    // dms ipc call privacyApps <block|unblock> <mic|camera|screen|all>
+    IpcHandler {
+        target: "privacyApps"
+
+        function block(kind: string): string {
+            return root.setFocusedBlocked(kind, true);
+        }
+
+        function unblock(kind: string): string {
+            return root.setFocusedBlocked(kind, false);
+        }
+    }
 
     Component.onCompleted: hidden = PluginService.loadPluginState(pluginId, "hidden", {})
 

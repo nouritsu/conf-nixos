@@ -169,6 +169,14 @@ in {
         desc = "Tools";
         icon = "f09ac";
       };
+      b = {
+        desc = "Block";
+        icon = "f073a";
+      };
+      B = {
+        desc = "Unblock";
+        icon = "f0fc6";
+      };
     };
   };
 }

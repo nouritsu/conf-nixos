@@ -31,6 +31,30 @@
           (lib.mapAttrs (id: _: {enabled = true;} // pinned.${id} or {}) installed)
           {privacyApps.ignore = config.privacyApps'.ignore;});
 
+      # which-key entries for privacyApps' ipc
+      privacyEntries = action: icons: {
+        c = {
+          desc = "Camera";
+          icon = icons.camera;
+          cmd = "dms ipc call privacyApps ${action} camera";
+        };
+        m = {
+          desc = "Mic";
+          icon = icons.mic;
+          cmd = "dms ipc call privacyApps ${action} mic";
+        };
+        s = {
+          desc = "Stream";
+          icon = icons.screen;
+          cmd = "dms ipc call privacyApps ${action} screen";
+        };
+        a = {
+          desc = "All";
+          icon = icons.all;
+          cmd = "dms ipc call privacyApps ${action} all";
+        };
+      };
+
       clipboard = (pkgs.formats.json {}).generate "dux-clipboard.json" {
         maxHistory = -1;
         maxEntrySize = 52428800;
@@ -171,6 +195,20 @@
           icon = "f039e";
           cmd = "dms ipc call notepad open";
         };
+      };
+
+      # for the focused window's app
+      which-key'.menu.b.submenu = privacyEntries "block" {
+        camera = "f1737";
+        mic = "f036d";
+        screen = "f078a";
+        all = "f00ad";
+      };
+      which-key'.menu.B.submenu = privacyEntries "unblock" {
+        camera = "f05a0";
+        mic = "f036c";
+        screen = "f0118";
+        all = "f012d";
       };
 
       # Dux's power-profile switcher and cpu.balanced need it

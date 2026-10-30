@@ -45,6 +45,8 @@
       "Mod+Shift+Space".spawn = [pkill "-x" "wlr-which-key"];
       "Mod+S".spawn = ["wlr-which-key" "--initial-keys" "s"];
       "Mod+D".spawn = ["wlr-which-key" "--initial-keys" "c"];
+      "Mod+B".spawn = ["wlr-which-key" "--initial-keys" "b"];
+      "Mod+Shift+B".spawn = ["wlr-which-key" "--initial-keys" "B"];
 
       "Mod+A".spawn-sh = "dms ipc call spotlight toggle";
       "Mod+I".spawn-sh = "dms ipc call settings focusOrToggle";
