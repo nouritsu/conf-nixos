@@ -115,7 +115,8 @@
         end
       '';
 
-      nix.settings.trusted-users = ["root" "@wheel"];
+      # a trusted user is root without sudo, so without a touch
+      nix.settings.trusted-users = ["root"];
       nix.settings.experimental-features = ["nix-command" "flakes"];
       nix.settings.always-allow-substitutes = true;
       nix.settings.http-connections = 128;
