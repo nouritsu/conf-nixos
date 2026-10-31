@@ -32,6 +32,7 @@ in {
               git-log = ["git log" "git show" "git revert" "git cherry-pick" "git reset"];
               procs = ["kill"];
               tldr = ["tldr"];
+              ssh-hosts = ["ssh" "sftp" "ssh-audit"];
             };
           };
         };
@@ -59,6 +60,39 @@ in {
               };
               source.command = "nix-search-tv print";
               preview.command = "nix-search-tv preview {}";
+            };
+
+            # the builtin one reads ~/.ssh/config; these come from the pinned host keys
+            ssh-hosts = {
+              metadata = {
+                name = "ssh-hosts";
+                description = "SSH into one of my machines";
+                requirements = ["ssh" "ssh-keygen"];
+              };
+              source.command = ''grep -vx "$(cat /proc/sys/kernel/hostname)" /etc/ssh/hosts'';
+              # how ssh will connect, whether a kept connection is open, and the pinned key
+              preview.command = ''
+                ssh -G '{}' 2>/dev/null | grep -E '^(user|hostname|port|identityagent|forwardagent) '
+                ssh -O check '{}' 2>/dev/null && echo 'connection open'
+                echo
+                ssh-keygen -lv -F '{}' -f /etc/ssh/ssh_known_hosts | tail -n +2
+              '';
+              keybindings = {
+                enter = "actions:connect";
+                ctrl-r = "actions:root";
+              };
+              actions = {
+                connect = {
+                  description = "SSH into the selected host";
+                  command = "ssh '{}'";
+                  mode = "execute";
+                };
+                root = {
+                  description = "SSH in as root, with a touch";
+                  command = "ssh 'root@{}'";
+                  mode = "execute";
+                };
+              };
             };
           };
       }

@@ -18,6 +18,11 @@
           	open_multi = true,
           }
 
+          -- written by the ssh aspect from the pinned host keys, so adding hosts here fails
+          require("sshfs"):setup {
+          	custom_hosts_file = "/etc/ssh/hosts",
+          }
+
           require("yatline"):setup({
           	theme = catppuccin_theme,
           	section_separator = { open = "", close = "" },

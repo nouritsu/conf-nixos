@@ -6,7 +6,12 @@
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAILNf7NQHTL6oXtT5EfLaYSzUmr5ibxQnafPM4tKYxq/CAAAADXNzaDp5dWJpa2V5LWI= ab@nouritsu.com"
     ];
   in {
-    nixos = {pkgs, ...}: {
+    nixos = {
+      config,
+      lib,
+      pkgs,
+      ...
+    }: {
       services.openssh = {
         enable = true;
         openFirewall = true;
@@ -56,6 +61,8 @@
           publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGfueKWTRGtY20+RWrRPJHPvo1CmKOd0T/YJ9nbOXk4Q";
         };
       };
+      # the machines tv and yazi offer
+      environment.etc."ssh/hosts".text = lib.concatLines (lib.mapAttrsToList (_: host: lib.head host.hostNames) config.programs.ssh.knownHosts);
 
       # a kept connection is logged in already, so a root@ login skips its touch for 10 minutes;
       # local root (nix-daemon) has no runtime dir for the socket

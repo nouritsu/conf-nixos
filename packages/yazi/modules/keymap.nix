@@ -70,6 +70,11 @@
         desc = "open with duckdb ui";
       }
       {
+        on = ["g" "s"];
+        run = "plugin sshfs -- menu";
+        desc = "Mount, unmount or open a shell on one of my machines";
+      }
+      {
         on = ["c" "m"];
         run = "plugin chmod";
         desc = "Chmod on selected files";

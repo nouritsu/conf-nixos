@@ -41,9 +41,10 @@
       diff = pkgs.yaziPlugins.diff;
       toggle-pane = pkgs.yaziPlugins.toggle-pane;
       jump-to-char = pkgs.yaziPlugins.jump-to-char;
+      sshfs = pkgs.yaziPlugins.sshfs;
     };
 
     # tools the previewers/preloaders shell out to
-    runtimePkgs = with pkgs; [mediainfo ouch glow hexyl duckdb];
+    runtimePkgs = with pkgs; [mediainfo ouch glow hexyl duckdb sshfs];
   };
 }
