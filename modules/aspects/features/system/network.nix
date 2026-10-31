@@ -51,6 +51,26 @@
       };
     };
 
+    # shields are kept per account, so any tailnet but headscale that's active at boot gets them
+    provides.tailscale.provides.personal-only.nixos = {
+      config,
+      pkgs,
+      ...
+    }: {
+      systemd.services.tailscaled-shields = {
+        after = ["tailscaled.service"];
+        wants = ["tailscaled.service"];
+        wantedBy = ["tailscaled.service"];
+        serviceConfig.Type = "oneshot";
+        path = [config.services.tailscale.package pkgs.jq];
+        script = ''
+          if [ "$(tailscale debug prefs | jq -r .ControlURL)" != https://vpn.nouritsu.com ]; then
+            tailscale set --shields-up
+          fi
+        '';
+      };
+    };
+
     provides.dns-pihole.nixos = {lib, ...}: {
       networking.nameservers = lib.mkBefore ["192.168.178.128"];
     };

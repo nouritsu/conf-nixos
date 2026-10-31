@@ -35,6 +35,7 @@
       ssh.from-laptop
       ssh.from-pixel
       backup.from-homelab
+      network.tailscale.personal-only
     ];
 
     nixos = {
