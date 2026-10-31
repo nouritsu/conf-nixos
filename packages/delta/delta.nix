@@ -18,7 +18,12 @@ in {
           relPath = "delta.gitconfig";
           content = lib.generators.toGitINI {
             include.path = "${inputs'.catppuccin.packages.delta}/catppuccin.gitconfig";
-            delta.features = "catppuccin-mocha";
+            delta = {
+              features = "catppuccin-mocha";
+              line-numbers = true;
+              # n and N jump between files
+              navigate = true;
+            };
           };
         };
 

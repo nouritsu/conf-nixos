@@ -22,10 +22,14 @@
         self'.packages.jjui
         self'.packages.gh-dash
         pkgs.gh
+        pkgs.git-absorb
         pkgs.fishPlugins.forgit
       ];
 
       systemd.user.tmpfiles.rules = ["L+ %h/.local/share/gh/extensions - - - - ${ghExtensions}"];
+
+      # gh reports usage by default
+      environment.sessionVariables.GH_TELEMETRY = "0";
 
       programs.git = {
         enable = true;
@@ -36,12 +40,11 @@
 
       programs.fish.shellAbbrs = {
         gp = "git push";
-        gpu = "git push -u origin HEAD";
         gP = "git pull";
         gsc = "git switch -c";
         gcl = "git clone";
         gst = "git status -sb";
-        glog = "git log --oneline --graph --decorate";
+        glog = "git log --graph --pretty=compact";
         gundo = "git reset --soft HEAD~1";
         gpf = "git push --force-with-lease";
         gpF = "git push --force";
