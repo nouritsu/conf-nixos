@@ -64,10 +64,8 @@
               type = "luks";
               name = "cryptswap";
               passwordFile = "/tmp/luks.key";
-              settings = {
-                allowDiscards = true;
-                crypttabExtraOpts = ["fido2-device=auto"];
-              };
+              # opens from root's volume key (unlock.nix), or asks for its passphrase
+              settings.allowDiscards = true;
               content = {
                 type = "swap";
                 resumeDevice = true;

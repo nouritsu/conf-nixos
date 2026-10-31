@@ -16,6 +16,7 @@ fun refresh_callback ()
         flake.height = Window.GetHeight();
         flake.size = Math.Int(flake.height * 0.178);
         flake.sprite.SetImage(flake.source.Scale(flake.size, flake.size));
+        show_hint();
       }
 
     flake.sprite.SetX(Window.GetX() + Window.GetWidth() / 2 - flake.size / 2);
@@ -28,7 +29,7 @@ fun refresh_callback ()
 
 Plymouth.SetRefreshFunction(refresh_callback);
 
-# Disk unlock, under the flake: a key until typing starts, then dots; no text.
+# Disk unlock, under the flake: a key until typing starts, then dots, with a hint below them.
 # The key turns mauve once a security key opens the disk.
 
 key.idle = Image("key.png");
@@ -36,6 +37,12 @@ key.done = Image("key-done.png");
 key.sprite = Sprite();
 key.unlocked = 0;
 bullets.sprite = Sprite();
+hint.sprite = Sprite();
+
+# what unlock-disk last said: the security key's state, a refused passphrase, an unlock under way
+state.key = "";
+state.error = "";
+state.busy = 0;
 
 fun centre_x (image)
   {
@@ -57,14 +64,64 @@ fun show_key (source, opacity)
     key.sprite.SetOpacity(opacity);
   }
 
+fun hint_text ()
+  {
+    if (state.busy)
+      return "Unlocking…";
+    if (state.error == "wrong-pass")
+      return "Wrong passphrase";
+    if (state.key == "plug")
+      return "Plug in your key or type your passphrase";
+    if (state.key == "tap")
+      return "Tap your key or type your passphrase";
+    if (state.key == "wrong-key")
+      return "That key can't unlock this disk";
+    if (state.key == "swap")
+      return "Type swap's passphrase";
+    return "";
+  }
+
+fun show_hint ()
+  {
+    text = hint_text();
+    # an empty Image.Text has no size
+    if (text == "")
+      {
+        hint.sprite.SetOpacity(0);
+        return;
+      }
+
+    font = "Sans " + Math.Int(Window.GetHeight() / 75);
+    # mistakes in red, the rest as faint as the key
+    if (!state.busy && (state.error != "" || state.key == "wrong-key"))
+      {
+        hint.image = Image.Text(text, @red@, 1, font);
+        opacity = 1;
+      }
+    else
+      {
+        hint.image = Image.Text(text, @text@, 1, font);
+        opacity = 0.7;
+      }
+    hint.sprite.SetImage(hint.image);
+    hint.sprite.SetPosition(centre_x(hint.image), row_y() + flake.size * 0.25, 1);
+    hint.sprite.SetOpacity(opacity);
+  }
+
 fun display_password_callback (text, count)
   {
+    # the prompt stays up after a key unlock; typing into it does nothing
     if (key.unlocked)
       return;
 
     # an empty Image.Text has no size
     if (count > 0)
       {
+        if (state.error != "")
+          {
+            state.error = "";
+            show_hint();
+          }
         key.sprite.SetOpacity(0);
         dots = "";
         for (i = 0; i < count; i++)
@@ -88,14 +145,61 @@ fun display_normal_callback ()
       key.sprite.SetOpacity(0);
   }
 
-# the unlock step's signal; other messages, like systemd's touch prompt, stay hidden
+# a different key is a fresh start, so an old passphrase error goes
+fun key_state (name)
+  {
+    if (state.key != name)
+      {
+        state.key = name;
+        state.error = "";
+      }
+    show_hint();
+  }
+
+fun unlocked ()
+  {
+    state.key = "";
+    state.error = "";
+    state.busy = 0;
+    bullets.sprite.SetOpacity(0);
+    show_hint();
+  }
+
+# unlock-disk's states; other messages, like systemd's touch prompt, stay hidden
 fun display_message_callback (text)
   {
-    if (text == "snowflake:unlocked")
+    if (text == "snowflake:plug")
+      key_state("plug");
+    if (text == "snowflake:tap")
+      key_state("tap");
+    if (text == "snowflake:wrong-key")
+      key_state("wrong-key");
+    if (text == "snowflake:busy")
+      {
+        state.busy = 1;
+        show_hint();
+      }
+    if (text == "snowflake:wrong-pass")
+      {
+        state.busy = 0;
+        state.error = "wrong-pass";
+        show_hint();
+      }
+    if (text == "snowflake:key-unlocked")
       {
         key.unlocked = 1;
-        bullets.sprite.SetOpacity(0);
+        unlocked();
         show_key(key.done, 1);
+      }
+    if (text == "snowflake:passphrase-unlocked")
+      unlocked();
+    # root is open but swap isn't; its passphrase goes in the prompt that's up
+    if (text == "snowflake:swap")
+      {
+        key.unlocked = 0;
+        state.busy = 0;
+        key_state("swap");
+        show_key(key.idle, 0.7);
       }
   }
 

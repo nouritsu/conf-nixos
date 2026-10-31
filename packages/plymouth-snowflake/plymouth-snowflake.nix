@@ -30,6 +30,8 @@ in {
 
       substitute ${./snowflake.script} $dir/snowflake.script \
         --subst-var-by base "${rgb palette.base00}" \
+        --subst-var-by text "${rgb palette.base05}" \
+        --subst-var-by red "${rgb palette.base08}" \
         --subst-var-by mauve "${rgb palette.base0E}"
 
       cat > $dir/snowflake.plymouth <<EOF
