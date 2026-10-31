@@ -91,6 +91,9 @@
       programs.ssh.extraConfig = ''
         Match originalhost homelab,192.168.178.128,nouritsu.com user aneesh
           ForwardAgent ''${SSH_SK_AUTH_SOCK}
+        # root here takes only the security keys
+        Match originalhost pc,laptop,pc.local,laptop.local user root
+          IdentityAgent ''${SSH_SK_AUTH_SOCK}
       '';
     };
 
