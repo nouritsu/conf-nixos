@@ -21,7 +21,6 @@
       syncthing.laptop
 
       ssh.from-pc
-      ssh.from-pixel
       nix.from-pc
       nix.builds-from-pc
     ];

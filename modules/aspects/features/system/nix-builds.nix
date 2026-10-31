@@ -23,11 +23,7 @@
         }
       ];
 
-      # nix-daemon connects as root, so the host key and ssh options go here
-      programs.ssh.knownHosts.laptop = {
-        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICToP5L7BQWCQwDeejymjky0PiHz/TXWHbWxTyDE5vv6";
-        extraHostNames = ["laptop.local"];
-      };
+      # nix-daemon connects as root, so these are system-wide
       # lan only; bare names can resolve into the work tailnet
       programs.ssh.extraConfig = ''
         Host laptop
