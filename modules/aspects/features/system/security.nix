@@ -76,6 +76,19 @@
 
       # a notification while a key blinks for a touch
       programs.yubikey-touch-detector.enable = true;
+      # dux draws material: icons itself, in its own colours
+      nixpkgs.overlays = [
+        (_: prev: {
+          yubikey-touch-detector = prev.yubikey-touch-detector.overrideAttrs (old: {
+            postPatch =
+              (old.postPatch or "")
+              + ''
+                substituteInPlace notifier/libnotify.go \
+                  --replace-fail 'AppIcon: "yubikey-touch-detector"' 'AppIcon: "material:key"'
+              '';
+          });
+        })
+      ];
 
       # only the security keys, forwarded so sudo on the servers takes a touch
       environment.variables.SSH_SK_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/ssh-sk.sock";
