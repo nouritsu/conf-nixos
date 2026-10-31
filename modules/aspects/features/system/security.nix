@@ -74,6 +74,9 @@
       };
       shatterlock'.settings.lock.fingerprintService = "shatterlock-key";
 
+      # a notification while a key blinks for a touch
+      programs.yubikey-touch-detector.enable = true;
+
       # only the security keys, forwarded so sudo on the servers takes a touch
       environment.variables.SSH_SK_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/ssh-sk.sock";
       systemd.user.services.ssh-agent-sk = {
