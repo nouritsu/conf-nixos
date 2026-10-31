@@ -6,7 +6,7 @@
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAILNf7NQHTL6oXtT5EfLaYSzUmr5ibxQnafPM4tKYxq/CAAAADXNzaDp5dWJpa2V5LWI= ab@nouritsu.com"
     ];
   in {
-    nixos = {
+    nixos = {pkgs, ...}: {
       services.openssh = {
         enable = true;
         openFirewall = true;
@@ -56,6 +56,19 @@
           publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGfueKWTRGtY20+RWrRPJHPvo1CmKOd0T/YJ9nbOXk4Q";
         };
       };
+
+      # a kept connection is logged in already, so a root@ login skips its touch for 10 minutes;
+      # local root (nix-daemon) has no runtime dir for the socket
+      programs.ssh.extraConfig = ''
+        Match !localuser root
+          ControlMaster auto
+          ControlPath /run/user/%i/ssh-%C
+          ControlPersist 10m
+        Match sessiontype shell
+          VisualHostKey yes
+      '';
+
+      environment.systemPackages = [pkgs.ssh-audit];
     };
 
     # a touch logs in from anywhere, the phone included over nfc
