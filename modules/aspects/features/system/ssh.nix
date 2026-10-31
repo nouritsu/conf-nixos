@@ -15,6 +15,8 @@
           PasswordAuthentication = false;
           PubkeyAuthentication = true;
           PermitRootLogin = "prohibit-password";
+          # logs the fingerprint of the key each login used
+          LogLevel = "VERBOSE";
         };
         # root only with a security key and a touch, whatever its authorized_keys holds
         extraConfig = ''
@@ -23,6 +25,16 @@
             PubkeyAuthOptions touch-required
           Match All
         '';
+      };
+
+      # home wi-fi and the tailnets are never banned
+      services.fail2ban = {
+        enable = true;
+        ignoreIP = ["192.168.178.0/24" "100.64.0.0/10" "fd7a:115c:a1e0::/48"];
+        bantime-increment = {
+          enable = true;
+          maxtime = "1w";
+        };
       };
 
       # a changed host key is refused, not trusted on first use
