@@ -56,7 +56,8 @@
       # one origin, so a key registered once works on both hosts
       security.pam.u2f.settings = {
         origin = "pam://aneesh";
-        authfile = ./u2f-keys;
+        # interpolated so the file is in the closure; a bare path is just a string and gets collected
+        authfile = "${./u2f-keys}";
         cue = true;
       };
 
