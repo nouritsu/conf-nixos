@@ -18,12 +18,25 @@
     atuinInit = pkgs.runCommand "atuin-init.fish" {} ''
       HOME=$TMPDIR ${self'.packages.atuin}/bin/atuin init fish --disable-up-arrow > $out
     '';
+
+    # one autoloaded file per command carapace knows; fish reads */generated_completions after its builtin ones
+    carapaceFish = pkgs.runCommand "carapace-fish" {nativeBuildInputs = [pkgs.carapace];} ''
+      export HOME=$TMPDIR
+      mkdir -p $out/generated_completions $out/functions
+      carapace _carapace fish | sed -n '/^function _carapace_completer$/,/^end$/p' > $out/functions/_carapace_completer.fish
+      test -s $out/functions/_carapace_completer.fish
+      carapace --list --names | grep -E '^[[:alnum:]][[:alnum:]._+-]*$' | while read -r cmd; do
+        echo "complete -c $cmd -f -a '(_carapace_completer $cmd)'" > $out/generated_completions/$cmd.fish
+      done
+    '';
   in {
     environment.systemPackages = [
       self'.packages.atuin
       self'.packages.btop
       self'.packages.tealdeer
       self'.packages.television
+      # its completer calls carapace from PATH
+      pkgs.carapace
 
       pkgs.fishPlugins.done
       pkgs.fishPlugins.autopair
@@ -44,6 +57,11 @@
 
       # ctrl-r, up stays fish's
       source ${atuinInit}
+
+      # carapace only where fish and the packages have nothing, ahead of the man page guesses
+      set -l i (contains -i -- /etc/fish/generated_completions $fish_complete_path)
+      set fish_complete_path $fish_complete_path[..(math $i - 1)] ${carapaceFish}/generated_completions $fish_complete_path[$i..]
+      set -a fish_function_path ${carapaceFish}/functions
 
       function __tv_insert
           printf "\n"
