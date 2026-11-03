@@ -11,7 +11,6 @@
     nixos = {
       config,
       lib,
-      pkgs,
       ...
     }: {
       services.openssh = {
@@ -78,8 +77,6 @@
         Match sessiontype shell
           VisualHostKey yes
       '';
-
-      environment.systemPackages = [pkgs.ssh-audit];
     };
 
     # a touch logs in from anywhere, the phone included over nfc

@@ -266,7 +266,6 @@
 
         environment.systemPackages = [
           pkgs.mangohud
-          pkgs.protonup-ng
           (pkgs.makeDesktopItem {
             name = "steam-bigpicture";
             desktopName = "Steam Big Picture";

@@ -7,7 +7,6 @@
     provides = {
       # needs sbctl create-keys + enroll-keys in Setup Mode first
       lanzaboote.nixos = {
-        pkgs,
         config,
         inputs',
         ...
@@ -35,8 +34,6 @@
         boot.loader.timeout = 0;
 
         boot.loader.systemd-boot.enable = false;
-
-        environment.systemPackages = [pkgs.sbctl];
       };
 
       limine.nixos = {
@@ -53,11 +50,7 @@
       };
 
       # Limine only; needs sbctl keys first; enroll-keys -m -f in Setup Mode
-      secure-boot.nixos = {pkgs, ...}: {
-        boot.loader.limine.secureBoot.enable = true;
-
-        environment.systemPackages = [pkgs.sbctl];
-      };
+      secure-boot.nixos.boot.loader.limine.secureBoot.enable = true;
 
       # Limine only; reboots into the firmware's entry, so no hash to pin
       windows.nixos = {
