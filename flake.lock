@@ -771,6 +771,26 @@
         "type": "github"
       }
     },
+    "oniri": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793430409,
+        "narHash": "sha256-bEuE/oCIl45XcRB/272ILTzOtYISgFcxXAFJsRZXFms=",
+        "owner": "Antiz96",
+        "repo": "oniri",
+        "rev": "f10a2c7dd9017945f191ff23363daf0c136d33d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Antiz96",
+        "repo": "oniri",
+        "type": "github"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -840,6 +860,7 @@
         "nix-colors": "nix-colors",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_6",
+        "oniri": "oniri",
         "qtengine": "qtengine",
         "shatterlock": "shatterlock",
         "sops-nix": "sops-nix",

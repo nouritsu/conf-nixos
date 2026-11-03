@@ -1,0 +1,71 @@
+diff --git a/src/help.rs b/src/help.rs
+--- a/src/help.rs
++++ b/src/help.rs
+@@ -31,6 +31,7 @@
+     println!(
+         "                                   to determine if the window is maximized or not (defaults to 150)"
+     ); // https://github.com/Antiz96/oniri/issues/3
++    println!("      --skip-app-id <app-id>       Never maximize windows with this app-id (repeatable)");
+     println!("  -h, --help                       Display this help message");
+     println!("  -V, --version                    Display version information");
+     println!();
+diff --git a/src/main.rs b/src/main.rs
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -42,6 +42,9 @@
+     #[arg(short = 'W', long, default_value_t = 150)]
+     width_tolerance: i32,
+ 
++    #[arg(long)]
++    skip_app_id: Vec<String>,
++
+     #[arg(short = 'h', long)]
+     help: bool,
+ 
+@@ -68,6 +71,12 @@
+     // Initialize logger
+     env_logger::init();
+ 
++    // Windows with these app-ids are never maximized
++    if !args.skip_app_id.is_empty() {
++        info!("Skipping app-ids: {:?}", args.skip_app_id);
++    }
++    let _ = window::SKIPPED_APP_IDS.set(args.skip_app_id);
++
+     // Create (if needed) and acquire lockfile
+     // Exit if there's already an instance running
+     // or if there was an issue creating or acquiring the lockfile (e.g. permission issue)
+diff --git a/src/window.rs b/src/window.rs
+--- a/src/window.rs
++++ b/src/window.rs
+@@ -4,6 +4,10 @@
+ use log::info;
+ use niri_ipc::state::EventStreamState;
+ use niri_ipc::{Action, Request, socket::Socket};
++use std::sync::OnceLock;
++
++/// App-ids passed with --skip-app-id, matched exactly
++pub static SKIPPED_APP_IDS: OnceLock<Vec<String>> = OnceLock::new();
+ 
+ pub fn maximize_window(
+     socket: &mut Socket,
+@@ -11,6 +15,19 @@
+     window_id: u64,
+     edges_maximizing: bool,
+ ) -> anyhow::Result<()> {
++    if let Some(app_id) = state
++        .windows
++        .windows
++        .get(&window_id)
++        .and_then(|window| window.app_id.as_deref())
++        && SKIPPED_APP_IDS
++            .get()
++            .is_some_and(|ids| ids.iter().any(|id| id == app_id))
++    {
++        info!("Skipped window {window_id} ({app_id})");
++        return Ok(());
++    }
++
+     if edges_maximizing {
+         socket
+             .send(Request::Action(Action::MaximizeWindowToEdges {
