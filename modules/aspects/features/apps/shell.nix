@@ -37,6 +37,10 @@
       self'.packages.television
       # its completer calls carapace from PATH
       pkgs.carapace
+      pkgs.halp
+      # syscalls, libc and posix
+      pkgs.man-pages
+      pkgs.man-pages-posix
 
       pkgs.fishPlugins.done
       pkgs.fishPlugins.autopair
@@ -70,6 +74,11 @@
 
       set -g BD_OPT insensitive
 
+      # cheat.sh: cht tar, cht rust iterators
+      function cht
+          curl -s "cht.sh/$(string join / -- $argv[1] (string join + -- $argv[2..]))"
+      end
+
       function __tv_insert
           printf "\n"
           set -l picks (tv $argv --inline --no-status-bar --keybindings 'enter="confirm_selection"')
@@ -94,6 +103,8 @@
           and z $dir
       end
     '';
+
+    programs.fish.shellAliases.cheat = "cht";
 
     # native fish instead of fenv spawning bash at every start
     programs.fish.useBabelfish = true;
