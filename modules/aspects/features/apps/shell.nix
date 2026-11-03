@@ -41,6 +41,9 @@
       pkgs.fishPlugins.done
       pkgs.fishPlugins.autopair
       pkgs.fishPlugins.sponge
+      pkgs.fishPlugins.fish-bd
+      pkgs.fishPlugins.bang-bang
+      self'.packages.replay-fish
     ];
 
     which-key'.menu.s.submenu.r = {
@@ -62,6 +65,8 @@
       set -l i (contains -i -- /etc/fish/generated_completions $fish_complete_path)
       set fish_complete_path $fish_complete_path[..(math $i - 1)] ${carapaceFish}/generated_completions $fish_complete_path[$i..]
       set -a fish_function_path ${carapaceFish}/functions
+
+      set -g BD_OPT insensitive
 
       function __tv_insert
           printf "\n"
