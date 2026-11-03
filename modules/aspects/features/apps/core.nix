@@ -1,10 +1,13 @@
-{
+{den, ...}: {
   den.aspects.core.nixos = {
     self',
+    config,
     pkgs,
     lib,
     ...
-  }: {
+  }: let
+    other = lib.head (lib.remove config.networking.hostName (lib.attrNames den.hosts.x86_64-linux));
+  in {
     environment.systemPackages = [
       self'.packages.wezterm
 
@@ -29,6 +32,7 @@
       pkgs.duf
       pkgs.prettyping
       pkgs.doggo
+      pkgs.rsync
 
       pkgs.powertop
       pkgs.nvtopPackages.full
@@ -64,6 +68,16 @@
       # builtin: keeps temp dirs out of zoxide
       function mktempd
         builtin cd (mktemp -d)
+      end
+
+      # novpn, else wttr.in places you at the proton exit
+      function weather
+        ${lib.getExe self'.packages.novpn} curl -s "wttr.in/$(string join + -- $argv)?mF"
+      end
+
+      # same path on the other machine, never over a newer file
+      function ship
+        rsync -aRh --update --info=progress2 -- (path resolve $argv) ${other}.local:/
       end
 
       # ctrl-z back into the suspended job, alt-z for zoxide's picker
