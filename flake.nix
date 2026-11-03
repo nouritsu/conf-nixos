@@ -127,6 +127,10 @@
       url = "github:amaanq/nirinit";
       flake = false;
     };
+    niri-autoselect-portal = {
+      url = "git+https://codeberg.org/debugloop/niri-autoselect-portal.git";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

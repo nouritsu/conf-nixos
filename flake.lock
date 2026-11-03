@@ -522,6 +522,22 @@
         "type": "github"
       }
     },
+    "niri-autoselect-portal": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791442942,
+        "narHash": "sha256-KP9NEPojdjV1XwGatplmPHOuUuv1+8cBCgqkaZ+yB4c=",
+        "ref": "refs/heads/main",
+        "rev": "3f76d286041aa25b14feb29b5a5570c0e8b40594",
+        "revCount": 12,
+        "type": "git",
+        "url": "https://codeberg.org/debugloop/niri-autoselect-portal.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/debugloop/niri-autoselect-portal.git"
+      }
+    },
     "niri-cwd": {
       "inputs": {
         "flake-parts": [
@@ -907,6 +923,7 @@
         "millennium": "millennium",
         "nfsm": "nfsm",
         "niri": "niri",
+        "niri-autoselect-portal": "niri-autoselect-portal",
         "niri-cwd": "niri-cwd",
         "niri-pip": "niri-pip",
         "niri-ror": "niri-ror",

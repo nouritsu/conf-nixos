@@ -162,6 +162,10 @@ in {
         desc = "Unblock";
         icon = "f0fc6";
       };
+      C = {
+        desc = "Cast";
+        icon = "f0119";
+      };
     };
   };
 }
