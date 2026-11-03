@@ -206,10 +206,25 @@
         ...
       }: let
         vesktop = self'.packages.novpn.wrap self'.packages.vesktop;
+
+        # brave app windows; class is the app id brave gives the url's window
+        webApp = name: url: class: rec {
+          cmd = "${lib.getExe pkgs.brave-origin} --app=${url}";
+          desktop = pkgs.makeDesktopItem {
+            name = "${lib.toLower name}-web";
+            desktopName = name;
+            exec = cmd;
+            icon = lib.toLower name;
+            startupWMClass = class;
+            categories = ["Network" "InstantMessaging"];
+          };
+        };
+        telegram = webApp "Telegram" "https://web.telegram.org/a/" "brave-web.telegram.org__a_-Default";
+        whatsapp = webApp "WhatsApp" "https://web.whatsapp.com/" "brave-web.whatsapp.com__-Default";
       in {
         environment.systemPackages = [
-          pkgs.telegram-desktop
-          pkgs.whatsapp-electron
+          telegram.desktop
+          whatsapp.desktop
           vesktop
           pkgs.teams-for-linux
           pkgs.slack
@@ -225,13 +240,13 @@
           t = {
             desc = "Telegram";
             icon = "f2c6";
-            cmd = lib.getExe pkgs.telegram-desktop;
+            inherit (telegram) cmd;
             app-id = "telegram";
           };
           w = {
             desc = "WhatsApp";
             icon = "f05a3";
-            cmd = lib.getExe pkgs.whatsapp-electron;
+            inherit (whatsapp) cmd;
             app-id = "whatsapp";
           };
           s = {
