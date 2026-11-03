@@ -14,7 +14,7 @@
     vk = "cryptroot-vk";
 
     # after a key unlock only: key-login opens the sealed login password with it, once
-    loginKey = "/run/keyring-key/key";
+    loginKey = config.greeter'.diskLoginKeyFile;
 
     # disko's settings, for whichever tool opens the volume
     systemdFlags = d: lib.optional d.allowDiscards "discard" ++ lib.optionals d.bypassWorkqueues ["no-read-workqueue" "no-write-workqueue"];
