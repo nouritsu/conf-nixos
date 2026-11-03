@@ -46,6 +46,8 @@
       self'.packages.replay-fish
     ];
 
+    programs.pay-respects.enable = true;
+
     which-key'.menu.s.submenu.r = {
       desc = "btop";
       icon = "f0a07";
