@@ -26,6 +26,9 @@
       pkgs.eva
       pkgs.hyperfine
       pkgs.dust
+      pkgs.duf
+      pkgs.prettyping
+      pkgs.doggo
 
       pkgs.powertop
       pkgs.nvtopPackages.full
@@ -109,6 +112,9 @@
       cd = "z";
       fz = "tv";
       du = "dust";
+      df = "duf";
+      ping = "prettyping";
+      dig = "doggo";
     };
 
     programs.fish.shellAbbrs = let
