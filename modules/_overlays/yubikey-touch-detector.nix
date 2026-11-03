@@ -5,7 +5,7 @@ _: prev: {
       (old.postPatch or "")
       + ''
         substituteInPlace notifier/libnotify.go \
-          --replace-fail 'AppIcon: "yubikey-touch-detector"' 'AppIcon: "material:key"'
+          --replace-warn 'AppIcon: "yubikey-touch-detector"' 'AppIcon: "material:key"'
       '';
   });
 }

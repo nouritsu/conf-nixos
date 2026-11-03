@@ -39,8 +39,8 @@
           + palette
           + ''
             substituteInPlace src/main.cpp \
-              --replace-fail '"76b900"' '"cba6f7"' \
-              --replace-fail '"FFFFFF"' '"cdd6f4"'
+              --replace-warn '"76b900"' '"cba6f7"' \
+              --replace-warn '"FFFFFF"' '"cdd6f4"'
           '';
       });
 
@@ -132,25 +132,25 @@
                 (old.postPatch or "")
                 + ''
                   # accent fills under text: translucent mauve, solid mauve kills contrast
-                  substituteInPlace src/gui/RadioButton.cpp --replace-fail \
+                  substituteInPlace src/gui/RadioButton.cpp --replace-warn \
                     "selected_item ? get_color_theme().tint_color :" "selected_item ? mgl::Color(203, 166, 247, 80) :"
-                  substituteInPlace src/gui/ComboBox.cpp --replace-fail \
+                  substituteInPlace src/gui/ComboBox.cpp --replace-warn \
                     "item_background.set_color(get_color_theme().tint_color)" "item_background.set_color(mgl::Color(203, 166, 247, 80))"
-                  substituteInPlace src/gui/FileChooser.cpp --replace-fail \
+                  substituteInPlace src/gui/FileChooser.cpp --replace-warn \
                     "selected_item_background.set_color(get_color_theme().tint_color)" "selected_item_background.set_color(mgl::Color(203, 166, 247, 80))"
                   for f in src/gui/SettingsPage.cpp src/gui/ScreenshotSettingsPage.cpp; do
-                    substituteInPlace $f --replace-fail \
+                    substituteInPlace $f --replace-warn \
                       '"save", get_color_theme().tint_color)' '"save", mgl::Color(203, 166, 247, 80))'
                   done
                 ''
                 + palette
                 + ''
-                  substituteInPlace src/Overlay.cpp --replace-fail \
+                  substituteInPlace src/Overlay.cpp --replace-warn \
                     "bg_color(0, 0, 0, 100)" "bg_color(17, 17, 27, 100)"
                   substituteInPlace src/main.cpp \
-                    --replace-fail '"ffffff"' '"cdd6f4"' \
-                    --replace-fail '"ff0000"' '"f38ba8"'
-                  substituteInPlace depends/mglpp/depends/mgl/src/graphics/text.c --replace-fail \
+                    --replace-warn '"ffffff"' '"cdd6f4"' \
+                    --replace-warn '"ff0000"' '"f38ba8"'
+                  substituteInPlace depends/mglpp/depends/mgl/src/graphics/text.c --replace-warn \
                     "(mgl_color){255, 255, 255, 255}" "(mgl_color){205, 214, 244, 255}"
 
                   # icons with baked-in colours; two-colour remap keeps the antialiasing

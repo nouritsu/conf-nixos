@@ -30,7 +30,7 @@
             postPatch =
               (ui.postPatch or "")
               + ''
-                substituteInPlace src_assets/common/assets/web/theme.js --replace-fail \
+                substituteInPlace src_assets/common/assets/web/theme.js --replace-warn \
                   "return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'" "return 'mocha'"
               '';
           });
