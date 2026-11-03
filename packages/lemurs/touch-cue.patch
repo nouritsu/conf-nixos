@@ -1,0 +1,37 @@
+--- a/src/ui/mod.rs
++++ b/src/ui/mod.rs
+@@ -393,9 +393,15 @@ impl LoginForm {
+             };
+ 
+             let pre_auth = || {
++                // PAM takes an empty password as a request for the security key
++                let security_key = self.widgets.get_password().is_empty();
+                 self.widgets.clear_password();
+ 
+-                status_message.set(InfoStatusMessage::Authenticating);
++                status_message.set(if security_key {
++                    InfoStatusMessage::SecurityKey
++                } else {
++                    InfoStatusMessage::Authenticating
++                });
+                 send_ui_request(UIThreadRequest::Redraw);
+             };
+             let pre_environment = || {
+--- a/src/ui/status_message.rs
++++ b/src/ui/status_message.rs
+@@ -41,6 +41,7 @@ impl From<ErrorStatusMessage> for StatusMessage {
+ pub enum InfoStatusMessage {
+     LoggingIn,
+     Authenticating,
++    SecurityKey,
+ }
+ 
+ impl From<InfoStatusMessage> for Box<str> {
+@@ -50,6 +51,7 @@ impl From<InfoStatusMessage> for Box<str> {
+         match info {
+             LoggingIn => "Authentication successful. Logging in...".into(),
+             Authenticating => "Verifying credentials".into(),
++            SecurityKey => "Touch your security key".into(),
+         }
+     }
+ }

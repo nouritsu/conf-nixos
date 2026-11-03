@@ -1,0 +1,128 @@
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -1,5 +1,6 @@
+ use std::fs::File;
+ use std::io;
++use std::time::Duration;
+ use std::{error::Error, path::Path};
+ 
+ use crossterm::{
+@@ -247,6 +248,9 @@ fn main() -> Result<(), Box<dyn Error>> {
+ }
+ 
+ pub fn tui_enable() -> io::Result<Terminal<CrosstermBackend<io::Stdout>>> {
++    // Listen for SIGWINCH before the first draw: the console can still resize once fbcon takes it
++    // over, and that only redraws if it arrives as a resize event
++    crossterm::event::poll(Duration::ZERO)?;
+     enable_raw_mode()?;
+     let mut stdout = io::stdout();
+     execute!(stdout, EnterAlternateScreen)?;
+--- a/src/ui/chunks.rs
++++ b/src/ui/chunks.rs
+@@ -1,9 +1,9 @@
+ use ratatui::{
+     backend::Backend,
+-    layout::{Constraint, Direction, Layout, Rect},
++    layout::{Constraint, Direction, Layout, Margin, Rect},
+     Frame,
+ };
+-use Constraint::{Length, Min};
++use Constraint::Length;
+ 
+ pub struct Chunks {
+     pub key_menu: Rect,
+@@ -16,9 +16,6 @@ pub struct Chunks {
+ impl Chunks {
+     pub fn new<B: Backend>(frame: &Frame<B>) -> Self {
+         let constraints = [
+-            Length(1),
+-            Length(1),
+-            Length(2),
+             Length(1),
+             Length(2),
+             Length(3),
+@@ -26,22 +23,37 @@ impl Chunks {
+             Length(3),
+             Length(2),
+             Length(1),
+-            Min(0),
+         ];
++        let form_height = 14;
++
++        let screen = frame.size();
++        let area = screen.inner(&Margin {
++            vertical: 1,
++            horizontal: 2,
++        });
++
++        // Centered on the screen, but never closer to the key menu than the top-aligned layout
++        let y = (screen.height.saturating_sub(form_height) / 2).max(area.y + 3);
++        let form = Rect {
++            y,
++            height: form_height.min(area.bottom().saturating_sub(y)),
++            ..area
++        };
+ 
+         let chunks = Layout::default()
+             .direction(Direction::Vertical)
+-            .horizontal_margin(2)
+-            .vertical_margin(1)
+             .constraints(constraints.as_ref())
+-            .split(frame.size());
++            .split(form);
+ 
+         Self {
+-            key_menu: chunks[0],
+-            switcher: chunks[3],
+-            username_field: chunks[5],
+-            password_field: chunks[7],
+-            status_message: chunks[9],
++            key_menu: Rect {
++                height: area.height.min(1),
++                ..area
++            },
++            switcher: chunks[0],
++            username_field: chunks[2],
++            password_field: chunks[4],
++            status_message: chunks[6],
+         }
+     }
+ }
+--- a/src/ui/input_field.rs
++++ b/src/ui/input_field.rs
+@@ -281,7 +281,7 @@ impl InputFieldWidget {
+         // Check whether a maximum width has been set
+         if style.use_max_width && style.max_width < area.width {
+             // Center the area
+-            area.x = (area.width - style.max_width) / 2;
++            area.x += (area.width - style.max_width) / 2;
+             area.width = style.max_width;
+         }
+ 
+--- a/src/ui/status_message.rs
++++ b/src/ui/status_message.rs
+@@ -1,5 +1,5 @@
+ use ratatui::backend::Backend;
+-use ratatui::layout::Rect;
++use ratatui::layout::{Alignment, Rect};
+ use ratatui::style::{Color, Style};
+ use ratatui::widgets::Paragraph;
+ use ratatui::Frame;
+@@ -86,13 +86,13 @@ impl StatusMessage {
+     pub fn render<B: Backend>(status: Option<Self>, frame: &mut Frame<B>, area: Rect) {
+         if let Some(status_message) = status {
+             let text: Box<str> = status_message.clone().into();
+-            let widget = Paragraph::new(text.as_ref()).style(Style::default().fg(
+-                if status_message.is_error() {
++            let widget = Paragraph::new(text.as_ref())
++                .alignment(Alignment::Center)
++                .style(Style::default().fg(if status_message.is_error() {
+                     Color::Red
+                 } else {
+                     Color::Yellow
+-                },
+-            ));
++                }));
+ 
+             frame.render_widget(widget, area);
+         } else {

@@ -14,6 +14,10 @@
 
       cargoHash = "sha256-7mSzw1pkejMeEnvYzTaleR7wJtPIIHlw7/Rm9GqTWjQ=";
 
+      # centered like tuigreet, and redrawn when fbcon takes the console over after the first frame;
+      # an empty password asks for a touch
+      patches = [./centered.patch ./touch-cue.patch];
+
       buildInputs = [pkgs.linux-pam];
 
       postInstall = ''

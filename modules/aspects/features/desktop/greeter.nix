@@ -106,7 +106,7 @@
           selected_color_focused = "magenta";
         };
         username_field.style = focused;
-        password_field.style = focused // {title = "Password, or Enter for key";};
+        password_field.style = focused // {title = "Password (empty: security key)";};
       };
     };
 
