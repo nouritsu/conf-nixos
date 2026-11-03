@@ -6,16 +6,24 @@
   }: {
     # remote input over libei drops the Shift/AltGr a keysym's level needs (kde bug 478262);
     # drop once upstream !1014 ships
-    packages.kdeconnect = pkgs.kdePackages.kdeconnect-kde.overrideAttrs (old: {
-      patches =
-        (old.patches or [])
-        ++ [
-          (pkgs.fetchpatch {
-            url = "https://invent.kde.org/network/kdeconnect-kde/-/commit/e62b294607e231cfcaa8403181566a52cd97bbfa.patch";
-            hash = "sha256-AsoRbSsttCX4yfa3Cqr+7OW2WRGnGUqTXY3SthUewh8=";
-          })
-        ];
-    });
+    packages.kdeconnect = let
+      fix = pkgs.fetchpatch {
+        url = "https://invent.kde.org/network/kdeconnect-kde/-/commit/e62b294607e231cfcaa8403181566a52cd97bbfa.patch";
+        hash = "sha256-AsoRbSsttCX4yfa3Cqr+7OW2WRGnGUqTXY3SthUewh8=";
+      };
+    in
+      pkgs.kdePackages.kdeconnect-kde.overrideAttrs (old: {
+        # skipped once the source already has it
+        postPatch =
+          (old.postPatch or "")
+          + ''
+            if patch -p1 -R --dry-run -s -f <${fix} >/dev/null 2>&1; then
+              echo "kdeconnect already has !1014, drop the patch"
+            else
+              patch -p1 <${fix}
+            fi
+          '';
+      });
 
     # RemoteDesktop portal for the mousepad plugin, over niri's virtual pointer/keyboard
     packages.hypr-kdeconnect-fix = pkgs.stdenv.mkDerivation {
