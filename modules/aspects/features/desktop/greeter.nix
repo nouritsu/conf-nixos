@@ -7,9 +7,6 @@
     lib,
     ...
   }: let
-    tuigreet = lib.getExe pkgs.tuigreet;
-    niri = self'.packages.niri;
-    sessions = "${niri}/share/wayland-sessions";
     owner = lib.head (lib.attrNames host.users);
 
     inherit (config.greeter') diskLoginKey;
@@ -18,12 +15,8 @@
     # where the initrd leaves diskLoginKey's key, only after a security key opened the disk
     loginKey = "/run/keyring-key/key";
 
-    # the login password, encrypted to that key or to both security keys; per host, out of git
-    sealed = "$HOME/.local/state/keyring-password.${
-      if afterDisk
-      then "enc"
-      else "age"
-    }";
+    # the login password: .age to both security keys, .enc to diskLoginKey's key; per host, out of git
+    sealed = "${config.users.users.${owner}.home}/.local/state/keyring-password";
 
     # once per host, and after a password change; no touch needed
     sealKeyring = pkgs.writeShellApplication {
@@ -40,50 +33,53 @@
         + ''
           read -rsp "login password: " pass
           echo
+          printf %s "$pass" | age -R ${./keyring-recipients} -o "${sealed}.age"
         ''
-        + (
-          if afterDisk
-          then ''
-            printf %s "$pass" | openssl enc -aes-256-cbc -pbkdf2 -pass fd:3 -out "${sealed}" 3<<< "$key"
-          ''
-          else ''
-            printf %s "$pass" | age -R ${./keyring-recipients} -o "${sealed}"
-          ''
-        );
+        + lib.optionalString afterDisk ''
+          printf %s "$pass" | openssl enc -aes-256-cbc -pbkdf2 -pass fd:3 -out "${sealed}.enc" 3<<< "$key"
+        '';
     };
 
-    # the touch decrypts the password, proving the key and unlocking the keyring; after a disk
-    # unlock by key, that touch already happened. Exiting instead hands over to tuigreet
+    # pam_systemd_loadkey's name for it in the greeter's session keyring
+    keyName = "greeter-key-login";
+
+    # pam_exec runs it as root with the typed password on stdin. Only an empty one asks for the key:
+    # the touch decrypts the real password, so pam_unix still checks it and the keyring unlocks from it.
+    # After a disk unlock by key, that touch already happened
     keyLogin = pkgs.writeShellApplication {
       name = "key-login";
-      runtimeInputs = [pkgs.age pkgs.age-plugin-fido2-hmac pkgs.libfido2 pkgs.openssl];
+      runtimeInputs = [pkgs.age pkgs.age-plugin-fido2-hmac pkgs.coreutils pkgs.libfido2 pkgs.openssl pkgs.keyutils];
+      # pam_exec passes no PATH
+      inheritPath = false;
       text =
-        (
-          if afterDisk
-          then ''
-            if [ ! -f ${loginKey} ]; then
-              exit 0
-            fi
-            # one login per key unlock, whatever happens next
-            pass=$(openssl enc -d -aes-256-cbc -pbkdf2 -pass file:${loginKey} -in "${sealed}" 2> /dev/null) || pass=
+        ''
+          if [ "$PAM_USER" != "${owner}" ]; then
+            exit 1
+          fi
+          pass=
+        ''
+        + lib.optionalString afterDisk ''
+          # one login per key unlock, whatever happens next
+          if [ -f ${loginKey} ]; then
+            pass=$(openssl enc -d -aes-256-cbc -pbkdf2 -pass file:${loginKey} -in "${sealed}.enc" 2> /dev/null) || pass=
             rm -f ${loginKey}
-            if [ -z "$pass" ]; then
-              exit 0
-            fi
-          ''
-          else ''
-            if [ ! -f "${sealed}" ] || [ -z "$(fido2-token -L)" ]; then
-              exit 0
-            fi
-            echo "Touch your security key"
-            pass=$(age -d -j fido2-hmac "${sealed}" 2> /dev/null) || exit 0
-          ''
-        )
+          fi
+        ''
         + ''
-          # pam started a locked daemon for this session; swap it for an unlocked one
-          printf %s "$pass" | /run/wrappers/bin/gnome-keyring-daemon --replace --unlock --daemonize > /dev/null 2>&1
+          if IFS= read -r -n 1 _; then
+            exit 1
+          fi
+          if [ -z "$pass" ]; then
+            if [ ! -f "${sealed}.age" ] || [ -z "$(fido2-token -L)" ]; then
+              exit 1
+            fi
+            pass=$(age -d -j fido2-hmac "${sealed}.age" 2> /dev/null) || exit 1
+          fi
+          id=$(printf %s "$pass" | keyctl padd user ${keyName} @s)
           unset pass
-          exec ${niri}/bin/niri-session
+          # the user's session inherits this keyring; possessing it mustn't be enough to read the password
+          keyctl setperm "$id" 0x003f0000
+          keyctl timeout "$id" 10
         '';
     };
   in {
@@ -99,21 +95,42 @@
 
     environment.systemPackages = [sealKeyring];
 
-    # the initrd made it root's; key-login, as the owner, reads and removes it
-    systemd.tmpfiles.rules = lib.optional afterDisk "Z ${dirOf loginKey} - ${owner} - - -";
-
-    services.greetd = {
+    services.displayManager.lemurs = {
       enable = true;
-      settings = {
-        default_session = {
-          command = "${tuigreet} --time --remember --remember-session --sessions ${sessions}";
-          user = "greeter";
+      package = self'.packages.lemurs;
+      settings = let
+        # the console palette is catppuccin's; magenta is its pink, the nearest to mauve
+        focused = {
+          title_color_focused = "magenta";
+          content_color_focused = "magenta";
+          border_color_focused = "magenta";
         };
-        # once per boot, unauthenticated: key-login is the check
-        initial_session = {
-          command = lib.getExe keyLogin;
-          user = owner;
+      in {
+        environment_switcher = {
+          mover_color_focused = "magenta";
+          selected_color_focused = "magenta";
         };
+        username_field.style = focused;
+        password_field.style = focused // {title = "Password, or Enter for key";};
+      };
+    };
+
+    # before anything prompts: key-login asks for the password itself, and on success
+    # pam_systemd_loadkey makes the unsealed one the password for everything after
+    security.pam.services.lemurs.rules.auth = let
+      inherit (config.security.pam.services.lemurs.rules.auth.unix-early) order;
+    in {
+      key-login = {
+        order = order - 2;
+        control = "[success=ok default=1]";
+        modulePath = "${config.security.pam.package}/lib/security/pam_exec.so";
+        args = ["quiet" "quiet_log" "expose_authtok" (lib.getExe keyLogin)];
+      };
+      key-password = {
+        order = order - 1;
+        control = "optional";
+        modulePath = "${config.systemd.package}/lib/security/pam_systemd_loadkey.so";
+        args = ["keyname=${keyName}"];
       };
     };
   };

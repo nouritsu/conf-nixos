@@ -12,7 +12,6 @@
       ...
     }: {
       services.gnome.gnome-keyring.enable = true;
-      security.pam.services.greetd.enableGnomeKeyring = true;
       security.pam.services.login.enableGnomeKeyring = true;
 
       environment.systemPackages = [
@@ -61,7 +60,7 @@
         cue = true;
       };
 
-      # greetd and login stay password only: the keyring unlocks from it
+      # login stays password only, the keyring unlocks from it; the greeter's key unseals the password instead
       security.pam.services = {
         sudo.u2f.enable = true;
         sudo-i.u2f.enable = true;

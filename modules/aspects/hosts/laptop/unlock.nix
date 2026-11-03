@@ -230,7 +230,7 @@
         say "$by-unlocked"
 
         id=$(keyctl search @s user ${vk})
-        # the touch already happened, so key-login skips the greeter; a passphrase leaves it up
+        # the touch already happened, so the greeter takes an empty password; after a passphrase it wants a touch or the password
         if [ "$by" = key ]; then
           mkdir -p ${dirOf loginKey}
           { keyctl pipe "$id"; printf login; } | sha256sum | cut -d' ' -f1 > ${loginKey}
