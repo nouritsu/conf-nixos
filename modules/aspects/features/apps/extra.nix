@@ -9,7 +9,6 @@
       }: {
         environment.systemPackages = [
           pkgs.ffmpeg-full
-          self'.packages.obs-studio
           self'.packages.imv
           self'.packages.mpv
           self'.packages.spotify
@@ -28,12 +27,6 @@
             icon = "f0ecf";
             cmd = lib.getExe self'.packages.jellyfin-mpv-shim;
             app-id = "jellyfin-mpv-shim$";
-          };
-          o = {
-            desc = "OBS";
-            icon = "f044b";
-            cmd = lib.getExe self'.packages.obs-studio;
-            app-id = "obsproject|^obs$";
           };
           v = {
             desc = "mpv";
@@ -81,13 +74,6 @@
             "audio/aac"
             "audio/x-m4a"
           ] (_: "mpv.desktop");
-
-        # v4l2loopback only; obs itself is installed above
-        programs.obs-studio = {
-          enable = true;
-          package = null;
-          enableVirtualCamera = true;
-        };
       };
     };
 
