@@ -47,6 +47,23 @@
         (( ''${#keys[@]} )) || exit 0
         SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-sk.sock" ${ssh}/bin/ssh-add "''${keys[@]}"
       '';
+
+      # a touch prints a line and ends auth; a miss jumps past it, says so and asks the password
+      touchCue = name: let
+        inherit (config.security.pam.services.${name}.rules.auth) u2f;
+        echo = order: control: text: {
+          inherit order control;
+          modulePath = "${config.security.pam.package}/lib/security/pam_echo.so";
+          args = [text];
+        };
+      in {
+        u2f.enable = true;
+        rules.auth = {
+          u2f.control = lib.mkForce "[success=ok default=1]";
+          touch-ok = echo (u2f.order + 1) "[success=done default=ignore]" "✓ touch accepted";
+          touch-missed = echo (u2f.order + 2) "[default=ignore]" "✗ no touch, password instead";
+        };
+      };
     in {
       environment.systemPackages = [
         pkgs.yubikey-manager
@@ -64,8 +81,8 @@
 
       # login stays password only: the keyring unlocks from it
       security.pam.services = {
-        sudo.u2f.enable = true;
-        sudo-i.u2f.enable = true;
+        sudo = touchCue "sudo";
+        sudo-i = touchCue "sudo-i";
         # run0 asks through polkit too
         polkit-1.u2f.enable = true;
         # shatterlock runs it beside the password field, retrying until a touch
