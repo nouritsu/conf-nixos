@@ -9,7 +9,7 @@
   }: let
     inherit (config.boot.initrd.luks.devices) cryptroot cryptswap;
 
-    # root's volume key, linked here on unlock; swap's passphrase is its sha256.
+    # root's volume key, linked here on unlock
     # the service's own session keyring: keys in root's @u aren't readable from it
     vk = "cryptroot-vk";
 
@@ -31,8 +31,16 @@
 
     devices = map (d: "${utils.escapeSystemdPath d.device}.device") [cryptroot cryptswap];
 
+    # from root's volume key on stdin: swap's passphrase, and what the initrd leaves in loginKey
+    derive = ''
+      swap_passphrase() { sha256sum | cut -d' ' -f1 | tr -d '\n'; }
+      login_key() { { cat; printf login; } | sha256sum | cut -d' ' -f1; }
+    '';
+
     # root's volume key into $work/vk, given root's passphrase or recovery key
     dumpVolumeKey = ''
+      work=$(mktemp -d -p /run)
+      trap 'rm -rf "$work"' EXIT
       echo "root's passphrase or recovery key:" >&2
       cryptsetup luksDump --batch-mode --dump-volume-key --volume-key-file "$work/vk" ${cryptroot.device} > /dev/null
     '';
@@ -46,11 +54,10 @@
           echo "run it with sudo" >&2
           exit 1
         fi
-        work=$(mktemp -d -p /run)
-        trap 'rm -rf "$work"' EXIT
 
+        ${derive}
         ${dumpVolumeKey}
-        sha256sum < "$work/vk" | cut -d' ' -f1 | tr -d '\n' > "$work/swap"
+        swap_passphrase < "$work/vk" > "$work/swap"
 
         if cryptsetup open --test-passphrase --key-file "$work/swap" ${cryptswap.device} 2> /dev/null; then
           echo "swap already opens from root's key"
@@ -67,11 +74,9 @@
       name = "disk-login-key";
       runtimeInputs = [pkgs.cryptsetup pkgs.coreutils];
       text = ''
-        work=$(mktemp -d -p /run)
-        trap 'rm -rf "$work"' EXIT
-
+        ${derive}
         ${dumpVolumeKey}
-        { cat "$work/vk"; printf login; } | sha256sum | cut -d' ' -f1
+        login_key < "$work/vk"
       '';
     };
   in {
@@ -229,13 +234,14 @@
         unset pass
         say "$by-unlocked"
 
+        ${derive}
         id=$(keyctl search @s user ${vk})
         # the touch already happened, so the greeter takes an empty password; after a passphrase it wants a touch or the password
         if [ "$by" = key ]; then
           mkdir -p ${dirOf loginKey}
-          { keyctl pipe "$id"; printf login; } | sha256sum | cut -d' ' -f1 > ${loginKey}
+          keyctl pipe "$id" | login_key > ${loginKey}
         fi
-        keyctl pipe "$id" | sha256sum | cut -d' ' -f1 | tr -d '\n' > "$work/swap"
+        keyctl pipe "$id" | swap_passphrase > "$work/swap"
         keyctl revoke "$id"
         keyctl unlink "$id" @s
 
