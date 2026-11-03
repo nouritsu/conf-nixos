@@ -26,7 +26,21 @@
       pkgs.eva
       pkgs.hyperfine
       pkgs.dust
+
+      pkgs.powertop
+      pkgs.nvtopPackages.full
+      pkgs.procs
+      pkgs.systemctl-tui
     ];
+
+    # setcap wrappers
+    programs.iotop = {
+      enable = true;
+      package = pkgs.iotop-c;
+      enableDelayacct = true;
+    };
+    programs.bandwhich.enable = true;
+    programs.wavemon.enable = true;
 
     programs.zoxide.enable = true;
 
@@ -65,6 +79,14 @@
 
       top = "btop";
       bottom = "btop";
+      top-power = "sudo powertop";
+      top-gpu = "nvtop";
+      top-io = "iotop";
+      top-net = "bandwhich";
+      top-ram = "procs --watch --sortd rss";
+      top-sys = "systemctl-tui";
+      top-audio = "pw-top";
+      top-wifi = "wavemon";
 
       find = "fd --no-ignore";
       findh = "find --hidden";

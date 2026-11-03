@@ -7,7 +7,6 @@
 
       environment.systemPackages = [
         pkgs.brightnessctl
-        pkgs.powertop
       ];
     };
 
