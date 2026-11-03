@@ -43,11 +43,9 @@ in {
       self.nixosModules.wgit-identity
 
       ({config, ...}: let
-        keys = config.signingKeys;
-        signers = pkgs.writeText "allowed-signers" (lib.concatMapStrings (key: "${config.settings.user.email} ${key}\n") (lib.attrValues keys));
         signingKey = pkgs.writeShellScript "git-signing-key" ''
           case $(< /proc/sys/kernel/hostname) in
-          ${lib.concatMapAttrsStringSep "\n" (host: key: "${host}) echo 'key::${key}' ;;") keys}
+          ${lib.concatMapAttrsStringSep "\n" (host: key: "${host}) echo 'key::${key}' ;;") config.signingKeys}
           esac
         '';
       in {
@@ -84,7 +82,7 @@ in {
           # github marks these verified once each key is added there as a signing key
           gpg.format = "ssh";
           gpg.ssh.defaultKeyCommand = "${signingKey}";
-          gpg.ssh.allowedSignersFile = "${signers}";
+          gpg.ssh.allowedSignersFile = "${config.allowedSigners}";
           commit.gpgSign = true;
           tag.gpgSign = true;
         };

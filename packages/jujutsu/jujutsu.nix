@@ -19,9 +19,7 @@ in {
 
       self.nixosModules.wgit-identity
 
-      ({config, ...}: let
-        signers = pkgs.writeText "allowed-signers" (lib.concatMapStrings (key: "${config.settings.user.email} ${key}\n") (lib.attrValues config.signingKeys));
-      in {
+      ({config, ...}: {
         settings = {
           ui = {
             pager = lib.getExe self'.packages.delta;
@@ -34,7 +32,7 @@ in {
           signing = {
             behavior = "drop";
             backend = "ssh";
-            backends.ssh.allowed-signers = "${signers}";
+            backends.ssh.allowed-signers = "${config.allowedSigners}";
           };
           git.sign-on-push = true;
           "--scope" =
