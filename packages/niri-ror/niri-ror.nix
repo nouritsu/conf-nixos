@@ -12,6 +12,9 @@
       nativeBuildInputs = [pkgs.makeWrapper];
       buildInputs = [pkgs.bash];
 
+      # the Makefile only lints
+      dontBuild = true;
+
       # finds its jq modules next to itself
       installPhase = ''
         mkdir -p $out/share/niri-ror
