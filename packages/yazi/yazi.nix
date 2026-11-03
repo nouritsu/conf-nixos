@@ -13,7 +13,8 @@ in {
     packages.yazi = wrappers.wrappers.yazi.wrap [
       {
         inherit pkgs;
-        package = inputs'.yazi.packages.default;
+        # yazi's own wrapper on this nixpkgs: cached binary, no second copy of the previewers
+        package = pkgs.callPackage "${inputs.yazi}/nix/yazi.nix" {inherit (inputs'.yazi.packages) yazi-unwrapped;};
         # wrap `ya` too so it sees the same baked config
         wrapperVariants.ya = {};
       }
