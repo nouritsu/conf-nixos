@@ -23,7 +23,6 @@
         self'.packages.gh-dash
         pkgs.gh
         pkgs.git-absorb
-        pkgs.fishPlugins.forgit
       ];
 
       systemd.user.tmpfiles.rules = ["L+ %h/.local/share/gh/extensions - - - - ${ghExtensions}"];

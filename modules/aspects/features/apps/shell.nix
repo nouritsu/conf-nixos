@@ -21,7 +21,6 @@
       pkgs.fishPlugins.done
       pkgs.fishPlugins.autopair
       pkgs.fishPlugins.sponge
-      pkgs.fishPlugins.humantime-fish
     ];
 
     which-key'.menu.s.submenu.r = {
