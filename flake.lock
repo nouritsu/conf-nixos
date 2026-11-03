@@ -486,6 +486,22 @@
         "type": "github"
       }
     },
+    "nfsm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779536651,
+        "narHash": "sha256-RnjrNx/+TI7VpIpsAih9OD5/i2DIFzB3tt3aWHYbJvg=",
+        "owner": "gvolpe",
+        "repo": "nfsm",
+        "rev": "181a22e8915e4d2ee0adb54b893474f310f0924a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gvolpe",
+        "repo": "nfsm",
+        "type": "github"
+      }
+    },
     "niri": {
       "inputs": {
         "nixpkgs": [
@@ -801,6 +817,7 @@
         "lanzaboote": "lanzaboote",
         "layercapture": "layercapture",
         "millennium": "millennium",
+        "nfsm": "nfsm",
         "niri": "niri",
         "niri-cwd": "niri-cwd",
         "nix-colors": "nix-colors",

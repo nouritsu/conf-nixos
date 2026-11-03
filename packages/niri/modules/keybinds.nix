@@ -14,6 +14,7 @@
     wezterm = lib.getExe self.packages.${system}.wezterm;
     tuios = lib.getExe pkgs.tuios;
     nirius = lib.getExe pkgs.nirius;
+    nfsm = lib.getExe self.packages.${system}.nfsm-cli;
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
@@ -139,7 +140,7 @@
       "Mod+Q".close-window = {};
       "Mod+Ctrl+C".center-visible-columns = {};
       "Mod+Shift+C".center-window = {};
-      "Mod+F".fullscreen-window = {};
+      "Mod+F".spawn = nfsm;
       "Mod+Shift+F".toggle-window-floating = {};
       "Mod+R".switch-preset-column-width = {};
       "Mod+M".maximize-column = {};

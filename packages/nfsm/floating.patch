@@ -1,0 +1,12 @@
+--- a/src/nfsm.py
++++ b/src/nfsm.py
+@@ -53,7 +53,8 @@
+             "position": (col, row),
+             "exit": False
+         }
+-        run_niri_action(action, window_id)
++    # floating windows have no position to restore, but still toggle
++    run_niri_action(action, window_id)
+ 
+ def handle_fullscreen_request():
+     handle_request(fullscreen_windows, "fullscreen-window")
