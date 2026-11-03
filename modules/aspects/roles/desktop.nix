@@ -11,6 +11,7 @@
     niri.xwayland
     nirius
     nfsm
+    nirimap
     which-key
     dux
     dux.tailscale

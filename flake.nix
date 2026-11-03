@@ -115,6 +115,10 @@
       url = "github:Antiz96/oniri";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nirimap = {
+      url = "github:alexandergknoll/nirimap";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

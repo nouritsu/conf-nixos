@@ -562,6 +562,26 @@
         "type": "github"
       }
     },
+    "nirimap": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792007658,
+        "narHash": "sha256-JorDheva1UZcIby3ZojtlY3hNScZyQemBqA44j7Cthw=",
+        "owner": "alexandergknoll",
+        "repo": "nirimap",
+        "rev": "cafe3e7bc74c2a77fc8de2ed081e0d196d3e9689",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alexandergknoll",
+        "repo": "nirimap",
+        "type": "github"
+      }
+    },
     "nix-colors": {
       "inputs": {
         "base16-schemes": "base16-schemes",
@@ -857,6 +877,7 @@
         "niri": "niri",
         "niri-cwd": "niri-cwd",
         "niri-ror": "niri-ror",
+        "nirimap": "nirimap",
         "nix-colors": "nix-colors",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_6",
