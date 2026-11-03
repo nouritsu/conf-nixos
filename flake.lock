@@ -546,6 +546,22 @@
         "type": "github"
       }
     },
+    "niri-pip": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789909055,
+        "narHash": "sha256-ArpJiP/wLEaeXu5KRihonRQRQEl+maJH8Vbh40bBXqM=",
+        "owner": "t1ktakdev",
+        "repo": "niri-pip",
+        "rev": "dfa79f4d22cfe1211917a9e7b4aa6bb10c3eeaec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "t1ktakdev",
+        "repo": "niri-pip",
+        "type": "github"
+      }
+    },
     "niri-ror": {
       "flake": false,
       "locked": {
@@ -876,6 +892,7 @@
         "nfsm": "nfsm",
         "niri": "niri",
         "niri-cwd": "niri-cwd",
+        "niri-pip": "niri-pip",
         "niri-ror": "niri-ror",
         "nirimap": "nirimap",
         "nix-colors": "nix-colors",

@@ -119,6 +119,10 @@
       url = "github:alexandergknoll/nirimap";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-pip = {
+      url = "github:t1ktakdev/niri-pip";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

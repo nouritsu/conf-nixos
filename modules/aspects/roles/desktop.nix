@@ -12,6 +12,7 @@
     nirius
     nfsm
     nirimap
+    niri-pip
     which-key
     dux
     dux.tailscale

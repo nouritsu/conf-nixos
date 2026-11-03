@@ -9,6 +9,10 @@
       # windowFx's close/open shaders, after Dux so they win
       + ''
         include optional=true "~/.config/niri/windowfx.kdl"
+      ''
+      # niri-pip's pip opacity
+      + ''
+        include optional=true "~/.config/niri/niri-pip-runtime.kdl"
       '';
   };
 }
