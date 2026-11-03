@@ -10,7 +10,7 @@
         environment.systemPackages = [
           pkgs.ffmpeg-full
           self'.packages.obs-studio
-          pkgs.eog
+          self'.packages.imv
           self'.packages.mpv
           self'.packages.spotify
           self'.packages.jellyfin-mpv-shim
@@ -58,7 +58,7 @@
             "image/x-bmp"
             "image/tiff"
             "image/svg+xml"
-          ] (_: "org.gnome.eog.desktop")
+          ] (_: "imv-dir.desktop")
           # umpv claims these too
           // lib.genAttrs [
             "video/mp4"
