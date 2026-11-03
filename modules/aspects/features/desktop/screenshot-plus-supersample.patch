@@ -1,0 +1,92 @@
+diff --git a/lib/Config.js b/lib/Config.js
+--- a/lib/Config.js
++++ b/lib/Config.js
+@@ -14,7 +14,8 @@
+     notify: true,
+     backend: "cli",              // cli | screencopy
+     oarPath: "",                 // "" = no text recognition, see lib/Ocr.js
+-    oarArgs: "--size tiny"       // after `oar ocr`
++    oarArgs: "--size tiny",      // after `oar ocr`
++    supersampleScale: 4          // utsushot -w --scale, see the daemon
+ }
+ 
+ function toolEnabledKey(id) {
+diff --git a/ScreenshotPlusDaemon.qml b/ScreenshotPlusDaemon.qml
+--- a/ScreenshotPlusDaemon.qml
++++ b/ScreenshotPlusDaemon.qml
+@@ -42,6 +42,11 @@
+     readonly property bool notify: Config.read(pluginData, "notify") !== false
+     readonly property string oarPath: String(Config.read(pluginData, "oarPath") || "").trim()
+     readonly property string oarArgs: String(Config.read(pluginData, "oarArgs") || "")
++    readonly property int supersampleScale: {
++        const v = Number(Config.read(pluginData, "supersampleScale"))
++        return v >= 2 ? v : Config.DEFAULTS.supersampleScale
++    }
++    property bool supersampling: false
+ 
+     // ── Screens and frozen frames ────────────────────────────────────────────
+ 
+@@ -611,6 +616,32 @@
+         root._finalize(png, intent === "copy", intent === "save", id)
+     }
+ 
++    // ── Supersample ──────────────────────────────────────────────────────────
++
++    // The focused window at supersampleScale times its pixels: utsushot floats
++    // it and raises the output scale while it re-renders, so the desktop zooms
++    // for a moment. The PNG then goes the way of an export: copy, save, notify.
++    function supersample() {
++        if (root.active || root.capturing || root.supersampling)
++            return false
++        root.supersampling = true
++        const png = root.runtimeDir + "/supersample-" + Date.now() + ".png"
++        Proc.runCommand("screenshotPlus.supersample",
++                        ["utsushot", "-w", "--scale", String(root.supersampleScale), "-o", png],
++                        (stdout, code) => {
++            root.supersampling = false
++            if (code !== 0) {
++                console.warn("screenshotPlus: utsushot failed:", code, String(stdout).trim().slice(0, 200))
++                if (root.notify)
++                    Quickshell.execDetached(["dms", "notify", "Screenshot+", I18n.trFor("screenshotPlus", "Supersampling failed"),
++                                             "--app", "Screenshot+", "--icon", "screenshot_region"])
++                return
++            }
++            root._finalize(png, root.copyToClipboard, root.saveToFile, 0)
++        }, 0, 30000)
++        return true
++    }
++
+     // ── IPC ──────────────────────────────────────────────────────────────────
+ 
+     IpcHandler {
+@@ -631,6 +662,10 @@
+             root.finish("default")
+             return "OK"
+         }
++
++        function supersample(): string {
++            return root.supersample() ? "OK" : "BUSY"
++        }
+     }
+ 
+     CaptureOverlay {
+diff --git a/ScreenshotPlusSettings.qml b/ScreenshotPlusSettings.qml
+--- a/ScreenshotPlusSettings.qml
++++ b/ScreenshotPlusSettings.qml
+@@ -97,6 +97,16 @@
+         defaultValue: Config.DEFAULTS.notify
+     }
+ 
++    SliderSetting {
++        settingKey: "supersampleScale"
++        label: I18n.trFor("screenshotPlus", "Supersample scale")
++        description: I18n.trFor("screenshotPlus", "dms ipc call screenshotPlus supersample captures the focused window at this many times its pixels with utsushot, then copies, saves and notifies as set above.")
++        minimum: 2
++        maximum: 8
++        unit: "x"
++        defaultValue: Config.DEFAULTS.supersampleScale
++    }
++
+     // A direct child of PluginSettings: nested settings never receive the
+     // pluginService and would show their defaults.
+     SelectionSetting {

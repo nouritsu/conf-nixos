@@ -129,6 +129,7 @@
 
       # Screenshot
       "Print".spawn-sh = "dms ipc call screenshotPlus capture";
+      "Mod+Print".spawn-sh = "dms ipc call screenshotPlus supersample";
       "Shift+Print".screenshot-screen = {};
       "Ctrl+Print".screenshot = {};
 

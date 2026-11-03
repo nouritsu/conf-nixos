@@ -938,6 +938,7 @@
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "treefmt-nix": "treefmt-nix",
+        "utsushot": "utsushot",
         "wrappers": "wrappers",
         "yazi": "yazi"
       }
@@ -1134,6 +1135,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "utsushot": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786554970,
+        "narHash": "sha256-csXuR2V/wgFkAatTjkGiCs0d+kVJOq6ueNFq1gFv2aU=",
+        "owner": "xevrion",
+        "repo": "utsushot",
+        "rev": "e30ad5bd487516664809d1e3335c36a71ae471e1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xevrion",
+        "repo": "utsushot",
         "type": "github"
       }
     },
