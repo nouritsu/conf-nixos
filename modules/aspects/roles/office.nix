@@ -5,11 +5,7 @@
       services.printing
     ];
 
-    nixos = {
-      self',
-      lib,
-      ...
-    }: {
+    nixos = {self', ...}: {
       programs.onlyoffice = {
         enable = true;
         package = self'.packages.onlyoffice;
@@ -18,7 +14,8 @@
       which-key'.menu.o.submenu.o = {
         desc = "OnlyOffice";
         icon = "f0dc8";
-        cmd = lib.getExe self'.packages.onlyoffice;
+        # the module's build, the one with the system fonts
+        cmd = "onlyoffice-desktopeditors";
         app-id = "onlyoffice|desktopeditors";
       };
     };
