@@ -151,6 +151,10 @@
       url = "github:tyvsmith/steam-native-notifications";
       flake = false;
     };
+    lemurs = {
+      url = "github:coastalwhite/lemurs";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

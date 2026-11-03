@@ -460,6 +460,22 @@
         "type": "github"
       }
     },
+    "lemurs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792147599,
+        "narHash": "sha256-HHTegcXjLpETMPLHVL8TOObSb9/FwtFf8+hArVvstGE=",
+        "owner": "coastalwhite",
+        "repo": "lemurs",
+        "rev": "2b25ec2db27c76255ad0bc527bf764a5696b660f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "coastalwhite",
+        "repo": "lemurs",
+        "type": "github"
+      }
+    },
     "liixini-shaders": {
       "flake": false,
       "locked": {
@@ -969,6 +985,7 @@
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "layercapture": "layercapture",
+        "lemurs": "lemurs",
         "liixini-shaders": "liixini-shaders",
         "millennium": "millennium",
         "nfsm": "nfsm",

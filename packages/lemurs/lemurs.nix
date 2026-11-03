@@ -1,18 +1,19 @@
-{
-  perSystem = {pkgs, ...}: {
+{inputs, ...}: {
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
     # main: 0.4.0 opens the session in lemurs itself, so logind gives it no seat and a second login hangs
     packages.lemurs = pkgs.rustPlatform.buildRustPackage {
       pname = "lemurs";
-      version = "0.4.0-unstable-2026-10-13";
+      version =
+        lib.warnIf (lib.versionOlder "0.4.0" pkgs.lemurs.version)
+        "nixpkgs has lemurs ${pkgs.lemurs.version}; drop the main pin if it has the seat fix"
+        "0.4.0-${inputs.lemurs.shortRev}";
 
-      src = pkgs.fetchFromGitHub {
-        owner = "coastalwhite";
-        repo = "lemurs";
-        rev = "2b25ec2db27c76255ad0bc527bf764a5696b660f";
-        hash = "sha256-HHTegcXjLpETMPLHVL8TOObSb9/FwtFf8+hArVvstGE=";
-      };
-
-      cargoHash = "sha256-7mSzw1pkejMeEnvYzTaleR7wJtPIIHlw7/Rm9GqTWjQ=";
+      src = inputs.lemurs;
+      cargoLock.lockFile = "${inputs.lemurs}/Cargo.lock";
 
       # centered like tuigreet, and redrawn when fbcon takes the console over after the first frame;
       # an empty password asks for a touch
@@ -23,8 +24,6 @@
       postInstall = ''
         install -Dm0755 extra/xsetup.sh "$out/etc/xsetup.sh"
       '';
-
-      passthru.nup = ["--version=branch"];
 
       inherit (pkgs.lemurs) meta;
     };
