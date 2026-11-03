@@ -28,6 +28,14 @@ in {
 
         # the worktree is dirty from the first edit on
         printf -v NIX_CONFIG 'warn-dirty = false\n%s' "''${NIX_CONFIG-}"
+
+        # one run is past the anonymous github api limit
+        if [[ -z ''${GITHUB_TOKEN-} ]] && token=$(gh auth token 2>/dev/null); then
+          export GITHUB_TOKEN=$token
+        fi
+        if [[ -n ''${GITHUB_TOKEN-} ]]; then
+          printf -v NIX_CONFIG 'access-tokens = github.com=%s\n%s' "$GITHUB_TOKEN" "$NIX_CONFIG"
+        fi
         export NIX_CONFIG
 
         export GUM_SPIN_SPINNER_FOREGROUND="#${palette.base0E}"
@@ -94,11 +102,19 @@ in {
         # nix-update writes "attr: old -> new", new is None for --version=skip
         bump='^[^:]+: (.*) -> (.*)$'
         rows=()
+        skipped=()
         for line in "''${pins[@]}"; do
           read -r -a pin <<<"$line"
-          before=$(git diff | cksum)
-          gum spin --show-error --title "Bumping ''${pin[0]}" -- nix-update --flake --write-commit-message "$work/msg" "''${pin[@]:1}" "''${pin[0]}"
-          if [[ $(git diff | cksum) != "$before" ]]; then
+          # staged = everything before this pin, so a failed bump resets to it
+          git add -A
+          if ! gum spin --show-error --title "Bumping ''${pin[0]}" -- nix-update --flake --write-commit-message "$work/msg" "''${pin[@]:1}" "''${pin[0]}"; then
+            git checkout -- .
+            git clean -fdq
+            skipped+=("''${pin[0]}")
+            log warn "''${pin[0]} didn't bump, left as it was"
+            continue
+          fi
+          if ! git diff --quiet; then
             from="?"
             to="?"
             if [[ $(head -n1 "$work/msg") =~ $bump ]]; then
@@ -113,6 +129,12 @@ in {
           fi
         done
         log info "''${#rows[@]} of ''${#pins[@]} pins bumped"
+        held=""
+        if ((''${#skipped[@]})); then
+          printf -v held '%s, ' "''${skipped[@]}"
+          held=''${held%, }
+          log warn "Not bumped: $held"
+        fi
 
         gum spin --show-error --title "nix fmt" -- nix fmt
         if [[ -z $(git status --porcelain) ]]; then
@@ -137,6 +159,9 @@ in {
           fi
           if ((''${#rows[@]})); then
             printf '%s\n' "''${rows[@]}" | gum table --print --columns "Pin,From,To"
+          fi
+          if [[ -n $held ]]; then
+            log warn "Not bumped: $held"
           fi
           : >"$work/diff"
           for i in "''${!hosts[@]}"; do
@@ -165,6 +190,10 @@ in {
                 IFS=, read -r name from to <<<"$row"
                 echo "$name: $from -> $to"
               done
+              echo
+            fi
+            if [[ -n $held ]]; then
+              echo "not bumped: $held"
               echo
             fi
             if [[ -s $work/diff ]]; then
