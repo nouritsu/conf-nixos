@@ -19,4 +19,5 @@
   # packages/ one-offs, built from the working tree on each run
   scripts.balatro-sync.exec = ''exec nix run "$DEVENV_ROOT#balatro-sync" -- "$@"'';
   scripts.nup.exec = ''exec nix run "$DEVENV_ROOT#nup" -- "$@"'';
+  scripts.dux-freeze.exec = ''exec nix run "$DEVENV_ROOT#dux-freeze" -- "$@"'';
 }

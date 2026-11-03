@@ -17,9 +17,7 @@
       self',
       ...
     }: let
-      settings = (pkgs.formats.json {}).generate "dux-settings.json" (
-        lib.pipe (lib.importJSON ./dux-settings.json) config.dux'.settingsOverrides
-      );
+      settings = (pkgs.formats.json {}).generate "dux-settings.json" config.dux'.settings;
 
       # every installed plugin is switched on, plus its pinned settings
       pluginSettings = let
@@ -105,8 +103,16 @@
             type = lib.types.listOf (lib.types.functionTo lib.types.attrs);
             default = [];
           };
+
+          # the result; dux-freeze evals it
+          options.dux'.settings = lib.mkOption {
+            type = lib.types.attrs;
+            readOnly = true;
+          };
         }
       ];
+
+      dux'.settings = lib.pipe (lib.importJSON ./dux-settings.json) config.dux'.settingsOverrides;
 
       environment.systemPackages = [
         pkgs.wl-clipboard-rs
