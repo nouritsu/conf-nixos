@@ -248,7 +248,6 @@
           gameControllerBattery.enable = true;
           batteryPlus.enable = true;
           screenRecorderYS.enable = true;
-          windowFx.enable = true;
 
           # local: the focused window's width and height as a % of the screen
           columnWidth = {
@@ -263,6 +262,12 @@
           };
 
           # patched: mkForce over the registry's src
+
+          # liixini/shaders as extra close/open kinds
+          windowFx = {
+            enable = true;
+            src = lib.mkForce self'.packages.dux-window-fx;
+          };
 
           # script path assumed the per-user plugin dir
           claudeCodeUsage = {

@@ -135,6 +135,10 @@
       url = "github:xevrion/utsushot";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    liixini-shaders = {
+      url = "github:liixini/shaders";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,0 +1,131 @@
+diff --git a/WindowFxDaemon.qml b/WindowFxDaemon.qml
+--- a/WindowFxDaemon.qml
++++ b/WindowFxDaemon.qml
+@@ -22,6 +22,7 @@
+ import qs.Services
+ import qs.Modules.Plugins
+ import "Kinds.js" as Kinds
++import "Liixini.js" as Liixini
+ 
+ PluginComponent {
+     id: root
+@@ -76,6 +77,16 @@
+     property bool holdSupported: false
+ 
+     readonly property string targetPath: Quickshell.env("HOME") + "/.config/niri/windowfx.kdl"
++
++    // liixini kinds bring their own close and open shaders, see Liixini.js
++    function known(name) {
++        return Kinds.byKey(name) !== null || Liixini.byKey(name) !== null;
++    }
++    readonly property string resolvedOpenKind: root.openKind === "mirror" ? root.kind : root.openKind
++    function liixiniPath(key, side) {
++        const k = Liixini.byKey(key);
++        return k ? String(Qt.resolvedUrl("shaders/liixini/" + k.dir + "/" + side + ".glsl")).replace(/^file:\/\//, "") : "";
++    }
+     property string lastWritten: ""
+ 
+     function num(x) {
+@@ -111,10 +122,12 @@
+             .replace("@PROGRESS@", progress);
+     }
+ 
+-    function block(name, ms, code, extra) {
++    // timing: a liixini kind's curve or spring; a spring has no duration
++    function block(name, ms, code, extra, timing) {
++        const t = timing || "curve \"linear\"";
+         return "    " + name + " {\n"
+-            + "        duration-ms " + ms + "\n"
+-            + "        curve \"linear\"\n"
++            + (t.startsWith("spring") ? "" : "        duration-ms " + ms + "\n")
++            + "        " + t + "\n"
+             + (extra || "")
+             + "        custom-shader r#\"\n" + code + "\n\"#\n"
+             + "    }\n";
+@@ -126,11 +139,19 @@
+             return "";
+         const openKind = root.openKind === "mirror" ? root.kind : root.openKind;
+         let body = "";
+-        if (root.kind !== "default")
+-            body += block("window-close", root.duration, shader(root.kind, "close_color", "niri_clamped_progress"),
+-                root.holdLayout && root.holdSupported ? "        hold-layout\n" : "");
+-        if (openKind !== "default")
+-            body += block("window-open", root.openDuration, shader(openKind, "open_color", "1.0 - niri_clamped_progress"));
++        if (root.kind !== "default") {
++            const lx = Liixini.byKey(root.kind);
++            const code = lx ? liixiniClose.text() : shader(root.kind, "close_color", "niri_clamped_progress");
++            if (code)
++                body += block("window-close", root.duration, code,
++                    root.holdLayout && root.holdSupported ? "        hold-layout\n" : "", lx ? lx.close : "");
++        }
++        if (openKind !== "default") {
++            const lx = Liixini.byKey(openKind);
++            const code = lx ? liixiniOpen.text() : shader(openKind, "open_color", "1.0 - niri_clamped_progress");
++            if (code)
++                body += block("window-open", root.openDuration, code, "", lx ? lx.open : "");
++        }
+         if (!body)
+             return head + "// Open and close animations: niri default.\n";
+         return head + "animations {\n" + body + "}\n";
+@@ -178,6 +199,20 @@
+     }
+ 
+     FileView {
++        id: liixiniClose
++        path: root.liixiniPath(root.kind, "close")
++        blockLoading: true
++        onLoaded: writeLater.restart()
++    }
++
++    FileView {
++        id: liixiniOpen
++        path: root.liixiniPath(root.resolvedOpenKind, "open")
++        blockLoading: true
++        onLoaded: writeLater.restart()
++    }
++
++    FileView {
+         id: outFile
+         path: root.targetPath
+         atomicWrites: true
+@@ -195,7 +230,7 @@
+ 
+         // dms ipc call windowFx kind shatter   (or default, random)
+         function kind(name: string): string {
+-            if (name !== "default" && name !== "random" && !Kinds.byKey(name))
++            if (name !== "default" && name !== "random" && !root.known(name))
+                 return "unknown kind: " + name;
+             SettingsData.setPluginSetting("windowFx", "kind", name);
+             return name;
+@@ -203,7 +238,7 @@
+ 
+         // dms ipc call windowFx open mirror   (or default, random, a kind)
+         function open(name: string): string {
+-            if (name !== "default" && name !== "random" && name !== "mirror" && !Kinds.byKey(name))
++            if (name !== "default" && name !== "random" && name !== "mirror" && !root.known(name))
+                 return "unknown kind: " + name;
+             SettingsData.setPluginSetting("windowFx", "openKind", name);
+             return name;
+diff --git a/WindowFxSettings.qml b/WindowFxSettings.qml
+--- a/WindowFxSettings.qml
++++ b/WindowFxSettings.qml
+@@ -9,6 +9,7 @@
+ import qs.Modules.Plugins
+ import qs.Widgets
+ import "Kinds.js" as Kinds
++import "Liixini.js" as Liixini
+ 
+ PluginSettings {
+     id: root
+@@ -53,6 +54,11 @@
+                 label: I18n.trFor("windowFx", Kinds.list[i].label),
+                 value: Kinds.list[i].key
+             });
++        for (let i = 0; i < Liixini.list.length; i++)
++            opts.push({
++                label: Liixini.list[i].label,
++                value: Liixini.list[i].key
++            });
+         return opts;
+     }
+ 

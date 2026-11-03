@@ -444,6 +444,22 @@
         "type": "github"
       }
     },
+    "liixini-shaders": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792304068,
+        "narHash": "sha256-T/BRJtMuu5xo5ryF8n3MTF0DCwx9LcR/VHMeYSgpGnE=",
+        "owner": "liixini",
+        "repo": "shaders",
+        "rev": "01dd774fc3483d4bc8ba62b6608bf96b0eabd18e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "liixini",
+        "repo": "shaders",
+        "type": "github"
+      }
+    },
     "millennium": {
       "inputs": {
         "millennium-src": "millennium-src",
@@ -920,6 +936,7 @@
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "layercapture": "layercapture",
+        "liixini-shaders": "liixini-shaders",
         "millennium": "millennium",
         "nfsm": "nfsm",
         "niri": "niri",
