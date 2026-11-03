@@ -702,10 +702,6 @@
           "enabled": true
         },
         {
-          "id": "dockerManager",
-          "enabled": true
-        },
-        {
           "id": "dankscale",
           "enabled": true
         },

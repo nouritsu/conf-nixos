@@ -227,7 +227,6 @@
           webSearch.enable = true;
           sshConnections.enable = true;
           airQuality.enable = true;
-          dockerManager.enable = true;
           dankLauncherKeys.enable = true;
           wallpaperCarousel.enable = true;
           handMirror.enable = true;

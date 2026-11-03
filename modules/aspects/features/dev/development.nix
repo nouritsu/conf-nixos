@@ -4,7 +4,6 @@
       environment.systemPackages = [
         pkgs.jq
         pkgs.grex
-        pkgs.lazydocker
         pkgs.tokei
       ];
 

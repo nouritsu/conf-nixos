@@ -21,12 +21,6 @@
     "pollSeconds": "5",
     "downloadDir": "/home/aneesh/Downloads/Taildrop"
   },
-  "dockerManager": {
-    "dockerBinary": "podman",
-    "terminalApp": "wezterm start",
-    "debounceDelay": 297,
-    "groupByCompose": false
-  },
   "emojiLauncher": {
     "pasteOnSelect": true
   },
