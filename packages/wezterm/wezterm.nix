@@ -20,6 +20,21 @@ in {
             local wezterm = require "wezterm"
             local act = wezterm.action
 
+            -- on the alt screen (tuios, helix) the key goes to the app
+            local function alt_screen(key, mods, action)
+              return {
+                key = key,
+                mods = mods,
+                action = wezterm.action_callback(function(window, pane)
+                  if pane:is_alt_screen_active() then
+                    window:perform_action(act.SendKey { key = key, mods = mods }, pane)
+                  else
+                    window:perform_action(action, pane)
+                  end
+                end),
+              }
+            end
+
             local config = {
               font = wezterm.font "Maple Mono NF",
               font_size = 14.0,
@@ -36,15 +51,18 @@ in {
               -- the default only escapes spaces
               quote_dropped_files = "Posix",
 
+              -- tuios's ctrl+space leader and ctrl+alt chords
+              enable_kitty_keyboard = true,
+
               -- keybinds, defaults off
               disable_default_key_bindings = true,
               keys = {
                 { key = "c", mods = "CTRL|SHIFT", action = act.CopyTo "Clipboard" },
                 { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom "Clipboard" },
-                { key = "PageUp", mods = "SHIFT", action = act.ScrollByPage(-1) },
-                { key = "PageDown", mods = "SHIFT", action = act.ScrollByPage(1) },
-                { key = "f", mods = "CTRL", action = act.Search "CurrentSelectionOrEmptyString" },
-                { key = "Space", mods = "CTRL|SHIFT", action = act.QuickSelect },
+                alt_screen("PageUp", "SHIFT", act.ScrollByPage(-1)),
+                alt_screen("PageDown", "SHIFT", act.ScrollByPage(1)),
+                alt_screen("f", "CTRL", act.Search "CurrentSelectionOrEmptyString"),
+                alt_screen("Space", "CTRL|SHIFT", act.QuickSelect),
                 { key = "l", mods = "CTRL|SHIFT", action = act.ClearScrollback "ScrollbackOnly" },
               },
             }

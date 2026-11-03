@@ -36,16 +36,26 @@ in {
     # notify on input or turn end, unless its terminal is the focused niri window
     notify = pkgs.writeShellApplication {
       name = "claude-notify";
-      runtimeInputs = [pkgs.jq pkgs.libnotify pkgs.procps];
+      runtimeInputs = [pkgs.jq pkgs.libnotify pkgs.procps pkgs.tuios];
       text = ''
         input=$(cat)
 
+        # in tuios the terminal is a client on this session, and only while this pane has its focus
+        starts=($$)
+        if [[ -n ''${TUIOS_WINDOW_ID-} ]]; then
+          starts=()
+          if [[ $(tuios list-windows --json 2>/dev/null | jq -r '.focused_window_id // empty') == "$TUIOS_WINDOW_ID" ]]; then
+            mapfile -t starts < <(tuios list-clients --json 2>/dev/null | jq -r --arg s "''${TUIOS_SESSION-}" '(. // [])[] | select(.session == $s) | .pid')
+          fi
+        fi
+
         focused=$(niri msg --json focused-window 2>/dev/null | jq -r '.pid // empty') || true
         if [[ -n $focused ]]; then
-          pid=$$
-          while ((pid > 1)); do
-            [[ $pid == "$focused" ]] && exit 0
-            pid=$(ps -o ppid= -p "$pid" | tr -d ' ')
+          for pid in "''${starts[@]}"; do
+            while ((pid > 1)); do
+              [[ $pid == "$focused" ]] && exit 0
+              pid=$(ps -o ppid= -p "$pid" | tr -d ' ')
+            done
           done
         fi
 
@@ -80,6 +90,39 @@ in {
         gdscript-formatter "$file" || true
       '';
     };
+
+    # tuios's pane states, as `tuios integration install` writes them; no-op outside its panes
+    tuios-hooks =
+      lib.genAttrs [
+        "SessionStart"
+        "UserPromptSubmit"
+        "PreToolUse"
+        "PermissionRequest"
+        "PostToolUse"
+        "PostToolUseFailure"
+        "PermissionDenied"
+        "ElicitationResult"
+        "Notification"
+        "Stop"
+        "StopFailure"
+        "SessionEnd"
+        "SubagentStart"
+        "SubagentStop"
+      ] (event: [
+        {
+          hooks = [
+            {
+              type = "command";
+              command = "${lib.getExe pkgs.tuios} agent-hook claude-code --integration 3";
+              # outlasts the daemon's 300 s inbox hold
+              timeout =
+                if event == "PermissionRequest"
+                then 310
+                else 5;
+            }
+          ];
+        }
+      ]);
 
     # sops token as a bearer; home assistant's mcp server takes long-lived tokens
     ha-headers = pkgs.writeShellApplication {
@@ -383,6 +426,8 @@ in {
           };
         };
       }
+      # lists merge with the hooks above
+      {settings.hooks = tuios-hooks;}
     ];
   };
 }
