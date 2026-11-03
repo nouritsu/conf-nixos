@@ -139,6 +139,18 @@
       url = "github:liixini/shaders";
       flake = false;
     };
+    replay-fish = {
+      url = "github:jorgebucaran/replay.fish";
+      flake = false;
+    };
+    folder-color = {
+      url = "github:costales/folder-color";
+      flake = false;
+    };
+    steam-native-notifications = {
+      url = "github:tyvsmith/steam-native-notifications";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

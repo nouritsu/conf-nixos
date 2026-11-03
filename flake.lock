@@ -356,6 +356,22 @@
         "type": "github"
       }
     },
+    "folder-color": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776017391,
+        "narHash": "sha256-0dXcp7/Js6Hk/QfbqLXRnZ8wdbA542e6gj08TqPez34=",
+        "owner": "costales",
+        "repo": "folder-color",
+        "rev": "af8dd5323c253740a0bc0a9ffea0af9e675f73ef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "costales",
+        "repo": "folder-color",
+        "type": "github"
+      }
+    },
     "helix": {
       "inputs": {
         "nixpkgs": "nixpkgs_3",
@@ -917,6 +933,22 @@
         "type": "github"
       }
     },
+    "replay-fish": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719805987,
+        "narHash": "sha256-TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=",
+        "owner": "jorgebucaran",
+        "repo": "replay.fish",
+        "rev": "d2ecacd3fe7126e822ce8918389f3ad93b14c86c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jorgebucaran",
+        "repo": "replay.fish",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "batfetch": "batfetch",
@@ -931,6 +963,7 @@
         "dux": "dux",
         "dux-plugin-registry": "dux-plugin-registry",
         "flake-parts": "flake-parts_2",
+        "folder-color": "folder-color",
         "helix": "helix",
         "hypr-kdeconnect-fix": "hypr-kdeconnect-fix",
         "import-tree": "import-tree",
@@ -951,9 +984,11 @@
         "nixpkgs": "nixpkgs_6",
         "oniri": "oniri",
         "qtengine": "qtengine",
+        "replay-fish": "replay-fish",
         "shatterlock": "shatterlock",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
+        "steam-native-notifications": "steam-native-notifications",
         "treefmt-nix": "treefmt-nix",
         "utsushot": "utsushot",
         "wrappers": "wrappers",
@@ -1102,6 +1137,22 @@
       "original": {
         "owner": "Gerg-L",
         "repo": "spicetify-nix",
+        "type": "github"
+      }
+    },
+    "steam-native-notifications": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793329996,
+        "narHash": "sha256-nRZ1y3SG2EJ4tPCiNYSapUZ82NhGD6q2WA6wR0VuSek=",
+        "owner": "tyvsmith",
+        "repo": "steam-native-notifications",
+        "rev": "209a0b05752ccc4346ff1f4b23e558309739231b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tyvsmith",
+        "repo": "steam-native-notifications",
         "type": "github"
       }
     },

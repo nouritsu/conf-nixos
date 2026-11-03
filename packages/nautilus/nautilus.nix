@@ -56,15 +56,9 @@ in {
 
     folder-color = mkExtension {
       pname = "folder-color";
-      version = "0-unstable-2026-04-12";
-      src = pkgs.fetchFromGitHub {
-        owner = "costales";
-        repo = "folder-color";
-        rev = "af8dd5323c253740a0bc0a9ffea0af9e675f73ef";
-        hash = "sha256-0dXcp7/Js6Hk/QfbqLXRnZ8wdbA542e6gj08TqPez34=";
-      };
+      version = "0-${inputs.folder-color.shortRev}";
+      src = inputs.folder-color;
       install = "install -Dm644 extension/folder-color.py -t $dir";
-      passthru.nup = ["--version=branch"];
     };
 
     # nautilus quits with its last window otherwise

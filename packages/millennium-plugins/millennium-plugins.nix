@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   perSystem = {pkgs, ...}: let
     release = {
       url,
@@ -30,13 +30,8 @@
     # not in the plugin store; its only release is a rolling `latest` asset
     packages.millennium-steam-native-notifications = pkgs.stdenvNoCC.mkDerivation {
       pname = "steam-native-notifications";
-      version = "latest-unstable-2026-10-27";
-      src = pkgs.fetchFromGitHub {
-        owner = "tyvsmith";
-        repo = "steam-native-notifications";
-        rev = "3dac4312b0df9c8e2fcb8ad083f8bda409d9a68f";
-        hash = "sha256-5MP9dwlVUXg3Hw6Gbv2Q8GCYWWgIWOnZJOIR5SbuFOM=";
-      };
+      version = "0-${inputs.steam-native-notifications.shortRev}";
+      src = inputs.steam-native-notifications;
       nativeBuildInputs = [starlight];
       buildPhase = ''
         runHook preBuild
@@ -51,7 +46,6 @@
         runHook postInstall
       '';
       dontFixup = true;
-      passthru.nup = ["--version=branch"];
     };
 
     packages.millennium-achievement-groups = release rec {
