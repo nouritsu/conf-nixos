@@ -30,7 +30,6 @@
       shatterlock.desktop
       nix.serve
       nix.builds-on-laptop
-      nix.update
 
       ssh.from-laptop
       backup.from-homelab

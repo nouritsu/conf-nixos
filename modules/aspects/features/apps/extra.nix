@@ -253,7 +253,6 @@
     gaming = {
       includes = [(den.batteries.unfree ["steam" "steam-unwrapped" "steam-original" "steam-run"])];
       nixos = {
-        self',
         pkgs,
         inputs',
         ...
@@ -268,7 +267,6 @@
         environment.systemPackages = [
           pkgs.mangohud
           pkgs.protonup-ng
-          self'.packages.balatro-sync
           (pkgs.makeDesktopItem {
             name = "steam-bigpicture";
             desktopName = "Steam Big Picture";
