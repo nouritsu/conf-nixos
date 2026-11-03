@@ -69,6 +69,12 @@
         nightModeAutoEnabled = true;
       };
 
+      # nixos-artwork's nineish catppuccin mocha, at 4k
+      wallpaper = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/harilvfs/wallpapers/6cba59b9a2c9ce19427ac153f901fafff2c03da0/nix-wallpaper-nineish-catppuccin-mocha.png";
+        hash = "sha256-nFoNfk7Y/CGKWtscOE5GOxshI5eFmppWvhxHzOJ6mCA=";
+      };
+
       # pinned keys go over the live files; tokens, history and other state stay
       pinSettings = pkgs.writeShellApplication {
         name = "dux-pin-settings";
@@ -92,6 +98,17 @@
           merge "$dir/plugin_settings.json" ${pluginSettings}
           merge "$dir/clsettings.json" ${clipboard}
           merge "$state/session.json" ${session}
+
+          # default wallpaper only while none is set or it's gone; gui picks stay
+          wall=$(jq -r '.wallpaperPath // ""' "$state/session.json") || wall=
+          if [ -z "$wall" ] || [ ! -e "$wall" ]; then
+            tmp=$(mktemp "$state/session.json.XXXXXX")
+            if jq --arg wall ${wallpaper} '.wallpaperPath = $wall' "$state/session.json" > "$tmp"; then
+              mv "$tmp" "$state/session.json"
+            else
+              rm -f "$tmp"
+            fi
+          fi
         '';
       };
     in {
