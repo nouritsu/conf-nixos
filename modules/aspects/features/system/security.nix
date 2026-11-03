@@ -31,9 +31,12 @@
     provides.yubikey.nixos = {
       config,
       pkgs,
+      lib,
       ...
     }: let
       ssh = config.programs.ssh.package;
+      inherit (config.programs.ssh) knownHosts;
+      hostNames = hosts: lib.concatStringsSep "," (lib.concatMap (host: host.hostNames) hosts);
 
       # stubs from ssh-keygen -K, no passphrase; the key itself is the guard
       loadKeys = pkgs.writeShellScript "ssh-agent-sk-load" ''
@@ -92,10 +95,10 @@
         };
       };
       programs.ssh.extraConfig = ''
-        Match originalhost homelab,192.168.178.128,nouritsu.com user aneesh
+        Match originalhost ${hostNames [knownHosts.homelab knownHosts.vps]} user aneesh
           ForwardAgent ''${SSH_SK_AUTH_SOCK}
         # root here takes only the security keys
-        Match originalhost pc,laptop,pc.local,laptop.local,homelab,192.168.178.128,nouritsu.com user root
+        Match originalhost ${hostNames (lib.attrValues knownHosts)} user root
           IdentityAgent ''${SSH_SK_AUTH_SOCK}
       '';
     };
