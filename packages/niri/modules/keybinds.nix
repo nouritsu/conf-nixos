@@ -13,7 +13,7 @@
     woomer = lib.getExe pkgs.woomer;
     wezterm = lib.getExe self.packages.${system}.wezterm;
     tuios = lib.getExe pkgs.tuios;
-    scrcpy = lib.getExe self.packages.${system}.scrcpy;
+    nirius = lib.getExe pkgs.nirius;
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
@@ -79,7 +79,7 @@
       "Mod+Shift+E".spawn-sh = "${wezterm} start --cwd ${cwd} -- ${yazi}";
 
       "Mod+Z".spawn = woomer;
-      "Mod+P".spawn = scrcpy;
+      "Mod+P".spawn = [nirius "toggle-follow-mode"];
 
       "Mod+Space".spawn = "wlr-which-key";
       "Mod+Shift+Space".spawn = [pkill "-x" "wlr-which-key"];
