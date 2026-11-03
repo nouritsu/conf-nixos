@@ -22,11 +22,6 @@
         style = "material";
         # fallback lock; dux ignores loginctl lock-session with logind integration off
         actionDefs.lock.command = ["dms" "ipc" "call" "lock" "lock"];
-        # seconds; dux lock timeouts stay 0
-        lock.idle = {
-          ac = 3600;
-          battery = 600;
-        };
         # needs the patched niri and its layer rule
         live = true;
       };

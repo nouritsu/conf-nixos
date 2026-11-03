@@ -19,6 +19,7 @@
     dux
     dux.tailscale
     shatterlock
+    stasis
     security.yubikey
     greeter
     user-dirs

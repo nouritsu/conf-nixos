@@ -514,7 +514,7 @@
       "cursorHideTimeout": 0
     }
   },
-  "acMonitorTimeout": 3600,
+  "acMonitorTimeout": 0,
   "acLockTimeout": 0,
   "batteryCriticalNotificationType": 0,
   "loginctlLockIntegration": false,
@@ -881,8 +881,8 @@
   "matugenTemplateFoot": false,
   "matugenTemplateAlacritty": false,
   "matugenTemplateEmacs": false,
-  "batteryMonitorTimeout": 600,
+  "batteryMonitorTimeout": 0,
   "batteryLockTimeout": 0,
-  "batterySuspendTimeout": 1200,
+  "batterySuspendTimeout": 0,
   "configVersion": 42
 }
