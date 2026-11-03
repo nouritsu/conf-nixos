@@ -30,7 +30,6 @@
 
         # Drag and drop
         pkgs.ripdrag
-        pkgs.wl-clipboard
       ];
 
       which-key'.menu.t.submenu.h = {
