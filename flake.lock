@@ -546,6 +546,22 @@
         "type": "github"
       }
     },
+    "niri-ror": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767869289,
+        "narHash": "sha256-8x0rgLSzI8kJ9NhomY3GwXsswDuMYhEAu+hLaPk9IdU=",
+        "owner": "boomskats",
+        "repo": "niri-ror",
+        "rev": "60fbab405120b2b6d2c54672e7ea74232df52dd7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "boomskats",
+        "repo": "niri-ror",
+        "type": "github"
+      }
+    },
     "nix-colors": {
       "inputs": {
         "base16-schemes": "base16-schemes",
@@ -820,6 +836,7 @@
         "nfsm": "nfsm",
         "niri": "niri",
         "niri-cwd": "niri-cwd",
+        "niri-ror": "niri-ror",
         "nix-colors": "nix-colors",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_6",

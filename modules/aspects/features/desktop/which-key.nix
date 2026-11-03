@@ -40,6 +40,7 @@ in {
 
   den.aspects.which-key.nixos = {
     config,
+    self',
     pkgs,
     lib,
     ...
@@ -58,26 +59,10 @@ in {
     span = colour: text: ''<span foreground="#${colour}">${text}</span>'';
     label = e: lib.optionalString (e.icon != "") "${glyph e.icon} " + lib.escapeXML e.desc;
 
-    focus = pkgs.writeShellApplication {
-      name = "niri-focus-or-run";
-      runtimeInputs = [
-        config.programs.niri.package
-        pkgs.jq
-      ];
-      text = ''
-        app=$1
-        shift
-        id=$(niri msg --json windows | jq --arg app "$app" 'first(.[] | select(.app_id // "" | test($app; "i")) | .id) // empty') || id=
-        if [ -n "$id" ]; then
-          exec niri msg action focus-window --id "$id"
-        fi
-        exec "$@"
-      '';
-    };
-
+    # cycles through matching windows, else launches
     run = e:
       if e.app-id != null
-      then "${lib.getExe focus} ${lib.escapeShellArg e.app-id} ${e.cmd}"
+      then "${lib.getExe self'.packages.niri-ror} --app-id-regex ${lib.escapeShellArg "(?i)${e.app-id}"} -- ${e.cmd}"
       else e.cmd;
 
     # ordered by key; empty groups dropped

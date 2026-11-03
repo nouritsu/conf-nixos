@@ -15,6 +15,7 @@
     tuios = lib.getExe pkgs.tuios;
     nirius = lib.getExe pkgs.nirius;
     nfsm = lib.getExe self.packages.${system}.nfsm-cli;
+    ror = lib.getExe self.packages.${system}.niri-ror;
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
@@ -75,7 +76,7 @@
       # Applications
       "Mod+Return".spawn-sh = "${wezterm} start --cwd ${cwd}";
       "Mod+Shift+Return".spawn = lib.getExe tuios-window;
-      "Mod+W".spawn = brave;
+      "Mod+W".spawn = [ror "--app-id-regex" "^brave-origin$" "--" brave];
       "Mod+E".spawn-sh = "${nautilus} --new-window ${cwd}";
       "Mod+Shift+E".spawn-sh = "${wezterm} start --cwd ${cwd} -- ${yazi}";
 

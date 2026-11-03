@@ -107,6 +107,10 @@
       url = "github:gvolpe/nfsm";
       flake = false;
     };
+    niri-ror = {
+      url = "github:boomskats/niri-ror";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
