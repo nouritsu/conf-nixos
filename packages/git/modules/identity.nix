@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  den,
+  lib,
+  ...
+}: {
   # shared by the git and jujutsu wrappers
   flake.nixosModules.wgit-identity = {
     config,
@@ -18,10 +22,7 @@
       };
 
       # each host signs with its ordinary ssh key, through its agent, so no touch
-      signingKeys = {
-        pc = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAwVvRZ6cNb1mSXehYaqGtX5EkdSb9IqKzdsXPepddhY ab@nouritsu.com";
-        laptop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEaijmb2WJa4WkQNoKz05gibSe/4rIohMVJtY3KSM0va ab@nouritsu.com";
-      };
+      signingKeys = lib.mapAttrs (_: host: host.sshKey) den.hosts.x86_64-linux;
 
       allowedSigners = pkgs.writeText "allowed-signers" (lib.concatMapStrings (key: "${config.settings.user.email} ${key}\n") (lib.attrValues config.signingKeys));
     };

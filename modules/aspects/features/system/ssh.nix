@@ -1,5 +1,7 @@
-{
+{den, ...}: {
   den.aspects.ssh = let
+    inherit (den.hosts.x86_64-linux) pc laptop;
+
     # resident on the two security keys
     securityKeys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMnLxjqSr4eW8FTR8/VqPheLwem+4Tyk/xvg7k/YwYxIAAAADXNzaDp5dWJpa2V5LWE= ab@nouritsu.com"
@@ -84,15 +86,11 @@
     user.openssh.authorizedKeys.keys = securityKeys;
 
     from-pc = {
-      user.openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAwVvRZ6cNb1mSXehYaqGtX5EkdSb9IqKzdsXPepddhY ab@nouritsu.com"
-      ];
+      user.openssh.authorizedKeys.keys = [pc.sshKey];
       nixos.users.users.root.openssh.authorizedKeys.keys = securityKeys;
     };
 
     # not root: only the pc logs in as root
-    from-laptop.user.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEaijmb2WJa4WkQNoKz05gibSe/4rIohMVJtY3KSM0va ab@nouritsu.com"
-    ];
+    from-laptop.user.openssh.authorizedKeys.keys = [laptop.sshKey];
   };
 }
