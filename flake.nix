@@ -123,6 +123,10 @@
       url = "github:t1ktakdev/niri-pip";
       flake = false;
     };
+    nirinit = {
+      url = "github:amaanq/nirinit";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
