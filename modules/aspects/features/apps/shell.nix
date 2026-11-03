@@ -11,9 +11,16 @@
       substituteInPlace $out --replace-fail \
         '--autocomplete-prompt "$current_prompt"' \
         "--autocomplete-prompt \"\$current_prompt\" --keybindings 'enter=\"confirm_selection\"'"
+      # ctrl-r is atuin's
+      substituteInPlace $out --replace-fail 'bind --mode $mode ctrl-r tv_shell_history' ""
+    '';
+
+    atuinInit = pkgs.runCommand "atuin-init.fish" {} ''
+      HOME=$TMPDIR ${self'.packages.atuin}/bin/atuin init fish --disable-up-arrow > $out
     '';
   in {
     environment.systemPackages = [
+      self'.packages.atuin
       self'.packages.btop
       self'.packages.tealdeer
       self'.packages.television
@@ -32,8 +39,11 @@
 
     # after zoxide's init, which defines its own zi
     programs.fish.interactiveShellInit = lib.mkOrder 1600 ''
-      # ctrl-t completes from a channel picked by the command, ctrl-r history
+      # ctrl-t completes from a channel picked by the command
       source ${tvInit}
+
+      # ctrl-r, up stays fish's
+      source ${atuinInit}
 
       function __tv_insert
           printf "\n"
