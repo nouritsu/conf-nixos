@@ -56,7 +56,7 @@
         gds = "git diff --staged";
         gsw = "git switch";
         gb = "git branch";
-        gf = "git fetch --all --prune";
+        gf = "git fetch --all";
         gm = "git merge";
         grbc = "git rebase --continue";
         grba = "git rebase --abort";
