@@ -44,7 +44,7 @@
       sshfs = pkgs.yaziPlugins.sshfs;
     };
 
-    # tools the previewers/preloaders shell out to
+    # tools the plugins shell out to
     runtimePkgs = with pkgs; [mediainfo ouch glow hexyl duckdb sshfs];
   };
 }

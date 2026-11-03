@@ -57,12 +57,12 @@
       # one origin, so a key registered once works on both hosts
       security.pam.u2f.settings = {
         origin = "pam://aneesh";
-        # interpolated so the file is in the closure; a bare path is just a string and gets collected
+        # interpolated: a bare path isn't in the closure, so nh clean deletes it
         authfile = "${./u2f-keys}";
         cue = true;
       };
 
-      # login stays password only, the keyring unlocks from it; the greeter's key unseals the password instead
+      # login stays password only: the keyring unlocks from it
       security.pam.services = {
         sudo.u2f.enable = true;
         sudo-i.u2f.enable = true;

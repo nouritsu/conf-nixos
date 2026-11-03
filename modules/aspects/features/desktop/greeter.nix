@@ -34,9 +34,8 @@
     # pam_systemd_loadkey's name for it in the greeter's session keyring
     keyName = "greeter-key-login";
 
-    # pam_exec runs it as root with the typed password on stdin. Only an empty one asks for the key:
-    # the touch decrypts the real password, so pam_unix still checks it and the keyring unlocks from it.
-    # After a disk unlock by key, that touch already happened
+    # pam_exec runs it as root, typed password on stdin; only an empty one asks for a touch,
+    # which unseals the real one so pam_unix and the keyring still get it
     keyLogin = pkgs.writeShellApplication {
       name = "key-login";
       runtimeInputs = [pkgs.age pkgs.age-plugin-fido2-hmac pkgs.coreutils pkgs.libfido2 pkgs.openssl pkgs.keyutils];
@@ -48,7 +47,7 @@
         fi
         pass=
         ${lib.optionalString afterDisk ''
-          # one login per key unlock, whatever happens next
+          # the disk's key unlock was the touch; one login per unlock, whatever happens next
           if [ -f ${diskLoginKeyFile} ]; then
             pass=$(${enc} -d -pass file:${diskLoginKeyFile} -in "${sealed}.enc" 2> /dev/null) || pass=
             rm -f ${diskLoginKeyFile}

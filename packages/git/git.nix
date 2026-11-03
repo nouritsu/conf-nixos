@@ -79,7 +79,6 @@ in {
           core.untrackedCache = true;
           fetch.writeCommitGraph = true;
 
-          # github marks these verified once each key is added there as a signing key
           gpg.format = "ssh";
           gpg.ssh.defaultKeyCommand = "${signingKey}";
           gpg.ssh.allowedSignersFile = "${config.allowedSigners}";

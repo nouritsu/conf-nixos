@@ -128,9 +128,8 @@
           echo "$found"
         }
 
-        # one systemd-cryptsetup per set of plugged-in keys, until one opens root. Started only with
-        # a key in, it either asks for a touch or, finding no credential for root, says "not present".
-        # Braces, not a subshell, so its TERM trap lives in the process $key names; so only run it with &
+        # one systemd-cryptsetup per set of plugged-in keys, until one opens root
+        # braces, not a subshell: run with &, so the TERM trap is in $key's process
         key_side() {
           attach="" refused="" said=""
 
@@ -236,7 +235,7 @@
 
         ${derive}
         id=$(keyctl search @s user ${vk})
-        # the touch already happened, so the greeter takes an empty password; after a passphrase it wants a touch or the password
+        # after a key unlock the greeter takes an empty password, the touch already happened
         if [ "$by" = key ]; then
           mkdir -p ${dirOf loginKey}
           keyctl pipe "$id" | login_key > ${loginKey}

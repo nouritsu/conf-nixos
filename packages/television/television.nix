@@ -70,7 +70,6 @@ in {
                 requirements = ["ssh" "ssh-keygen"];
               };
               source.command = ''grep -vx "$(cat /proc/sys/kernel/hostname)" /etc/ssh/hosts'';
-              # how ssh will connect, whether a kept connection is open, and the pinned key
               preview.command = ''
                 ssh -G '{}' 2>/dev/null | grep -E '^(user|hostname|port|identityagent|forwardagent) '
                 ssh -O check '{}' 2>/dev/null && echo 'connection open'

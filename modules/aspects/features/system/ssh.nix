@@ -68,7 +68,7 @@
       # the machines tv and yazi offer
       environment.etc."ssh/hosts".text = lib.concatLines (lib.mapAttrsToList (_: host: lib.head host.hostNames) config.programs.ssh.knownHosts);
 
-      # a kept connection is logged in already, so a root@ login skips its touch for 10 minutes;
+      # a kept connection is logged in already, so a root@ login skips its touch;
       # local root (nix-daemon) has no runtime dir for the socket
       programs.ssh.extraConfig = ''
         Match !localuser root

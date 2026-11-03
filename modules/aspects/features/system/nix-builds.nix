@@ -23,7 +23,7 @@
         }
       ];
 
-      # nix-daemon connects as root, so these are system-wide
+      # nix-daemon connects as root, so system-wide
       # lan only; bare names can resolve into the work tailnet
       programs.ssh.extraConfig = ''
         Host laptop
