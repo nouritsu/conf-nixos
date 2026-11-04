@@ -1,24 +1,32 @@
 {
   den.aspects.extra.provides.game-mode.nixos = {
     config,
+    self',
     pkgs,
     lib,
     ...
   }: let
+    gamemode = "com.feralinteractive.GameMode /com/feralinteractive/GameMode com.feralinteractive.GameMode";
+
     # games stasis detects go to gamemode, no gamemoderun in launch options
     watch = pkgs.writeShellApplication {
       name = "game-mode-watch";
-      runtimeInputs = [pkgs.stasis pkgs.jq pkgs.systemd];
+      runtimeInputs = [pkgs.stasis pkgs.jq pkgs.systemd pkgs.gnugrep];
       text = ''
+        dir=''${XDG_RUNTIME_DIR:?}/game-mode
         declare -A registered=()
 
         check() {
           local info pid
           info=$(stasis info --json 2> /dev/null) || return 0
           for pid in $(jq -r '.games.running[]?.pids[]?' <<< "$info"); do
+            # toggled off until the game exits
+            if grep -qsx "$pid" "$dir/off"; then
+              unset "registered[$pid]"
+              continue
+            fi
             [[ -v "registered[$pid]" ]] && continue
-            busctl --user call com.feralinteractive.GameMode /com/feralinteractive/GameMode \
-              com.feralinteractive.GameMode RegisterGameByPID ii $$ "$pid" > /dev/null && registered[$pid]=1
+            busctl --user call ${gamemode} RegisterGameByPID ii $$ "$pid" > /dev/null && registered[$pid]=1
           done
           # gamemode drops exited games itself
           for pid in "''${!registered[@]}"; do
@@ -67,6 +75,8 @@
               powerprofilesctl set performance; then
               printf '%s\n' "$profile" > "$dir/profile"
             fi
+            # the bar's icon
+            echo 1 > "$dir/active"
             ;;
           end)
             if [[ -e $dir/dnd ]] && dms ipc call notifications disableDoNotDisturb > /dev/null; then
@@ -75,11 +85,55 @@
             if [[ -s $dir/profile ]] && powerprofilesctl set "$(< "$dir/profile")"; then
               rm "$dir/profile"
             fi
+            echo 0 > "$dir/active"
             ;;
         esac
       '';
     };
+
+    # off: every running game until it exits; on: a held sleep stands in for a game
+    toggle = pkgs.writeShellApplication {
+      name = "game-mode-toggle";
+      runtimeInputs = [pkgs.systemd pkgs.jq pkgs.coreutils];
+      text = ''
+        dir=''${XDG_RUNTIME_DIR:?}/game-mode
+        mkdir -p "$dir"
+
+        systemctl --user stop game-mode-hold.service 2> /dev/null || true
+
+        if [[ $(cat "$dir/active" 2> /dev/null) == 1 ]]; then
+          for pid in $(busctl --user --json=short call ${gamemode} ListGames | jq -r '.data[0][][0]'); do
+            echo "$pid" >> "$dir/off"
+            busctl --user call ${gamemode} UnregisterGameByPID ii $$ "$pid" > /dev/null
+          done
+        else
+          rm -f "$dir/off"
+          systemd-run --user --unit=game-mode-hold --collect --quiet ${lib.getExe' pkgs.coreutils "sleep"} infinity
+          busctl --user call ${gamemode} RegisterGameByPID ii $$ \
+            "$(systemctl --user show -p MainPID --value game-mode-hold.service)" > /dev/null
+        fi
+      '';
+    };
   in {
+    environment.systemPackages = [toggle];
+
+    # exists before Dux's widget watches it
+    systemd.user.tmpfiles.rules = [
+      "d %t/game-mode 0700 - - -"
+      "f %t/game-mode/active - - - - 0"
+    ];
+
+    programs.dux-shell.plugins.gameMode = {
+      enable = true;
+      src = self'.packages.dux-game-mode;
+    };
+
+    which-key'.menu.g.submenu.t = {
+      desc = "Game mode";
+      icon = "f0297";
+      cmd = lib.getExe toggle;
+    };
+
     programs.gamemode.settings = {
       # cap_sys_nice comes from the module's wrapper; stay out of the gamemode
       # group, its governor helper would fight ppd's profile

@@ -591,6 +591,10 @@
         {
           "id": "capsLockIndicator",
           "enabled": true
+        },
+        {
+          "id": "gameMode",
+          "enabled": true
         }
       ],
       "centerWidgets": [

@@ -1,0 +1,11 @@
+{
+  "id": "gameMode",
+  "name": "Game Mode",
+  "description": "Gamepad icon while gamemode is active; click turns game mode off",
+  "version": "1.0.0",
+  "author": "Aneesh Bhave",
+  "icon": "sports_esports",
+  "type": "widget",
+  "capabilities": ["dankbar-widget"],
+  "component": "./GameModeWidget.qml"
+}
