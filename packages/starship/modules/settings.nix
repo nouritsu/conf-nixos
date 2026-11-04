@@ -2,7 +2,6 @@
   flake.nixosModules.wstarship-settings = {lib, ...}: {
     settings = let
       symbols = {
-        sudo = "#";
         status = {
           success = " ";
           failure = " ";
@@ -51,7 +50,6 @@
       };
 
       colors = {
-        sudo = "bold yellow";
         status = {
           default = "bold red";
           success = "bold blue";
@@ -165,7 +163,6 @@
         "$nix_shell"
         "$jobs"
         "$status"
-        "$sudo"
         "$character"
       ];
 
@@ -280,14 +277,6 @@
         disabled = false;
         format = "([$all_status$ahead_behind]($style) )";
         style = colors.git_status;
-      };
-
-      sudo = {
-        disabled = false;
-        format = "${styled.separator_bottom}${surround_paren "[$symbol]($style)" colors.separator 0}";
-        symbol = symbols.sudo;
-        style = colors.sudo;
-        allow_windows = true;
       };
 
       jobs = rec {
