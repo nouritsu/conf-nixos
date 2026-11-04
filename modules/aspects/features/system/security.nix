@@ -51,12 +51,13 @@
       '';
 
       # a touch prints a line and ends auth; a miss jumps past it, says so and asks the password
+      # pam_exec, not pam_echo: plain sudo runs pam silent and pam_echo then returns ignore
       touchCue = name: let
         inherit (config.security.pam.services.${name}.rules.auth) u2f;
         echo = order: control: text: {
           inherit order control;
-          modulePath = "${config.security.pam.package}/lib/security/pam_echo.so";
-          args = [text];
+          modulePath = "${config.security.pam.package}/lib/security/pam_exec.so";
+          args = ["quiet" "stdout" "${pkgs.coreutils}/bin/echo" text];
         };
       in {
         u2f.enable = true;
