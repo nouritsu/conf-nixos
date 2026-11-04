@@ -1,5 +1,6 @@
 {
   den.aspects.extra.provides.game-mode.nixos = {
+    config,
     pkgs,
     lib,
     ...
@@ -36,7 +37,37 @@
         done
       '';
     };
+
+    # gamemode runs these with only pkexec on its path
+    hook = pkgs.writeShellApplication {
+      name = "game-mode-hook";
+      runtimeInputs = [config.programs.dux-shell.package pkgs.coreutils];
+      text = ''
+        dir=''${XDG_RUNTIME_DIR:?}/game-mode
+        mkdir -p "$dir"
+
+        case $1 in
+          start)
+            # only a dnd that was off is switched back
+            if [[ $(dms ipc call notifications getDoNotDisturb) == false ]] &&
+              dms ipc call notifications enableDoNotDisturbIndefinitely > /dev/null; then
+              touch "$dir/dnd"
+            fi
+            ;;
+          end)
+            if [[ -e $dir/dnd ]] && dms ipc call notifications disableDoNotDisturb > /dev/null; then
+              rm "$dir/dnd"
+            fi
+            ;;
+        esac
+      '';
+    };
   in {
+    programs.gamemode.settings.custom = {
+      start = "${lib.getExe hook} start";
+      end = "${lib.getExe hook} end";
+    };
+
     systemd.user.services.game-mode = {
       description = "Register running games with gamemode";
       wantedBy = ["graphical-session.target"];
