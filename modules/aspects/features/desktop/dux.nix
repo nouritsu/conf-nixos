@@ -473,7 +473,7 @@
       };
     in {
       sops.secrets = lib.genAttrs ["calsync/vps-token" "calsync/homelab-token"] (_: {
-        sopsFile = ../secrets/shared.yaml;
+        sopsFile = config.secrets'.shared;
         inherit owner;
       });
 

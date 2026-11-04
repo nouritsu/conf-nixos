@@ -11,12 +11,20 @@
       config,
       ...
     }: {
-      imports = [inputs.sops-nix.nixosModules.sops];
+      imports = [
+        inputs.sops-nix.nixosModules.sops
+        {
+          # what both hosts read; the rest is in each host aspect's sops.defaultSopsFile
+          options.secrets'.shared = lib.mkOption {
+            type = lib.types.path;
+            default = ./shared.yaml;
+            readOnly = true;
+          };
+        }
+      ];
 
       environment.systemPackages = [pkgs.sops];
 
-      # each host aspect sets sops.defaultSopsFile to its own secrets.yaml;
-      # secrets both hosts read name ./shared.yaml as their sopsFile
       sops = {
         defaultSopsFormat = "yaml";
         age.keyFile = "${config.users.users.${owner}.home}/.config/sops/age/keys.txt";
@@ -24,7 +32,7 @@
 
       # mutable users: only applied when the user is first created
       sops.secrets."${owner}/password" = {
-        sopsFile = ./shared.yaml;
+        sopsFile = config.secrets'.shared;
         neededForUsers = true;
       };
       users.users.${owner}.hashedPasswordFile = config.sops.secrets."${owner}/password".path;

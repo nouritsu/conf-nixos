@@ -185,7 +185,7 @@
           "syncthing/cert" = {};
         }
         // lib.genAttrs (map (name: "syncthing/ids/${name}") devices) (_: {
-          sopsFile = ../secrets/shared.yaml;
+          sopsFile = config.secrets'.shared;
         });
 
       # device ids stay out of the store, so syncthing-peers pushes them over the api
