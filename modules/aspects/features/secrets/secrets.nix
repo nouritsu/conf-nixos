@@ -23,11 +23,13 @@
         }
       ];
 
-      environment.systemPackages = [pkgs.sops];
+      # editing decrypts with a touch: the plugin's magic identity in ~/.config/sops/age/keys.txt
+      environment.systemPackages = [pkgs.sops pkgs.age-plugin-fido2-hmac];
 
       sops = {
         defaultSopsFormat = "yaml";
-        age.keyFile = "${config.users.users.${owner}.home}/.config/sops/age/keys.txt";
+        # .sops.yaml's host recipients are these keys; a new host key needs sops updatekeys
+        age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
       };
 
       # mutable users: only applied when the user is first created

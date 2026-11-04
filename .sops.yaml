@@ -1,21 +1,29 @@
 keys:
-  - &pc age1wygzuq7267u5mmrlc482fsfrdfd77jc0y3gs53v0jz04069gmesqq6waee
-  - &laptop age1q6pjxqhkml9kvxunkgramqm9mpz6274v880qfsrqvyy78naradaqtlzcc4
+  # hosts: ssh-to-age of their pinned ssh host keys
+  - &pc age1rsj0peafe9av8mwers8u7cskz7e4zl4v3s2k0hhq6v6jtcarc3jsulqpvx
+  - &laptop age1kskfntkw03pkhupstpvejwph7ka34stazk3762gys9zhl2rd8arq0vmh8g
+  # edits: either security key, through age-plugin-fido2-hmac
+  - &yubikey-a age1fido2-hmac1qqpfgqld8xf43lp75pk3s2u78qfrfchxjwlykseega78248e2naczwqqz0m6um5358kz7xc2skmv3u0pzxsdeq2as9sd3zu5nlhhahu9gknfzd2wvv960u0mu6y2mcplh2n32zm5l32azg5xkwr36th0ym2szqgw7750y7q6l4pkpzagk3czksepcpxnv87jrak4rnrm6hw6qqqqwyul7n02
+  - &yubikey-b age1fido2-hmac1qqpp3q9hkpa4p5l2rd0mpatvuaj609cxhmkkwhk83r7np9u7lln7jcqq28h4m0s0jxklw0yuj6d9kk9yyqyyh73zlr4gnznp6uskfdr3m5r7nv0krv8zgxzqlc0hqpl3fxthl05e62c5anrhtkccp2ew78ng20sx7pnucljwazxk8dg523s22n3qcr7x6kkwntw20vutrl034vpkxyt6lmtk
 creation_rules:
   # suffix matches against modules/aspects/
   - path_regex: hosts/pc/secrets.yaml$
     key_groups:
       - age:
           - *pc
-          - *laptop
+          - *yubikey-a
+          - *yubikey-b
   - path_regex: hosts/laptop/secrets.yaml$
     key_groups:
       - age:
           - *laptop
-          - *pc
+          - *yubikey-a
+          - *yubikey-b
   # what both hosts read
   - path_regex: features/secrets/shared.yaml$
     key_groups:
       - age:
           - *pc
           - *laptop
+          - *yubikey-a
+          - *yubikey-b
