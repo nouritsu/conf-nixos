@@ -1,0 +1,124 @@
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -206,6 +206,8 @@
+ 
+     focus_behaviour => FocusBehaviour,
+ 
++    autologin_if_exists => String,
++
+     background => BackgroundConfig [PartialBackgroundConfig, RoughBackgroundConfig],
+ 
+     power_controls => PowerControlConfig [PartialPowerControlConfig, RoughPowerControlConfig],
+--- a/extra/config.toml
++++ b/extra/config.toml
+@@ -82,6 +82,11 @@
+ # - password: Initially focus on the password field
+ focus_behaviour = "default"
+ 
++# While this file exists, log in once at start as the cached user and
++# environment with an empty password, showing the form only if that fails.
++# PAM decides what an empty password means. Empty disables it.
++autologin_if_exists = ""
++
+ # General settings for background style
+ [background]
+ 
+--- a/src/ui/mod.rs
++++ b/src/ui/mod.rs
+@@ -1,6 +1,7 @@
+ use log::{error, info, warn};
+ 
+ use std::io;
++use std::path::Path;
+ use std::sync::mpsc::channel;
+ use std::sync::{Arc, Mutex, MutexGuard};
+ use std::time::Duration;
+@@ -353,24 +354,31 @@
+         let username = self.widgets.username.clone();
+         let password = self.widgets.password.clone();
+ 
+-        let draw_action = terminal.draw(|f| {
+-            let layout = Chunks::new(f);
+-            login_form_render(
+-                f,
+-                layout,
+-                background.clone(),
+-                key_menu.clone(),
+-                environment.clone(),
+-                username.clone(),
+-                password.clone(),
+-                input_mode.get(),
+-                status_message.get(),
+-            );
+-        });
++        // Once, as the cached user with an empty password; the form only shows if that fails
++        let autologin = !self.config.autologin_if_exists.is_empty()
++            && Path::new(&self.config.autologin_if_exists).exists()
++            && !self.widgets.get_username().is_empty();
++
++        if !autologin {
++            let draw_action = terminal.draw(|f| {
++                let layout = Chunks::new(f);
++                login_form_render(
++                    f,
++                    layout,
++                    background.clone(),
++                    key_menu.clone(),
++                    environment.clone(),
++                    username.clone(),
++                    password.clone(),
++                    input_mode.get(),
++                    status_message.get(),
++                );
++            });
+ 
+-        if let Err(err) = draw_action {
+-            error!("Failed to draw. Reason: {}", err);
+-            std::process::exit(1);
++            if let Err(err) = draw_action {
++                error!("Failed to draw. Reason: {}", err);
++                std::process::exit(1);
++            }
+         }
+ 
+         let event_input_mode = input_mode.clone();
+@@ -430,6 +438,39 @@
+                 pre_return: Some(&pre_return),
+             };
+ 
++            if autologin {
++                let disable_tui = || send_ui_request(UIThreadRequest::DisableTui);
++                let quiet_hooks = Hooks {
++                    pre_validate: None,
++                    pre_auth: None,
++                    pre_environment: Some(&disable_tui),
++                    pre_wait: None,
++                    pre_return: Some(&pre_return),
++                };
++
++                if let Some((_, post_login_env)) = self.widgets.get_environment() {
++                    match start_session(
++                        &self.widgets.get_username(),
++                        "",
++                        &post_login_env,
++                        &quiet_hooks,
++                        &self.config,
++                    ) {
++                        Ok(()) => {}
++                        Err(StartSessionError::AuthenticationError(err)) => {
++                            status_message.set(ErrorStatusMessage::AuthenticationError(err));
++                        }
++                        Err(StartSessionError::ForkFailed) => {
++                            error!("Failed to fork session child process");
++                            send_ui_request(UIThreadRequest::EnableTui);
++
++                            status_message.set(ErrorStatusMessage::FailedGraphicalEnvironment);
++                        }
++                    }
++                }
++                send_ui_request(UIThreadRequest::Redraw);
++            }
++
+             loop {
+                 if let Ok(Event::Key(key)) = event::read() {
+                     match (key.code, input_mode.get(), key.modifiers) {

@@ -16,8 +16,8 @@
       cargoLock.lockFile = "${inputs.lemurs}/Cargo.lock";
 
       # centered like tuigreet, and redrawn when fbcon takes the console over after the first frame;
-      # an empty password asks for a touch
-      patches = [./centered.patch ./touch-cue.patch];
+      # an empty password asks for a touch; autologin_if_exists logs in once without showing the form
+      patches = [./centered.patch ./touch-cue.patch ./autologin.patch];
 
       buildInputs = [pkgs.linux-pam];
 

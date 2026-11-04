@@ -102,6 +102,9 @@
           border_color_focused = "magenta";
         };
       in {
+        # after a key unlock of the disk, logs in without showing the form
+        autologin_if_exists = lib.mkIf afterDisk diskLoginKeyFile;
+
         environment_switcher = {
           mover_color_focused = "magenta";
           selected_color_focused = "magenta";
