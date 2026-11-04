@@ -36,6 +36,8 @@
         matches = games;
         open-on-workspace = "games";
         open-focused = true;
+        # on outputs set to on-demand vrr in Dux's display settings
+        variable-refresh-rate = true;
       }
     ];
 
