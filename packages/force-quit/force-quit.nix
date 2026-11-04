@@ -1,13 +1,9 @@
 {
-  perSystem = {
-    self',
-    pkgs,
-    ...
-  }: {
+  perSystem = {pkgs, ...}: {
     # sigkills the focused window's process; a steam game's whole tree
     packages.force-quit = pkgs.writeShellApplication {
       name = "force-quit";
-      runtimeInputs = [self'.packages.niri pkgs.jq pkgs.procps pkgs.xprop pkgs.gnused pkgs.libnotify];
+      runtimeInputs = [pkgs.niri pkgs.jq pkgs.procps pkgs.xprop pkgs.gnused pkgs.libnotify];
       text = ''
         win=$(niri msg --json focused-window)
         app=$(jq -r '.app_id // ""' <<< "$win")
