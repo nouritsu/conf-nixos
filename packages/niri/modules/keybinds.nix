@@ -17,6 +17,7 @@
     nfsm = lib.getExe self.packages.${system}.nfsm-cli;
     ror = lib.getExe self.packages.${system}.niri-ror;
     freeze = lib.getExe pkgs.wl-freeze;
+    force-quit = lib.getExe self.packages.${system}.force-quit;
     yazi = lib.getExe self.packages.${system}.yazi;
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
@@ -141,6 +142,7 @@
 
       # Window actions
       "Mod+Q".close-window = {};
+      "Mod+Shift+Q".spawn = force-quit;
       "Mod+Pause".spawn = [freeze "-a"];
       "Mod+Ctrl+C".center-visible-columns = {};
       "Mod+Shift+C".center-window = {};

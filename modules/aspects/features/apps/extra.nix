@@ -252,8 +252,10 @@
     gaming = {
       includes = [(den.batteries.unfree ["steam" "steam-unwrapped" "steam-original" "steam-run"])];
       nixos = {
+        self',
         pkgs,
         inputs',
+        lib,
         ...
       }: {
         programs.steam = {
@@ -291,6 +293,11 @@
             desc = "Games workspace";
             icon = "f0b82";
             cmd = "niri msg action focus-workspace games";
+          };
+          q = {
+            desc = "Force quit";
+            icon = "f015c";
+            cmd = lib.getExe self'.packages.force-quit;
           };
         };
 
