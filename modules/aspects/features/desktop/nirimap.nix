@@ -21,7 +21,7 @@ in {
         focused_color = "#${palette.base0E}";
         active_workspace_border_color = "#${palette.base0E}";
       };
-      behavior.always_visible = false;
+      behavior.overview_only = true;
     };
   in {
     environment.systemPackages = [nirimap];

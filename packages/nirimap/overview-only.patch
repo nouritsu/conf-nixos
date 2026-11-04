@@ -1,0 +1,116 @@
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -263,6 +263,8 @@
+     /// Whether floating-window focus/spawn events show the minimap (when not
+     /// `always_visible`). Floating windows aren't drawn, so this is off by default.
+     pub show_for_floating_windows: bool,
++    /// Show only while the Niri overview is open; other events never show it
++    pub overview_only: bool,
+ }
+ 
+ impl Default for BehaviorConfig {
+@@ -272,6 +274,7 @@
+             always_visible: true,
+             hide_timeout_ms: 2000,
+             show_for_floating_windows: false,
++            overview_only: false,
+         }
+     }
+ }
+@@ -395,6 +398,7 @@
+                                   # floating-window events (focus to/from a floating window,
+                                   # floating window spawn). Off by default since floating
+                                   # windows aren't drawn on the minimap.
++overview_only = false          # Show only while the Niri overview is open
+ "##;
+ 
+ #[derive(Debug, Clone, Copy, PartialEq)]
+--- a/src/ipc/events.rs
++++ b/src/ipc/events.rs
+@@ -26,6 +26,7 @@
+         workspace_id: u64,
+         active_window_id: Option<u64>,
+     },
++    OverviewToggled(bool),
+ }
+ 
+ /// Fetch the initial state, then forward Niri events to `on_update` until the
+@@ -193,6 +194,7 @@
+             workspace_id,
+             active_window_id,
+         }),
++        Event::OverviewOpenedOrClosed { is_open } => Some(StateUpdate::OverviewToggled(is_open)),
+         _ => None,
+     }
+ }
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -105,7 +105,8 @@
+     // present() is required for layer-shell.
+     window.present();
+ 
+-    if !config.borrow().behavior.always_visible {
++    let behavior = config.borrow().behavior.clone();
++    if !behavior.always_visible || behavior.overview_only {
+         minimap.hide();
+     }
+ 
+@@ -250,6 +251,11 @@
+             minimap.show();
+             tracing::debug!("Window layouts changed");
+         }
++
++        StateUpdate::OverviewToggled(is_open) => {
++            minimap.set_overview_open(is_open);
++            tracing::debug!("Overview open: {}", is_open);
++        }
+     }
+ }
+ 
+--- a/src/ui/minimap.rs
++++ b/src/ui/minimap.rs
+@@ -59,7 +59,8 @@
+ 
+     /// Attach the parent window (used for resizing and visibility).
+     pub fn set_window(&self, window: ApplicationWindow) {
+-        if !self.config.borrow().behavior.always_visible {
++        let config = self.config.borrow();
++        if !config.behavior.always_visible || config.behavior.overview_only {
+             window.set_visible(false);
+         }
+         *self.window.borrow_mut() = Some(window);
+@@ -67,6 +68,10 @@
+ 
+     /// Show, scheduling auto-hide unless `always_visible`.
+     pub fn show(&self) {
++        if self.config.borrow().behavior.overview_only {
++            return;
++        }
++
+         if let Some(window) = self.window.borrow().as_ref() {
+             window.set_visible(true);
+         }
+@@ -111,6 +116,23 @@
+         self.show();
+     }
+ 
++    /// With `overview_only`, follow the overview: visible exactly while open.
++    pub fn set_overview_open(&self, is_open: bool) {
++        if !self.config.borrow().behavior.overview_only {
++            return;
++        }
++
++        if !is_open {
++            self.hide();
++            return;
++        }
++
++        self.cancel_hide_timeout();
++        if let Some(window) = self.window.borrow().as_ref() {
++            window.set_visible(true);
++        }
++    }
++
+     pub fn hide(&self) {
+         self.cancel_hide_timeout();
+ 
