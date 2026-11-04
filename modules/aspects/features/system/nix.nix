@@ -132,6 +132,16 @@
       nix.settings.extra-substituters = ["https://nix-community.cachix.org"];
       nix.settings.trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
 
+      isup'.checks = lib.listToAttrs (map (url: let
+        base = lib.removeSuffix "/" url;
+        host = lib.removePrefix "http://" (lib.removePrefix "https://" base);
+      in
+        lib.nameValuePair host {
+          name = host;
+          group = "Nix caches";
+          url = "${base}/nix-cache-info";
+        }) (lib.unique (config.nix.settings.substituters ++ (config.nix.settings.extra-substituters or []) ++ substituters)));
+
       # nix never repacks it, and every eval slows down with each fetch
       # never git gc or repack -ad it: it has no refs, so git drops every object
       systemd.user.services.nix-tarball-cache-repack = {

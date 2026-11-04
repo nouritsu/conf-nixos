@@ -83,6 +83,13 @@
 
         bind ctrl-g 'lg; commandline -f repaint'
       '';
+
+      isup'.checks.github = {
+        name = "GitHub";
+        status = "https://www.githubstatus.com";
+        components = ["Git Operations" "API Requests" "Issues" "Pull Requests" "Actions"];
+        url = "https://github.com";
+      };
     };
   };
 }

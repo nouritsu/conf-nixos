@@ -50,6 +50,19 @@
           # the dux widget runs up/down/set as this user
           extraSetFlags = ["--operator=${lib.head (lib.attrNames host.users)}"];
         };
+
+        isup'.checks = {
+          tailscale = {
+            name = "Tailscale";
+            status = "https://status.tailscale.com";
+            components = ["Coordination service" "DERP relay servers"];
+          };
+          headscale = {
+            name = "Headscale";
+            group = "Homelab";
+            url = "https://vpn.nouritsu.com/health";
+          };
+        };
       };
 
       # shields are kept per account, so any tailnet but headscale that's active at boot gets them
@@ -74,12 +87,27 @@
 
     provides.dns-pihole.nixos = {lib, ...}: {
       networking.nameservers = lib.mkBefore ["192.168.178.128"];
+      isup'.checks.pihole-dns = {
+        name = "Pi-hole DNS";
+        group = "Homelab";
+        dns = "192.168.178.128";
+      };
     };
     provides.dns-cloudflare.nixos = {
       networking.nameservers = ["1.1.1.1" "1.0.0.1"];
+      isup'.checks.cloudflare-dns = {
+        name = "Cloudflare DNS";
+        status = "https://www.cloudflarestatus.com";
+        components = ["Recursive DNS"];
+        dns = "1.1.1.1";
+      };
     };
     provides.dns-google.nixos = {
       networking.nameservers = ["8.8.8.8" "8.8.4.4"];
+      isup'.checks.google-dns = {
+        name = "Google DNS";
+        dns = "8.8.8.8";
+      };
     };
   };
 }

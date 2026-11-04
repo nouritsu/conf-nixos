@@ -121,5 +121,11 @@
     # man pages only: no /share/doc outputs or nixos html manual
     documentation.doc.enable = false;
     documentation.nixos.enable = false;
+
+    isup'.checks.atuin = {
+      name = "Atuin sync";
+      group = "Homelab";
+      url = self'.packages.atuin.configuration.settings.sync_address;
+    };
   };
 }

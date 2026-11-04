@@ -97,6 +97,28 @@
         cn = "claude --continue";
       };
       programs.fish.shellAliases.claude-usage = "ccusage";
+
+      isup'.checks = {
+        claude = {
+          name = "Claude";
+          status = "https://status.claude.com";
+          components = ["claude.ai" "Claude API (api.anthropic.com)" "Claude Code"];
+          url = "https://claude.ai";
+        };
+        cursor = {
+          name = "Cursor";
+          url = "https://api2.cursor.sh";
+        };
+        # the http mcp servers in claude-code's plugin
+        context7 = {
+          name = "Context7 MCP";
+          url = "https://mcp.context7.com/mcp";
+        };
+        devenv-mcp = {
+          name = "devenv MCP";
+          url = "https://mcp.devenv.sh";
+        };
+      };
     };
   };
 }

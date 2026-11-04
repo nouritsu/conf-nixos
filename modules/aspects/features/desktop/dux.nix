@@ -502,6 +502,12 @@
           OnUnitActiveSec = "30min";
         };
       };
+
+      isup'.checks.calendar = {
+        name = "Calendar feeds";
+        group = "Homelab";
+        url = "https://cal.nouritsu.com";
+      };
     };
 
     provides.battery.nixos.programs.dux-shell.plugins.batteryOSD.enable = true;

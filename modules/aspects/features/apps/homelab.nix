@@ -113,9 +113,10 @@
     };
 
     host = subdomain: endpoints.${subdomain}.host or "${subdomain}.${domain}";
-    open = subdomain: let
+    address = subdomain: let
       e = endpoints.${subdomain};
-    in "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${e.scheme or "https"}://${host subdomain}${e.path or ""}";
+    in "${e.scheme or "https"}://${host subdomain}${e.path or ""}";
+    open = subdomain: "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${address subdomain}";
 
     entry = subdomain: e: let
       id = "homelab-${subdomain}";
@@ -143,6 +144,14 @@
     };
   in {
     environment.systemPackages = lib.mapAttrsToList entry endpoints;
+
+    isup'.checks =
+      lib.mapAttrs (subdomain: e: {
+        inherit (e) name;
+        group = "Homelab";
+        url = address subdomain;
+      })
+      endpoints;
 
     which-key'.menu.h.submenu = {
       h = link "home" "f07d0";
