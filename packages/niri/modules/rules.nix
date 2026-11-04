@@ -8,9 +8,6 @@
       {app-id = "^Minecraft";}
     ];
   in {
-    # pc's main monitor; elsewhere the first output
-    settings.workspaces.games.open-on-output = "DP-3";
-
     settings.window-rules = [
       # big picture never asks for fullscreen through xwayland-satellite
       {
@@ -44,8 +41,6 @@
 
       {
         matches = games;
-        open-on-workspace = "games";
-        open-focused = true;
         # on outputs set to on-demand vrr in Dux's display settings
         variable-refresh-rate = true;
       }
