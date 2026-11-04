@@ -55,8 +55,8 @@
       wantedBy = ["graphical-session.target"];
       partOf = ["graphical-session.target"];
       after = ["graphical-session.target"];
-      # pw-dump for media, notify-send
-      path = [pkgs.pipewire pkgs.libnotify pkgs.systemd pkgs.bash pkgs.coreutils];
+      # pw-dump for media, notify-send, niri msg windows for steam app ids
+      path = [pkgs.pipewire pkgs.libnotify pkgs.systemd pkgs.bash pkgs.coreutils config.programs.niri.package];
       serviceConfig = {
         ExecStart = "${stasis} -c /etc/stasis/stasis.rune";
         Restart = "on-failure";
