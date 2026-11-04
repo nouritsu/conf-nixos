@@ -54,6 +54,8 @@
       launch = {
         tuios = "${wezterm} start --class tuios -- ${lib.getExe pkgs.tuios} attach main -c";
         btop = "${wezterm} start --class btop -- ${lib.getExe self'.packages.btop}";
+        # its directory and full-screen program, by the window's old id
+        "org.wezfurlong.wezterm" = lib.getExe self'.packages.wezterm-restore;
       };
       ask = lib.getExe ask;
     };
