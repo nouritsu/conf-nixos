@@ -23,6 +23,16 @@
         open-fullscreen = true;
       }
 
+      # friends, chats, settings, properties: over a fullscreen game, not a column scrolling it away
+      {
+        matches = [{app-id = "^steam$";}];
+        excludes = [
+          {title = "^Steam$";}
+          {title = "^Steam Big Picture Mode$";}
+        ];
+        open-floating = true;
+      }
+
       # undertale: fullscreen letterboxes 640x480 at an exact 3x; a maximised column scales it unevenly
       {
         matches = [
