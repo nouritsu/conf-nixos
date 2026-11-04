@@ -1,4 +1,4 @@
-{
+{den, ...}: {
   den.aspects.security = {
     nixos = {
       security.polkit.enable = true;
@@ -29,15 +29,17 @@
     # two security keys: a touch instead of the password, typing it still works
     provides.yubikey.nixos = {
       config,
+      host,
       pkgs,
       lib,
       ...
     }: let
+      owner = lib.head (lib.attrNames host.users);
       ssh = config.programs.ssh.package;
       inherit (config.programs.ssh) knownHosts;
       hostNames = hosts: lib.concatStringsSep "," (lib.concatMap (host: host.hostNames) hosts);
 
-      # stubs from ssh-keygen -K, no passphrase; the key itself is the guard
+      # the stubs have no passphrase; the key itself is the guard
       loadKeys = pkgs.writeShellScript "ssh-agent-sk-load" ''
         shopt -s nullglob
         keys=()
@@ -74,10 +76,35 @@
       # one origin, so a key registered once works on both hosts
       security.pam.u2f.settings = {
         origin = "pam://aneesh";
-        # interpolated: a bare path isn't in the closure, so nh clean deletes it
-        authfile = "${./u2f-keys}";
+        authfile = config.sops.secrets."u2f-keys".path;
         cue = true;
       };
+
+      sops.secrets =
+        {
+          # shatterlock runs pam as the user
+          "u2f-keys" = {
+            sopsFile = config.secrets'.shared;
+            mode = "0444";
+          };
+        }
+        // lib.mapAttrs' (name: _:
+          lib.nameValuePair "ssh-sk/${name}" {
+            sopsFile = config.secrets'.shared;
+            inherit owner;
+          })
+        den.lib.securityKeys;
+
+      # where ssh-keygen -K puts them; linked at login, sops runs before ~ is mounted
+      systemd.user.tmpfiles.users.${owner}.rules =
+        ["d %h/.ssh 0700 - - -"]
+        ++ lib.concatLists (lib.mapAttrsToList (name: key: let
+            stub = "%h/.ssh/id_ed25519_sk_rk_${name}";
+          in [
+            "L+ ${stub} - - - - ${config.sops.secrets."ssh-sk/${name}".path}"
+            "L+ ${stub}.pub - - - - ${pkgs.writeText "${name}.pub" "${key.ssh}\n"}"
+          ])
+          den.lib.securityKeys);
 
       # login stays password only: the keyring unlocks from it
       security.pam.services = {
