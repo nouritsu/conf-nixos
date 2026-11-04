@@ -41,10 +41,19 @@
     # gamemode runs these with only pkexec on its path
     hook = pkgs.writeShellApplication {
       name = "game-mode-hook";
-      runtimeInputs = [config.programs.dux-shell.package pkgs.coreutils];
+      runtimeInputs = [
+        config.programs.dux-shell.package
+        config.services.power-profiles-daemon.package
+        pkgs.systemd
+        pkgs.coreutils
+      ];
       text = ''
         dir=''${XDG_RUNTIME_DIR:?}/game-mode
         mkdir -p "$dir"
+
+        on_battery() {
+          [[ $(busctl get-property org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower OnBattery 2> /dev/null) == "b true" ]]
+        }
 
         case $1 in
           start)
@@ -53,19 +62,33 @@
               dms ipc call notifications enableDoNotDisturbIndefinitely > /dev/null; then
               touch "$dir/dnd"
             fi
+            # laptops on battery keep their profile
+            if ! on_battery && profile=$(powerprofilesctl get) && [[ $profile != performance ]] &&
+              powerprofilesctl set performance; then
+              printf '%s\n' "$profile" > "$dir/profile"
+            fi
             ;;
           end)
             if [[ -e $dir/dnd ]] && dms ipc call notifications disableDoNotDisturb > /dev/null; then
               rm "$dir/dnd"
+            fi
+            if [[ -s $dir/profile ]] && powerprofilesctl set "$(< "$dir/profile")"; then
+              rm "$dir/profile"
             fi
             ;;
         esac
       '';
     };
   in {
-    programs.gamemode.settings.custom = {
-      start = "${lib.getExe hook} start";
-      end = "${lib.getExe hook} end";
+    programs.gamemode.settings = {
+      # cap_sys_nice comes from the module's wrapper; stay out of the gamemode
+      # group, its governor helper would fight ppd's profile
+      general.renice = 10;
+
+      custom = {
+        start = "${lib.getExe hook} start";
+        end = "${lib.getExe hook} end";
+      };
     };
 
     systemd.user.services.game-mode = {
