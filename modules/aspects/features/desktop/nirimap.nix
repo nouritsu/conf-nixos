@@ -2,12 +2,12 @@
   inherit (inputs.nix-colors.colorSchemes.catppuccin-mocha) palette;
 in {
   den.aspects.nirimap.nixos = {
-    inputs',
+    self',
     pkgs,
     lib,
     ...
   }: let
-    nirimap = inputs'.nirimap.packages.default;
+    nirimap = self'.packages.nirimap;
 
     # the rest of its defaults are already mocha
     settings = (pkgs.formats.toml {}).generate "nirimap.toml" {

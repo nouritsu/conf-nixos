@@ -1,0 +1,17 @@
+--- a/src/ui/decorations.rs
++++ b/src/ui/decorations.rs
+@@ -361,6 +361,14 @@
+                     return Some(self.themed_icon(&theme, name, size, scale));
+                 }
+             }
++
++            // steam games: window steam_app_<id>, icon steam_icon_<id>
++            if let Some(id) = app_id.strip_prefix("steam_app_") {
++                let name = format!("steam_icon_{id}");
++                if theme.has_icon(&name) {
++                    return Some(self.themed_icon(&theme, &name, size, scale));
++                }
++            }
+         }
+ 
+         // Desktop-file fallback (how launchers resolve e.g. Electron apps).
