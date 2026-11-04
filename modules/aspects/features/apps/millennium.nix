@@ -75,8 +75,14 @@
       };
     };
   in {
-    # runs inside the FHS env before every Steam start
     programs.steam.package = pkgs.millennium-steam.override {
+      # every game loads mangohud, hidden until shift_r+f12
+      extraEnv = {
+        MANGOHUD = "1";
+        MANGOHUD_CONFIG = "read_cfg,no_display";
+      };
+
+      # runs inside the FHS env before every Steam start
       extraProfile = ''
         (
           sync() {
