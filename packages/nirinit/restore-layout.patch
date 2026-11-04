@@ -1,0 +1,359 @@
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -4,6 +4,7 @@
+       HashSet,
+    },
+    env,
++   ffi::OsString,
+    fs,
+    io::{
+       self,
+@@ -13,6 +14,7 @@
+       Path,
+       PathBuf,
+    },
++   process,
+    thread,
+    time::Duration,
+ };
+@@ -77,6 +79,17 @@
+    /// TODO: Remove [`Option`] in a month.
+    #[serde(default)]
+    window_size:      Option<(i32, i32)>,
++   /// Column and tile in the workspace's scrolling layout, from 1.
++   #[serde(default)]
++   position:         Option<(usize, usize)>,
++   #[serde(default)]
++   is_floating:      bool,
++   /// Whether the window is its workspace's active one.
++   #[serde(default)]
++   is_active:        bool,
++   /// The niri session the window's id belongs to.
++   #[serde(default)]
++   niri_session:     Option<String>,
+ }
+ 
+ #[derive(Default, Deserialize)]
+@@ -90,6 +103,9 @@
+    launch:  HashMap<String, String>,
+    /// Prepended to every launch command (e.g., "uwsm app --").
+    wrapper: Option<String>,
++   /// Run through the shell before restoring; anything but exit 0 skips the
++   /// restore. Nothing is saved until it returns.
++   ask:     Option<String>,
+ }
+ 
+ #[derive(Deserialize, Default)]
+@@ -196,9 +212,16 @@
+ }
+ 
++/// The name of niri's socket, unique to each niri session.
++fn niri_session() -> Option<String> {
++   let socket = env::var_os("NIRI_SOCKET")?;
++   Some(Path::new(&socket).file_stem()?.to_str()?.to_owned())
++}
++
+ /// Save the session.
+ fn save_session(file_path: &Path, config: &Config) -> Result<()> {
+    let windows = niri_windows()?;
+    let workspaces = niri_workspaces()?;
++   let session = niri_session();
+ 
+    let session_windows = windows
+       .into_iter()
+@@ -223,6 +246,10 @@
+             workspace_output: workspace.and_then(|w| w.output.as_deref()),
+             is_focused: window.is_focused,
+             window_size: Some(window.layout.window_size),
++            position: window.layout.pos_in_scrolling_layout,
++            is_floating: window.is_floating,
++            is_active: workspace.is_some_and(|w| w.active_window_id == Some(window.id)),
++            niri_session: session.clone(),
+          }
+       })
+       .collect::<Vec<_>>();
+@@ -265,14 +292,14 @@
+    Ok(())
+ }
+ 
+-fn spawn_and_move_window<'niri>(
++/// Spawns the window on its workspace, right of the window restored before it,
++/// and returns its new id. `stack` puts it in that window's column instead.
++fn spawn_and_move_window(
+    launch_command: &str,
+    app_id: &str,
+-   workspace_idx: Option<u8>,
+-   workspace_name: Option<&'niri str>,
+-   workspace_output: Option<&'niri str>,
+-   window_size: Option<(i32, i32)>,
+-) -> Result<()> {
++   window: &SessionWindow,
++   stack: bool,
++) -> Result<Option<u64>> {
+    let mut socket = Socket::connect().context("Failed to connect to Niri's IPC socket")?;
+ 
+    // Earlier restores and windows already open must never be repositioned.
+@@ -281,27 +308,53 @@
+       .map(|window| window.id)
+       .collect::<HashSet<u64>>();
+ 
++   // Prioritize named workspaces
++   let workspace_reference = if let Some(name) = window.workspace_name {
++      Some(WorkspaceReferenceArg::Name(name.to_owned()))
++   } else {
++      window.workspace_idx.map(WorkspaceReferenceArg::Index)
++   };
++
++   // New windows open on the focused workspace, right of its active column, so
++   // they appear where they belong instead of flying over from the current one.
++   if let Some(output) = window.workspace_output
++      && let Err(err) = socket.send(Request::Action(Action::FocusMonitor {
++         output: output.to_owned(),
++      }))
++   {
++      warn!("failed to focus output {output}: {err}");
++   }
++   if let Some(reference) = workspace_reference.clone()
++      && let Err(err) = socket.send(Request::Action(Action::FocusWorkspace { reference }))
++   {
++      warn!("failed to focus the workspace for `{launch_command}`: {err}");
++   }
++
++   // Launch commands that keep per-window state look theirs up by this id.
++   let session = window
++      .niri_session
++      .as_deref()
++      .filter(|session| !session.contains('\''))
++      .map_or_else(String::new, |session| format!(" NIRINIT_NIRI_SESSION='{session}'"));
+    let reply = socket
+       .send(Request::Action(Action::SpawnSh {
+-         command: launch_command.to_owned(),
++         command: format!(
++            "export NIRINIT_WINDOW_ID={}{session}; {launch_command}",
++            window.id
++         ),
+       }))
+       .context("Failed to send data to Niri's IPC socket")?;
+ 
+    let Reply::Ok(Response::Handled) = reply else {
+       error!("failed to spawn command `{launch_command}`");
+-      return Ok(());
++      return Ok(None);
+    };
+ 
+-   // Prioritize named workspaces
+-   let workspace_reference = if let Some(name) = workspace_name {
+-      WorkspaceReferenceArg::Name(name.to_owned())
+-   } else if let Some(idx) = workspace_idx {
+-      WorkspaceReferenceArg::Index(idx)
+-   } else {
+-      return Ok(());
++   let Some(workspace_reference) = workspace_reference else {
++      return Ok(None);
+    };
+ 
+-   for _ in 0..20 {
++   for _ in 0..40 {
+       thread::sleep(WINDOW_POLL_INTERVAL);
+ 
+       let windows = niri_windows()?;
+@@ -312,7 +365,7 @@
+          continue;
+       };
+ 
+-      if let Some(output) = workspace_output
++      if let Some(output) = window.workspace_output
+          && let Err(err) = socket.send(Request::Action(Action::MoveWindowToMonitor {
+             id:     Some(new_window.id),
+             output: output.to_owned(),
+@@ -327,18 +380,34 @@
+          );
+       }
+ 
+-      // Move window to the correct workspace
++      // Move window to the correct workspace, in case it opened elsewhere
+       // This will automatically create the workspace if it doesn't exist
++      // Focused, so the next window opens right of it
+       socket
+          .send(Request::Action(Action::MoveWindowToWorkspace {
+             window_id: Some(new_window.id),
+             reference: workspace_reference,
+-            focus:     false,
++            focus:     true,
+          }))
+          .context("Failed to send data to Niri's IPC socket")?
+          .map_err(|err| report!("Niri rejected moving the window: {err}"))?;
+ 
+-      if let Some((width, height)) = window_size {
++      let placed = if window.is_floating {
++         socket.send(Request::Action(Action::MoveWindowToFloating {
++            id: Some(new_window.id),
++         }))
++      } else if stack {
++         socket.send(Request::Action(Action::ConsumeOrExpelWindowLeft {
++            id: Some(new_window.id),
++         }))
++      } else {
++         Ok(Reply::Ok(Response::Handled))
++      };
++      if let Err(err) = placed {
++         warn!("failed to place window for `{launch_command}`: {err}");
++      }
++
++      if let Some((width, height)) = window.window_size {
+          if let Err(err) = socket.send(Request::Action(Action::SetWindowWidth {
+             id:     Some(new_window.id),
+             change: SizeChange::SetFixed(width),
+@@ -360,12 +429,31 @@
+          }
+       }
+ 
+-      return Ok(());
++      return Ok(Some(new_window.id));
+    }
+ 
+-   warn!("window for `{launch_command}` did not appear within 5s");
++   warn!("window for `{launch_command}` did not appear within 10s");
+ 
+-   Ok(())
++   Ok(None)
++}
++
++/// Whether this niri session is still to be restored, marking it restored.
++/// A restarted nirinit would otherwise open every window a second time.
++fn first_restore() -> bool {
++   let (Some(runtime_dir), Some(socket)) = (env::var_os("XDG_RUNTIME_DIR"), env::var_os("NIRI_SOCKET"))
++   else {
++      return true;
++   };
++   let Some(socket_name) = Path::new(&socket).file_name() else {
++      return true;
++   };
++
++   let mut marker = OsString::from("nirinit-restored-");
++   marker.push(socket_name);
++   !matches!(
++      fs::File::create_new(Path::new(&runtime_dir).join(marker)),
++      Err(err) if err.kind() == io::ErrorKind::AlreadyExists
++   )
+ }
+ 
+ fn restore_session(config: &Config, session_path: &Path) -> Result<()> {
+@@ -397,13 +485,49 @@
+    };
+ 
+    // Sort windows by workspace index to ensure lower-indexed workspaces get
+-   // created first
++   // created first, then left to right and top to bottom, floating ones last
+    let mut sorted_windows = windows;
+-   sorted_windows.sort_by_key(|w| (w.workspace_output, w.workspace_idx));
++   sorted_windows.sort_by_key(|w| {
++      (
++         w.workspace_output,
++         w.workspace_idx,
++         w.is_floating,
++         w.position,
++      )
++   });
++
++   // Filled in zoomed out, instead of the view jumping from workspace to workspace
++   let mut socket = Socket::connect().context("Failed to connect to Niri's IPC socket")?;
++   let overview = sorted_windows.iter().any(|w| {
++      w.launch_command.is_some()
++         && w
++            .app_id
++            .as_ref()
++            .is_some_and(|app_id| !config.skip.apps.contains(app_id))
++   });
++   if overview && let Err(err) = socket.send(Request::Action(Action::OpenOverview {})) {
++      warn!("failed to open the overview: {err}");
++   }
++
++   let restored = restore_windows(config, &sorted_windows);
++
++   if overview && let Err(err) = socket.send(Request::Action(Action::CloseOverview {})) {
++      warn!("failed to close the overview: {err}");
++   }
++   restored?;
+ 
++   info!("restored session");
++   Ok(())
++}
++
++/// Spawns the windows in order, then refocuses as they were.
++fn restore_windows(config: &Config, windows: &[SessionWindow]) -> Result<()> {
+    let desktop_entries = DesktopEntries::load();
+ 
+-   for window in sorted_windows {
++   let mut restored = Vec::new();
++   let mut previous: Option<&SessionWindow> = None;
++
++   for window in windows {
+       // Check if the app should be skipped
+       if let Some(ref launch_command) = window.launch_command {
+          if window
+@@ -430,19 +554,35 @@
+                .wrapper
+                .as_ref()
+                .map_or_else(|| base.to_owned(), |wrapper| format!("{wrapper} {base}"));
+-            spawn_and_move_window(
+-               &command,
+-               app_id,
+-               window.workspace_idx,
+-               window.workspace_name,
+-               window.workspace_output,
+-               window.window_size,
+-            )?;
++
++            // Below the window restored just before it, in the same column
++            let stack = previous.is_some_and(|p| {
++               p.workspace_output == window.workspace_output
++                  && p.workspace_idx == window.workspace_idx
++                  && !p.is_floating
++                  && !window.is_floating
++                  && p.position.zip(window.position).is_some_and(|(p, w)| p.0 == w.0)
++            });
++
++            let new_id = spawn_and_move_window(&command, app_id, window, stack)?;
++            previous = new_id.map(|_| window);
++            if let Some(id) = new_id {
++               restored.push((window, id));
++            }
+          }
+       }
+    }
+ 
+-   info!("restored session");
++   // Each workspace's active window, and the focused one last
++   let mut socket = Socket::connect().context("Failed to connect to Niri's IPC socket")?;
++   let active = restored.iter().filter(|(w, _)| w.is_active && !w.is_focused);
++   let focused = restored.iter().filter(|(w, _)| w.is_focused);
++   for &(_, id) in active.chain(focused) {
++      if let Err(err) = socket.send(Request::Action(Action::FocusWindow { id })) {
++         warn!("failed to refocus window {id}: {err}");
++      }
++   }
++
+    Ok(())
+ }
+ 
+@@ -466,7 +606,18 @@
+ 
+    let session_path = data_file()?;
+    info!("starting nirinit-manager");
+-   restore_session(&config, &session_path)?;
++   if !first_restore() {
++      info!("this niri session was already restored");
++   } else if let Some(ask) = &config.ask
++      && !process::Command::new("sh")
++         .args(["-c", ask])
++         .status()
++         .is_ok_and(|status| status.success())
++   {
++      info!("not restoring the previous session, as answered");
++   } else {
++      restore_session(&config, &session_path)?;
++   }
+ 
+    info!("starting periodic save (interval: {}s)", args.save_interval);
+    loop {
