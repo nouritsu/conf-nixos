@@ -21,7 +21,7 @@
         end
 
         dpms:
-          timeout 1
+          timeout 30
           command "${niri} msg action power-off-monitors"
           resume_command "${niri} msg action power-on-monitors"
         end
@@ -33,13 +33,13 @@
           end
 
           dpms:
-            timeout 1
+            timeout 30
             command "${niri} msg action power-off-monitors"
             resume_command "${niri} msg action power-on-monitors"
           end
 
           suspend:
-            timeout 599
+            timeout 570
             command "systemctl suspend"
           end
         end
