@@ -1,5 +1,16 @@
 {
-  flake.nixosModules.wniri-rules = {
+  flake.nixosModules.wniri-rules = let
+    # proton, gamescope, eden, minecraft
+    games = [
+      {app-id = "^steam_app_\\d+$";}
+      {app-id = "^gamescope$";}
+      {app-id = "eden_emu|^eden$";}
+      {app-id = "^Minecraft";}
+    ];
+  in {
+    # pc's main monitor; elsewhere the first output
+    settings.workspaces.games.open-on-output = "DP-3";
+
     settings.window-rules = [
       # big picture never asks for fullscreen through xwayland-satellite
       {
@@ -19,6 +30,12 @@
           {title = "^UNDERTALE$";}
         ];
         open-fullscreen = true;
+      }
+
+      {
+        matches = games;
+        open-on-workspace = "games";
+        open-focused = true;
       }
     ];
 

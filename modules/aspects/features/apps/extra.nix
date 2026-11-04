@@ -287,6 +287,11 @@
             icon = "f0502";
             cmd = "steam steam://open/bigpicture";
           };
+          g = {
+            desc = "Games workspace";
+            icon = "f0b82";
+            cmd = "niri msg action focus-workspace games";
+          };
         };
 
         environment.sessionVariables.MANGOHUD_CONFIGFILE = "${inputs'.catppuccin.packages.mangohud}/mocha/MangoHud.conf";
