@@ -1,0 +1,35 @@
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -8,6 +8,7 @@
+ use log::{debug, error, info};
+ use niri_ipc::{Event, state::EventStreamState, state::EventStreamStatePart};
+ use std::collections::HashMap;
++use std::io;
+ use std::process;
+ 
+ mod help;
+@@ -150,10 +151,20 @@
+     let mut read_event = event_socket.read_events();
+ 
+     // Loop over events
+-    while let Ok(event) = read_event().inspect_err(|error| {
+-        error!("Failed to read Niri IPC event: {error:?}");
+-        process::exit(5);
+-    }) {
++    loop {
++        let event = match read_event() {
++            Ok(event) => event,
++            // An event this niri-ipc doesn't know yet, from a newer niri
++            Err(error) if error.kind() == io::ErrorKind::InvalidData => {
++                debug!("Skipped unknown Niri IPC event: {error}");
++                continue;
++            }
++            Err(error) => {
++                error!("Failed to read Niri IPC event: {error:?}");
++                process::exit(5);
++            }
++        };
++
+         // Update state
+         // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
+         state.apply(event.clone());
