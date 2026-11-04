@@ -1,12 +1,12 @@
-{den, ...}: {
+{
+  den,
+  lib,
+  ...
+}: {
   den.aspects.ssh = let
     inherit (den.hosts.x86_64-linux) pc laptop;
 
-    # resident on the two security keys
-    securityKeys = [
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMnLxjqSr4eW8FTR8/VqPheLwem+4Tyk/xvg7k/YwYxIAAAADXNzaDp5dWJpa2V5LWE= ab@nouritsu.com"
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAILNf7NQHTL6oXtT5EfLaYSzUmr5ibxQnafPM4tKYxq/CAAAADXNzaDp5dWJpa2V5LWI= ab@nouritsu.com"
-    ];
+    securityKeys = lib.mapAttrsToList (_: key: key.ssh) den.lib.securityKeys;
   in {
     nixos = {
       config,

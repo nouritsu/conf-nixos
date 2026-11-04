@@ -1,4 +1,4 @@
-{
+{den, ...}: {
   den.aspects.greeter.nixos = {
     config,
     host,
@@ -15,6 +15,7 @@
     # the login password: .age to both security keys, .enc to diskLoginKey's key; per host, out of git
     sealed = "${config.users.users.${owner}.home}/.local/state/keyring-password";
     enc = "openssl enc -aes-256-cbc -pbkdf2";
+    recipients = pkgs.writeText "keyring-recipients" (lib.concatLines (lib.mapAttrsToList (_: key: key.age) den.lib.securityKeys));
 
     # once per host, and after a password change; no touch needed
     sealKeyring = pkgs.writeShellApplication {
@@ -26,7 +27,7 @@
         ${lib.optionalString afterDisk "key=$(/run/wrappers/bin/sudo ${lib.getExe diskLoginKey})"}
         read -rsp "login password: " pass
         echo
-        printf %s "$pass" | age -R ${./keyring-recipients} -o "${sealed}.age"
+        printf %s "$pass" | age -R ${recipients} -o "${sealed}.age"
         ${lib.optionalString afterDisk ''printf %s "$pass" | ${enc} -pass fd:3 -out "${sealed}.enc" 3<<< "$key"''}
       '';
     };
