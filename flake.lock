@@ -1103,11 +1103,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793134003,
-        "narHash": "sha256-zlt2wggz2PxctIOSmAsWFE7GafyOHLyri/NsQ5EPq9c=",
+        "lastModified": 1793795578,
+        "narHash": "sha256-JTPiFt4FTKFuLxblltI/xMogUstYxuvCBE++tdGvo8U=",
         "owner": "nouritsu",
         "repo": "shatterlock",
-        "rev": "4f5278f6646aa6dc3978b6c67f5264ada45ed76b",
+        "rev": "8640441b753a5cf5524faacd9823e2bc72b3ff35",
         "type": "github"
       },
       "original": {

@@ -120,8 +120,6 @@
           rules.auth.u2f.settings.authpending_file = "";
         };
       };
-      # drop once the shatterlock input has lock.methods: its "key" method runs shatterlock-key
-      shatterlock'.settings.lock.fingerprintService = "shatterlock-key";
 
       # a notification while a key blinks for a touch
       programs.yubikey-touch-detector.enable = true;
