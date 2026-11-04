@@ -112,7 +112,7 @@
         sudo = touchCue "sudo";
         sudo-i = touchCue "sudo-i";
         # run0 asks through polkit too
-        polkit-1.u2f.enable = true;
+        polkit-1 = touchCue "polkit-1";
         # shatterlock runs it beside the password field, retrying until a touch
         shatterlock-key = {
           u2f.enable = true;
@@ -120,6 +120,12 @@
           # no authpending file: yubikey-touch-detector would notify behind the lock all night
           rules.auth.u2f.settings.authpending_file = "";
         };
+      };
+
+      # polkit's sandboxed helper sees no devices, so no key without hidraw
+      systemd.services."polkit-agent-helper@".serviceConfig = {
+        PrivateDevices = false;
+        DeviceAllow = ["char-hidraw rw"];
       };
 
       # a notification while a key blinks for a touch
