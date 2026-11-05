@@ -1,4 +1,54 @@
 {
+  "audigon": {
+    "groups": [
+      {
+        "name": "Game",
+        "icon": "sports_esports",
+        "color": "#f38ba8",
+        "apps": "eden|^java$",
+        "appIds": "eden_emu|^eden$|minecraft",
+        "roles": ["Game"],
+        "steam": true,
+        "gamemode": true
+      },
+      {
+        "name": "Voice Chat",
+        "icon": "headset_mic",
+        "color": "#a6e3a1",
+        "apps": "vesktop|discord|webcord|legcord|teams|zoom|skype|mumble|teamspeak|signal|element",
+        "appIds": "vesktop|discord|webcord|legcord|teams|zoom|skype|mumble|teamspeak|signal|element",
+        "roles": ["Communication"],
+        "steam": false,
+        "gamemode": false
+      },
+      {
+        "name": "Media",
+        "icon": "music_note",
+        "color": "#89b4fa",
+        "apps": "spotify|ncspot|spotube|mpv|celluloid|haruna|vlc|totem|showtime|clapper|jellyfin|feishin|supersonic|sonixd|elisa|amberol|rhythmbox|lollypop|strawberry|clementine|audacious|deadbeef|cmus|quodlibet|tauon|youtube-music|tidal-hifi|plex|kodi|stremio|freetube",
+        "appIds": "spotify|ncspot|spotube|mpv|celluloid|haruna|vlc|totem|showtime|clapper|jellyfin|feishin|supersonic|sonixd|elisa|amberol|rhythmbox|lollypop|strawberry|clementine|audacious|deadbeef|cmus|quodlibet|tauon|youtube-music|tidal-hifi|plex|kodi|stremio|freetube",
+        "roles": ["Music", "Movie"],
+        "steam": false,
+        "gamemode": false,
+        "mpris": true
+      },
+      {
+        "name": "Etc",
+        "icon": "graphic_eq",
+        "color": "#cba6f7",
+        "apps": "",
+        "appIds": "",
+        "roles": [],
+        "steam": false,
+        "gamemode": false
+      }
+    ],
+    "micVolumeScrollStep": 5,
+    "mixerRange": 40,
+    "showMic": true,
+    "showMicValue": true,
+    "volumeScrollStep": 5
+  },
   "batteryPlus": {
     "timespanHours": 24
   },
@@ -62,11 +112,6 @@
     "codec": "auto",
     "fallbackCpuEncoding": false,
     "recordMicrophone": true
-  },
-  "simpleAudioControl": {
-    "showMic": true,
-    "showMicValue": true,
-    "useCustomTabRadius": false
   },
   "sshConnections": {
     "terminal": "wezterm",

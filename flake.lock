@@ -234,6 +234,26 @@
         "type": "github"
       }
     },
+    "dux-audigon": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793876847,
+        "narHash": "sha256-H84Dw/JUsiWtBELc+7YhvA5kaMiEZmhL2aHNaHYA0W0=",
+        "owner": "nouritsu",
+        "repo": "dux-audigon",
+        "rev": "9ff0b0195653d0d12e03c3c695b8676380c2f7a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nouritsu",
+        "repo": "dux-audigon",
+        "type": "github"
+      }
+    },
     "dux-plugin-registry": {
       "inputs": {
         "nixpkgs": [
@@ -961,6 +981,7 @@
         "den": "den",
         "disko": "disko",
         "dux": "dux",
+        "dux-audigon": "dux-audigon",
         "dux-plugin-registry": "dux-plugin-registry",
         "flake-parts": "flake-parts_2",
         "folder-color": "folder-color",

@@ -635,7 +635,7 @@
           "showBrightnessPercent": false
         },
         {
-          "id": "simpleAudioControl",
+          "id": "audigon",
           "enabled": true
         },
         {

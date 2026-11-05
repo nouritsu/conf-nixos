@@ -261,7 +261,6 @@
           ocrScanner.enable = true;
           dankPomodoroTimer.enable = true;
           takeABreak.enable = true;
-          simpleAudioControl.enable = true;
           gameControllerBattery.enable = true;
           batteryPlus.enable = true;
           screenRecorderYS.enable = true;
@@ -276,6 +275,12 @@
           privacyApps = {
             enable = true;
             src = self'.packages.dux-privacy-apps;
+          };
+
+          # own flake: the audio pill, device pickers, level meters and the mixer
+          audigon = {
+            enable = true;
+            src = inputs'.dux-audigon.packages.default;
           };
 
           # patched: mkForce over the registry's src
