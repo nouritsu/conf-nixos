@@ -88,6 +88,7 @@
             pkgs.stlink
             pkgs.nrf-udev
             pkgs.segger-jlink
+            pkgs.platformio-core.udev
           ];
         };
       };
