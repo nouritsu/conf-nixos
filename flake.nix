@@ -123,10 +123,6 @@
       url = "github:t1ktakdev/niri-pip";
       flake = false;
     };
-    nirinit = {
-      url = "github:amaanq/nirinit";
-      flake = false;
-    };
     niri-autoselect-portal = {
       url = "git+https://codeberg.org/debugloop/niri-autoselect-portal.git";
       flake = false;

@@ -662,22 +662,6 @@
         "type": "github"
       }
     },
-    "nirinit": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1793552437,
-        "narHash": "sha256-8t155m1xkE1aSZizll5xsHU+KYTBV23lI8EH1rVdACw=",
-        "owner": "amaanq",
-        "repo": "nirinit",
-        "rev": "0bc16ff08bab040a0d0ef806556f4109228f21ff",
-        "type": "github"
-      },
-      "original": {
-        "owner": "amaanq",
-        "repo": "nirinit",
-        "type": "github"
-      }
-    },
     "nix-colors": {
       "inputs": {
         "base16-schemes": "base16-schemes",
@@ -995,7 +979,6 @@
         "niri-pip": "niri-pip",
         "niri-ror": "niri-ror",
         "nirimap": "nirimap",
-        "nirinit": "nirinit",
         "nix-colors": "nix-colors",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_6",
