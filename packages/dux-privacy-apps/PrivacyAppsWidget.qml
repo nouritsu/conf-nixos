@@ -97,6 +97,7 @@ PluginComponent {
         closePopout();
     }
 
+    // a fixed square, so a row or column of them needs no centring
     component Indicator: Item {
         id: indicator
 
@@ -137,7 +138,6 @@ PluginComponent {
 
                 Indicator {
                     dpr: root.dpr
-                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
         }
@@ -152,7 +152,6 @@ PluginComponent {
 
                 Indicator {
                     dpr: root.dpr
-                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
         }
