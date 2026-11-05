@@ -8,7 +8,7 @@
  use std::process;
  
  mod help;
-@@ -150,10 +151,20 @@
+@@ -150,13 +151,26 @@
      let mut read_event = event_socket.read_events();
  
      // Loop over events
@@ -32,4 +32,11 @@
 +
          // Update state
          // This can be dropped once https://github.com/Antiz96/oniri/issues/3 is resolved
-         state.apply(event.clone());
+-        state.apply(event.clone());
++        // Only the parts read below: a cast kind this niri-ipc can't parse would panic the casts state
++        if let Some(event) = state.workspaces.apply(event.clone()) {
++            state.windows.apply(event);
++        }
+ 
+         // Filter events
+         match event {
