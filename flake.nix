@@ -128,10 +128,6 @@
       url = "github:t1ktakdev/niri-pip";
       flake = false;
     };
-    niri-autoselect-portal = {
-      url = "git+https://codeberg.org/debugloop/niri-autoselect-portal.git";
-      flake = false;
-    };
     utsushot = {
       url = "github:xevrion/utsushot";
       inputs.nixpkgs.follows = "nixpkgs";

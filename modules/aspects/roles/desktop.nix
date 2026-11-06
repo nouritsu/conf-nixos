@@ -8,7 +8,6 @@
     bluetooth
     niri
     niri.portals
-    niri-autoselect-portal
     niri.xwayland
     nirius
     nfsm

@@ -241,11 +241,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793876847,
-        "narHash": "sha256-H84Dw/JUsiWtBELc+7YhvA5kaMiEZmhL2aHNaHYA0W0=",
+        "lastModified": 1793880051,
+        "narHash": "sha256-335yg6dxA4YEy8bsWgSA3S9+GOUr+FI01VSaKjQ9Z+w=",
         "owner": "nouritsu",
         "repo": "dux-audigon",
-        "rev": "9ff0b0195653d0d12e03c3c695b8676380c2f7a0",
+        "rev": "17afcf65fbfef01984917b33dfe38b954fe26a8a",
         "type": "github"
       },
       "original": {
@@ -588,22 +588,6 @@
         "owner": "niri-wm",
         "repo": "niri",
         "type": "github"
-      }
-    },
-    "niri-autoselect-portal": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1791442942,
-        "narHash": "sha256-KP9NEPojdjV1XwGatplmPHOuUuv1+8cBCgqkaZ+yB4c=",
-        "ref": "refs/heads/main",
-        "rev": "3f76d286041aa25b14feb29b5a5570c0e8b40594",
-        "revCount": 12,
-        "type": "git",
-        "url": "https://codeberg.org/debugloop/niri-autoselect-portal.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://codeberg.org/debugloop/niri-autoselect-portal.git"
       }
     },
     "niri-cwd": {
@@ -995,7 +979,6 @@
         "millennium": "millennium",
         "nfsm": "nfsm",
         "niri": "niri",
-        "niri-autoselect-portal": "niri-autoselect-portal",
         "niri-cwd": "niri-cwd",
         "niri-pip": "niri-pip",
         "niri-ror": "niri-ror",
