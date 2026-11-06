@@ -760,10 +760,6 @@
           "enabled": true
         },
         {
-          "id": "separator",
-          "enabled": true
-        },
-        {
           "id": "colorPicker",
           "enabled": true
         },
@@ -773,6 +769,10 @@
         },
         {
           "id": "clipboard",
+          "enabled": true
+        },
+        {
+          "id": "hiddenBar",
           "enabled": true
         },
         {

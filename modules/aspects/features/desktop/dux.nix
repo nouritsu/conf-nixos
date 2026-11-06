@@ -254,6 +254,7 @@
           dankLauncherKeys.enable = true;
           wallpaperCarousel.enable = true;
           handMirror.enable = true;
+          hiddenBar.enable = true;
           recentFiles.enable = true;
           dankTranslate.enable = true;
           systemMonitorPlus.enable = true;
