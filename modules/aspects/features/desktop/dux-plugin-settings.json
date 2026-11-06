@@ -86,6 +86,11 @@
     "popoutScale": 184,
     "zoomFactor": 1
   },
+  "hiddenBar": {
+    "autoExpand": false,
+    "autoCollapse": false,
+    "extendedTrigger": false
+  },
   "homeAssistantMonitor": {
     "hassTokenPath": "/run/secrets/ha-pc-token",
     "showAttributes": false,

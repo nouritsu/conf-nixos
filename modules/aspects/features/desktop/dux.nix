@@ -254,7 +254,6 @@
           dankLauncherKeys.enable = true;
           wallpaperCarousel.enable = true;
           handMirror.enable = true;
-          hiddenBar.enable = true;
           recentFiles.enable = true;
           dankTranslate.enable = true;
           systemMonitorPlus.enable = true;
@@ -290,6 +289,25 @@
           windowFx = {
             enable = true;
             src = lib.mkForce self'.packages.dux-window-fx;
+          };
+
+          # widget lookup spanned every bar, hiding the top bar's tray and monitor
+          # hover zone over the pill left its tint stuck after a click; off unless hover is used
+          hiddenBar = {
+            enable = true;
+            src = lib.mkForce (pkgs.applyPatches {
+              name = "dux-plugin-hiddenBar";
+              src = inputs'.dux-plugin-registry.packages.hiddenBar;
+              postPatch = ''
+                substituteInPlace HiddenBarWidget.qml \
+                  --replace-fail 'let myScreen = pluginRoot.parentScreen.name;' \
+                    'let myScreen = pluginRoot.parentScreen.name; let myBarId = BarWidgetService.registrationForItem(pluginRoot)?.context?.barId ?? "";' \
+                  --replace-fail 'BarWidgetService.getWidget(id, myScreen)' \
+                    'BarWidgetService.resolveWidget(id, {screenName: myScreen, barId: myBarId})?.item' \
+                  --replace-fail 'id: triggerZone' \
+                    'id: triggerZone; enabled: pluginRoot.autoExpand || pluginRoot.autoCollapse'
+              '';
+            });
           };
 
           # script path assumed the per-user plugin dir
