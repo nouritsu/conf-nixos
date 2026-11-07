@@ -140,6 +140,23 @@
       };
     };
 
+    systemd.user.services.tldr-update = {
+      description = "Update the tldr pages";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${lib.getExe self'.packages.tealdeer} --update";
+        Nice = 19;
+      };
+    };
+    systemd.user.timers.tldr-update = {
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "daily";
+        Persistent = true;
+        RandomizedDelaySec = "1h";
+      };
+    };
+
     isup'.checks.atuin = {
       name = "Atuin sync";
       group = "Homelab";

@@ -21,10 +21,7 @@ in {
       }
       {
         settings = {
-          updates = {
-            auto_update = true;
-            auto_update_interval_hours = 24;
-          };
+          updates.auto_update = false;
 
           # no catppuccin port; mauve for every highlight
           style = {
