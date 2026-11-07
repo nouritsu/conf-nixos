@@ -568,8 +568,44 @@
     };
 
     # hardcodes VPC2004:00 and errors on every start without it
-    provides.ideapad.nixos = {lib, ...}: {
-      programs.dux-shell.plugins.dmsLenovoBatterySettings.enable = true;
+    provides.ideapad.nixos = {
+      host,
+      pkgs,
+      lib,
+      inputs',
+      ...
+    }: let
+      owner = lib.head (lib.attrNames host.users);
+
+      # writes 0 or 1 and nothing else
+      setConservation = pkgs.writeShellScript "ideapad-conservation-mode" ''
+        [[ $1 == [01] ]] || exit 2
+        echo "$1" > /sys/bus/platform/devices/VPC2004:00/conservation_mode
+      '';
+    in {
+      programs.dux-shell.plugins.dmsLenovoBatterySettings = {
+        enable = true;
+
+        # pkexec runs the script instead of sh -c
+        src = lib.mkForce (pkgs.applyPatches {
+          name = "dux-plugin-dmsLenovoBatterySettings";
+          src = inputs'.dux-plugin-registry.packages.dmsLenovoBatterySettings;
+          postPatch = ''
+            substituteInPlace DmsLenovoBatteryWidget.qml \
+              --replace-fail '"sh", "-c", `echo ''${targetValue} > ''${root.lenovoAcpiId}''${root.conservationModeAcpiNode}`' '"${setConservation}", targetValue'
+          '';
+        });
+      };
+
+      # no prompt for the script, from the owner's local session
+      security.polkit.extraConfig = ''
+        polkit.addRule(function(action, subject) {
+          if (action.id == "org.freedesktop.policykit.exec" &&
+              action.lookup("program") == "${setConservation}" &&
+              subject.user == "${owner}" && subject.local && subject.active)
+            return polkit.Result.YES;
+        });
+      '';
 
       # laptop only: Bar 2, right after batteryPlus
       dux'.settingsOverrides = [
