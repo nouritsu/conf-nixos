@@ -22,6 +22,7 @@
         programs.direnv = {
           enable = true;
           silent = true;
+          enableFishIntegration = false;
         };
 
         programs.fish.shellAbbrs.direnv-init = "printf '%s\\n' 'eval \"$(devenv direnvrc)\"' 'use devenv' > .envrc && direnv allow";

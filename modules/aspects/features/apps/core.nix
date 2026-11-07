@@ -7,6 +7,14 @@
     ...
   }: let
     other = lib.head (lib.remove config.networking.hostName (lib.attrNames den.hosts.x86_64-linux));
+
+    zoxideInit = pkgs.runCommand "zoxide-init.fish" {} ''
+      ${lib.getExe config.programs.zoxide.package} init fish > $out
+    '';
+
+    nixYourShellInit = pkgs.runCommand "nix-your-shell-init.fish" {} ''
+      ${lib.getExe pkgs.nix-your-shell} fish > $out
+    '';
   in {
     environment.systemPackages = [
       self'.packages.wezterm
@@ -49,7 +57,10 @@
     programs.bandwhich.enable = true;
     programs.wavemon.enable = true;
 
-    programs.zoxide.enable = true;
+    programs.zoxide = {
+      enable = true;
+      enableFishIntegration = false;
+    };
 
     # gio and the portal start Terminal=true apps like helix through it
     xdg.terminal-exec = {
@@ -59,7 +70,8 @@
 
     programs.fish.interactiveShellInit = ''
       set fish_greeting
-      nix-your-shell fish | source
+      source ${nixYourShellInit}
+      source ${zoxideInit}
 
       function mkcd
         mkdir -p $argv[1]; and cd $argv[1]

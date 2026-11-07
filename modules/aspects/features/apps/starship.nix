@@ -1,12 +1,17 @@
 {
   den.aspects.starship.nixos = {
     self',
+    pkgs,
     lib,
     ...
   }: let
     starship = self'.packages.starship;
     settings = starship.configuration.constructFiles."starship.toml".outPath;
     sshSettings = starship.configuration.constructFiles."starship-ssh.toml".outPath;
+
+    init = pkgs.runCommand "starship-init.fish" {} ''
+      HOME=$TMPDIR ${lib.getExe starship} init fish --print-full-init > $out
+    '';
   in {
     environment.systemPackages = [starship];
 
@@ -23,7 +28,7 @@
           ${lib.getExe starship} module character
         end
 
-        ${lib.getExe starship} init fish | source
+        source ${init}
         enable_transience
       end
     '';
