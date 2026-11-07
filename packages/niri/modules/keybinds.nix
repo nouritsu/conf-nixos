@@ -111,7 +111,7 @@
       };
       "Ctrl+Shift+Escape".spawn-sh = "dms ipc call processlist focusOrToggle";
       "Mod+Shift+W".spawn-sh = "dms ipc call wallpaperCarousel toggle";
-      "Mod+C".spawn-sh = "dms color pick -a";
+      "Mod+C".spawn-sh = "dms ipc call control-center toggle";
       "Mod+N".spawn-sh = "dms ipc call notifications toggle";
       "Mod+Shift+N".spawn-sh = "dms ipc call notifications clearAll";
 
