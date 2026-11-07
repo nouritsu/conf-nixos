@@ -17,6 +17,7 @@
 
           systems = ["x86_64-linux" "i686-linux"];
           supportedFeatures = ["benchmark" "big-parallel" "kvm" "nixos-test"];
+          mandatoryFeatures = ["big-parallel"];
 
           # 15 GiB of RAM
           maxJobs = 2;
