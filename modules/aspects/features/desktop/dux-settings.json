@@ -656,6 +656,7 @@
       "bottomGap": 0,
       "transparency": 1,
       "widgetTransparency": 1,
+      "dot": false,
       "squareCorners": false,
       "noBackground": false,
       "maximizeWidgetIcons": false,

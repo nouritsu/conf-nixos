@@ -7,7 +7,9 @@
         "color": "#f38ba8",
         "apps": "eden|^java$",
         "appIds": "eden_emu|^eden$|minecraft",
-        "roles": ["Game"],
+        "roles": [
+          "Game"
+        ],
         "steam": true,
         "gamemode": true
       },
@@ -17,7 +19,9 @@
         "color": "#a6e3a1",
         "apps": "vesktop|discord|webcord|legcord|teams|zoom|skype|mumble|teamspeak|signal|element",
         "appIds": "vesktop|discord|webcord|legcord|teams|zoom|skype|mumble|teamspeak|signal|element",
-        "roles": ["Communication"],
+        "roles": [
+          "Communication"
+        ],
         "steam": false,
         "gamemode": false
       },
@@ -27,7 +31,10 @@
         "color": "#89b4fa",
         "apps": "spotify|ncspot|spotube|mpv|celluloid|haruna|vlc|totem|showtime|clapper|jellyfin|feishin|supersonic|sonixd|elisa|amberol|rhythmbox|lollypop|strawberry|clementine|audacious|deadbeef|cmus|quodlibet|tauon|youtube-music|tidal-hifi|plex|kodi|stremio|freetube",
         "appIds": "spotify|ncspot|spotube|mpv|celluloid|haruna|vlc|totem|showtime|clapper|jellyfin|feishin|supersonic|sonixd|elisa|amberol|rhythmbox|lollypop|strawberry|clementine|audacious|deadbeef|cmus|quodlibet|tauon|youtube-music|tidal-hifi|plex|kodi|stremio|freetube",
-        "roles": ["Music", "Movie"],
+        "roles": [
+          "Music",
+          "Movie"
+        ],
         "steam": false,
         "gamemode": false,
         "mpris": true
@@ -150,9 +157,9 @@
     "disabledEngines": []
   },
   "windowFx": {
-    "kind": "ember",
-    "duration": 150,
-    "openDuration": 150,
+    "kind": "liixini-polar-function",
+    "duration": 250,
+    "openDuration": 237,
     "openKind": "default"
   }
 }
