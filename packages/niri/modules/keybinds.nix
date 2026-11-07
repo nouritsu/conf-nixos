@@ -89,8 +89,7 @@
       "Mod+Shift+Space".spawn = [pkill "-x" "wlr-which-key"];
       "Mod+S".spawn = ["wlr-which-key" "--initial-keys" "s"];
       "Mod+D".spawn = ["wlr-which-key" "--initial-keys" "c"];
-      "Mod+B".spawn = ["wlr-which-key" "--initial-keys" "b"];
-      "Mod+Shift+B".spawn = ["wlr-which-key" "--initial-keys" "B"];
+      "Mod+B".spawn-sh = "dms ipc call widget toggle privacyApps";
 
       # super alone, on release; any other key or click in between cancels it
       "Mod".release.spawn-sh = "dms ipc call launcher toggle";
