@@ -122,6 +122,24 @@
     documentation.doc.enable = false;
     documentation.nixos.enable = false;
 
+    systemd.user.sockets.atuin-daemon = {
+      description = "Atuin daemon socket";
+      wantedBy = ["sockets.target"];
+      listenStreams = ["%t/atuin.sock"];
+      socketConfig = {
+        SocketMode = "0600";
+        RemoveOnStop = true;
+      };
+    };
+    systemd.user.services.atuin-daemon = {
+      description = "Atuin daemon";
+      requires = ["atuin-daemon.socket"];
+      serviceConfig = {
+        ExecStart = "${lib.getExe self'.packages.atuin} daemon start";
+        Restart = "on-failure";
+      };
+    };
+
     isup'.checks.atuin = {
       name = "Atuin sync";
       group = "Homelab";

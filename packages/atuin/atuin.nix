@@ -25,6 +25,12 @@ in {
 
           # also leaves ? unbound in the shell
           ai.enabled = false;
+
+          daemon = {
+            enabled = true;
+            autostart = false;
+            systemd_socket = true;
+          };
         };
 
         # read from beside config.toml while ~/.atuin/themes doesn't exist
