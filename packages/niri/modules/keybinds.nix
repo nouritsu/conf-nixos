@@ -92,8 +92,7 @@
       "Mod+B".spawn-sh = "dms ipc call widget toggle privacyApps";
 
       # super alone, on release; any other key or click in between cancels it
-      # spotlight-bar stays a spotlight under the connected frame
-      "Mod".release.spawn-sh = "dms ipc call spotlight-bar toggle";
+      "Mod".release.spawn-sh = "dms ipc call launcher toggle";
       "Mod+A".spawn-sh = "dms ipc call widget toggle audigon";
       "Mod+I".spawn-sh = "dms ipc call settings focusOrToggle";
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
