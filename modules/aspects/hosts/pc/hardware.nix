@@ -29,6 +29,14 @@
     # cachyos defaults to 0 for zram; this swap is on disk behind zswap
     boot.kernel.sysctl."vm.page-cluster" = 3;
 
+    boot.tmp.useTmpfs = true;
+    nix.settings.build-dir = "/nix/var/nix/builds";
+    fileSystems."/nix/var/nix/builds" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+      options = ["mode=0755" "size=50%"];
+    };
+
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
