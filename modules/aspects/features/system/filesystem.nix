@@ -51,6 +51,7 @@
       snapshots.nixos = {
         host,
         config,
+        pkgs,
         lib,
         ...
       }: let
@@ -91,6 +92,8 @@
           [(snapshots "/home")]
           ++ lib.concatMap (dir: [(subvol dir) (snapshots "${user.home}/${dir}")]) folders
           ++ map subvol skipped;
+
+        systemd.user.tmpfiles.rules = ["L+ %h/.ignore - - - - ${pkgs.writeText "ignore" ".snapshots/\n"}"];
       };
 
       xfs.nixos = {pkgs, ...}: {
