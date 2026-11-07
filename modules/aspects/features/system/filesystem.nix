@@ -7,6 +7,8 @@
     }: {
       imports = [inputs.disko.nixosModules.disko];
 
+      boot.kernel.sysctl."vm.vfs_cache_pressure" = 50;
+
       environment.systemPackages = [
         pkgs.parted
         pkgs.gparted-full
