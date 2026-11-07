@@ -92,7 +92,9 @@
       "Mod+B".spawn = ["wlr-which-key" "--initial-keys" "b"];
       "Mod+Shift+B".spawn = ["wlr-which-key" "--initial-keys" "B"];
 
-      "Mod+A".spawn-sh = "dms ipc call spotlight toggle";
+      # super alone, on release; any other key or click in between cancels it
+      "Mod".release.spawn-sh = "dms ipc call launcher toggle";
+      "Mod+A".spawn-sh = "dms ipc call widget toggle audigon";
       "Mod+I".spawn-sh = "dms ipc call settings focusOrToggle";
       "Mod+V".spawn-sh = "dms ipc call clipboard toggle";
       "Mod+Escape".spawn = [shatterlock "toggle"];
