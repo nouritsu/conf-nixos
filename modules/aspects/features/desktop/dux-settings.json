@@ -345,7 +345,7 @@
   },
   "niriOverviewLauncherStyle": "spotlight",
   "dankLauncherV2IncludeFilesInAll": true,
-  "launcherUseOverlayLayer": true,
+  "launcherUseOverlayLayer": false,
   "launcherStyle": "full",
   "frameLauncherEmergeSide": "bottom",
   "spotlightBarShowModeChips": true,
