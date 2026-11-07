@@ -1,6 +1,6 @@
 {
   den,
-  inputs,
+  withSystem,
   ...
 }: {
   den.default = {
@@ -9,9 +9,11 @@
       den.batteries.define-user
       den.batteries.self'
       den.batteries.inputs'
+      ({host}: {
+        name = "shared-pkgs";
+        nixos.nixpkgs.pkgs = withSystem host.system ({pkgs, ...}: pkgs);
+      })
     ];
-
-    nixos.nixpkgs.overlays = import ../_overlays inputs;
 
     # ================================================================ #
     # =                         DO NOT TOUCH                         = #

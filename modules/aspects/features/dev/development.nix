@@ -1,4 +1,11 @@
-{den, ...}: {
+{
+  nixpkgs' = {
+    unfree = ["stm32cubemx" "nrfconnect" "nrf-udev" "segger-jlink"];
+    # J-Link GUI tools bundle EOL Qt4
+    insecure = ["segger-jlink-qt4"];
+    config.segger-jlink.acceptLicense = true;
+  };
+
   den.aspects.dev = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = [
@@ -65,15 +72,7 @@
       };
 
       embedded = {
-        includes = [
-          (den.batteries.unfree ["stm32cubemx" "nrfconnect" "nrf-udev" "segger-jlink"])
-
-          # J-Link GUI tools bundle EOL Qt4
-          (den.batteries.insecure ["segger-jlink-qt4"])
-        ];
         nixos = {pkgs, ...}: {
-          nixpkgs.config.segger-jlink.acceptLicense = true;
-
           environment.variables._JAVA_AWT_WM_NONREPARENTING = "1";
 
           environment.systemPackages = [

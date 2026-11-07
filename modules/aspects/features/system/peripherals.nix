@@ -1,7 +1,8 @@
-{den, ...}: {
+{
+  nixpkgs'.unfree = ["wootility" "xone-dongle-firmware"];
+
   den.aspects.peripherals.provides = {
     keyboard = {
-      includes = [(den.batteries.unfree ["wootility"])];
       nixos = {
         pkgs,
         lib,
@@ -88,7 +89,6 @@
     };
 
     controller = {
-      includes = [(den.batteries.unfree ["xone-dongle-firmware"])];
       nixos = {
         pkgs,
         lib,

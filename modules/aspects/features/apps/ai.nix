@@ -1,6 +1,7 @@
-{den, ...}: {
+{
+  nixpkgs'.unfree = ["cursor"];
+
   den.aspects.ai = {
-    includes = [(den.batteries.unfree ["cursor"])];
     nixos = {
       self',
       inputs',

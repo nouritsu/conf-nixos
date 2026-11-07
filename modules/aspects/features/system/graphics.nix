@@ -1,4 +1,10 @@
-{den, ...}: {
+{lib, ...}: {
+  nixpkgs' = {
+    unfree = ["nvidia-x11" "nvidia-kernel-modules" "nvidia-persistenced"];
+    # by license: cuda redists get renamed between releases
+    config.allowlistedLicenses = lib.attrValues (lib.filterAttrs (name: _: lib.hasPrefix "nvidia" name) lib.licenses);
+  };
+
   den.aspects.graphics = {
     nixos = {
       hardware.graphics = {
@@ -8,23 +14,13 @@
     };
 
     provides.nvidia = {
-      includes = [
-        (den.batteries.unfree [
-          "nvidia-x11"
-          "nvidia-kernel-modules"
-          "nvidia-persistenced"
-        ])
-      ];
-      nixos = {lib, ...}: {
+      nixos = {
         services.xserver.videoDrivers = ["nvidia"];
         hardware.nvidia = {
           open = true;
           modesetting.enable = true;
           nvidiaSettings = false;
         };
-
-        # by license: cuda redists get renamed between releases
-        nixpkgs.config.allowlistedLicenses = lib.attrValues (lib.filterAttrs (name: _: lib.hasPrefix "nvidia" name) lib.licenses);
 
         # nvidia isn't in the initrd; plymouth ignores the firmware framebuffer unless told
         boot.kernelParams = ["plymouth.use-simpledrm"];
