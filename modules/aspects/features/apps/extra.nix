@@ -18,6 +18,7 @@
       }: {
         environment.systemPackages = [
           pkgs.ffmpeg-full
+          pkgs.openshot-qt
           self'.packages.imv
           self'.packages.mpv
           self'.packages.spotify
