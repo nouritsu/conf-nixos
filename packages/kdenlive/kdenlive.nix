@@ -29,6 +29,9 @@ in {
         package = pkgs.kdePackages.kdenlive;
       }
       {
+        # debug alone is 160 MB to fetch
+        outputs = ["out"];
+
         runShell = [
           ''export XDG_DATA_DIRS=${scheme}/share:''${XDG_DATA_DIRS:-/run/current-system/sw/share}''
           "${lib.getExe enforce} || true"
