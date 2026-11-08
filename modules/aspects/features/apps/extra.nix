@@ -18,7 +18,6 @@
       }: {
         environment.systemPackages = [
           pkgs.ffmpeg-full
-          pkgs.auto-editor
           self'.packages.kdenlive
           self'.packages.imv
           self'.packages.mpv
