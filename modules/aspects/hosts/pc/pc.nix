@@ -23,6 +23,7 @@
       dux.home-assistant
       dux.calendar
       services.beszel
+      services.immich-ml
       syncthing
       syncthing.desktop
       extra.streaming
