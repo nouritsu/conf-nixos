@@ -37,6 +37,9 @@
         extraOptions = ["--network=host"];
       };
 
+      # games get the vram; the homelab's immich falls back to its own within 30 s
+      game-mode'.pauses = ["podman-immich-ml.service"];
+
       # the gpu only resolves once the cdi spec is written
       systemd.services.podman-immich-ml = {
         requires = ["nvidia-container-toolkit-cdi-generator.service"];

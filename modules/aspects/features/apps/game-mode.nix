@@ -1,12 +1,24 @@
 {
+  # on every host, so any aspect can give way to games
+  den.default.nixos = {lib, ...}: {
+    # system units stopped while a game runs, and started again after
+    options.game-mode'.pauses = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
+  };
+
   den.aspects.extra.provides.game-mode.nixos = {
     config,
+    host,
     self',
     pkgs,
     lib,
     ...
   }: let
     gamemode = "com.feralinteractive.GameMode /com/feralinteractive/GameMode com.feralinteractive.GameMode";
+    owner = lib.head (lib.attrNames host.users);
+    inherit (config.game-mode') pauses;
 
     # games stasis detects go to gamemode, no gamemoderun in launch options
     watch = pkgs.writeShellApplication {
@@ -75,6 +87,13 @@
               powerprofilesctl set performance; then
               printf '%s\n' "$profile" > "$dir/profile"
             fi
+            # only the units that were running come back
+            units=(${lib.escapeShellArgs pauses})
+            for unit in "''${units[@]}"; do
+              if systemctl is-active --quiet "$unit" && systemctl stop --no-block "$unit"; then
+                echo "$unit" >> "$dir/paused"
+              fi
+            done
             # the bar's icon
             echo 1 > "$dir/active"
             ;;
@@ -84,6 +103,9 @@
             fi
             if [[ -s $dir/profile ]] && powerprofilesctl set "$(< "$dir/profile")"; then
               rm "$dir/profile"
+            fi
+            if [[ -s $dir/paused ]] && mapfile -t units < "$dir/paused" && systemctl start --no-block "''${units[@]}"; then
+              rm "$dir/paused"
             fi
             echo 0 > "$dir/active"
             ;;
@@ -116,6 +138,17 @@
     };
   in {
     environment.systemPackages = [toggle];
+
+    # the hook runs as the owner; no prompt for exactly these units
+    security.polkit.extraConfig = lib.mkIf (pauses != []) ''
+      polkit.addRule(function(action, subject) {
+        if (action.id == "org.freedesktop.systemd1.manage-units" &&
+            ${builtins.toJSON pauses}.indexOf(action.lookup("unit")) >= 0 &&
+            ["start", "stop"].indexOf(action.lookup("verb")) >= 0 &&
+            subject.user == "${owner}" && subject.local && subject.active)
+          return polkit.Result.YES;
+      });
+    '';
 
     # exists before Dux's widget watches it
     systemd.user.tmpfiles.rules = [
