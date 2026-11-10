@@ -203,11 +203,6 @@
           icon = "f020a";
           cmd = "dms color pick -a";
         };
-        W = {
-          desc = "Wallpaper carousel";
-          icon = "f0e09";
-          cmd = "dms ipc call wallpaperCarousel toggle";
-        };
         k = {
           desc = "KDE Connect";
           icon = "f373";
@@ -252,7 +247,6 @@
           sshConnections.enable = true;
           airQuality.enable = true;
           dankLauncherKeys.enable = true;
-          wallpaperCarousel.enable = true;
           handMirror.enable = true;
           recentFiles.enable = true;
           dankTranslate.enable = true;
