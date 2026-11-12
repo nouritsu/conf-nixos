@@ -1,11 +1,15 @@
 {
   # launcher entries for the homelab's caddy endpoints and the router
   den.aspects.homelab.nixos = {
+    config,
+    host,
+    inputs',
     pkgs,
     lib,
     self',
     ...
   }: let
+    owner = lib.head (lib.attrNames host.users);
     domain = "nouritsu.com";
 
     # homarr-labs/dashboard-icons; variants picked to show on mocha
@@ -122,10 +126,10 @@
       };
     };
 
-    host = subdomain: endpoints.${subdomain}.host or "${subdomain}.${domain}";
+    fqdn = subdomain: endpoints.${subdomain}.host or "${subdomain}.${domain}";
     address = subdomain: let
       e = endpoints.${subdomain};
-    in "${e.scheme or "https"}://${host subdomain}${e.path or ""}";
+    in "${e.scheme or "https"}://${fqdn subdomain}${e.path or ""}";
     open = subdomain: "${lib.getExe' pkgs.xdg-utils "xdg-open"} ${address subdomain}";
 
     entry = subdomain: e: let
@@ -134,7 +138,7 @@
       desktop = pkgs.makeDesktopItem {
         name = id;
         desktopName = e.name;
-        genericName = host subdomain;
+        genericName = fqdn subdomain;
         comment = e.description;
         keywords = ["homelab" subdomain];
         exec = open subdomain;
@@ -152,8 +156,72 @@
       inherit icon;
       cmd = open subdomain;
     };
+
+    # immich-desktop's colour roles
+    roles = {
+      background = "base";
+      panel = "mantle";
+      button = "surface0";
+      border = "surface1";
+      accent = "mauve";
+      text = "text";
+      mutedText = "subtext0";
+    };
+
+    # #aarrggbb, as qt writes them back
+    theme = pkgs.runCommand "immich-desktop-mocha.ini" {nativeBuildInputs = [pkgs.jq];} ''
+      jq -r --argjson roles ${lib.escapeShellArg (builtins.toJSON roles)} '
+        .mocha.colors as $mocha
+        | "[appearance]", "theme=custom",
+          ($roles | to_entries[] | "customPalette\\\(.key)=#ff\($mocha[.value].hex[1:])")
+      ' ${inputs'.catppuccin.packages.palette}/palette.json > $out
+    '';
+
+    # account + theme pinned on launch into its qsettings ini files
+    immich-desktop = pkgs.symlinkJoin {
+      inherit (self'.packages.immich-desktop) name meta;
+      paths = [
+        (pkgs.writeShellApplication {
+          name = "immich";
+          runtimeInputs = [pkgs.crudini];
+          text = ''
+            dir=''${XDG_CONFIG_HOME:-$HOME/.config}/Immich
+            mkdir -p "$dir/profiles"
+
+            # crudini is slow, skip it when every line is there
+            pin() {
+              local line content=""
+              [ -f "$1" ] && content=$(< "$1")
+              while IFS= read -r line; do
+                case $'\n'$content$'\n' in
+                  *$'\n'"$line"$'\n'*) ;;
+                  *) crudini --ini-options=nospace --merge "$1" <<< "$2"; return ;;
+                esac
+              done <<< "$2"
+            }
+
+            pin "$dir/immich.ini" "$(< ${theme})" || true
+
+            # legacy: the app's first profile; key via printf, off argv
+            key=${config.sops.secrets."immich-api-key".path}
+            if [ -r "$key" ]; then
+              pin "$dir/profiles/legacy.ini" \
+                "$(printf '[immich]\nserverUrl=%s\napiKey=%s' ${lib.escapeShellArg (address "photos")} "$(< "$key")")" || true
+            fi
+
+            exec ${lib.getExe self'.packages.immich-desktop} "$@"
+          '';
+        })
+        self'.packages.immich-desktop
+      ];
+    };
   in {
-    environment.systemPackages = lib.mapAttrsToList entry endpoints ++ [self'.packages.immich-desktop];
+    sops.secrets."immich-api-key" = {
+      sopsFile = config.secrets'.shared;
+      inherit owner;
+    };
+
+    environment.systemPackages = lib.mapAttrsToList entry endpoints ++ [immich-desktop];
 
     isup'.checks =
       lib.mapAttrs (subdomain: e: {
