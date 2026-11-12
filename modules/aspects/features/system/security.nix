@@ -145,12 +145,13 @@
           SuccessExitStatus = "0 2";
         };
       };
+      # bare $VAR: ${VAR} fails to parse wherever it's unset, e.g. the nix daemon
       programs.ssh.extraConfig = ''
         Match originalhost ${hostNames [knownHosts.homelab knownHosts.vps]} user aneesh
-          ForwardAgent ''${SSH_SK_AUTH_SOCK}
+          ForwardAgent $SSH_SK_AUTH_SOCK
         # root here takes only the security keys
         Match originalhost ${hostNames (lib.attrValues knownHosts)} user root
-          IdentityAgent ''${SSH_SK_AUTH_SOCK}
+          IdentityAgent $SSH_SK_AUTH_SOCK
       '';
     };
 
