@@ -19,6 +19,15 @@
 
     provides = {
       direnv.nixos = {
+        config,
+        pkgs,
+        lib,
+        ...
+      }: let
+        hook = pkgs.runCommand "direnv-hook.fish" {} ''
+          ${lib.getExe config.programs.direnv.package} hook fish > $out
+        '';
+      in {
         programs.direnv = {
           enable = true;
           silent = true;
@@ -27,6 +36,7 @@
 
         programs.fish.shellAbbrs.direnv-init = "printf '%s\\n' 'eval \"$(devenv direnvrc)\"' 'use devenv' > .envrc && direnv allow";
         programs.fish.interactiveShellInit = ''
+          source ${hook}
           abbr -a flake-init --set-cursor 'nix flake init -t $NH_FLAKE#%'
         '';
       };
