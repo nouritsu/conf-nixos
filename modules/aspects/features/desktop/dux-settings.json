@@ -410,7 +410,7 @@
         },
         {
           "id": "hourly",
-          "w": 4,
+          "w": 2,
           "h": 2,
           "forecast": "chart",
           "col": 0,
@@ -422,7 +422,7 @@
           "h": 2,
           "tone": "",
           "col": 2,
-          "row": 4
+          "row": 0
         },
         {
           "id": "moon",
@@ -430,67 +430,21 @@
           "h": 2,
           "tone": "",
           "col": 3,
-          "row": 4
-        },
-        {
-          "id": "humidity",
-          "w": 1,
-          "h": 2,
-          "graphics": true,
-          "tone": "",
-          "col": 3,
           "row": 0
-        },
-        {
-          "id": "wind",
-          "w": 1,
-          "h": 2,
-          "graphics": true,
-          "tone": "",
-          "col": 0,
-          "row": 6
-        },
-        {
-          "id": "precipitation",
-          "w": 1,
-          "h": 2,
-          "graphics": true,
-          "tone": "",
-          "col": 2,
-          "row": 0
-        },
-        {
-          "id": "visibility",
-          "w": 1,
-          "h": 2,
-          "graphics": true,
-          "tone": "",
-          "col": 3,
-          "row": 6
-        },
-        {
-          "id": "uv",
-          "w": 1,
-          "h": 2,
-          "graphics": true,
-          "tone": "",
-          "col": 2,
-          "row": 6
-        },
-        {
-          "id": "pressure",
-          "w": 1,
-          "h": 2,
-          "graphics": true,
-          "tone": "",
-          "col": 1,
-          "row": 6
         },
         {
           "id": "daily",
           "w": 2,
           "h": 2,
           "forecast": "chart",
+          "col": 2,
+          "row": 2
+        },
+        {
+          "id": "readings",
+          "w": 4,
+          "h": 1,
+          "tone": "",
           "col": 0,
           "row": 4
         }
@@ -742,9 +696,9 @@
         },
         {
           "id": "focusedWindow",
+          "focusedWindowShowAppName": true,
           "enabled": true,
           "focusedWindowShowIcon": true,
-          "focusedWindowCompactMode": false,
           "focusedWindowSize": 0
         }
       ],
@@ -890,5 +844,5 @@
   "batteryMonitorTimeout": 0,
   "batteryLockTimeout": 0,
   "batterySuspendTimeout": 0,
-  "configVersion": 42
+  "configVersion": 43
 }
