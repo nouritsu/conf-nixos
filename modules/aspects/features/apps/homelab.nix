@@ -153,7 +153,7 @@
       cmd = open subdomain;
     };
   in {
-    environment.systemPackages = lib.mapAttrsToList entry endpoints;
+    environment.systemPackages = lib.mapAttrsToList entry endpoints ++ [self'.packages.immich-desktop];
 
     isup'.checks =
       lib.mapAttrs (subdomain: e: {
