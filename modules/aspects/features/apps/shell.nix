@@ -19,6 +19,19 @@
       HOME=$TMPDIR ${self'.packages.atuin}/bin/atuin init fish --disable-up-arrow > $out
     '';
 
+    # alt-r quits with R (82), git drops pager codes so the marker tells fish to rerun
+    # named less so delta and bat still pass their less flags
+    lessRerun = pkgs.writeShellScriptBin "less" ''
+      LESSKEY_CONTENT='#command
+      \er quit R' ${lib.getExe pkgs.less} "$@"
+      s=$?
+      if [ $s = 82 ] && [ -n "$FISH_RERUN" ]; then
+        : > "$FISH_RERUN"
+        exit 0
+      fi
+      exit $s
+    '';
+
     # one autoloaded file per command carapace knows; fish reads */generated_completions after its builtin ones
     carapaceFish = pkgs.runCommand "carapace-fish" {nativeBuildInputs = [pkgs.carapace];} ''
       export HOME=$TMPDIR
@@ -96,6 +109,28 @@
       bind ctrl-alt-p '__tv_insert procs'
       bind ctrl-v "__tv_insert env --source-output '{split:=:0}'"
 
+      # alt-1..3 put the nth last command on the prompt
+      for n in 1 2 3
+          bind alt-$n "commandline -r -- \$history[$n]"
+      end
+
+      # alt-r: clear like ctrl-l, then run the prompt or else the last command again
+      function __rerun
+          set -l cmd (commandline | string collect)
+          test -n "$cmd"; or set cmd $history[1]
+          test -n "$cmd"; or return
+          commandline -r -- $cmd
+          status test-terminal-feature scroll-content-up && commandline -f scrollback-push
+          commandline -f clear-screen execute
+      end
+      bind alt-r __rerun
+
+      # alt-r inside the pager
+      set -gx FISH_RERUN $XDG_RUNTIME_DIR/fish-rerun.$fish_pid
+      function __rerun_from_pager --on-event fish_prompt
+          command rm $FISH_RERUN 2>/dev/null; and __rerun
+      end
+
       # zoxide's zi needs fzf
       function zi
           set -l dir (tv zoxide --input "$argv" --keybindings 'enter="confirm_selection"')
@@ -105,6 +140,8 @@
     '';
 
     programs.fish.shellAliases.cheat = "cht";
+
+    environment.variables.PAGER = lib.getExe lessRerun;
 
     # native fish instead of fenv spawning bash at every start
     programs.fish.useBabelfish = true;
