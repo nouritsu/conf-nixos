@@ -412,6 +412,7 @@
 
     proton = {
       nixos = {
+        config,
         self',
         host,
         pkgs,
@@ -472,10 +473,14 @@
 
         # steam and anything launched through novpn
         bypassApps = json "proton-vpn-bypass-apps.json" (lib.genAttrs (lib.attrNames host.users) (_: [
-          "~/.local/share/Steam/"
-          "~/.steam/"
-          "${self'.packages.novpn}/"
-        ]));
+            "~/.local/share/Steam/"
+            "~/.steam/"
+            "${self'.packages.novpn}/"
+          ])
+          // {
+            # the nix daemon's cache downloads, which the tunnel resets partway
+            root = ["${config.nix.package}/"];
+          });
 
         # marked sockets get the physical routes, never the tunnel's or the kill switch's
         bypassRoutes = pkgs.writeShellApplication {
