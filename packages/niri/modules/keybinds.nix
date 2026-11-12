@@ -22,7 +22,7 @@
     nautilus = lib.getExe self.packages.${system}.nautilus;
     shatterlock = lib.getExe self.packages.${system}.shatterlock;
     layercapture = lib.getExe self.packages.${system}.xdg-desktop-portal-layercapture;
-    brave = lib.getExe pkgs.brave-origin;
+    brave = lib.getExe self.packages.${system}.brave;
 
     pkill = lib.getExe' pkgs.procps "pkill";
     wpctl = lib.getExe' pkgs.wireplumber "wpctl";

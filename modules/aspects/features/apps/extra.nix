@@ -226,7 +226,7 @@
 
         # brave app windows; class is the app id brave gives the url's window
         webApp = name: url: class: rec {
-          cmd = "${lib.getExe pkgs.brave-origin} --app=${url}";
+          cmd = "${lib.getExe self'.packages.brave} --app=${url}";
           desktop = pkgs.makeDesktopItem {
             name = "${lib.toLower name}-web";
             desktopName = name;

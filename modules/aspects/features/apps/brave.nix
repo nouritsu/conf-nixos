@@ -1,5 +1,5 @@
 {
-  den.aspects.brave.nixos = {pkgs, ...}: let
+  den.aspects.brave.nixos = {self', ...}: let
     mkExtension = id: "${id};https://clients2.google.com/service/update2/crx";
 
     # shortcuts can't start with "@"; featured caps at three
@@ -7,7 +7,7 @@
 
     brave = "brave-origin.desktop";
   in {
-    environment.systemPackages = [pkgs.brave-origin];
+    environment.systemPackages = [self'.packages.brave];
 
     programs.chromium = {
       enable = true;
