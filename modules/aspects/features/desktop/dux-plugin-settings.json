@@ -56,9 +56,6 @@
     "showMicValue": true,
     "volumeScrollStep": 5
   },
-  "batteryPlus": {
-    "timespanHours": 24
-  },
   "calculator": {
     "trigger": "",
     "calcEngine": "default",
@@ -113,6 +110,9 @@
   "ocrScanner": {
     "showHints": false,
     "ocrLanguage": "eng+deu"
+  },
+  "powerDraw": {
+    "historyHours": 24
   },
   "recentFiles": {
     "trigger": "rf",

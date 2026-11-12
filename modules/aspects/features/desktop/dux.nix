@@ -147,8 +147,13 @@
         pkgs.glib # gdbus: dankKDEConnect image sharing
       ];
 
-      # gameControllerBattery, batteryPlus
+      # gameControllerBattery, powerDraw
       services.upower.enable = true;
+
+      # rapl's energy counters are root-only; powerDraw reads them as the user
+      services.udev.extraRules = ''
+        ACTION=="add", SUBSYSTEM=="powercap", KERNEL=="intel-rapl:*", RUN+="${pkgs.coreutils}/bin/chgrp users /sys%p/energy_uj", RUN+="${pkgs.coreutils}/bin/chmod g+r /sys%p/energy_uj"
+      '';
 
       # the bar's media visualiser records desktop audio
       privacyApps'.ignore = ["cava"];
@@ -256,7 +261,6 @@
           dankPomodoroTimer.enable = true;
           takeABreak.enable = true;
           gameControllerBattery.enable = true;
-          batteryPlus.enable = true;
           screenRecorderYS.enable = true;
 
           # local: the focused window's width and height as a % of the screen
@@ -269,6 +273,12 @@
           privacyApps = {
             enable = true;
             src = self'.packages.dux-privacy-apps;
+          };
+
+          # local: power draw, battery, conservation mode and power profiles
+          powerDraw = {
+            enable = true;
+            src = self'.packages.dux-power-draw;
           };
 
           # own flake: the audio pill, device pickers, level meters and the mixer
@@ -530,43 +540,6 @@
 
     provides.battery.nixos.programs.dux-shell.plugins.batteryOSD.enable = true;
 
-    # desktops: cpu and gpu watts in batteryPlus's place
-    provides.power-draw.nixos = {
-      pkgs,
-      self',
-      ...
-    }: {
-      programs.dux-shell.plugins.powerDraw = {
-        enable = true;
-        src = self'.packages.dux-power-draw;
-      };
-
-      # rapl's energy counters are root-only; the widget reads them as the user
-      services.udev.extraRules = ''
-        ACTION=="add", SUBSYSTEM=="powercap", KERNEL=="intel-rapl:*", RUN+="${pkgs.coreutils}/bin/chgrp users /sys%p/energy_uj", RUN+="${pkgs.coreutils}/bin/chmod g+r /sys%p/energy_uj"
-      '';
-
-      dux'.settingsOverrides = [
-        (settings:
-          settings
-          // {
-            barConfigs = map (bar:
-              if bar.id == "bar1791747327469"
-              then
-                bar
-                // {
-                  leftWidgets = map (widget:
-                    if widget.id == "batteryPlus"
-                    then widget // {id = "powerDraw";}
-                    else widget)
-                  bar.leftWidgets;
-                }
-              else bar)
-            settings.barConfigs;
-          })
-      ];
-    };
-
     # expects its go cli hand-built inside the per-user plugin dir
     provides.razer.nixos = {
       pkgs,
@@ -598,66 +571,24 @@
       };
     };
 
-    # hardcodes VPC2004:00 and errors on every start without it
+    # powerDraw's conservation toggle, pkexec'd from the owner's session
     provides.ideapad.nixos = {
       host,
-      pkgs,
       lib,
-      inputs',
+      self',
       ...
     }: let
       owner = lib.head (lib.attrNames host.users);
-
-      # writes 0 or 1 and nothing else
-      setConservation = pkgs.writeShellScript "ideapad-conservation-mode" ''
-        [[ $1 == [01] ]] || exit 2
-        echo "$1" > /sys/bus/platform/devices/VPC2004:00/conservation_mode
-      '';
     in {
-      programs.dux-shell.plugins.dmsLenovoBatterySettings = {
-        enable = true;
-
-        # pkexec runs the script instead of sh -c
-        src = lib.mkForce (pkgs.applyPatches {
-          name = "dux-plugin-dmsLenovoBatterySettings";
-          src = inputs'.dux-plugin-registry.packages.dmsLenovoBatterySettings;
-          postPatch = ''
-            substituteInPlace DmsLenovoBatteryWidget.qml \
-              --replace-fail '"sh", "-c", `echo ''${targetValue} > ''${root.lenovoAcpiId}''${root.conservationModeAcpiNode}`' '"${setConservation}", targetValue'
-          '';
-        });
-      };
-
       # no prompt for the script, from the owner's local session
       security.polkit.extraConfig = ''
         polkit.addRule(function(action, subject) {
           if (action.id == "org.freedesktop.policykit.exec" &&
-              action.lookup("program") == "${setConservation}" &&
+              action.lookup("program") == "${self'.packages.dux-power-draw.conservation}" &&
               subject.user == "${owner}" && subject.local && subject.active)
             return polkit.Result.YES;
         });
       '';
-
-      # laptop only: Bar 2, right after batteryPlus
-      dux'.settingsOverrides = [
-        (settings: let
-          widget = {
-            id = "dmsLenovoBatterySettings";
-            enabled = true;
-          };
-          place = widgets:
-            lib.concatMap (w: [w] ++ lib.optional (w.id == "batteryPlus") widget)
-            (builtins.filter (w: w.id != widget.id) widgets);
-        in
-          settings
-          // {
-            barConfigs = map (bar:
-              if bar.id == "bar1791747327469"
-              then bar // {leftWidgets = place bar.leftWidgets;}
-              else bar)
-            settings.barConfigs;
-          })
-      ];
     };
 
     provides.tailscale.nixos = {

@@ -709,7 +709,7 @@
       "showOnLastDisplay": true,
       "leftWidgets": [
         {
-          "id": "batteryPlus",
+          "id": "powerDraw",
           "enabled": true
         },
         {
