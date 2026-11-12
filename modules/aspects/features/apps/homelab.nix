@@ -57,6 +57,11 @@
         description = "Movie collection manager that downloads and upgrades films";
         icon = "radarr";
       };
+      photos = {
+        name = "Immich";
+        description = "Photo and video library with phone backup, face recognition and smart search";
+        icon = "immich";
+      };
       pihole = {
         name = "Pi-hole";
         description = "Network-wide DNS ad blocker and query log";
