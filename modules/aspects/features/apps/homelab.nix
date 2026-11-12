@@ -110,6 +110,11 @@
         description = "BitTorrent client for downloading and seeding torrents";
         icon = "qbittorrent";
       };
+      uptime = {
+        name = "Gatus";
+        description = "Uptime checks for every homelab and vps endpoint";
+        icon = "gatus";
+      };
       usenet = {
         name = "SABnzbd";
         description = "Usenet downloader for NZB files";
