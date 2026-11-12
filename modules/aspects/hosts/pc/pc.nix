@@ -10,6 +10,7 @@
       firmware.amd
       graphics.nvidia
       cpu.balanced
+      dux.power-draw
 
       # Desk hardware
       peripherals.keyboard

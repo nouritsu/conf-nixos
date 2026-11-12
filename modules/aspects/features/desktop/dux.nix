@@ -530,6 +530,43 @@
 
     provides.battery.nixos.programs.dux-shell.plugins.batteryOSD.enable = true;
 
+    # desktops: cpu and gpu watts in batteryPlus's place
+    provides.power-draw.nixos = {
+      pkgs,
+      self',
+      ...
+    }: {
+      programs.dux-shell.plugins.powerDraw = {
+        enable = true;
+        src = self'.packages.dux-power-draw;
+      };
+
+      # rapl's energy counters are root-only; the widget reads them as the user
+      services.udev.extraRules = ''
+        ACTION=="add", SUBSYSTEM=="powercap", KERNEL=="intel-rapl:*", RUN+="${pkgs.coreutils}/bin/chgrp users /sys%p/energy_uj", RUN+="${pkgs.coreutils}/bin/chmod g+r /sys%p/energy_uj"
+      '';
+
+      dux'.settingsOverrides = [
+        (settings:
+          settings
+          // {
+            barConfigs = map (bar:
+              if bar.id == "bar1791747327469"
+              then
+                bar
+                // {
+                  leftWidgets = map (widget:
+                    if widget.id == "batteryPlus"
+                    then widget // {id = "powerDraw";}
+                    else widget)
+                  bar.leftWidgets;
+                }
+              else bar)
+            settings.barConfigs;
+          })
+      ];
+    };
+
     # expects its go cli hand-built inside the per-user plugin dir
     provides.razer.nixos = {
       pkgs,
