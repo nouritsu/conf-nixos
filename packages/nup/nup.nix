@@ -167,8 +167,8 @@ in {
           for i in "''${!hosts[@]}"; do
             if [[ ''${hosts[$i]} == "$host" ]]; then
               new=$(jq -r ".[$i].outputs.out" "$work/built.json")
-              dix /run/current-system "$new"
-              dix --color never /run/current-system "$new" >"$work/diff"
+              dix diff /run/current-system "$new"
+              dix --color never diff /run/current-system "$new" >"$work/diff"
             fi
           done
           if ! gum confirm --default "Commit this update?"; then
