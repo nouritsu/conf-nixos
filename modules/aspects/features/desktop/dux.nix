@@ -295,7 +295,6 @@
             src = lib.mkForce self'.packages.dux-window-fx;
           };
 
-          # widget lookup spanned every bar, hiding the top bar's tray and monitor
           # hover zone over the pill left its tint stuck after a click; off unless hover is used
           hiddenBar = {
             enable = true;
@@ -304,10 +303,6 @@
               src = inputs'.dux-plugin-registry.packages.hiddenBar;
               postPatch = ''
                 substituteInPlace HiddenBarWidget.qml \
-                  --replace-fail 'let myScreen = pluginRoot.parentScreen.name;' \
-                    'let myScreen = pluginRoot.parentScreen.name; let myBarId = BarWidgetService.registrationForItem(pluginRoot)?.context?.barId ?? "";' \
-                  --replace-fail 'BarWidgetService.getWidget(id, myScreen)' \
-                    'BarWidgetService.resolveWidget(id, {screenName: myScreen, barId: myBarId})?.item' \
                   --replace-fail 'id: triggerZone' \
                     'id: triggerZone; enabled: pluginRoot.autoExpand || pluginRoot.autoCollapse'
               '';
@@ -604,13 +599,12 @@
         enable = true;
 
         # pkexec execs the resolved path on a bare PATH, which turns tailscale
-        # into tailscaled and breaks uutils' multicall env/timeout
+        # into tailscaled and breaks uutils' multicall timeout
         src = lib.mkForce (pkgs.applyPatches {
           name = "dux-plugin-dankscale";
           src = inputs'.dux-plugin-registry.packages.dankscale;
           postPatch = ''
             substituteInPlace services/TailscaleService.qml \
-              --replace-fail '"pkexec", "tailscale"' '"pkexec", "${pkgs.coreutils}/bin/env", "${tailscale}"' \
               --replace-fail '"pkexec", "timeout"' '"pkexec", "${pkgs.coreutils}/bin/timeout"' \
               --replace-fail '"tailscale", "login"' '"${tailscale}", "login"'
           '';

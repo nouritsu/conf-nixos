@@ -51,7 +51,6 @@
         claude-desktop
         pkgs.code-cursor
 
-        pkgs.ccusage
         pkgs.claude-monitor
         pkgs.claude-mergetool
       ];
@@ -97,7 +96,6 @@
         cr = "claude --resume";
         cn = "claude --continue";
       };
-      programs.fish.shellAliases.claude-usage = "ccusage";
 
       isup'.checks = {
         claude = {

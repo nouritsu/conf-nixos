@@ -14,10 +14,10 @@
     # plugin packer, prebuilt in the npm package
     starlight = pkgs.stdenv.mkDerivation rec {
       pname = "starlight";
-      version = "1.1.6";
+      version = "1.1.7";
       src = pkgs.fetchurl {
         url = "https://registry.npmjs.org/@steambrew/starlight/-/starlight-${version}.tgz";
-        hash = "sha256-55wg5EKbDLZkoBPZ7x3SyHS7tdiN6JaVuLh9OPQKMy0=";
+        hash = "sha256-IVDGMPY/Frq2GUQ72lwNjBg6y/cRKnMLyBdKRKImemI=";
       };
       nativeBuildInputs = [pkgs.autoPatchelfHook];
       buildInputs = [pkgs.stdenv.cc.cc.lib];
@@ -91,10 +91,10 @@
     # releases are a single .star since 1.3.0
     packages.millennium-size-on-disk = pkgs.stdenvNoCC.mkDerivation rec {
       pname = "size-on-disk";
-      version = "1.3.1";
+      version = "1.4.0";
       src = pkgs.fetchurl {
         url = "https://github.com/k0d13/steam-size-on-disk/releases/download/v${version}/size-on-disk-${version}.star";
-        hash = "sha256-VJohLQSYLCj71zBlTM5yqS8iuER2lCYDPdkfj2YtTAo=";
+        hash = "sha256-UTjzkqYNHj1o25ODbg2CvxWRpLty9QkpS0lrG5/sVAQ=";
       };
       dontUnpack = true;
       installPhase = "cp $src $out";
