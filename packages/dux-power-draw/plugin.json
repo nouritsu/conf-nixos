@@ -11,5 +11,6 @@
     "widget": "./PowerDrawWidget.qml",
     "daemon": "./PowerDrawDaemon.qml"
   },
-  "permissions": ["settings_read"]
+  "settings": "./PowerDrawSettings.qml",
+  "permissions": ["settings_read", "settings_write"]
 }

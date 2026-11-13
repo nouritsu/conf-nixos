@@ -9,8 +9,8 @@ import qs.Modules.Plugins
 PluginComponent {
     id: root
 
-    // ct per kWh, pinned; 0 leaves cost out
-    readonly property real priceCt: Number(pluginData.priceCt ?? 0)
+    // ct per kWh from the settings page, either decimal mark; 0 leaves cost out
+    readonly property real priceCt: Number(String(pluginData.priceCt ?? 0).replace(",", "."))
 
     property string cpuModel: ""
     property real cpuMaxGhz: NaN

@@ -39,6 +39,7 @@
       mkdir $out
       cp ${./plugin.json} $out/plugin.json
       cp ${./PowerDrawWidget.qml} $out/PowerDrawWidget.qml
+      cp ${./PowerDrawSettings.qml} $out/PowerDrawSettings.qml
       substitute ${./PowerDrawDaemon.qml} $out/PowerDrawDaemon.qml \
         --replace-fail @sampler@ ${pkgs.lib.getExe sampler} \
         --replace-fail @history@ ${pkgs.lib.getExe history} \
