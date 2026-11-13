@@ -112,7 +112,8 @@
     "ocrLanguage": "eng+deu"
   },
   "powerDraw": {
-    "historyHours": 24
+    "historyHours": 24,
+    "priceCt": 23.47
   },
   "recentFiles": {
     "trigger": "rf",
