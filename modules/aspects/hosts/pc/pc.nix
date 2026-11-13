@@ -21,6 +21,7 @@
 
       secrets
       dux.home-assistant
+      brave.home-assistant
       dux.calendar
       services.beszel
       services.immich-ml

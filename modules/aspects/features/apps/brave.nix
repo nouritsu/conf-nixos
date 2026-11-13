@@ -1,5 +1,10 @@
 {
-  den.aspects.brave.nixos = {self', ...}: let
+  den.aspects.brave.nixos = {
+    config,
+    self',
+    lib,
+    ...
+  }: let
     mkExtension = id: "${id};https://clients2.google.com/service/update2/crx";
 
     # shortcuts can't start with "@"; featured caps at three
@@ -7,6 +12,16 @@
 
     brave = "brave-origin.desktop";
   in {
+    imports = [
+      {
+        # per-host new tab page
+        options.brave'.newTabPage = lib.mkOption {
+          type = lib.types.str;
+          default = "about:blank";
+        };
+      }
+    ];
+
     environment.systemPackages = [self'.packages.brave];
 
     programs.chromium = {
@@ -35,7 +50,7 @@
         # Chrome
         BookmarkBarEnabled = false;
         ShowHomeButton = false;
-        NewTabPageLocation = "about:blank";
+        NewTabPageLocation = config.brave'.newTabPage;
         BrowserLabsEnabled = false;
         SideSearchEnabled = false;
         BrowserAddPersonEnabled = false;
@@ -70,4 +85,7 @@
 
     environment.sessionVariables.BROWSER = "brave-origin";
   };
+
+  # home assistant's overview dashboard, from nixos-srv
+  den.aspects.brave.provides.home-assistant.nixos.brave'.newTabPage = "https://home.nouritsu.com/nix-overview/home";
 }
