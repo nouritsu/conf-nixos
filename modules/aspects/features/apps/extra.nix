@@ -24,6 +24,7 @@
           self'.packages.mpv
           self'.packages.spotify
           pkgs.jellyfin-mpv-shim
+          self'.packages.freetube
         ];
 
         which-key'.menu.m.submenu = {
@@ -38,6 +39,12 @@
             icon = "f0ecf";
             cmd = lib.getExe pkgs.jellyfin-mpv-shim;
             app-id = "jellyfin-mpv-shim$";
+          };
+          y = {
+            desc = "FreeTube";
+            icon = "f05c3";
+            cmd = lib.getExe self'.packages.freetube;
+            app-id = "freetube";
           };
           v = {
             desc = "mpv";
