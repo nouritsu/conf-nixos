@@ -30,6 +30,24 @@
         open-floating = true;
       }
 
+      # toasts: bottom-right corner, focus stays put
+      {
+        matches = [
+          {
+            app-id = "^steam$";
+            title = "^notificationtoasts_\\d+_desktop$";
+          }
+        ];
+        default-floating-position = _: {
+          props = {
+            x = 10;
+            y = 10;
+            relative-to = "bottom-right";
+          };
+        };
+        open-focused = false;
+      }
+
       # undertale: fullscreen letterboxes 640x480 at an exact 3x; a maximised column scales it unevenly
       {
         matches = [
