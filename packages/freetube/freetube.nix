@@ -90,6 +90,11 @@ in {
         name = "Stand Up";
         bgColor = c "base0A";
       }
+      {
+        _id = "entertainment";
+        name = "Entertainment";
+        bgColor = c "base0C";
+      }
     ]));
 
     enforce = pkgs.writeShellApplication {
