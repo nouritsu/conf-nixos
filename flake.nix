@@ -70,13 +70,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # pinned: its nix packaging has broken on releases, bump by hand once a new one builds
-    # nixpkgs-bun stays its own: the bun deps hash depends on that exact bun
-    millennium = {
-      url = "github:SteamClientHomebrew/Millennium/0d22d4330995fff5a6dcb0b255dfb48f96f64972?dir=packages/nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # repackages anthropic's official .deb; upstream bumps it on every release
     claude-desktop = {
       url = "github:aaddrick/claude-desktop-debian";
@@ -142,10 +135,6 @@
     };
     folder-color = {
       url = "github:costales/folder-color";
-      flake = false;
-    };
-    steam-native-notifications = {
-      url = "github:tyvsmith/steam-native-notifications";
       flake = false;
     };
     lemurs = {

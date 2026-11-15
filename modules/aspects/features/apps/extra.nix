@@ -326,6 +326,13 @@
           enable = true;
           extest.enable = true;
           gamescopeSession.enable = true;
+          # every game loads mangohud, hidden until shift_r+f12
+          package = pkgs.steam.override {
+            extraEnv = {
+              MANGOHUD = "1";
+              MANGOHUD_CONFIG = "read_cfg,no_display";
+            };
+          };
         };
         programs.gamemode.enable = true;
 

@@ -534,48 +534,6 @@
         "type": "github"
       }
     },
-    "millennium": {
-      "inputs": {
-        "millennium-src": "millennium-src",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nixpkgs-bun": "nixpkgs-bun"
-      },
-      "locked": {
-        "dir": "packages/nix",
-        "lastModified": 1791035346,
-        "narHash": "sha256-WVvz6xOSrzfjU/5mYrxM8Z67QZf3+NuCorRABmZDIm4=",
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "0d22d4330995fff5a6dcb0b255dfb48f96f64972",
-        "type": "github"
-      },
-      "original": {
-        "dir": "packages/nix",
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "0d22d4330995fff5a6dcb0b255dfb48f96f64972",
-        "type": "github"
-      }
-    },
-    "millennium-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790436335,
-        "narHash": "sha256-ghYUa4gPLV/VOflM2zkl/gtdwLWHQpRxG4boQoj4yKM=",
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "765aa8802f8a4d942ad8ac8323a9e0f233a50fa8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "SteamClientHomebrew",
-        "repo": "Millennium",
-        "rev": "765aa8802f8a4d942ad8ac8323a9e0f233a50fa8",
-        "type": "github"
-      }
-    },
     "nfsm": {
       "flake": false,
       "locked": {
@@ -740,22 +698,6 @@
         "owner": "NixOS",
         "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-bun": {
-      "locked": {
-        "lastModified": 1790822859,
-        "narHash": "sha256-69xHQhAeMAD2wDXO7T2pcOZIF9Sga2W+JkmY2a11Ops=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
         "type": "github"
       }
     },
@@ -998,7 +940,6 @@
         "layercapture": "layercapture",
         "lemurs": "lemurs",
         "liixini-shaders": "liixini-shaders",
-        "millennium": "millennium",
         "nfsm": "nfsm",
         "niri": "niri",
         "niri-cwd": "niri-cwd",
@@ -1014,7 +955,6 @@
         "shatterlock": "shatterlock",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
-        "steam-native-notifications": "steam-native-notifications",
         "treefmt-nix": "treefmt-nix",
         "utsushot": "utsushot",
         "wrappers": "wrappers",
@@ -1163,22 +1103,6 @@
       "original": {
         "owner": "Gerg-L",
         "repo": "spicetify-nix",
-        "type": "github"
-      }
-    },
-    "steam-native-notifications": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1794190856,
-        "narHash": "sha256-kTQItbV00kxDo6Ul02RDYjw+g1bxJf8bmJLMoQloVkQ=",
-        "owner": "tyvsmith",
-        "repo": "steam-native-notifications",
-        "rev": "4d68447faca677cd6f0645133349963c07d047e7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tyvsmith",
-        "repo": "steam-native-notifications",
         "type": "github"
       }
     },
