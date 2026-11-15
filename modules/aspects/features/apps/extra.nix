@@ -333,8 +333,13 @@
               MANGOHUD_CONFIG = "read_cfg,no_display";
             };
           };
+          # shows up as "GE-Proton", bumped with nixpkgs
+          extraCompatPackages = [pkgs.proton-ge-bin];
         };
         programs.gamemode.enable = true;
+
+        # built as a module but never autoloaded; proton uses /dev/ntsync once it exists
+        boot.kernelModules = ["ntsync"];
 
         environment.systemPackages = [
           pkgs.mangohud
