@@ -315,19 +315,19 @@
     {
       "id": "runningApps",
       "enabled": true,
-      "w": 5.5,
+      "w": 7,
       "h": 1,
       "col": 0,
       "row": 5,
-      "small": true
+      "small": false
     },
     {
       "id": "edit",
       "enabled": true,
-      "w": 2.5,
+      "w": 1,
       "h": 1,
-      "small": true,
-      "col": 5.5,
+      "small": false,
+      "col": 7,
       "row": 5
     }
   ],
