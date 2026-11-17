@@ -13,6 +13,5 @@
     extra.productivity
     extra.proton
     extra.chat
-    virtualization.android
   ];
 }

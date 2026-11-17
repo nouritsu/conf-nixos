@@ -1,15 +1,5 @@
 {
   den.aspects.virtualization.provides = {
-    android.nixos = {
-      virtualisation.waydroid.enable = true;
-
-      which-key'.menu.t.submenu.w = {
-        desc = "Waydroid";
-        icon = "f0032";
-        cmd = "waydroid";
-        app-id = "^waydroid$";
-      };
-    };
     podman.nixos = {
       virtualisation.podman = {
         enable = true;
