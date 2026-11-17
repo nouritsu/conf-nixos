@@ -61,11 +61,20 @@
         pkgs,
         lib,
         ...
-      }: {
+      }: let
+        cameraNr = "10";
+      in {
         environment.systemPackages = [
           pkgs.android-tools
           self'.packages.scrcpy
         ];
+
+        # phone camera sink, in-tree on cachyos
+        # exclusive_caps: chromium apps only list it with this
+        boot.kernelModules = ["v4l2loopback"];
+        boot.extraModprobeConfig = ''
+          options v4l2loopback video_nr=${cameraNr} card_label=Phone exclusive_caps=1
+        '';
 
         which-key'.menu.t.submenu.p = {
           desc = "scrcpy";
@@ -79,6 +88,7 @@
           adi = "adb install";
           adp = "adb push";
           adc = "adb connect";
+          scrcpy-camera = "scrcpy --video-source=camera --camera-facing=back --camera-size=1920x1080 --no-audio --no-window --v4l2-sink=/dev/video${cameraNr}";
         };
       };
 
