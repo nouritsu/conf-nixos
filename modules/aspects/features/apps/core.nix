@@ -27,7 +27,6 @@
       pkgs.killall
       pkgs.lsd
       pkgs.xcp
-      pkgs.rip2
       pkgs.bat
       pkgs.fd
       pkgs.ripgrep
@@ -134,7 +133,6 @@
 
       cat = "bat --theme=ansi"; # inherit terminal theme
       cp = "xcp";
-      rm = "rip";
       cd = "z";
       fz = "tv";
       du = "dust";

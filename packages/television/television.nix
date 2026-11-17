@@ -26,7 +26,7 @@ in {
             channel_triggers = {
               alias = ["alias" "funced"];
               dirs = ["cd" "z" "ls" "l" "ll" "lr" "tree" "rmdir" "pushd"];
-              files = ["cat" "bat" "hx" "less" "head" "tail" "cp" "xcp" "mv" "rm" "rip" "touch" "chmod" "chown" "ln" "ouch" "xdg-open"];
+              files = ["cat" "bat" "hx" "less" "head" "tail" "cp" "xcp" "mv" "rm" "touch" "chmod" "chown" "ln" "ouch" "xdg-open"];
               git-diff = ["git add" "git restore" "git diff"];
               git-branch = ["git checkout" "git switch" "git branch" "git merge" "git rebase" "git pull" "git push"];
               git-log = ["git log" "git show" "git revert" "git cherry-pick" "git reset"];
