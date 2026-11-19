@@ -140,10 +140,7 @@
 
         # Plugin deps
         pkgs.translate-shell # dankTranslate: trans
-        (pkgs.tesseract.override {enableLanguages = ["eng" "deu"];}) # ocrScanner
-        pkgs.file # ocrScanner: clipboard scans are gated on `file --mime-type`
-        pkgs.librsvg # ocrScanner: rsvg-convert for dropped SVGs
-        pkgs.libnotify # notify-send: ipIndicator IP changes, gameControllerBattery, dankPomodoroTimer
+        pkgs.libnotify # notify-send: ipIndicator IP changes, gameControllerBattery
         pkgs.glib # gdbus: dankKDEConnect image sharing
       ];
 
@@ -157,9 +154,6 @@
 
       # the bar's media visualiser records desktop audio
       privacyApps'.ignore = ["cava"];
-
-      # screenRecorderYS
-      programs.gpu-screen-recorder.enable = true;
 
       # settings.json is read-only; GUI changes come back through Dux's
       # copy-JSON button into dux-settings.json
@@ -247,21 +241,14 @@
           calculator.enable = true;
           emojiLauncher.enable = true;
           commandRunner.enable = true;
-          displayMirror.enable = true;
           webSearch.enable = true;
           sshConnections.enable = true;
-          airQuality.enable = true;
           dankLauncherKeys.enable = true;
-          handMirror.enable = true;
           recentFiles.enable = true;
           dankTranslate.enable = true;
-          systemMonitorPlus.enable = true;
           nixPackageRunner.enable = true;
-          ocrScanner.enable = true;
-          dankPomodoroTimer.enable = true;
           takeABreak.enable = true;
           gameControllerBattery.enable = true;
-          screenRecorderYS.enable = true;
 
           # local: the focused window's width and height as a % of the screen
           columnWidth = {
@@ -293,20 +280,6 @@
           windowFx = {
             enable = true;
             src = lib.mkForce self'.packages.dux-window-fx;
-          };
-
-          # hover zone over the pill left its tint stuck after a click; off unless hover is used
-          hiddenBar = {
-            enable = true;
-            src = lib.mkForce (pkgs.applyPatches {
-              name = "dux-plugin-hiddenBar";
-              src = inputs'.dux-plugin-registry.packages.hiddenBar;
-              postPatch = ''
-                substituteInPlace HiddenBarWidget.qml \
-                  --replace-fail 'id: triggerZone' \
-                    'id: triggerZone; enabled: pluginRoot.autoExpand || pluginRoot.autoCollapse'
-              '';
-            });
           };
 
           # script path assumed the per-user plugin dir

@@ -68,9 +68,6 @@
   "dankKDEConnect": {
     "scanSubdirectories": true
   },
-  "dankPomodoroTimer": {
-    "autoSetDND": true
-  },
   "dankscale": {
     "pollSeconds": "5",
     "downloadDir": "/home/aneesh/Downloads/Taildrop"
@@ -84,17 +81,6 @@
     "updateMethod": "both",
     "refreshInterval": 30
   },
-  "handMirror": {
-    "captureDelay": "10",
-    "screenFlash": false,
-    "popoutScale": 184,
-    "zoomFactor": 1
-  },
-  "hiddenBar": {
-    "autoExpand": false,
-    "autoCollapse": false,
-    "extendedTrigger": false
-  },
   "homeAssistantMonitor": {
     "hassTokenPath": "/run/secrets/ha-pc-token",
     "showAttributes": false,
@@ -107,10 +93,6 @@
     "showHints": false,
     "notifyOnIPChange": true
   },
-  "ocrScanner": {
-    "showHints": false,
-    "ocrLanguage": "eng+deu"
-  },
   "powerDraw": {
     "historyHours": 24,
     "priceCt": 23.47
@@ -119,35 +101,9 @@
     "trigger": "rf",
     "noTrigger": false
   },
-  "screenRecorderYS": {
-    "maxFps": "120",
-    "quality": "very_high",
-    "codec": "auto",
-    "fallbackCpuEncoding": false,
-    "recordMicrophone": true
-  },
   "sshConnections": {
     "terminal": "wezterm",
     "exec_flags": "start"
-  },
-  "systemMonitorPlus": {
-    "cpuTempEnabled": true,
-    "ramUsageEnabled": true,
-    "gpuTempEnabled": false,
-    "networkSpeedEnabled": true,
-    "cpuUsageVisualStyle": "gauge",
-    "cpuUsageShowIcon": true,
-    "cpuTempVisualStyle": "gauge",
-    "ramUsageVisualStyle": "gauge",
-    "ramUsageIconName": "",
-    "ramUsageShowIcon": true,
-    "networkSpeedVisualStyle": "default",
-    "diskPartitionUsageEnabled": true,
-    "cpuUsageColorizeText": false,
-    "networkSpeedShortUnits": true,
-    "networkSpeedColorizeText": false,
-    "diskPartitionUsageVisualStyle": "gauge",
-    "diskPartitionUsageColorizeText": false
   },
   "takeABreak": {
     "pauseMusic": true,
