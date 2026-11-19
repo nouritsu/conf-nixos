@@ -56,23 +56,49 @@ PluginComponent {
     onShownChanged: setVisibilityOverride(shown)
     Component.onCompleted: setVisibilityOverride(shown)
 
-    // click cycles the preset widths, same as Mod+R
+    // the half under the pointer, for the clicks
+    property bool pointingAtHeight: false
+
+    // click cycles the presets: width like Mod+R, height like Mod+Shift+R
     pillClickAction: () => NiriService.send({
-        "Action": {
+        "Action": pointingAtHeight ? {
+            "SwitchPresetWindowHeight": {
+                "id": null
+            }
+        } : {
             "SwitchPresetColumnWidth": {}
         }
     })
 
-    // right click toggles maximize, same as Mod+M
+    // right click: width toggles maximize like Mod+M, height full or back to automatic
     pillRightClickAction: () => NiriService.send({
-        "Action": {
+        "Action": !pointingAtHeight ? {
             "MaximizeColumn": {}
+        } : heightPercent < 100 ? {
+            "SetWindowHeight": {
+                "id": null,
+                "change": {
+                    "SetProportion": 100
+                }
+            }
+        } : {
+            "ResetWindowHeight": {
+                "id": null
+            }
         }
     })
 
     horizontalBarPill: Component {
         Row {
+            id: pillRow
+
             spacing: Theme.spacingS
+
+            // passive, so the pill keeps its own hover and press feedback
+            HoverHandler {
+                margin: Theme.spacingM
+                onPointChanged: root.pointingAtHeight = point.position.x >= pillRow.width / 2
+            }
 
             Repeater {
                 model: root.axes
@@ -107,7 +133,14 @@ PluginComponent {
 
     verticalBarPill: Component {
         Column {
+            id: pillColumn
+
             spacing: Theme.spacingXS
+
+            HoverHandler {
+                margin: Theme.spacingM
+                onPointChanged: root.pointingAtHeight = point.position.y >= pillColumn.height / 2
+            }
 
             Repeater {
                 model: root.axes
