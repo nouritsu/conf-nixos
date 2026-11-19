@@ -1,11 +1,23 @@
 {den, ...}: {
   # two security keys: a touch instead of the password, typing it still works
   den.aspects.yubikey = {
-    nixos = {pkgs, ...}: {
+    nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       environment.systemPackages = [
         pkgs.yubikey-manager
+        pkgs.yubioath-flutter
         pkgs.libfido2
       ];
+
+      which-key'.menu.s.submenu.y = {
+        desc = "Yubico Authenticator";
+        icon = "f0bc4";
+        cmd = lib.getExe pkgs.yubioath-flutter;
+        app-id = "com.yubico.yubioath";
+      };
 
       # a notification while a key blinks for a touch
       programs.yubikey-touch-detector.enable = true;
