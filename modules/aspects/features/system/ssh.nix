@@ -6,7 +6,7 @@
   den.aspects.ssh = let
     inherit (den.hosts.x86_64-linux) pc laptop;
 
-    securityKeys = lib.mapAttrsToList (_: key: key.ssh) den.lib.securityKeys;
+    securityKeys = lib.mapAttrsToList (_: key: key.ssh) den.lib.yubikeys;
   in {
     nixos = {
       config,

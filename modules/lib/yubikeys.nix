@@ -1,6 +1,6 @@
 {
   # names are the resident ssh keys' application, ssh:<name>
-  den.lib.securityKeys = {
+  den.lib.yubikeys = {
     yubikey-a = {
       ssh = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMnLxjqSr4eW8FTR8/VqPheLwem+4Tyk/xvg7k/YwYxIAAAADXNzaDp5dWJpa2V5LWE= ab@nouritsu.com";
       # age-plugin-fido2-hmac

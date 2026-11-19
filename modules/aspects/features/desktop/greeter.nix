@@ -15,7 +15,7 @@
     # the login password: .age to both security keys, .enc to diskLoginKey's key; per host, out of git
     sealed = "${config.users.users.${owner}.home}/.local/state/keyring-password";
     enc = "openssl enc -aes-256-cbc -pbkdf2";
-    recipients = pkgs.writeText "keyring-recipients" (lib.concatLines (lib.mapAttrsToList (_: key: key.age) den.lib.securityKeys));
+    recipients = pkgs.writeText "keyring-recipients" (lib.concatLines (lib.mapAttrsToList (_: key: key.age) den.lib.yubikeys));
 
     # once per host, and after a password change; no touch needed
     sealKeyring = pkgs.writeShellApplication {

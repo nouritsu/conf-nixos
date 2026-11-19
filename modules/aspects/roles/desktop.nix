@@ -18,7 +18,9 @@
     dux.tailscale
     shatterlock
     stasis
-    security.yubikey
+    yubikey
+    yubikey.pam
+    yubikey.ssh
     greeter
     user-dirs
     core
