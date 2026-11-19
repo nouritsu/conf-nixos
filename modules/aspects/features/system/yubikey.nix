@@ -6,8 +6,9 @@
       lib,
       ...
     }: {
+      programs.yubikey-manager.enable = true;
+
       environment.systemPackages = [
-        pkgs.yubikey-manager
         pkgs.yubioath-flutter
         pkgs.libfido2
       ];
