@@ -1,0 +1,12 @@
+{
+  "id": "razerMouse",
+  "name": "Razer Mouse",
+  "description": "Battery of the Razer mouse; click for its DPI",
+  "version": "1.0.0",
+  "author": "Aneesh Bhave",
+  "icon": "mouse",
+  "type": "widget",
+  "capabilities": ["dankbar-widget"],
+  "component": "./RazerMouseWidget.qml",
+  "permissions": ["process"]
+}

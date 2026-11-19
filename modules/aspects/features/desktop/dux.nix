@@ -508,34 +508,11 @@
 
     provides.battery.nixos.programs.dux-shell.plugins.batteryOSD.enable = true;
 
-    # expects its go cli hand-built inside the per-user plugin dir
-    provides.razer.nixos = {
-      pkgs,
-      lib,
-      inputs',
-      self',
-      ...
-    }: let
-      src = inputs'.dux-plugin-registry.packages.dankRazer;
-      dankrazer = self'.packages.dankrazer;
-    in {
-      programs.dux-shell.plugins.dankRazer = {
+    # local: the razer mouse's battery and a dpi menu, over openrazer
+    provides.razer.nixos = {self', ...}: {
+      programs.dux-shell.plugins.razerMouse = {
         enable = true;
-        src = lib.mkForce (pkgs.applyPatches {
-          name = "dux-plugin-dankRazer";
-          inherit src;
-          postPatch = ''
-            substituteInPlace DankRazerWidget.qml --replace-fail \
-              'pluginService.pluginDirectory + "/dankRazer/dankrazer-cli/dankrazer"' \
-              '"${lib.getExe dankrazer}"'
-            # string/toggle settings have no leftIcon, so the page fails to load
-            substituteInPlace DankRazerSettings.qml \
-              --replace-fail 'leftIcon: "palette"' "" \
-              --replace-fail 'leftIcon: "touch_app"' "" \
-              --replace-fail 'leftIcon: "sync"' "" \
-              --replace-fail 'leftIcon: "bedtime"' ""
-          '';
-        });
+        src = self'.packages.dux-razer-mouse;
       };
     };
 
