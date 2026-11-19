@@ -15,7 +15,7 @@ PluginComponent {
     readonly property var daemon: PluginService.pluginDaemonInstances[pluginId] ?? null
     readonly property var gpu: daemon?.gpu ?? null
 
-    // chart bands and their meters; the total gets its own line
+    // chart lines and their meters
     readonly property color cpuColor: Theme.primary
     readonly property color gpuColor: Theme.tertiary
     readonly property color restColor: Theme.onSurfaceVariant
@@ -1153,7 +1153,7 @@ PluginComponent {
                 width: popout.width
                 spacing: PopoutMetrics.contentGap
 
-                // headline total, its split, and the stacked history
+                // headline total, its split, and the history
                 DCard {
                     id: chartCard
 
@@ -1175,22 +1175,20 @@ PluginComponent {
                         return hovered ? hovered[root.sourceNames.indexOf(key)] : NaN;
                     }
 
-                    // stacked bands from the floor up; the top edge is drawn again as the total
+                    // cpu, gpu and the total, each its own line from the floor
                     function paths(width, height) {
                         const out = {
-                            "fills": ["", "", ""],
-                            "edges": ["", ""],
+                            "cpu": "",
+                            "gpu": "",
                             "total": ""
                         };
                         const count = points.length;
-                        const layers = bands.length;
                         if (count === 0 || width <= 0)
                             return out;
                         const step = width / count;
                         const inset = Theme.spacingXS;
                         const top = chartCard.ceiling;
                         const y = value => Number(inset + (1 - Math.min(value, top) / top) * (height - inset * 2)).toFixed(1);
-                        const floor = Number(height - inset).toFixed(1);
                         let i = 0;
                         while (i < count) {
                             if (!points[i]) {
@@ -1207,18 +1205,10 @@ PluginComponent {
                             run.unshift([first * step, run[0][1]]);
                             run.push([i * step, run[run.length - 1][1]]);
 
-                            // each layer's top is the running sum of those below it
-                            const edges = [];
-                            for (let k = 0; k < layers; k++)
-                                edges.push(run.map(p => `${p[0].toFixed(1)} ${y(p[1].slice(0, k + 1).reduce((sum, value) => sum + value, 0))}`));
-                            const bottom = [`${run[run.length - 1][0].toFixed(1)} ${floor}`, `${run[0][0].toFixed(1)} ${floor}`];
-                            for (let k = 0; k < layers; k++) {
-                                const lower = k === 0 ? bottom : edges[k - 1].slice().reverse();
-                                out.fills[k] += ` M ${edges[k].join(" L ")} L ${lower.join(" L ")} Z`;
-                                if (k < layers - 1)
-                                    out.edges[k] += ` M ${edges[k].join(" L ")}`;
-                            }
-                            out.total += ` M ${edges[layers - 1].join(" L ")}`;
+                            const line = watts => ` M ${run.map(p => `${p[0].toFixed(1)} ${y(watts(p[1]))}`).join(" L ")}`;
+                            out.cpu += line(point => point[0]);
+                            out.gpu += line(point => point[1]);
+                            out.total += line(point => point.reduce((sum, value) => sum + value, 0));
                         }
                         return out;
                     }
@@ -1278,10 +1268,12 @@ PluginComponent {
 
                                             spacing: Theme.spacingXS
 
+                                            // rest has no line, only its share of the total
                                             Rectangle {
-                                                width: Theme.spacingS
-                                                height: width
-                                                radius: width / 2
+                                                visible: legendEntry.modelData !== "rest"
+                                                width: Theme.spacingM
+                                                height: Theme.outlineWidthFocused
+                                                radius: height / 2
                                                 color: root.sourceColor(legendEntry.modelData)
                                                 anchors.verticalCenter: parent.verticalCenter
                                             }
@@ -1360,54 +1352,26 @@ PluginComponent {
                                     preferredRendererType: Shape.CurveRenderer
 
                                     ShapePath {
-                                        strokeColor: "transparent"
-                                        strokeWidth: 0
-                                        fillColor: Theme.withAlpha(root.cpuColor, 0.3)
-
-                                        PathSvg {
-                                            path: plot.paths.fills[0]
-                                        }
-                                    }
-
-                                    ShapePath {
-                                        strokeColor: "transparent"
-                                        strokeWidth: 0
-                                        fillColor: Theme.withAlpha(root.gpuColor, 0.3)
-
-                                        PathSvg {
-                                            path: plot.paths.fills[1]
-                                        }
-                                    }
-
-                                    ShapePath {
-                                        strokeColor: "transparent"
-                                        strokeWidth: 0
-                                        fillColor: Theme.withAlpha(root.restColor, 0.25)
-
-                                        PathSvg {
-                                            path: plot.paths.fills[2]
-                                        }
-                                    }
-
-                                    ShapePath {
                                         strokeColor: root.cpuColor
-                                        strokeWidth: 1
+                                        strokeWidth: Theme.outlineWidthFocused
                                         fillColor: "transparent"
                                         joinStyle: ShapePath.RoundJoin
+                                        capStyle: ShapePath.RoundCap
 
                                         PathSvg {
-                                            path: plot.paths.edges[0]
+                                            path: plot.paths.cpu
                                         }
                                     }
 
                                     ShapePath {
                                         strokeColor: root.gpuColor
-                                        strokeWidth: 1
+                                        strokeWidth: Theme.outlineWidthFocused
                                         fillColor: "transparent"
                                         joinStyle: ShapePath.RoundJoin
+                                        capStyle: ShapePath.RoundCap
 
                                         PathSvg {
-                                            path: plot.paths.edges[1]
+                                            path: plot.paths.gpu
                                         }
                                     }
 
