@@ -6,9 +6,9 @@
       lib,
       ...
     }: {
-      programs.yubikey-manager.enable = true;
-
       environment.systemPackages = [
+        # not programs.yubikey-manager: its pcscd shows libfido2 each key twice and touches fail
+        pkgs.yubikey-manager
         pkgs.yubioath-flutter
         pkgs.libfido2
       ];
