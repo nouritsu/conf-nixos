@@ -32,9 +32,14 @@ PluginComponent {
     readonly property real workingWidth: (layout?.screen.width ?? 0) - (layout?.edges.left.reservation ?? 0) - (layout?.edges.right.reservation ?? 0) - strutsX
     readonly property real workingHeight: (layout?.screen.height ?? 0) - (layout?.edges.top.reservation ?? 0) - (layout?.edges.bottom.reservation ?? 0) - strutsY
 
-    // niri sizes a tile at (working - gaps) * proportion - gaps; fullscreen caps at 100
+    // niri sizes a tile at (working - gaps) * proportion - gaps
+    function proportionOf(tile, working) {
+        return (tile + gaps) / (working - gaps);
+    }
+
+    // fullscreen caps at 100
     function percentOf(tile, working) {
-        return Math.round(Math.min(1, (tile + gaps) / (working - gaps)) * 100);
+        return Math.round(Math.min(1, proportionOf(tile, working)) * 100);
     }
 
     readonly property int widthPercent: tileSize && workingWidth > gaps ? percentOf(tileSize[0], workingWidth) : -1
@@ -71,21 +76,55 @@ PluginComponent {
         }
     })
 
-    // right click: width toggles maximize like Mod+M, height full or back to automatic
-    pillRightClickAction: () => NiriService.send({
-        "Action": !pointingAtHeight ? {
-            "MaximizeColumn": {}
-        } : heightPercent < 100 ? {
+    // niri keeps no height to go back to, so it's kept here per window:
+    // max is where maximizing landed, any other height drops the entry, like MaximizeColumn
+    property var savedHeights: ({})
+
+    onHeightPercentChanged: {
+        const saved = window ? savedHeights[window.id] : undefined;
+        if (!saved || heightPercent < 0)
+            return;
+        if (saved.max === undefined)
+            saved.max = heightPercent;
+        else if (heightPercent !== saved.max)
+            delete savedHeights[window.id];
+    }
+
+    function setHeight(percent) {
+        return {
             "SetWindowHeight": {
                 "id": null,
                 "change": {
-                    "SetProportion": 100
+                    "SetProportion": percent
                 }
             }
-        } : {
-            "ResetWindowHeight": {
-                "id": null
-            }
+        };
+    }
+
+    // height: full, then back to where it was; full without a saved height goes automatic
+    function heightAction() {
+        const saved = window ? savedHeights[window.id] : undefined;
+        if (saved) {
+            delete savedHeights[window.id];
+            return setHeight(saved.proportion);
+        }
+        if (heightPercent >= 100)
+            return {
+                "ResetWindowHeight": {
+                    "id": null
+                }
+            };
+        if (heightPercent >= 0)
+            savedHeights[window.id] = {
+                "proportion": proportionOf(tileSize[1], workingHeight) * 100
+            };
+        return setHeight(100);
+    }
+
+    // right click: width toggles maximize like Mod+M, height toggles full
+    pillRightClickAction: () => NiriService.send({
+        "Action": pointingAtHeight ? heightAction() : {
+            "MaximizeColumn": {}
         }
     })
 
