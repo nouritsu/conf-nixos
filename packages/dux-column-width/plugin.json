@@ -7,5 +7,7 @@
   "icon": "width",
   "type": "widget",
   "capabilities": ["dankbar-widget"],
-  "component": "./ColumnWidthWidget.qml"
+  "component": "./ColumnWidthWidget.qml",
+  "settings": "./ColumnWidthSettings.qml",
+  "permissions": ["settings_read", "settings_write"]
 }

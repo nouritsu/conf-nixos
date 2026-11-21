@@ -11,6 +11,7 @@
     packages.dux-column-width = pkgs.runCommand "dux-column-width" {} ''
       mkdir $out
       cp ${./plugin.json} $out/plugin.json
+      cp ${./ColumnWidthSettings.qml} $out/ColumnWidthSettings.qml
       substitute ${./ColumnWidthWidget.qml} $out/ColumnWidthWidget.qml \
         --replace-fail @strutsX@ ${toString (struts.left + struts.right)} \
         --replace-fail @strutsY@ ${toString (struts.top + struts.bottom)}

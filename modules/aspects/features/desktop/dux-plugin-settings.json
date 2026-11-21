@@ -61,6 +61,9 @@
     "calcEngine": "default",
     "noTrigger": true
   },
+  "columnWidth": {
+    "alwaysShow": true
+  },
   "commandRunner": {
     "terminal": "wezterm",
     "execFlag": "start"

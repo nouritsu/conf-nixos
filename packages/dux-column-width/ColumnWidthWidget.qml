@@ -50,8 +50,9 @@ PluginComponent {
         }
     ]
 
-    // hidden for floating windows and tiles filling both axes
-    readonly property bool shown: widthPercent >= 0 && heightPercent >= 0 && (widthPercent !== 100 || heightPercent !== 100)
+    // hidden for floating windows and tiles filling both axes, unless always shown
+    readonly property bool alwaysShow: pluginData.alwaysShow ?? false
+    readonly property bool shown: alwaysShow || widthPercent >= 0 && heightPercent >= 0 && (widthPercent !== 100 || heightPercent !== 100)
 
     onShownChanged: setVisibilityOverride(shown)
     Component.onCompleted: setVisibilityOverride(shown)
@@ -119,7 +120,7 @@ PluginComponent {
                     }
 
                     NumericText {
-                        text: axisRow.modelData.percent + "%"
+                        text: axisRow.modelData.percent >= 0 ? axisRow.modelData.percent + "%" : "-"
                         reserveText: "100%"
                         width: Math.ceil(Math.max(implicitWidth, reservedWidth))
                         font.pixelSize: root.textSize
@@ -161,7 +162,7 @@ PluginComponent {
                     }
 
                     StyledText {
-                        text: axisColumn.modelData.percent
+                        text: axisColumn.modelData.percent >= 0 ? axisColumn.modelData.percent : "-"
                         font.pixelSize: root.textSize
                         color: Theme.widgetTextColor
                         anchors.horizontalCenter: parent.horizontalCenter
