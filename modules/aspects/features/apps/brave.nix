@@ -37,7 +37,6 @@
         (mkExtension "clngdbkpkpeebahjckkjfobafhncgmne") # Stylus
         (mkExtension "doojmbjmlfjjnbmnoijecmcbfeoakpjm") # NoScript
         (mkExtension "mdjildafknihdffpkfmmpnpoiajfjnjd") # Consent-O-Matic
-        (mkExtension "ammoloihpcbognfddfjcljgembpibcmb") # JShelter
       ];
 
       extraOpts = {
