@@ -35,6 +35,9 @@
         (mkExtension "bkkmolkhemgaeaeggcmfbghljjjoofoh") # Catppuccin Mocha theme
         # styles imported by hand: https://github.com/catppuccin/userstyles/releases/download/all-userstyles-export/import.json
         (mkExtension "clngdbkpkpeebahjckkjfobafhncgmne") # Stylus
+        (mkExtension "doojmbjmlfjjnbmnoijecmcbfeoakpjm") # NoScript
+        (mkExtension "mdjildafknihdffpkfmmpnpoiajfjnjd") # Consent-O-Matic
+        (mkExtension "ammoloihpcbognfddfjcljgembpibcmb") # JShelter
       ];
 
       extraOpts = {
@@ -70,6 +73,12 @@
         BraveP3AEnabled = false;
         BraveStatsPingEnabled = false;
         BraveWebDiscoveryEnabled = false;
+
+        # Privacy
+        DefaultBraveHttpsUpgradeSetting = 2; # https only
+        WebRtcIPHandling = "default_public_interface_only";
+        SearchSuggestEnabled = false;
+        NetworkPredictionOptions = 2; # no preloading
       };
     };
 
