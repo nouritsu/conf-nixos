@@ -716,7 +716,7 @@
         }
       ],
       "rightWidgets": [],
-      "spacing": 4,
+      "spacing": 5,
       "innerPadding": 10,
       "bottomGap": 0,
       "transparency": 1,
@@ -729,7 +729,7 @@
       "maximizeWidgetIcons": false,
       "maximizeWidgetText": false,
       "widgetPadding": 8,
-      "gothCornersEnabled": true,
+      "gothCornersEnabled": false,
       "gothCornerRadiusOverride": false,
       "gothCornerRadiusValue": 12,
       "borderEnabled": false,
