@@ -568,18 +568,42 @@
           "id": "systemTray"
         },
         {
-          "id": "cpuUsage",
+          "id": "dankscale",
+          "enabled": true
+        },
+        {
+          "id": "claudeCodeUsage",
+          "enabled": true
+        },
+        {
+          "id": "separator",
+          "enabled": true
+        },
+        {
           "enabled": true,
+          "id": "cpuUsage",
           "minimumWidth": false
         },
         {
-          "id": "diskUsage",
-          "enabled": true,
-          "mountPath": "/",
           "diskUsageMode": 2,
-          "showMountPath": false,
+          "enabled": true,
+          "id": "diskUsage",
+          "minimumWidth": true,
+          "mountPath": "/",
           "overflowMode": "section",
-          "minimumWidth": true
+          "showMountPath": false
+        },
+        {
+          "enabled": true,
+          "id": "separator"
+        },
+        {
+          "id": "ipIndicator",
+          "enabled": true
+        },
+        {
+          "enabled": true,
+          "id": "audigon"
         },
         {
           "enabled": true,
@@ -593,12 +617,12 @@
           "showPrinterIcon": true
         },
         {
-          "enabled": true,
-          "id": "audigon"
+          "id": "separator",
+          "enabled": true
         },
         {
-          "enabled": true,
-          "id": "separator"
+          "id": "powerDraw",
+          "enabled": true
         },
         {
           "enabled": true,
@@ -666,7 +690,7 @@
       "showOnLastDisplay": true,
       "leftWidgets": [
         {
-          "id": "powerDraw",
+          "id": "colorPicker",
           "enabled": true
         },
         {
@@ -705,28 +729,7 @@
           "focusedWindowSize": 0
         }
       ],
-      "rightWidgets": [
-        {
-          "enabled": true,
-          "id": "colorPicker"
-        },
-        {
-          "enabled": true,
-          "id": "separator"
-        },
-        {
-          "enabled": true,
-          "id": "claudeCodeUsage"
-        },
-        {
-          "enabled": true,
-          "id": "dankscale"
-        },
-        {
-          "enabled": true,
-          "id": "ipIndicator"
-        }
-      ],
+      "rightWidgets": [],
       "spacing": 4,
       "innerPadding": 10,
       "bottomGap": 0,
