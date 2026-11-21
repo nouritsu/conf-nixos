@@ -65,16 +65,35 @@ PluginComponent {
     // the half under the pointer, for the clicks
     property bool pointingAtHeight: false
 
+    // dux runs pill actions on press, and a resize under the held button leaves
+    // the pill tinted, so they go to niri on release
+    property bool held: false
+    property var pendingAction: null
+
+    onHeldChanged: flush()
+
+    function act(action) {
+        pendingAction = action;
+        Qt.callLater(flush);
+    }
+
+    function flush() {
+        if (held || !pendingAction)
+            return;
+        NiriService.send({
+            "Action": pendingAction
+        });
+        pendingAction = null;
+    }
+
     // click cycles the presets: width like Mod+R, height like Mod+Shift+R
-    pillClickAction: () => NiriService.send({
-        "Action": pointingAtHeight ? {
+    pillClickAction: () => act(pointingAtHeight ? {
             "SwitchPresetWindowHeight": {
                 "id": null
             }
         } : {
             "SwitchPresetColumnWidth": {}
-        }
-    })
+        })
 
     // niri keeps no height to go back to, so it's kept here per window:
     // max is where maximizing landed, any other height drops the entry, like MaximizeColumn
@@ -122,11 +141,9 @@ PluginComponent {
     }
 
     // right click: width toggles maximize like Mod+M, height toggles full
-    pillRightClickAction: () => NiriService.send({
-        "Action": pointingAtHeight ? heightAction() : {
+    pillRightClickAction: () => act(pointingAtHeight ? heightAction() : {
             "MaximizeColumn": {}
-        }
-    })
+        })
 
     horizontalBarPill: Component {
         Row {
@@ -138,6 +155,12 @@ PluginComponent {
             HoverHandler {
                 margin: Theme.spacingM
                 onPointChanged: root.pointingAtHeight = point.position.x >= pillRow.width / 2
+            }
+
+            PointHandler {
+                margin: Theme.spacingM
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onActiveChanged: root.held = active
             }
 
             Repeater {
@@ -180,6 +203,12 @@ PluginComponent {
             HoverHandler {
                 margin: Theme.spacingM
                 onPointChanged: root.pointingAtHeight = point.position.y >= pillColumn.height / 2
+            }
+
+            PointHandler {
+                margin: Theme.spacingM
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onActiveChanged: root.held = active
             }
 
             Repeater {
