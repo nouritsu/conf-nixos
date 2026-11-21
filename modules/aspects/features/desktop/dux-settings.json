@@ -348,6 +348,7 @@
   "launcherUseOverlayLayer": false,
   "launcherStyle": "full",
   "frameLauncherEmergeSide": "bottom",
+  "barInsetPaddingSyncAll": true,
   "spotlightBarShowModeChips": true,
   "dashCards": [
     {
@@ -489,26 +490,11 @@
   "osdWorkspaceEnabled": true,
   "updaterUseCustomCommand": true,
   "updaterCustomCommand": "cd $NH_FLAKE && nix flake update",
-  "connectedFrameBarStyleBackups": {
-    "default": {
-      "shadowIntensity": 0,
-      "squareCorners": false,
-      "attachToScreenEdge": false,
-      "gothCornersEnabled": false,
-      "borderEnabled": false
-    },
-    "bar1791747327469": {
-      "shadowIntensity": 0,
-      "squareCorners": false,
-      "attachToScreenEdge": false,
-      "gothCornersEnabled": false,
-      "borderEnabled": false
-    }
-  },
+  "connectedFrameBarStyleBackups": {},
   "barConfigs": [
     {
       "id": "default",
-      "name": "Main Bar",
+      "name": "Top Bar",
       "enabled": true,
       "position": 0,
       "screenPreferences": [
@@ -653,11 +639,18 @@
           "id": "powerMenuButton"
         }
       ],
-      "spacing": 4,
+      "spacing": 5,
       "innerPadding": 10,
       "bottomGap": 0,
       "transparency": 1,
       "widgetTransparency": 1,
+      "rightClickAction": "none",
+      "connectedPopouts": true,
+      "barLengthMode": "full",
+      "barLengthPadding": 0,
+      "barInsetPadding": -1,
+      "useOverlayLayer": false,
+      "hideOnFullscreen": true,
       "dot": false,
       "squareCorners": false,
       "noBackground": false,
@@ -680,9 +673,9 @@
       "autoHide": false,
       "autoHideDelay": 250,
       "showOnWindowsOpen": false,
-      "openOnOverview": false,
+      "openOnOverview": true,
       "visible": true,
-      "popupGapsAuto": true,
+      "popupGapsAuto": false,
       "popupGapsManual": 4,
       "maximizeDetection": false,
       "scrollEnabled": true,
@@ -692,22 +685,22 @@
       "shadowOpacity": 60,
       "shadowColorMode": "default",
       "shadowCustomColor": "#000000",
-      "clickThrough": true,
+      "clickThrough": false,
       "followInterfaceStyle": true,
       "widgetFollowInterfaceStyle": true,
-      "widgetStyle": "pills",
+      "widgetStyle": "flat",
       "attachToScreenEdge": false,
       "centerOverflowMode": "auto"
     },
     {
       "id": "bar1791747327469",
-      "name": "Bar 2",
+      "name": "Bottom Bar",
       "enabled": true,
       "position": 1,
       "screenPreferences": [
         "all"
       ],
-      "showOnLastDisplay": true,
+      "showOnLastDisplay": false,
       "leftWidgets": [
         {
           "id": "colorPicker",
@@ -755,12 +748,15 @@
       "bottomGap": 0,
       "transparency": 1,
       "widgetTransparency": 1,
+      "connectedPopouts": false,
+      "barLengthMode": "fit",
+      "hideOnLastDisplay": false,
       "squareCorners": false,
       "noBackground": false,
       "maximizeWidgetIcons": false,
       "maximizeWidgetText": false,
       "widgetPadding": 8,
-      "gothCornersEnabled": false,
+      "gothCornersEnabled": true,
       "gothCornerRadiusOverride": false,
       "gothCornerRadiusValue": 12,
       "borderEnabled": false,
@@ -773,29 +769,29 @@
       "widgetOutlineThickness": 1,
       "fontScale": 1,
       "iconScale": 1,
-      "autoHide": false,
+      "autoHide": true,
       "autoHideDelay": 250,
-      "showOnWindowsOpen": true,
-      "openOnOverview": false,
+      "showOnWindowsOpen": false,
+      "openOnOverview": true,
       "visible": true,
       "popupGapsAuto": true,
       "popupGapsManual": 4,
       "maximizeDetection": false,
       "scrollEnabled": true,
-      "scrollXBehavior": "workspace",
+      "scrollXBehavior": "none",
       "scrollYBehavior": "focusWindow",
       "shadowIntensity": 0,
       "shadowOpacity": 60,
       "shadowColorMode": "default",
       "shadowCustomColor": "#000000",
-      "clickThrough": true,
+      "clickThrough": false,
       "followInterfaceStyle": true,
       "widgetFollowInterfaceStyle": true,
-      "widgetStyle": "pills",
+      "widgetStyle": "flat",
       "attachToScreenEdge": false,
       "dot": false,
       "useOverlayLayer": false,
-      "autoHideStrict": true
+      "autoHideStrict": false
     }
   ],
   "builtInPluginSettings": {
@@ -822,7 +818,7 @@
       "allowWithoutTrigger": false
     }
   },
-  "frameEnabled": true,
+  "frameEnabled": false,
   "frameShowOnOverview": true,
   "matugenTemplateHyprland": false,
   "matugenTemplateMangowc": false,
