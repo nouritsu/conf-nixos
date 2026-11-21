@@ -4,11 +4,11 @@
     packages.dashboard-icons = pkgs.srcOnly {
       stdenv = pkgs.stdenvNoCC;
       pname = "dashboard-icons";
-      version = "0-unstable-2026-11-08";
+      version = "0-unstable-2026-11-16";
       src = pkgs.fetchFromGitHub {
         owner = "homarr-labs";
         repo = "dashboard-icons";
-        rev = "d767d7327db7f8ebd3715b552523f61889eea41c";
+        rev = "d4b500dc40a8e1043b1581cabb7208892cf35472";
         nonConeMode = true;
         sparseCheckout = map (icon: "/svg/${icon}.svg") [
           "bazarr"

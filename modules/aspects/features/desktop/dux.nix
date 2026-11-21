@@ -311,16 +311,13 @@
             });
           };
 
-          # dux's clipboard dies with a dux restart and offers the png path,
-          # deleted 10 s later; wl-copy holds the image bytes in its own process
-          # supersample: utsushot's capture of the focused window, out the same way
+          # supersample: utsushot's capture of the focused window
           screenshotPlus = {
             enable = true;
             src = lib.mkForce (pkgs.applyPatches {
               name = "dux-plugin-screenshotPlus";
               src = inputs'.dux-plugin-registry.packages.screenshotPlus;
               patches = [
-                ./screenshot-plus-wl-copy.patch
                 ./screenshot-plus-supersample.patch
               ];
             });

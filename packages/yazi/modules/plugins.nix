@@ -1,16 +1,5 @@
 {
   flake.nixosModules.wyazi-plugins = {pkgs, ...}: let
-    # File:icon() removed on nightly, use th.icon:match
-    yatline = pkgs.applyPatches {
-      name = "yatline.yazi";
-      src = pkgs.yaziPlugins.yatline;
-      postPatch = ''
-        substituteInPlace main.lua --replace-fail \
-          'local icon = hovered:icon().text' \
-          'local icon = (th.icon:match(hovered, { hovered = true }) or {}).text or ""'
-      '';
-    };
-
     # run_query returns nil when duckdb fails (e.g. a .txt that isn't csv)
     duckdb = pkgs.applyPatches {
       name = "duckdb.yazi";
@@ -24,7 +13,8 @@
     };
   in {
     plugins = {
-      inherit yatline duckdb;
+      inherit duckdb;
+      yatline = pkgs.yaziPlugins.yatline;
       yatline-catppuccin = pkgs.yaziPlugins.yatline-catppuccin;
       piper = pkgs.yaziPlugins.piper;
       ouch = pkgs.yaziPlugins.ouch;
