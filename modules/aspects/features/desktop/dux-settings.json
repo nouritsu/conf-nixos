@@ -605,8 +605,8 @@
           "id": "controlCenterButton",
           "showAudioIcon": false,
           "showAudioPercent": false,
-          "showBrightnessIcon": false,
-          "showBrightnessPercent": false,
+          "showBrightnessIcon": true,
+          "showBrightnessPercent": true,
           "showDoNotDisturbIcon": false,
           "showIdleInhibitorIcon": false,
           "showPrinterIcon": true
