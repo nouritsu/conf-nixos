@@ -352,17 +352,10 @@
   "spotlightBarShowModeChips": true,
   "dashCards": [
     {
-      "id": "clock",
-      "w": 1,
-      "h": 2,
-      "col": 4,
-      "row": 0
-    },
-    {
       "id": "weather",
       "w": 1,
       "h": 1,
-      "col": 5,
+      "col": 4,
       "row": 1
     },
     {
@@ -377,13 +370,13 @@
       "w": 2,
       "h": 2,
       "col": 4,
-      "row": 3
+      "row": 2
     },
     {
       "id": "battery",
       "w": 1,
       "h": 1,
-      "col": 5,
+      "col": 4,
       "row": 0
     },
     {
@@ -391,7 +384,21 @@
       "w": 2,
       "h": 1,
       "col": 4,
-      "row": 2
+      "row": 4
+    },
+    {
+      "id": "disk",
+      "w": 1,
+      "h": 1,
+      "col": 5,
+      "row": 0
+    },
+    {
+      "id": "network",
+      "w": 1,
+      "h": 1,
+      "col": 5,
+      "row": 1
     }
   ],
   "dashOptions": {
@@ -586,24 +593,6 @@
           "enabled": true
         },
         {
-          "enabled": true,
-          "id": "cpuUsage",
-          "minimumWidth": false
-        },
-        {
-          "diskUsageMode": 2,
-          "enabled": true,
-          "id": "diskUsage",
-          "minimumWidth": true,
-          "mountPath": "/",
-          "overflowMode": "section",
-          "showMountPath": false
-        },
-        {
-          "enabled": true,
-          "id": "separator"
-        },
-        {
           "id": "ipIndicator",
           "enabled": true
         },
@@ -621,6 +610,11 @@
           "showDoNotDisturbIcon": false,
           "showIdleInhibitorIcon": false,
           "showPrinterIcon": true
+        },
+        {
+          "enabled": true,
+          "id": "cpuUsage",
+          "minimumWidth": false
         },
         {
           "id": "separator",
@@ -701,28 +695,7 @@
         "all"
       ],
       "showOnLastDisplay": false,
-      "leftWidgets": [
-        {
-          "id": "colorPicker",
-          "enabled": true
-        },
-        {
-          "id": "homeAssistantMonitor",
-          "enabled": true
-        },
-        {
-          "id": "dankKDEConnect",
-          "enabled": true
-        },
-        {
-          "id": "razerMouse",
-          "enabled": true
-        },
-        {
-          "id": "gameControllerBattery",
-          "enabled": true
-        }
-      ],
+      "leftWidgets": [],
       "centerWidgets": [
         {
           "id": "runningApps",
