@@ -19,6 +19,7 @@ in {
         dir=''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell
         settings=modules/aspects/features/desktop/dux-settings.json
         plugins=modules/aspects/features/desktop/dux-plugin-settings.json
+        state=''${XDG_STATE_HOME:-$HOME/.local/state}/dux-freeze
 
         export GUM_SPIN_SPINNER_FOREGROUND="#${palette.base0E}"
         export GUM_CONFIRM_PROMPT_FOREGROUND="#${palette.base0E}"
@@ -78,6 +79,13 @@ in {
         pluginBase=$(grep -o '/nix/store/[^ ]*-dux-plugin-settings.json' "$pin" 2>/dev/null | head -n1 || true)
         if [[ -z $pluginBase ]]; then
           fail "Couldn't find the plugin pins dms.service started with"
+        fi
+
+        # freezes since that switch move the base on
+        switch="$base $pluginBase"
+        if [[ -f $state/switch && $(<"$state/switch") == "$switch" ]]; then
+          base=$state/settings.json
+          pluginBase=$state/plugins.json
         fi
 
         gum spin --show-stdout --show-error --title "Evaluating $host's settings" -- nix eval --json ".#nixosConfigurations.$host.config.dux'.settings" >"$work/built.json"
@@ -142,6 +150,10 @@ in {
         } >"$work/commit"
         git commit --quiet --no-verify --file "$work/commit" --only -- "$settings" "$plugins"
         landed=1
+        mkdir -p "$state"
+        jq .base "$work/settings.out" >"$state/settings.json"
+        jq .base "$work/plugins.out" >"$state/plugins.json"
+        echo "$switch" >"$state/switch"
         log info "Landed $(git rev-parse --short HEAD) on $(git branch --show-current), switch when ready"
       '';
     };

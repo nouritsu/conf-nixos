@@ -1,4 +1,4 @@
-# . is a repo file; out: {settings, applied, conflicts}
+# . is a repo file; out: {settings, base, applied, conflicts}
 # $base: what dux started from at the last switch, $live: dux now,
 # $built: this host's build of the repo settings (settings only)
 
@@ -37,6 +37,10 @@ def insert($k; $v; $order):
   | .[:$i] + [{key: $k, value: $v}] + .[$i:]
   | from_entries;
 
+# base: $base with the applied leaves, for the next freeze before a switch
+def patch($p; $v):
+  if $v == absent then delpaths([$p]) else setpath($p; $v) end;
+
 def put($p; $v; $order):
   if $v == absent then delpaths([$p])
   elif ($p[-1] | type) == "string" and at($p) == absent and (at($p[:-1]) | type) == "object" then
@@ -51,13 +55,14 @@ def settings:
   | $live[0] as $l
   | $built[0] as $n
   | reduce (leaves($g; $l) | select(. as $p | ($g | at($p)) != ($l | at($p)))) as $p
-    ({settings: $r, applied: [], conflicts: []};
+    ({settings: $r, base: $g, applied: [], conflicts: []};
       if (aligned($g; $n; $p) | not) or (($n | at($p)) != ($g | at($p)) and ($n | at($p)) != ($l | at($p))) then
         .conflicts += [{path: $p, why: "repo"}]
       elif (aligned($r; $n; $p) | not) or ($r | at($p)) != ($n | at($p)) then
         .conflicts += [{path: $p, why: "host"}]
       else
         .settings |= put($p; $l | at($p); $l | at($p[:-1]) | if type == "object" then keys_unsorted else [] end)
+        | .base |= patch($p; $l | at($p))
         | .applied += [$p]
       end);
 
@@ -67,12 +72,12 @@ def plugins:
   | $base[0] as $g
   | $live[0] as $l
   | reduce (keys_unsorted[] as $id | .[$id] | keys_unsorted[] | [$id, .]) as $p
-    ({settings: $r, applied: [], conflicts: []};
+    ({settings: $r, base: $g, applied: [], conflicts: []};
       ($g | at($p)) as $gv
       | ($l | at($p)) as $lv
       | if $gv == absent or $lv == absent or $lv == $gv then .
         elif ($r | at($p)) != $gv and ($r | at($p)) != $lv then .conflicts += [{path: $p, why: "repo"}]
-        else .settings |= setpath($p; $lv) | .applied += [$p]
+        else .settings |= setpath($p; $lv) | .base |= setpath($p; $lv) | .applied += [$p]
         end);
 
 if $kind == "settings" then settings else plugins end
