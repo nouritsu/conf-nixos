@@ -517,20 +517,20 @@
       "showOnLastDisplay": true,
       "leftWidgets": [
         {
-          "id": "launcherButton",
           "enabled": true,
-          "launcherLogoMode": "os",
+          "id": "launcherButton",
           "launcherLogoColorOverride": "primary",
+          "launcherLogoMode": "os",
           "launcherLogoSizeOffset": 0
         },
         {
+          "clockClickAction": "dash",
+          "clockClickCommand": "",
           "clockCompactMode": false,
           "clockDateOrder": "timeFirst",
           "clockNotificationBadge": false,
           "enabled": true,
-          "id": "clock",
-          "clockClickAction": "dash",
-          "clockClickCommand": ""
+          "id": "clock"
         },
         {
           "enabled": true,
@@ -541,12 +541,32 @@
           "enabled": true
         },
         {
+          "id": "homeAssistantMonitor",
+          "enabled": true
+        },
+        {
+          "id": "dankKDEConnect",
+          "enabled": true
+        },
+        {
+          "id": "razerMouse",
+          "enabled": true
+        },
+        {
+          "id": "gameControllerBattery",
+          "enabled": true
+        },
+        {
+          "enabled": true,
+          "id": "separator"
+        },
+        {
           "audioScrollMode": "volume",
           "enabled": true,
           "id": "music",
           "mediaSize": 0,
-          "mediaStyle": "controls",
-          "mediaSmoothLyrics": true
+          "mediaSmoothLyrics": true,
+          "mediaStyle": "controls"
         },
         {
           "enabled": true,
