@@ -526,7 +526,7 @@
         {
           "clockCompactMode": false,
           "clockDateOrder": "timeFirst",
-          "clockNotificationBadge": true,
+          "clockNotificationBadge": false,
           "enabled": true,
           "id": "clock",
           "clockClickAction": "dash",
